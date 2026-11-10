@@ -45,4 +45,4 @@ Edit `index.html` and re-upload (Netlify) or commit and push (GitHub Pages). Cha
 
 ## Sources
 
-Concepts and diagram structure reference *Bosch Automotive Electrics and Automotive Electronics* (5th ed.). All diagrams are original drawings; no figures from the book are included.
+Concepts and diagram structure reference *Bosch Automotive Electrics and Automotive Electronics* (5th ed.), cross-checked with the author's M.Tech course material, AUTOSAR specifications and Bosch CAN papers. See `docs/drive-sources-verification.md` for the source register and corrections. All diagrams are original drawings; no figures from the book are included.

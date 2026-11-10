@@ -322,9 +322,10 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <a href="#sensors"><span class="n">04</span>Sensors &amp; actuators</a>
       <a href="#power"><span class="n">05</span>Vehicle electrical system</a>
       <a href="#networks"><span class="n">06</span>Networks &amp; diagnostics</a>
-      <a href="#process"><span class="n">07</span>Development process</a>
-      <a href="#security"><span class="n">08</span>Cybersecurity</a>
-      <a href="#tools"><span class="n">09</span>Engineering calculators</a>
+      <a href="#sdv"><span class="n">07</span>Software-defined vehicle</a>
+      <a href="#process"><span class="n">08</span>Development process</a>
+      <a href="#security"><span class="n">09</span>Cybersecurity</a>
+      <a href="#tools"><span class="n">10</span>Engineering calculators</a>
     </nav>
     <div class="foot">For students and working engineers.<br>Revised Nov 2026.</div>
   </aside>
@@ -348,10 +349,11 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#ecus"><span class="n">CHAPTER 03</span><span class="tt">Electronic control units</span><span class="d">Every major ECU by domain, its inputs and outputs, ECU hardware and AUTOSAR.</span><span class="tags"><span>ECU explorer</span><span>block diagram</span></span></a>
     <a href="#sensors"><span class="n">CHAPTER 04</span><span class="tt">Sensors &amp; actuators</span><span class="d">Integration levels, wheel-speed and lambda sensors, MEMS, ADAS sensors, power stages and by-wire actuators.</span><span class="tags"><span>wheel-speed sim</span><span>lambda curves</span></span></a>
     <a href="#power"><span class="n">CHAPTER 05</span><span class="tt">Vehicle electrical system</span><span class="d">Battery, alternator, starter, energy management, terminal designations, 48 V and zonal power.</span><span class="tags"><span>charge-balance sim</span><span>starter circuit</span></span></a>
-    <a href="#networks"><span class="n">CHAPTER 06</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, LIN, FlexRay, Ethernet, gateways, UDS and DoIP.</span><span class="tags"><span>CAN arbitration sim</span></span></a>
-    <a href="#process"><span class="n">CHAPTER 07</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
-    <a href="#security"><span class="n">CHAPTER 08</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, TARA, secure diagnostics and SecOC.</span><span class="tags"><span>0x27 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
-    <a href="#tools"><span class="n">CHAPTER 09</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge.</span><span class="tags"><span>9 calculators</span></span></a>
+    <a href="#networks"><span class="n">CHAPTER 06</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, LIN, FlexRay, Ethernet, error confinement, bit timing, EMC, UDS and DoIP.</span><span class="tags"><span>CAN arbitration sim</span></span></a>
+    <a href="#sdv"><span class="n">CHAPTER 07</span><span class="tt">Software-defined vehicle</span><span class="d">Zonal E/E architecture, signals vs services, SOME/IP and service discovery, DDS, vehicle APIs, AUTOSAR Adaptive.</span><span class="tags"><span>SOME/IP header builder</span><span>SD sequence</span></span></a>
+    <a href="#process"><span class="n">CHAPTER 08</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
+    <a href="#security"><span class="n">CHAPTER 09</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, TARA, secure diagnostics and SecOC.</span><span class="tags"><span>0x27 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
+    <a href="#tools"><span class="n">CHAPTER 10</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge.</span><span class="tags"><span>9 calculators</span></span></a>
   </div>
   <h2>How to use this guide</h2>
   <div class="cols">
@@ -406,7 +408,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   </div>
 
   <h3>Lambda in one line</h3>
-  <p><code>λ = actual AFR ÷ stoichiometric AFR</code>. Stoichiometric AFR is 14.7:1 for petrol, about 14.5:1 for diesel and 17.2:1 for CNG. λ &lt; 1 is rich (excess fuel), λ &gt; 1 is lean (excess air). Use the calculator in Chapter 09 to convert.</p>
+  <p><code>λ = actual AFR ÷ stoichiometric AFR</code>. Stoichiometric AFR is 14.7:1 for petrol, about 14.5:1 for diesel and 17.2:1 for CNG. λ &lt; 1 is rich (excess fuel), λ &gt; 1 is lean (excess air). Use the calculator in Chapter 10 to convert.</p>
 
   <h2>Petrol vs diesel electronics</h2>
   <div class="tbl"><table>
@@ -770,12 +772,12 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <p class="eyebrow">Chapter 06</p>
   <h1>Networks &amp; diagnostics</h1>
   <p class="lede">ECUs exchange thousands of signals every second. Each in-vehicle network is chosen by cost, bandwidth and timing guarantee, and a central gateway connects the domains and controls what may cross between them.</p>
-  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 70–151 (networking basics, CAN, LIN, MOST, Bluetooth, FlexRay, diagnosis interfaces). CAN FD/XL, automotive Ethernet and DoIP are newer than the book.</p>
+  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 70–151 (networking basics, CAN, LIN, MOST, Bluetooth, FlexRay, diagnosis interfaces). CAN FD/XL, automotive Ethernet and DoIP are newer than the book. CAN FD error handling and bit timing follow Bosch iCC papers (Mutter 2013; Mutter &amp; Hartwich 2015) and ISO 11898-1:2024.</p>
 
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 6.1</b> · Domain network architecture with central gateway</span></div>
     <div class="fig-b scroll"><div id="dg-net"></div></div>
-    <div class="fig-f">The gateway routes only the messages each domain needs and filters diagnostic requests from the OBD port. That makes it a key security boundary (Chapter 08).</div>
+    <div class="fig-f">The gateway routes only the messages each domain needs and filters diagnostic requests from the OBD port. That makes it a key security boundary (Chapter 09).</div>
   </figure>
 
   <div class="tbl"><table>
@@ -841,6 +843,70 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <div class="fig-f">Dark cells are dominant (0). A red cell marks the bit where a node lost. Try two IDs that differ only in the last bit, or give two nodes the same ID (in a real network that causes a bit error later in the frame).</div>
   </figure>
 
+  <h2>CAN FD frame and its extra error detection</h2>
+  <p>CAN FD keeps the classical arbitration field, then changes the frame between IDE and ACK. Three bits are easy to mix up, so here they are side by side: <b>RRS</b> replaces RTR and is always dominant (CAN FD has no remote frames), <b>FDF</b> marks the frame as CAN FD, and <b>BRS</b> decides whether the data phase switches to the fast bit rate.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Field / bit</th><th>Classical CAN</th><th>CAN FD</th></tr></thead>
+    <tbody>
+      <tr><td>Bit after the identifier</td><td>RTR: dominant = data frame, recessive = remote frame</td><td><b>RRS</b> (remote request substitution): always dominant</td></tr>
+      <tr><td>Format bit</td><td>r0 / reserved, dominant</td><td><b>FDF</b> recessive = CAN FD frame, followed by a reserved bit</td></tr>
+      <tr><td>Bit-rate switch</td><td>—</td><td><b>BRS</b> recessive = data phase at the data bit rate, switched at BRS's sample point</td></tr>
+      <tr><td>Error state</td><td>—</td><td><b>ESI</b> dominant = transmitter error-active, recessive = error-passive</td></tr>
+      <tr><td>Payload (DLC)</td><td>0–8 bytes</td><td>DLC 0–8 identical; DLC 9–15 → 12, 16, 20, 24, 32, 48, 64 bytes</td></tr>
+      <tr><td>Stuff bits in CRC</td><td>Dynamic stuffing continues into the CRC; stuff bits not covered by the CRC</td><td>Dynamic stuff bits <b>are</b> included in the CRC; the CRC field uses <b>fixed</b> stuff bits every 4 bits</td></tr>
+      <tr><td>Stuff count</td><td>—</td><td>Number of dynamic stuff bits before the CRC field, modulo 8, sent as a <b>3-bit Gray code + parity bit</b></td></tr>
+      <tr><td>CRC</td><td>CRC-15 + delimiter</td><td>CRC-17 (≤ 16 data bytes) or CRC-21 (&gt; 16 bytes) + delimiter</td></tr>
+    </tbody></table></div>
+  <p>Why the stuff count? In classical CAN two bit flips can create one stuff condition and remove another; the receiver then shifts its view of the frame and the CRC can miss it. Counting the dynamic stuff bits, and protecting that count with Gray code and parity, closes that hole. Faults that flip a bit (type A) are caught by the CRC (Hamming distance 6, so up to 5 random bit errors); faults that make a receiver drop or insert a bit through wrong resynchronisation (type B) are caught by the stuff count and the fixed stuff bits.</p>
+
+  <h2>Error confinement: how CAN isolates a faulty node</h2>
+  <p>Every node keeps two counters: a transmit error counter (TEC) and a receive error counter (REC). Errors push them up, successful frames pull them down. A node that keeps causing errors first loses the right to destroy other nodes' frames (error-passive), and finally disconnects itself (bus-off). The bus stays usable for everyone else.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 6.4</b> · Fault-confinement state machine (ISO 11898-1 counter rules, simplified)</span>
+      <div class="ctrls"><button class="btn warn" id="ec-txe">Transmit error (+8 TEC)</button><button class="btn warn" id="ec-rxe">Receive error (+1 REC)</button><button class="btn" id="ec-txok">Frame sent OK (−1 TEC)</button><button class="btn" id="ec-rxok">Frame received OK (−1 REC)</button><button class="btn" id="ec-burst">Faulty transceiver: 10 × TX errors</button><button class="btn" id="ec-rec">Bus-off recovery</button><button class="btn" id="ec-reset">Reset</button></div></div>
+    <div class="fig-b scroll"><div id="dg-ec"></div></div>
+    <div class="fig-f" id="ec-desc"></div>
+  </figure>
+
+  <h2>Bit timing and oscillator tolerance (CAN FD)</h2>
+  <p>Each node builds its bit time from time quanta (TQ) of its own clock: a sync segment of 1 TQ, then phase segment 1 (which includes the propagation segment), the <b>sample point</b>, and phase segment 2. Nodes resynchronise on recessive-to-dominant edges by up to SJW. Because every oscillator is slightly off, the bit timing decides how much clock tolerance the network accepts. CAN FD has two bit timings and switches between them inside the frame, so it needs five conditions instead of classical CAN's two.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 6.5</b> · Bit-timing and accepted oscillator tolerance calculator</span></div>
+    <div class="fig-b">
+      <div class="bt-grid">
+        <label>CAN clock <i>MHz</i><input type="number" id="bt-f" value="40" min="1" step="1"></label>
+        <span class="bt-h">Arbitration phase</span>
+        <label>Prescaler BRP<input type="number" id="bt-brpa" value="1" min="1"></label>
+        <label>Prop seg <i>TQ</i><input type="number" id="bt-pra" value="47" min="0"></label>
+        <label>Phase seg 1 <i>TQ</i><input type="number" id="bt-p1a" value="16" min="1"></label>
+        <label>Phase seg 2 <i>TQ</i><input type="number" id="bt-p2a" value="16" min="1"></label>
+        <label>SJW <i>TQ</i><input type="number" id="bt-sja" value="16" min="1"></label>
+        <span class="bt-h">Data phase</span>
+        <label>Prescaler BRP<input type="number" id="bt-brpd" value="2" min="1"></label>
+        <label>Prop seg <i>TQ</i><input type="number" id="bt-prd" value="0" min="0"></label>
+        <label>Phase seg 1 <i>TQ</i><input type="number" id="bt-p1d" value="5" min="1"></label>
+        <label>Phase seg 2 <i>TQ</i><input type="number" id="bt-p2d" value="4" min="1"></label>
+        <label>SJW <i>TQ</i><input type="number" id="bt-sjd" value="4" min="1"></label>
+      </div>
+      <div class="scroll"><div id="dg-bt"></div></div>
+      <div class="tbl" style="margin-top:10px"><table id="bt-tbl"></table></div>
+      <div class="status" id="bt-status"></div>
+    </div>
+    <div class="fig-f">Conditions 1–2 are the classical CAN rules for the arbitration phase; 3–5 cover data-phase resynchronisation, the bit after an error flag, and the arbitration-to-data bit-rate switch (A. Mutter, <i>Robustness of a CAN FD Bus System</i>, iCC 2013). Defaults: 500 kbit/s at 80 % sample point, 2 Mbit/s at 60 %. Bosch recommends CAN clocks of 20, 40 or 80 MHz so all nodes can use identical settings. Results are an upper bound for an ideal bus; edge asymmetry from transceivers and topology still has to fit in the remaining phase margin.</div>
+  </figure>
+
+  <h2>Electromagnetic compatibility: which test is which</h2>
+  <p>Every ECU must neither disturb the car's own radios (emissions) nor be disturbed by phones, transmitters and its neighbours (immunity). Emissions and immunity are covered by different standard families, which are easy to confuse.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Level</th><th>Emissions</th><th>Immunity</th></tr></thead>
+    <tbody>
+      <tr><td>IC</td><td>IEC 61967 (e.g. -4, 150 Ω method)</td><td>IEC 62132 (e.g. -4, direct power injection)</td></tr>
+      <tr><td>Component / ECU</td><td><b>CISPR 25</b> conducted and radiated, protects on-board receivers</td><td><b>ISO 11452</b>: -2 absorber-lined chamber, -3 TEM cell, -4 bulk current injection, -5 stripline; <b>ISO 7637</b> supply transients</td></tr>
+      <tr><td>Vehicle</td><td><b>CISPR 12 / CISPR 36</b> (off-board receivers), CISPR 25 vehicle part (on-board antennas)</td><td><b>ISO 11451</b>: -2 off-vehicle sources in a chamber, -3 on-board transmitter, -4 bulk current injection</td></tr>
+      <tr><td>Electrostatic discharge</td><td>—</td><td>ISO 10605 (vehicle and module); devices tested with HBM and CDM</td></tr>
+    </tbody></table></div>
+  <p class="small muted">Type approval in the EU and many other markets uses UN ECE Regulation 10, which refers to these methods.</p>
+
   <h2>Diagnostics: UDS and DoIP</h2>
   <p>Unified Diagnostic Services (ISO 14229) is the request–response protocol a tester uses to read faults, read and write data, run routines and reprogram ECUs. It runs over CAN using ISO-TP (ISO 15765-2) for segmentation, or over Ethernet using DoIP (ISO 13400, TCP port 13400).</p>
   <p>A positive response echoes the service ID plus 0x40 (request <code>22 F1 90</code> → response <code>62 F1 90 …</code>). A negative response is <code>7F</code>, the service ID, and a negative response code (NRC).</p>
@@ -868,19 +934,116 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <li>Bit stuffing after five equal bits; 15-bit CRC; ACK slot written by receivers.</li>
     <li>UDS positive response = SID + 0x40; negative = 7F SID NRC.</li>
     <li>UDS on CAN uses ISO-TP; on Ethernet uses DoIP on TCP 13400 with routing activation.</li>
+    <li>CAN FD: RRS always dominant, FDF marks FD, BRS switches bit rate; stuff count = dynamic stuff bits mod 8, Gray-coded + parity.</li>
+    <li>Fault confinement: TEC/REC &gt; 127 → error-passive; TEC &gt; 255 → bus-off; recover after 128 × 11 recessive bits.</li>
+    <li>Emissions: CISPR 25 (component), CISPR 12/36 (vehicle). Immunity: ISO 11452 (component), ISO 11451 (vehicle).</li>
+  </ol></div>
+</section>
+
+<!-- ============ SDV ============ -->
+<section class="view" id="sdv" hidden>
+  <p class="eyebrow">Chapter 07</p>
+  <h1>Software-defined vehicle</h1>
+  <p class="lede">In a software-defined vehicle (SDV), features are added and improved through software over the car's life rather than being frozen at the start of production. That needs three changes underneath: fewer, more powerful computers; communication based on services instead of fixed signals; and a hardware abstraction so applications no longer depend on which ECU owns which wire.</p>
+  <p class="ref">Sources: author's M.Tech course material (SDV, SOME/IP, AUTOSAR folders), checked against AUTOSAR PRS SOME/IP and SOME/IP-SD (R24-11), COVESA VSS and vendor zonal-architecture white papers. Several statements in the course slides were corrected; see the project's verification record.</p>
+
+  <h2>E/E architecture: from boxes to zones</h2>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 7.1</b> · Three generations of E/E architecture</span>
+      <div class="seg" id="ee-g" role="group" aria-label="Architecture"><button aria-pressed="false" data-g="dist">Distributed</button><button aria-pressed="false" data-g="dom">Domain</button><button aria-pressed="true" data-g="zone">Zonal + central</button></div></div>
+    <div class="fig-b scroll"><div id="dg-ee"></div></div>
+    <div class="fig-f" id="ee-desc"></div>
+  </figure>
+  <p><b>What a zone controller actually does.</b> In production designs the zone controller is a robust microcontroller-class ECU (AURIX, S32 and similar), not a supercomputer. It reads the switches and sensors in its corner of the car, drives the lamps and motors there, distributes and protects 12 V or 48 V power with eFuses, and bridges legacy CAN and LIN to the Ethernet backbone. Heavy computing (ADAS perception, infotainment, the vehicle's application software) runs on one or a few <b>central or high-performance computers</b>.</p>
+
+  <h2>Signals vs services</h2>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Signal-based (CAN matrix)</th><th>Service-oriented (SOME/IP, DDS)</th></tr></thead>
+    <tbody>
+      <tr><td>Who decides what is sent</td><td>A vehicle-wide matrix fixes every message ID, signal, sender, receivers and cycle time at design time</td><td>A server offers a service; clients find it and subscribe at run time</td></tr>
+      <tr><td>When data flows</td><td>Cyclically, whether or not anyone needs it</td><td>On request (methods), on change or cyclically to subscribers only (events, fields)</td></tr>
+      <tr><td>Adding a feature</td><td>Change the matrix, re-validate every affected ECU</td><td>Add a client; the server interface stays the same</td></tr>
+      <tr><td>Typical network</td><td>CAN, CAN FD, LIN, FlexRay</td><td>Automotive Ethernet (IP)</td></tr>
+      <tr><td>Strength</td><td>Deterministic, cheap, proven for control loops</td><td>Flexible, scalable, updatable over the air</td></tr>
+    </tbody></table></div>
+  <p>Signal-based buses do not disappear: control loops and zone-level I/O stay on CAN, CAN FD and LIN. Services connect the computers above them.</p>
+
+  <h2>SOME/IP</h2>
+  <p>SOME/IP (Scalable service-Oriented MiddlewarE over IP) was introduced by BMW in 2011 and became part of AUTOSAR in release 4.1. It is an application-layer protocol that runs over UDP or TCP on any Ethernet speed. A service is a bundle of <b>methods</b> (request/response or fire-and-forget calls), <b>events</b> (sent to subscribers on change or cyclically) and <b>fields</b> (a value with optional getter, setter and change notifier). Which transport each one uses is configured per service; large UDP messages are split by SOME/IP-TP.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 7.2</b> · SOME/IP header builder (16-byte header, big-endian)</span></div>
+    <div class="fig-b">
+      <div class="bt-grid">
+        <label>Service ID <i>hex</i><input type="text" id="sh-svc" value="1234" spellcheck="false"></label>
+        <label>Method / event ID <i>hex</i><input type="text" id="sh-mth" value="8001" spellcheck="false"></label>
+        <label>Client ID <i>hex</i><input type="text" id="sh-cli" value="0000" spellcheck="false"></label>
+        <label>Session ID <i>hex</i><input type="text" id="sh-ses" value="0001" spellcheck="false"></label>
+        <label>Message type<select id="sh-typ"><option value="0">0x00 REQUEST</option><option value="1">0x01 REQUEST_NO_RETURN</option><option value="2" selected>0x02 NOTIFICATION</option><option value="128">0x80 RESPONSE</option><option value="129">0x81 ERROR</option></select></label>
+        <label>Return code<select id="sh-rc"><option value="0">0x00 E_OK</option><option value="1">0x01 E_NOT_OK</option><option value="2">0x02 E_UNKNOWN_SERVICE</option><option value="3">0x03 E_UNKNOWN_METHOD</option><option value="8">0x08 E_WRONG_INTERFACE_VERSION</option></select></label>
+        <label>Interface version<input type="number" id="sh-iv" value="1" min="0" max="255"></label>
+        <label>Payload bytes<input type="number" id="sh-pl" value="4" min="0" max="1400"></label>
+      </div>
+      <div class="scroll"><div id="dg-sh"></div></div>
+      <div class="status" id="sh-status"></div>
+    </div>
+    <div class="fig-f">Message ID = Service ID + Method ID; event IDs have the top bit set (0x8000–0xFFFE). Length counts everything after the Length field: 8 header bytes + payload. Request ID = Client ID + Session ID, used to match responses to requests. Protocol version is 0x01.</div>
+  </figure>
+
+  <h3>Service discovery (SOME/IP-SD)</h3>
+  <p>Before a client can call a service it has to know where the service runs. SOME/IP-SD messages are themselves SOME/IP messages (Message ID 0xFFFF8100) sent over UDP, by default on port 30490, usually to a multicast group. A server repeatedly <b>offers</b> its services; a client that starts later can <b>find</b> them; then it <b>subscribes</b> to the event groups it wants. Offers and subscriptions carry a time-to-live, so a crashed ECU's services disappear on their own.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 7.3</b> · Service discovery and publish/subscribe, step by step</span>
+      <div class="ctrls"><button class="btn pri" id="sd-step">Next step</button><button class="btn" id="sd-reset">Reset</button></div></div>
+    <div class="fig-b scroll"><div id="dg-sd"></div></div>
+    <div class="fig-f" id="sd-desc"></div>
+  </figure>
+
+  <h2>DDS: the data-centric alternative</h2>
+  <p>The Data Distribution Service (DDS, an OMG standard) also does publish/subscribe, but around shared <b>topics</b> rather than services: publishers write samples of a typed topic, subscribers read them, and the middleware handles discovery and delivery with no broker. Its strength is a rich set of <b>quality-of-service</b> policies (reliability, history depth, deadline, durability, liveliness) that each reader and writer can set. DDS is the middleware under ROS 2 and is one of the network bindings of AUTOSAR Adaptive alongside SOME/IP.</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>SOME/IP</th><th>DDS</th></tr></thead>
+    <tbody>
+      <tr><td>Model</td><td>Service-oriented: methods, events, fields</td><td>Data-centric: typed topics</td></tr>
+      <tr><td>Discovery</td><td>SOME/IP-SD offer / find / subscribe</td><td>Built-in participant and endpoint discovery (RTPS)</td></tr>
+      <tr><td>Quality of service</td><td>Mainly transport choice (UDP/TCP) and timing</td><td>Many configurable policies per reader and writer</td></tr>
+      <tr><td>Typical use</td><td>ECU-to-ECU services in production vehicles</td><td>High-volume sensor data, ADAS and robotics software</td></tr>
+    </tbody></table></div>
+  <p>Both need a serialization format. SOME/IP defines its own; other stacks use Protocol Buffers, a compact, versionable encoding from Google that is common for vehicle-to-cloud data.</p>
+
+  <h2>Vehicle APIs and the software stack</h2>
+  <p>To decouple applications from the wiring, the vehicle exposes a standard <b>API</b>. The COVESA Vehicle Signal Specification (VSS) names every signal in one tree, for example <code>Vehicle.Speed</code> or <code>Vehicle.Cabin.Door.Row1.DriverSide.IsOpen</code>, so an app can read the speed without knowing which ECU or CAN message carries it.</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>AUTOSAR Classic</th><th>AUTOSAR Adaptive</th></tr></thead>
+    <tbody>
+      <tr><td>Hardware</td><td>Microcontrollers (deeply embedded ECUs, zone controllers)</td><td>Microprocessors / SoCs (central computers)</td></tr>
+      <tr><td>OS</td><td>OSEK-based static RTOS</td><td>POSIX OS (e.g. Linux, QNX)</td></tr>
+      <tr><td>Communication</td><td>Signals and PDUs, fixed at build time</td><td>Services via <code>ara::com</code> (SOME/IP or DDS)</td></tr>
+      <tr><td>Configuration</td><td>Static, generated before flashing</td><td>Manifests read at start-up; apps can be installed and updated</td></tr>
+      <tr><td>Scheduling</td><td>Fixed tasks and runnables</td><td>Processes started by Execution Management</td></tr>
+    </tbody></table></div>
+  <p>A central computer often runs several of these worlds at once under a <b>hypervisor</b>: a safety-certified partition for vehicle functions next to an infotainment OS, each isolated so a crash in one cannot affect the other (mixed criticality).</p>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>SDV = features delivered and updated as software; needs central compute, services and a hardware abstraction.</li>
+    <li>Zonal: zone controllers do I/O, power distribution and gatewaying; central computers do the heavy software.</li>
+    <li>SOME/IP header: Message ID (service + method), Length, Request ID (client + session), versions, type, return code = 16 bytes.</li>
+    <li>SOME/IP runs over UDP or TCP as configured; SOME/IP-SD always over UDP, default port 30490.</li>
+    <li>SD: offer → (find) → subscribe eventgroup → ack → notifications; TTL removes dead services.</li>
+    <li>DDS = data-centric topics with rich QoS; used in ROS 2 and as an Adaptive AUTOSAR binding.</li>
+    <li>COVESA VSS gives every vehicle signal a standard name; AUTOSAR Adaptive uses <code>ara::com</code> on POSIX systems.</li>
   </ol></div>
 </section>
 
 <!-- ============ PROCESS ============ -->
 <section class="view" id="process" hidden>
-  <p class="eyebrow">Chapter 07</p>
+  <p class="eyebrow">Chapter 08</p>
   <h1>Development process</h1>
   <p class="lede">Automotive software must be shown to be correct, not just tested until it seems to work. The V-model pairs every design step on the left with a verification step on the right, Automotive SPICE measures how well that process is run, and ISO 26262 sets how rigorous it must be for safety.</p>
   <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 162–167 (mechatronic development methods). V-model, ASPICE and ISO 26262 content follows the current standards; the book predates ISO 26262 (first published 2011).</p>
 
   <h2>The V-model</h2>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 7.1</b> · System and software V-model with Automotive SPICE processes. Select a stage.</span>
+    <div class="fig-h"><span class="cap"><b>Fig. 8.1</b> · System and software V-model with Automotive SPICE processes. Select a stage.</span>
       <div class="seg" id="v-filter" role="group" aria-label="Highlight level"><button aria-pressed="true" data-f="all">All</button><button aria-pressed="false" data-f="sys">System</button><button aria-pressed="false" data-f="swe">Software</button></div></div>
     <div class="fig-b scroll"><div id="dg-v"></div></div>
     <div class="fig-b" style="border-top:1px dashed var(--rule)"><div class="vdetail" id="v-detail"></div></div>
@@ -913,7 +1076,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <h2>ISO 26262 and ASIL</h2>
   <p>ISO 26262 covers functional safety of E/E systems. In the concept phase a <b>hazard analysis and risk assessment</b> (HARA) rates each hazardous event for Severity, Exposure and Controllability. Together they give the Automotive Safety Integrity Level, from QM (normal quality management) to ASIL D (most stringent).</p>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 7.2</b> · ASIL determination (ISO 26262-3, Table 4)</span></div>
+    <div class="fig-h"><span class="cap"><b>Fig. 8.2</b> · ASIL determination (ISO 26262-3, Table 4)</span></div>
     <div class="fig-b">
       <div class="asil-in">
         <label for="as-s">Severity<select id="as-s"><option value="0">S0 · No injuries</option><option value="1">S1 · Light and moderate injuries</option><option value="2">S2 · Severe, survival probable</option><option value="3" selected>S3 · Life-threatening, fatal</option></select></label>
@@ -947,7 +1110,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
 <!-- ============ SECURITY ============ -->
 <section class="view" id="security" hidden>
-  <p class="eyebrow">Chapter 08</p>
+  <p class="eyebrow">Chapter 09</p>
   <h1>Cybersecurity</h1>
   <p class="lede">A connected car exposes cellular, Wi-Fi, Bluetooth, charging and diagnostic interfaces. Safety asks "what if it fails?"; security asks "what if someone makes it fail on purpose?" Both now apply to every new vehicle.</p>
   <p class="ref">Not covered in the 2007 Bosch reference. Based on ISO/SAE 21434:2021 and UN Regulations 155 and 156.</p>
@@ -983,7 +1146,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <li><span><b>Risk treatment</b> — reduce, avoid, share or retain; reduction produces cybersecurity goals and requirements.</span></li>
   </ol>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 8.1</b> · Attack feasibility (attack-potential method) and risk value</span></div>
+    <div class="fig-h"><span class="cap"><b>Fig. 9.1</b> · Attack feasibility (attack-potential method) and risk value</span></div>
     <div class="fig-b">
       <div class="feas" id="feas"></div>
       <div class="asil-out"><div class="badge" id="rk-badge">3</div><p id="rk-text" style="margin:0"></p></div>
@@ -995,7 +1158,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <h2>Secure diagnostics: SecurityAccess (0x27)</h2>
   <p>Protected services such as writing a VIN or flashing software are locked. The tester asks for a random <b>seed</b>, computes a <b>key</b> with a secret algorithm, and sends it back. Wrong keys are counted; after too many, the ECU enforces a delay to stop brute-force attempts.</p>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 8.2</b> · Tester ↔ ECU SecurityAccess simulator</span></div>
+    <div class="fig-h"><span class="cap"><b>Fig. 9.2</b> · Tester ↔ ECU SecurityAccess simulator</span></div>
     <div class="fig-b">
       <div class="ctrls">
         <button class="btn" id="sa-sess">10 03 · Extended session</button>
@@ -1013,7 +1176,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <h2>Secure onboard communication (SecOC)</h2>
   <p>CAN has no sender authentication: any node can send any ID. AUTOSAR SecOC appends a <b>freshness value</b> and a truncated <b>MAC</b> (normally AES-128-CMAC) to each protected PDU. The receiver recomputes the MAC with the shared key and rejects frames that are altered or replayed.</p>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 8.3</b> · SecOC on a vehicle-speed message (ID 0x0C1)</span></div>
+    <div class="fig-h"><span class="cap"><b>Fig. 9.3</b> · SecOC on a vehicle-speed message (ID 0x0C1)</span></div>
     <div class="fig-b">
       <div class="ctrls">
         <label class="rng" for="so-v">Speed <input type="number" id="so-v" value="62" min="0" max="250" style="width:80px"> km/h</label>
@@ -1041,7 +1204,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
 <!-- ============ TOOLS ============ -->
 <section class="view" id="tools" hidden>
-  <p class="eyebrow">Chapter 09</p>
+  <p class="eyebrow">Chapter 10</p>
   <h1>Engineering calculators</h1>
   <p class="lede">Quick sizing tools for the numbers that come up in reviews and design discussions. Every field is editable and results update as you type. Default values describe a typical compact EV and a 1.6-litre petrol engine.</p>
   <div class="calcs" id="calcs"></div>
@@ -1730,6 +1893,162 @@ function drawHY(){
   $('#hy-desc').textContent=HYD[t][m];
 }
 if($('#dg-hy')){seg('hy-t',drawHY);seg('hy-m',drawHY);drawHY();}
+})();
+</script>
+
+<style>
+.bt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 12px;margin-bottom:12px}
+.bt-grid label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2);min-width:0}
+.bt-grid label i{font-style:normal;font-family:var(--f-mono);font-size:11px}
+.bt-grid .bt-h{grid-column:1/-1;font:600 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:4px}
+#bt-tbl td.lim{background:var(--signal-soft);font-weight:600}
+.hexrow{display:flex;flex-wrap:wrap;gap:4px;font:500 12.5px var(--f-mono)}
+</style>
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const B=(x,y,w,h,t,s,c='')=>{let o=`<rect class="blk ${c}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;const subs=s?s.split('|'):[];const top=y+h/2-subs.length*7+4;o+=`<text class="t" x="${x+w/2}" y="${top}" text-anchor="middle">${t}</text>`;subs.forEach((l,i)=>o+=`<text class="s" x="${x+w/2}" y="${top+14*(i+1)}" text-anchor="middle">${l}</text>`);return o};
+const P=(d,c='wire',ex='')=>`<path class="${c}" d="${d}" ${ex}/>`;
+const T=(x,y,s,c='s',a='start')=>`<text class="${c}" x="${x}" y="${y}" text-anchor="${a}">${s}</text>`;
+const mount=(id,w,h,inner,label)=>{const el=$('#'+id);if(el)el.innerHTML=`<svg class="dg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`};
+const seg=(id,fn)=>{const g=$('#'+id);if(!g)return;g.querySelectorAll('button').forEach(b=>b.onclick=()=>{g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));fn(b.dataset)})};
+
+/* ---------- Fig 6.4 error confinement ---------- */
+const ec={tec:0,rec:0,off:false,log:'Node starts error-active with both counters at 0.'};
+const ecState=()=>ec.off?'off':(ec.tec>127||ec.rec>127)?'passive':'active';
+function drawEC(){
+  const st=ecState();let s='';
+  const nodes=[['active',20,'Error-active','sends active error flag|6 dominant bits'],['passive',270,'Error-passive','sends passive error flag|6 recessive bits · ESI = 1'],['off',520,'Bus-off','does not transmit|or acknowledge']];
+  nodes.forEach(([k,x,t,sub])=>s+=B(x,40,180,64,t,sub,k===st?(k==='active'?'acc':'hv'):''));
+  s+=P('M200 62 H268','wire','marker-end="url(#ah)"')+T(235,30,'TEC or REC > 127 →','lbl','middle');
+  s+=P('M268 86 H202','wire','marker-end="url(#ah)"')+T(235,120,'← both ≤ 127','lbl','middle');
+  s+=P('M450 72 H518','wire','marker-end="url(#ah)"')+T(485,30,'TEC > 255 →','lbl','middle');
+  s+=P('M610 104 V140 H110 V106','wire','marker-end="url(#ah)"')+T(380,156,'recovery: 128 × 11 consecutive recessive bits → counters reset','lbl','middle');
+  const bar=(y,lab,v,max)=>{const w=Math.min(v,max)/max*560;let o=T(30,y+12,lab,'t');o+=`<rect x="120" y="${y}" width="560" height="16" rx="3" style="fill:var(--paper);stroke:var(--rule)"/>`;o+=`<rect x="120" y="${y}" width="${w}" height="16" rx="3" style="fill:${v>255?'var(--bad)':v>127?'var(--signal)':'var(--accent)'}"/>`;[127,255].forEach(m=>{const x=120+m/max*560;o+=`<line x1="${x}" x2="${x}" y1="${y-3}" y2="${y+19}" style="stroke:var(--ink);stroke-dasharray:2 2"/>`});o+=T(690,y+12,String(v),'t');return o};
+  s+=bar(180,'TEC',ec.tec,300)+bar(210,'REC',ec.rec,300);
+  s+=T(120+127/300*560,246,'128','lbl','middle')+T(120+255/300*560,246,'256','lbl','middle');
+  mount('dg-ec',720,256,s,'CAN fault confinement states and error counters');
+  $('#ec-desc').textContent=ec.log;
+}
+function ecAct(k){
+  if(ec.off&&k!=='rec'&&k!=='reset'){ec.log='Bus-off: the node has disconnected itself. Only the recovery sequence (or a reset) brings it back.';drawEC();return}
+  if(k==='txe'){ec.tec+=8;ec.log='The node saw an error while transmitting (bit, stuff, form or ACK error): TEC +8. It sends an error flag and retransmits automatically.'}
+  if(k==='rxe'){ec.rec=Math.min(ec.rec+1,255);ec.log='Receive error: REC +1 (+8 if the node was the first to see it via a dominant bit after its own error flag).'}
+  if(k==='txok'){ec.tec=Math.max(0,ec.tec-1);ec.log='Successful transmission: TEC −1.'}
+  if(k==='rxok'){ec.rec=ec.rec>127?119:Math.max(0,ec.rec-1);ec.log='Successful reception: REC −1 (or reset to between 119 and 127 if it was above 127).'}
+  if(k==='burst'){for(let i=0;i<10;i++)ec.tec+=8;ec.log='A broken transceiver corrupts every frame the node sends: 10 transmit errors add 80 to TEC. Repeat to watch it go error-passive, then bus-off; the other nodes keep communicating.'}
+  if(k==='rec'){if(ec.off){ec.tec=0;ec.rec=0;ec.off=false;ec.log='After 128 occurrences of 11 consecutive recessive bits the node rejoins as error-active with cleared counters. Many ECUs wait a software-defined time before starting this recovery.'}else ec.log='Recovery only applies in bus-off.'}
+  if(k==='reset'){ec.tec=0;ec.rec=0;ec.off=false;ec.log='Node reset: error-active, both counters 0.'}
+  if(ec.tec>255){ec.off=true;ec.log+=' TEC exceeded 255 → BUS-OFF.'}
+  drawEC();
+}
+if($('#dg-ec')){[['txe'],['rxe'],['txok'],['rxok'],['burst'],['rec'],['reset']].forEach(([k])=>$('#ec-'+k).onclick=()=>ecAct(k));drawEC();}
+
+/* ---------- Fig 6.5 bit timing ---------- */
+function drawBT(){
+  const v=id=>Math.max(0,+$('#'+id).value||0);
+  const f=v('bt-f')*1e6, brpA=Math.max(1,v('bt-brpa')), prA=v('bt-pra'), p1A=Math.max(1,v('bt-p1a')), p2A=Math.max(1,v('bt-p2a')), sjA=Math.max(1,v('bt-sja'));
+  const brpD=Math.max(1,v('bt-brpd')), prD=v('bt-prd'), p1D=Math.max(1,v('bt-p1d')), p2D=Math.max(1,v('bt-p2d')), sjD=Math.max(1,v('bt-sjd'));
+  const btA=1+prA+p1A+p2A, btD=1+prD+p1D+p2D;
+  const rA=f/(brpA*btA), rD=f/(brpD*btD), spA=(1+prA+p1A)/btA, spD=(1+prD+p1D)/btD;
+  const r=brpA/brpD; // TQ_A / TQ_D
+  const c=[
+    ['1','Resync, arbitration phase',sjA/(20*btA)],
+    ['2','Bit after error flag, arbitration',Math.min(p1A,p2A)/(2*(13*btA-p2A))],
+    ['3','Resync, data phase',sjD/(20*btD)],
+    ['4','Bit after error flag, data → arbitration',Math.min(p1A,p2A)/(2*((6*btD-p2D)*brpD/brpA+7*btA))],
+    ['5','Bit-rate switch, arbitration → data',(sjD-Math.max(0,r-1))/(2*((2*btA-p2A)*r+p2D+4*btD))]];
+  const df=Math.min(...c.map(x=>x[2]));const lim=c.find(x=>x[2]===df)[0];
+  $('#bt-tbl').innerHTML='<thead><tr><th>#</th><th>Condition</th><th class="num">Max. df</th></tr></thead><tbody>'+c.map(x=>`<tr><td class="num">${x[0]}</td><td>${x[1]}</td><td class="num ${x[0]===lim?'lim':''}">${(x[2]*100).toFixed(3)} %</td></tr>`).join('')+'</tbody>';
+  // bit diagram
+  let s='';const W=600,x0=100;
+  const row=(y,lab,pr,p1,p2,bt,sp,rate)=>{const u=W/bt;let o=T(4,y+20,lab,'lbl')+T(4,y+34,'sync = 1 TQ','lbl');let x=x0;
+    const segs=[['sync',1,'var(--ink-2)'],['prop',pr,'var(--rule-2)'],['ps1',p1,'var(--accent)'],['ps2',p2,'var(--signal)']];
+    segs.forEach(([n,len,col])=>{if(!len)return;o+=`<rect x="${x}" y="${y}" width="${len*u}" height="30" style="fill:${col};opacity:.28;stroke:var(--ink);stroke-width:.6"/>`;if(len*u>34)o+=T(x+len*u/2,y+19,n+' '+len,'lbl','middle');x+=len*u});
+    const sx=x0+(1+pr+p1)*u;o+=`<line x1="${sx}" x2="${sx}" y1="${y-6}" y2="${y+36}" style="stroke:var(--bad);stroke-width:2"/>`+T(sx,y-9,'sample point '+(sp*100).toFixed(1)+' %','lbl','middle');
+    o+=T(x0+W,y+48,(rate/1e6).toFixed(rate<1e6?3:2)+' Mbit/s · '+bt+' TQ','lbl','end');return o};
+  s+=row(24,'ARBITRATION',prA,p1A,p2A,btA,spA,rA)+row(104,'DATA',prD,p1D,p2D,btD,spD,rD);
+  mount('dg-bt',720,166,s,'Bit timing segments for arbitration and data phases');
+  const okRatio=rD>=rA;
+  $('#bt-status').innerHTML=`<span class="chip ${df>0.003?'good':df>0.001?'warn':'bad'}">df ≤ ${(df*100).toFixed(3)} %</span> Accepted oscillator tolerance is set by condition ${lim}. `+(okRatio?`Data/arbitration ratio ${(rD/rA).toFixed(1)}. `:'<b>Data bit rate must be ≥ arbitration bit rate.</b> ')+(df<=0?'This configuration cannot work: increase SJW or phase segments.':`Crystal oscillators (±0.005–0.01 %) meet this easily; ceramic resonators (±0.3–0.5 %) ${df>0.005?'also do':'may not'}.`);
+}
+if($('#bt-tbl')){$$('#dg-bt').length;['bt-f','bt-brpa','bt-pra','bt-p1a','bt-p2a','bt-sja','bt-brpd','bt-prd','bt-p1d','bt-p2d','bt-sjd'].forEach(id=>$('#'+id).oninput=drawBT);drawBT();}
+
+/* ---------- Fig 7.1 E/E architecture ---------- */
+const EE={
+ dist:'Distributed (1990s–2010s): one ECU per function, each wired to its own sensors and actuators, grouped on several CAN/LIN buses through a gateway. Premium cars reached 100+ ECUs and several kilometres of harness.',
+ dom:'Domain (2010s): a domain controller per area (powertrain, chassis, body, infotainment, ADAS) concentrates software; smaller ECUs remain below it. Domains still follow function, so wires still run across the car.',
+ zone:'Zonal + central (2020s): zone controllers by physical location collect I/O and distribute power; an Ethernet backbone links them to one or a few central computers that run the vehicle software. Shorter harness, fewer ECUs, software updatable in one place.'};
+function drawEE(g){
+  let s='';const car=()=>`<rect x="40" y="20" width="640" height="220" rx="60" style="fill:none;stroke:var(--rule-2);stroke-width:1.5"/>`+T(46,16,'FRONT','lbl')+T(674,16,'REAR','lbl','end');
+  s+=car();
+  if(g==='dist'){
+    const e=[[80,50],[80,170],[170,90],[170,140],[260,50],[260,190],[350,100],[350,150],[440,50],[440,190],[530,90],[530,140],[610,60],[610,170]];
+    s+=P('M70 125 H660','can');s+=P('M120 200 H560','can');
+    e.forEach(([x,y],i)=>{s+=`<rect class="blk" x="${x}" y="${y}" width="44" height="26" rx="4"/>`+T(x+22,y+17,'ECU','lbl','middle');s+=P(`M${x+22} ${y+(y<125?26:0)} V${y<125?125:200}`,'wire')});
+    s+=B(320,105,80,30,'Gateway','','acc');
+  } else if(g==='dom'){
+    const d=[[70,40,'Powertrain'],[70,170,'Chassis'],[300,40,'Body'],[300,170,'Infotainment'],[530,105,'ADAS']];
+    s+=B(300,105,120,36,'Central gateway','','acc');
+    d.forEach(([x,y,n])=>{s+=B(x,y,120,40,n,'domain ctrl','hv');s+=P(`M${x+60} ${y+(y<105?40:0)} L360 ${y<105?105:141}`,'wire');[0,1,2].forEach(k=>{const ex=x+k*44-4,ey=y<105?y+52:y-30;s+=`<rect class="blk" x="${ex}" y="${ey}" width="36" height="20" rx="3"/>`})});
+  } else {
+    s+=B(300,100,120,48,'Central compute','ADAS · apps · infotainment','acc');
+    const z=[[70,40,'Zone FL'],[70,180,'Zone FR'],[530,40,'Zone RL'],[530,180,'Zone RR']];
+    z.forEach(([x,y,n])=>{s+=B(x,y,120,40,n,'I/O · power · gateway','hv');s+=P(`M${x+(x<300?120:0)} ${y+20} L${x<300?300:420} ${y<120?110:138}`,'bus');
+      [0,1,2,3].forEach(k=>{const ex=x+(x<300?-20+k*36:k*36),ey=y<120?y+54:y-28;s+=`<circle cx="${ex+12}" cy="${ey+8}" r="7" style="fill:var(--sheet);stroke:var(--rule-2)"/>`;s+=P(`M${ex+12} ${ey+(y<120?1:15)} L${x+60} ${y+(y<120?40:0)}`,'wire')})});
+    s+=T(360,170,'Ethernet backbone','lbl','middle')+T(360,232,'○ sensors/actuators on short local CAN, LIN or direct I/O','lbl','middle');
+  }
+  mount('dg-ee',720,250,s,'Vehicle E/E architecture');
+  $('#ee-desc').textContent=EE[g];
+}
+if($('#dg-ee')){seg('ee-g',d=>drawEE(d.g));drawEE('zone');}
+
+/* ---------- Fig 7.2 SOME/IP header ---------- */
+const hx=(id,n)=>{const v=parseInt(($('#'+id).value||'0').replace(/^0x/i,''),16);return isNaN(v)?null:(v&((1<<(n*8))-1)>>>0)};
+function drawSH(){
+  const svc=hx('sh-svc',2),mth=hx('sh-mth',2),cli=hx('sh-cli',2),ses=hx('sh-ses',2);
+  const typ=+$('#sh-typ').value,rc=+$('#sh-rc').value,iv=Math.min(255,Math.max(0,+$('#sh-iv').value||0)),pl=Math.min(1400,Math.max(0,+$('#sh-pl').value||0));
+  if([svc,mth,cli,ses].includes(null)){$('#sh-status').textContent='Enter IDs as hexadecimal.';return}
+  const len=8+pl;const h2=v=>v.toString(16).toUpperCase().padStart(2,'0');
+  const fields=[['Service ID',[svc>>8,svc&255],'acc'],['Method / event',[mth>>8,mth&255],'acc'],['Length',[len>>>24,(len>>16)&255,(len>>8)&255,len&255],''],['Client ID',[cli>>8,cli&255],'hv'],['Session ID',[ses>>8,ses&255],'hv'],['Proto',[1],''],['Iface',[iv],''],['Type',[typ],''],['Ret code',[rc],'']];
+  let s='',x=10,y=20;const bw=48;
+  s+=T(10,12,'MESSAGE ID','lbl')+T(10+4*bw,12,'LENGTH','lbl')+T(10+8*bw,12,'REQUEST ID','lbl')+T(10+12*bw,12,'VERSIONS · TYPE · CODE','lbl');
+  fields.forEach(([n,bytes,c])=>{const w=bytes.length*bw;s+=`<rect class="blk ${c}" x="${x}" y="${y}" width="${w-2}" height="44" rx="4"/>`;s+=T(x+w/2,y+17,n,'s','middle');s+=T(x+w/2,y+35,bytes.map(h2).join(' '),'t','middle');x+=w});
+  s+=`<rect class="blk" x="${x}" y="${y}" width="${Math.max(84,Math.min(140,pl*4))}" height="44" rx="4" style="stroke-dasharray:4 3"/>`+T(x+Math.max(84,Math.min(140,pl*4))/2,y+27,'payload '+pl+' B','s','middle');
+  mount('dg-sh',Math.max(820,x+160),80,s,'SOME/IP header bytes');
+  const isEvt=(mth&0x8000)!==0;let note=`Message ID 0x${h2(svc>>8)}${h2(svc&255)}${h2(mth>>8)}${h2(mth&255)} · Length ${len} (8 + ${pl}). `;
+  if(typ===2&&!isEvt)note+='⚠ A NOTIFICATION normally carries an event ID (top bit set, ≥ 0x8000).';
+  else if((typ===0||typ===1)&&isEvt)note+='⚠ Requests call methods (ID < 0x8000); 0x8000+ is reserved for events.';
+  else if(typ!==128&&typ!==129&&rc!==0)note+='⚠ Requests and notifications use return code 0x00; error codes belong in RESPONSE/ERROR.';
+  else note+=isEvt?'Event: sent to subscribers, client/session often 0 or incrementing per sender.':'Method: the response echoes the same Message ID and Request ID.';
+  $('#sh-status').textContent=note;
+}
+if($('#sh-svc')){['sh-svc','sh-mth','sh-cli','sh-ses','sh-typ','sh-rc','sh-iv','sh-pl'].forEach(id=>{$('#'+id).oninput=drawSH;$('#'+id).onchange=drawSH});drawSH();}
+
+/* ---------- Fig 7.3 SOME/IP-SD ---------- */
+const SD=[
+ [null,'Start: the camera ECU (server) offers service 0x1234 "ObjectList"; the ADAS computer (client) needs it. Both are on the same Ethernet backbone.'],
+ ['s','c','OfferService 0x1234 · TTL 3 s','multicast UDP :30490','Server starts up, waits a short random delay, then multicasts OfferService entries several times with growing gaps (repetition phase), then cyclically (main phase).'],
+ ['c','s','FindService 0x1234','multicast UDP :30490','A client that started late does not have to wait for the next cyclic offer: it multicasts FindService.'],
+ ['s','c','OfferService 0x1234 (answer)','unicast UDP','The server answers the Find with an offer containing an endpoint option: its IP address, port and transport (UDP here).'],
+ ['c','s','SubscribeEventgroup 0x0001 · TTL 3 s','unicast UDP :30490','The client subscribes to event group 1 and tells the server its own endpoint where notifications should go.'],
+ ['s','c','SubscribeEventgroupAck','unicast UDP :30490','The server accepts and adds the client to the event group. A Nack (TTL 0) would refuse it.'],
+ ['s','c','NOTIFICATION 0x1234/0x8001 · object list','UDP to service port','Event data now flows to every subscriber whenever the object list changes or on its cycle. Fields send an initial value right after subscription.'],
+ ['c','s','REQUEST 0x1234/0x0002 → RESPONSE','UDP or TCP as configured','Methods use request/response on the endpoint from the offer; the response carries the same Request ID.'],
+ ['s','c','StopOfferService (TTL 0)','multicast UDP :30490','On shutdown the server withdraws the offer. If it crashes instead, the TTL expires and clients treat the service as gone.']];
+let sdi=0;
+function drawSD(){
+  let s='';const xs=150,xc=570;
+  s+=B(xs-90,10,180,40,'Server: camera ECU','provides 0x1234','hv')+B(xc-90,10,180,40,'Client: ADAS computer','consumes 0x1234','acc');
+  s+=`<line x1="${xs}" x2="${xs}" y1="50" y2="${60+SD.length*38}" style="stroke:var(--rule-2);stroke-dasharray:4 4"/><line x1="${xc}" x2="${xc}" y1="50" y2="${60+SD.length*38}" style="stroke:var(--rule-2);stroke-dasharray:4 4"/>`;
+  for(let i=1;i<=sdi;i++){const [fr,to,lab,tr]=SD[i];const y=60+i*38;const x1=fr==='s'?xs:xc,x2=to==='s'?xs:xc;
+    s+=P(`M${x1} ${y} L${x2+(x2>x1?-4:4)} ${y}`,i===sdi?'flow':'wire',`marker-end="url(#${i===sdi?'ahs':'ah'})"`);
+    s+=T((xs+xc)/2,y-6,lab,i===sdi?'t':'s','middle')+T((xs+xc)/2,y+12,tr,'lbl','middle');}
+  mount('dg-sd',720,70+SD.length*38,s,'SOME/IP service discovery sequence');
+  $('#sd-desc').textContent=sdi===0?SD[0][1]:'Step '+sdi+' of '+(SD.length-1)+': '+SD[sdi][4];
+  $('#sd-step').textContent=sdi>=SD.length-1?'Done':'Next step';
+}
+if($('#dg-sd')){$('#sd-step').onclick=()=>{if(sdi<SD.length-1){sdi++;drawSD()}};$('#sd-reset').onclick=()=>{sdi=0;drawSD()};drawSD();}
 })();
 </script>
 
