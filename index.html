@@ -355,9 +355,9 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#networks"><span class="n">CHAPTER 07</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, LIN, FlexRay, Ethernet, error confinement, bit timing, EMC, UDS and DoIP.</span><span class="tags"><span>CAN arbitration sim</span></span></a>
     <a href="#sdv"><span class="n">CHAPTER 08</span><span class="tt">Software-defined vehicle</span><span class="d">Zonal E/E architecture, signals vs services, SOME/IP and service discovery, DDS, vehicle APIs, AUTOSAR Adaptive.</span><span class="tags"><span>SOME/IP header builder</span><span>SD sequence</span></span></a>
     <a href="#process"><span class="n">CHAPTER 09</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
-    <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, TARA, secure diagnostics and SecOC.</span><span class="tags"><span>0x27 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
+    <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
-    <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">118 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">125 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
   </div>
   <h2>How to use this guide</h2>
   <div class="cols">
@@ -1300,6 +1300,21 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <tr><td><b>ISO 24089</b></td><td>Engineering standard for software updates, supporting R156.</td></tr>
     </tbody></table></div>
 
+  <h2>Attack surface</h2>
+  <p>Every interface that accepts data from outside the vehicle is a possible entry point. TARA starts from this list; the countermeasures are spread over the layers below.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Interface</th><th>Typical threat</th><th>Main countermeasures</th></tr></thead>
+    <tbody>
+      <tr><td>Telematics (cellular), backend</td><td>Remote access to the in-vehicle network through a compromised telematics unit or backend</td><td>Mutual TLS, network separation behind the gateway, hardened OS, VSOC monitoring</td></tr>
+      <tr><td>OTA update channel</td><td>Installing manipulated software</td><td>Signed and encrypted packages, version/rollback checks, secure boot (UN R156)</td></tr>
+      <tr><td>Keyless entry, phone-as-key</td><td>Relay attack that extends the key's range</td><td>UWB distance bounding, motion-sleep key fobs</td></tr>
+      <tr><td>OBD port / workshop tester</td><td>Unauthorised reprogramming, odometer or immobiliser manipulation</td><td>0x27/0x29 access control, gateway filtering, authentication of the tester</td></tr>
+      <tr><td>Exposed CAN wiring (headlamp, bumper)</td><td>Injecting forged frames to unlock or start the car</td><td>SecOC on critical messages, gateway separation, IDS</td></tr>
+      <tr><td>Bluetooth, Wi-Fi, USB, apps</td><td>Exploiting the infotainment stack to pivot inward</td><td>Sandboxing, least privilege, firewall between infotainment and vehicle domains</td></tr>
+      <tr><td>Charging (ISO 15118)</td><td>Spoofed charger or contract certificates</td><td>Plug &amp; Charge PKI, TLS</td></tr>
+      <tr><td>Debug ports (JTAG/DAP), flash memory</td><td>Reading keys or firmware from a physical ECU</td><td>Debug lock with authentication, HSM key storage, encrypted memory</td></tr>
+    </tbody></table></div>
+
   <h2>Defence in depth</h2>
   <p>No single control is enough. Each layer assumes the one outside it may already be breached.</p>
   <div class="layers">
@@ -1346,13 +1361,77 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <div class="state" id="sa-state"></div>
       <div class="log" id="sa-log" aria-live="polite"></div>
     </div>
-    <div class="fig-f">The key function here is a toy for illustration. Production ECUs keep the secret in an HSM and many now use UDS 0x29 Authentication with certificates instead, so a leaked algorithm cannot unlock every vehicle.</div>
+    <div class="fig-f">The key function here is a toy for illustration. Production ECUs keep the secret in an HSM. Because the same algorithm usually protects a whole fleet, newer ECUs use 0x29 Authentication instead (next section).</div>
   </figure>
+
+  <h2>Authentication (0x29): certificates instead of shared secrets</h2>
+  <p>SecurityAccess has a structural weakness: every vehicle of a model usually shares the same seed–key algorithm and secret. Whoever extracts it from one ECU or one tester can unlock them all, and the ECU never learns <i>who</i> is connected. ISO 14229-1:2020 therefore added service <b>0x29 Authentication</b> (positive response 0x69). The tester proves its identity cryptographically, the ECU checks it against a trusted root, and the rights granted depend on the <b>role</b> written in the tester's certificate (for example production line, workshop, engineering).</p>
+  <div class="cols">
+    <div><h3>APCE: PKI certificate exchange</h3><p>The tester sends an X.509-style certificate signed by the OEM's certificate authority. The ECU verifies the signature chain up to a root public key it stores, checks validity period, scope and revocation, and sends back a random <b>challenge</b>. The tester signs the challenge with its private key (<b>proof of ownership</b>). Only someone holding the private key matching the certificate can do this. No secret is stored in the ECU: only the public root key.</p></div>
+    <div><h3>ACR: challenge–response</h3><p>A lighter variant without certificates. The ECU sends a challenge and the tester answers with a value computed from a key: either a symmetric key shared with the ECU (similar to 0x27 but with standardised, stronger cryptography) or an asymmetric key pair. Useful where certificate handling is too heavy, but symmetric keys still need careful per-vehicle or per-ECU diversification.</p></div>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th class="num">Sub-function</th><th>Name</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td class="num">0x00</td><td>deAuthenticate</td><td>End the authenticated state and return to the default rights</td></tr>
+      <tr><td class="num">0x01</td><td>verifyCertificateUnidirectional</td><td>APCE: tester sends its certificate; ECU verifies it and returns a challenge</td></tr>
+      <tr><td class="num">0x02</td><td>verifyCertificateBidirectional</td><td>As 0x01, and the ECU also returns its own certificate and proof so the tester can verify the ECU (mutual authentication)</td></tr>
+      <tr><td class="num">0x03</td><td>proofOfOwnership</td><td>APCE: tester sends the challenge signed with its private key</td></tr>
+      <tr><td class="num">0x04</td><td>transmitCertificate</td><td>Send an extra certificate (for example an intermediate CA) after authentication</td></tr>
+      <tr><td class="num">0x05</td><td>requestChallengeForAuthentication</td><td>ACR: ask the ECU for a challenge</td></tr>
+      <tr><td class="num">0x06 / 0x07</td><td>verifyProofOfOwnershipUni- / Bidirectional</td><td>ACR: send the computed response (one-way or mutual)</td></tr>
+      <tr><td class="num">0x08</td><td>authenticationConfiguration</td><td>Ask which method the ECU supports (APCE or ACR, symmetric or asymmetric)</td></tr>
+    </tbody></table></div>
+
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 10.3</b> · Tester ↔ ECU Authentication (APCE, unidirectional) simulator</span>
+      <label class="rng" for="au-sc">Scenario <select id="au-sc" style="width:auto"><option value="ok">Valid workshop tester</option><option value="eng">Valid engineering tester</option><option value="exp">Certificate expired</option><option value="ca">Certificate from unknown CA</option><option value="key">Stolen certificate, wrong private key</option></select></label></div>
+    <div class="fig-b">
+      <div class="ctrls">
+        <button class="btn" id="au-cfg">29 08 · Which method?</button>
+        <button class="btn" id="au-wr0">2E F1 90 · Write VIN</button>
+        <button class="btn pri" id="au-c1">29 01 · Send certificate</button>
+        <button class="btn pri" id="au-c3">29 03 · Proof of ownership</button>
+        <button class="btn" id="au-flash">34 · Request download</button>
+        <button class="btn" id="au-de">29 00 · De-authenticate</button>
+        <button class="btn" id="au-rst">Reset</button>
+      </div>
+      <div class="state" id="au-state"></div>
+      <div class="log" id="au-log" aria-live="polite"></div>
+    </div>
+    <div class="fig-f">Byte layouts follow ISO 14229-1:2020 (certificates, challenges and signatures shown as placeholders with their lengths). The role-to-service mapping is an example; each OEM defines its own access matrix. Try writing the VIN before and after authenticating, and compare a workshop role with an engineering role.</div>
+  </figure>
+
+  <div class="tbl"><table>
+    <thead><tr><th class="num">NRC</th><th>Meaning when 0x29 fails</th></tr></thead>
+    <tbody>
+      <tr><td class="num">0x34</td><td>authenticationRequired: the requested service needs a higher authentication state (any service, not only 0x29)</td></tr>
+      <tr><td class="num">0x50</td><td>Certificate verification failed: invalid time period</td></tr>
+      <tr><td class="num">0x51 / 0x52</td><td>Invalid signature / invalid chain of trust</td></tr>
+      <tr><td class="num">0x53 – 0x56</td><td>Invalid type / format / content / scope</td></tr>
+      <tr><td class="num">0x57</td><td>Invalid certificate (revoked)</td></tr>
+      <tr><td class="num">0x58</td><td>Ownership verification failed</td></tr>
+      <tr><td class="num">0x59 – 0x5D</td><td>Challenge calculation, access-rights setting, session-key, configuration-data or de-authentication failed</td></tr>
+    </tbody></table></div>
+
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>SecurityAccess 0x27</th><th>Authentication 0x29</th></tr></thead>
+    <tbody>
+      <tr><td>Proves</td><td>Knowledge of a shared algorithm or key</td><td>Identity: possession of a private key bound to a certificate</td></tr>
+      <tr><td>Secret in the ECU</td><td>Yes, the same for many vehicles</td><td>APCE: none, only a public root key</td></tr>
+      <tr><td>Access rights</td><td>Fixed security levels (odd/even sub-functions)</td><td>Roles and scope from the certificate; fine-grained per service, DID or routine</td></tr>
+      <tr><td>Revocation</td><td>Change the algorithm in every ECU</td><td>Revoke one certificate or let it expire</td></tr>
+      <tr><td>Mutual authentication</td><td>No</td><td>Yes, with the bidirectional sub-functions</td></tr>
+      <tr><td>Traceability</td><td>Any tester looks the same</td><td>Each tester or user has its own certificate, so actions can be logged</td></tr>
+      <tr><td>Session keys</td><td>No</td><td>Optional; can protect the following messages (SecuredDataTransmission 0x84)</td></tr>
+      <tr><td>Cost</td><td>Very low</td><td>Asymmetric crypto (ECC) on the ECU, ideally in the HSM; PKI and certificate management at the OEM</td></tr>
+    </tbody></table></div>
+  <p class="small muted">The authenticated state belongs to one diagnostic connection (one tester address). It ends with 29 00, an ECU reset, or when the connection closes, and many implementations also drop it after a period of inactivity.</p>
 
   <h2>Secure onboard communication (SecOC)</h2>
   <p>CAN has no sender authentication: any node can send any ID. AUTOSAR SecOC appends a <b>freshness value</b> and a truncated <b>MAC</b> (normally AES-128-CMAC) to each protected PDU. The receiver recomputes the MAC with the shared key and rejects frames that are altered or replayed.</p>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 10.3</b> · SecOC on a vehicle-speed message (ID 0x0C1)</span></div>
+    <div class="fig-h"><span class="cap"><b>Fig. 10.4</b> · SecOC on a vehicle-speed message (ID 0x0C1)</span></div>
     <div class="fig-b">
       <div class="ctrls">
         <label class="rng" for="so-v">Speed <input type="number" id="so-v" value="62" min="0" max="250" style="width:80px"> km/h</label>
@@ -1368,11 +1447,36 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <div class="fig-f">For illustration the MAC is a 24-bit toy hash and only the low byte of the 32-bit freshness counter is transmitted, as in many real SecOC profiles. The receiver rebuilds the full counter from its own state.</div>
   </figure>
 
+    <h2>Secure boot and secure flashing</h2>
+  <p>Authentication decides <i>who</i> may reprogram an ECU; signatures decide <i>what</i> it may run. Each boot stage checks the next one before handing over control, starting from code that cannot be changed.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 10.5</b> · Chain of trust at start-up</span></div>
+    <div class="fig-b scroll"><div id="dg-boot"></div></div>
+    <div class="fig-f">Variants: the HSM can verify the application in parallel while the CPU already starts ("authenticated boot"), and the result can unlock keys only if the software is genuine. Version counters stored in the HSM block rollback to older, vulnerable software.</div>
+  </figure>
+  <ol class="flowlist">
+    <li><span><b>Authenticate the tester</b> with 0x29 (or 0x27 on older ECUs) in the programming session.</span></li>
+    <li><span><b>Erase</b> with RoutineControl 0x31 and <b>download</b> with 0x34 RequestDownload, 0x36 TransferData, 0x37 RequestTransferExit.</span></li>
+    <li><span><b>Check</b> with 0x31: the bootloader verifies the signature over the new software with the OEM's public key, and checks version and compatibility. Unsigned or older software is rejected.</span></li>
+    <li><span><b>Activate</b> only after success; with A/B memory banks the old image stays available until the new one has started correctly.</span></li>
+  </ol>
+
+  <h2>Detection and response</h2>
+  <p>Prevention is never complete, and UN R155 requires manufacturers to monitor their fleet and respond to attacks for the whole time vehicles are in use.</p>
+  <div class="cols">
+    <div><h3>Intrusion detection (IDS)</h3><p>Usually runs in the gateway or zone controllers. It knows the expected traffic and flags deviations: unknown CAN IDs, messages arriving faster than their cycle time, values out of range, unexpected diagnostic requests, or failed SecOC and 0x29 checks. Events go to a security event manager in the vehicle.</p></div>
+    <div><h3>Vehicle security operations centre (VSOC)</h3><p>The backend collects security events from the fleet, correlates them, and triggers a response: analysing the incident, revoking certificates, pushing a fix over the air under the R156 update process, and feeding lessons back into TARA.</p></div>
+  </div>
+
   <div class="revise"><h2>Revise in 60 seconds</h2><ol>
     <li>ISO/SAE 21434 = how to engineer it; UN R155 = CSMS required for type approval; R156 = updates.</li>
     <li>TARA: assets → damage → impact (SFOP) → threats → attack paths → feasibility → risk → treatment.</li>
     <li>Attack potential: time, expertise, knowledge, window of opportunity, equipment.</li>
     <li>0x27: seed → key; NRC 35 invalid key, 36 attempts exceeded, 37 delay not expired.</li>
+    <li>0x29 APCE: 29 01 certificate → 69 01 11 + challenge → 29 03 signed challenge → 69 03 12; rights follow the certificate role; refused services return NRC 0x34.</li>
+    <li>0x29 failures: 0x50 expired, 0x51 signature, 0x52 chain of trust, 0x57 revoked, 0x58 ownership; 29 00 de-authenticates.</li>
+    <li>Secure boot: ROM → bootloader → application, each verified with the OEM public key in the HSM; flashing ends with a signature check.</li>
+    <li>R155 needs monitoring too: IDS in the vehicle, VSOC in the backend.</li>
     <li>SecOC: MAC for integrity and authenticity, freshness for replay protection; no confidentiality.</li>
     <li>Root of trust in the HSM: secure boot, key storage, crypto acceleration.</li>
   </ol></div>
@@ -2529,6 +2633,13 @@ const G=[
 ['RTE','Runtime environment','ECU & software','ecus','Generated AUTOSAR Classic layer that connects software components to each other and to basic software.'],
 ['SAE levels','SAE J3016','Chassis & ADAS','chassis','Levels 0–5 of driving automation; up to Level 2 the driver supervises, from Level 3 the system drives within its domain.'],
 ['Sample point','','Networks','networks','Moment within a bit when a CAN node reads the bus level, set by the bit-timing configuration.'],
+['APCE','Authentication with PKI certificate exchange','Security','security','UDS 0x29 method in which the tester sends a certificate and proves it holds the matching private key by signing the ECU\'s challenge.'],
+['ACR','Authentication with challenge-response','Security','security','UDS 0x29 method without certificates: the tester answers an ECU challenge using a symmetric or asymmetric key.'],
+['Authentication (0x29)','UDS service, ISO 14229-1:2020','Security','security','Diagnostic service that authenticates the tester by certificate or challenge-response and grants rights based on its role; replaces the shared-secret 0x27 on newer ECUs.'],
+['Chain of trust','','Security','security','Sequence in which each boot stage verifies the signature of the next, starting from immutable code.'],
+['IDS','Intrusion detection system','Security','security','Monitors in-vehicle traffic for anomalies such as unknown IDs, wrong timing or failed authentication, and reports security events.'],
+['PKI','Public key infrastructure','Security','security','Certificate authorities, certificates and revocation that let devices trust each other\'s public keys; used for 0x29, V2G charging and backend connections.'],
+['VSOC','Vehicle security operations centre','Security','security','Backend team and tooling that collect security events from the fleet, analyse incidents and coordinate the response.'],
 ['SecOC','Secure onboard communication','Security','security','AUTOSAR mechanism that adds a freshness value and a MAC to messages so receivers can reject forged or replayed frames.'],
 ['Secure boot','','Security','security','Start-up check that verifies the software\'s signature before it runs.'],
 ['SecurityAccess','UDS 0x27','Diagnostics','security','Seed–key challenge that unlocks protected diagnostic services.'],
@@ -2655,6 +2766,68 @@ document.addEventListener('focusin',e=>{const el=e.target.closest&&e.target.clos
 document.addEventListener('focusout',e=>{if(e.target.closest&&e.target.closest('.gt')&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest('.gtip')))later()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')hide(true);if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('gt')){e.preventDefault();show(e.target,true)}});
 addEventListener('scroll',()=>hide(true),{passive:true});addEventListener('hashchange',()=>hide(true));
+})();
+</script>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const B=(x,y,w,h,t,s,c='')=>{let o=`<rect class="blk ${c}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;const subs=s?s.split('|'):[];const top=y+h/2-subs.length*7+4;o+=`<text class="t" x="${x+w/2}" y="${top}" text-anchor="middle">${t}</text>`;subs.forEach((l,i)=>o+=`<text class="s" x="${x+w/2}" y="${top+14*(i+1)}" text-anchor="middle">${l}</text>`);return o};
+const P=(d,c='wire',ex='')=>`<path class="${c}" d="${d}" ${ex}/>`;
+const T=(x,y,s,c='s',a='start')=>`<text class="${c}" x="${x}" y="${y}" text-anchor="${a}">${s}</text>`;
+const mount=(id,w,h,inner,label)=>{const el=$('#'+id);if(el)el.innerHTML=`<svg class="dg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`};
+
+/* ---------- Fig 10.3 UDS 0x29 ---------- */
+if($('#au-log')){
+  const ROLE={ok:'Workshop',eng:'Engineering',exp:'Workshop',ca:'Workshop',key:'Engineering'};
+  const RIGHTS={Workshop:['22','2E','14','19','31'],Engineering:['22','2E','14','19','31','34','36','37']};
+  let st={a:'none',role:null};
+  const log=$('#au-log');
+  const add=(who,bytes,why,cls)=>{if(log.querySelector('.empty'))log.innerHTML='';const d=document.createElement('div');d.className=(who==='Tester'?'req':'res')+(cls?' '+cls:'');d.innerHTML=`<span class="who">${who}</span><span><span class="bytes">${bytes}</span><br><span class="why">${why}</span></span>`;log.appendChild(d);log.scrollTop=log.scrollHeight};
+  const state=()=>{const sc=$('#au-sc').value;
+    const a=st.a==='auth'?`<span class="chip good">AUTHENTICATED · role ${st.role}</span>`:st.a==='cert'?'<span class="chip warn">CERTIFICATE VERIFIED · proof of ownership pending</span>':'<span class="chip bad">NOT AUTHENTICATED</span>';
+    $('#au-state').innerHTML=a+` <span class="chip">certificate: ${({ok:'valid, role Workshop',eng:'valid, role Engineering',exp:'expired',ca:'signed by unknown CA',key:'genuine, but attacker lacks the private key'})[sc]}</span>`};
+  const reset=()=>{st={a:'none',role:null};log.innerHTML='<div class="empty">Choose a scenario, then send requests. Start with 2E (write VIN) to see it refused.</div>';state()};
+  $('#au-sc').onchange=reset;$('#au-rst').onclick=reset;
+  $('#au-cfg').onclick=()=>{add('Tester','29 08','authenticationConfiguration: which authentication method do you support?');add('ECU','69 08 02','Return value 0x02: APCE (certificate exchange) supported.','pos')};
+  const protectedSvc=(sid,req,pos,name)=>{add('Tester',req,name);
+    if(st.a==='auth'&&RIGHTS[st.role].includes(sid))add('ECU',pos,`Accepted: role ${st.role} is allowed to use service 0x${sid}.`,'pos');
+    else add('ECU',`7F ${sid} 34`,st.a==='auth'?`NRC 0x34 authenticationRequired: role ${st.role} is not allowed to use service 0x${sid}.`:'NRC 0x34 authenticationRequired: this service needs an authenticated tester.','neg')};
+  $('#au-wr0').onclick=()=>protectedSvc('2E','2E F1 90 57 30 4C …','6E F1 90','WriteDataByIdentifier: write the VIN (DID F190).');
+  $('#au-flash').onclick=()=>protectedSvc('34','34 00 44 00 08 00 00 00 04 00 00','74 20 0F FF','RequestDownload: start flashing (needs the programming session 10 02 in a real ECU).');
+  $('#au-c1').onclick=()=>{const sc=$('#au-sc').value;
+    add('Tester','29 01 00 02 0C ‹certificate 524 B› 00 00','verifyCertificateUnidirectional: communicationConfiguration 00, certificate length 0x020C, no client challenge.');
+    if(sc==='exp'){add('ECU','7F 29 50','NRC 0x50: certificate verification failed, invalid time period (expired).','neg');st={a:'none',role:null}}
+    else if(sc==='ca'){add('ECU','7F 29 52','NRC 0x52: invalid chain of trust; the signature does not lead to the root key stored in this ECU.','neg');st={a:'none',role:null}}
+    else{add('ECU','69 01 11 00 20 ‹challenge 32 B› 00 00','Return 0x11: certificate verified, ownership verification necessary. The ECU sends a fresh 32-byte random challenge.','pos');st={a:'cert',role:ROLE[sc]}}
+    state()};
+  $('#au-c3').onclick=()=>{const sc=$('#au-sc').value;
+    add('Tester','29 03 00 40 ‹signature 64 B› 00 00','proofOfOwnership: the challenge signed with the tester\'s private key (64-byte ECDSA signature).');
+    if(st.a!=='cert'){add('ECU','7F 29 24','NRC 0x24 requestSequenceError: no verified certificate and challenge to prove.','neg');return}
+    if(sc==='key'){add('ECU','7F 29 58','NRC 0x58: ownership verification failed. The certificate is genuine (it could have been copied), but the signature was not made with its private key.','neg');st={a:'none',role:null}}
+    else{add('ECU','69 03 12 00 00','Return 0x12: ownership verified, authentication complete. Rights now follow the role in the certificate.','pos');st.a='auth'}
+    state()};
+  $('#au-de').onclick=()=>{add('Tester','29 00','deAuthenticate.');add('ECU','69 00 10','Return 0x10: de-authentication successful; back to default rights.','pos');st={a:'none',role:null};state()};
+  reset();
+}
+
+/* ---------- Fig 10.5 chain of trust ---------- */
+if($('#dg-boot')){
+  let s='';
+  s+=B(20,40,150,62,'Boot ROM','immutable · in silicon','acc');
+  s+=B(220,40,150,62,'Bootloader','signed by OEM');
+  s+=B(420,40,150,62,'Application','signed by OEM');
+  s+=B(600,40,110,62,'Running','vehicle function','acc');
+  s+=P('M170 71 H218','flow','marker-end="url(#ahs)"')+T(194,60,'verify','lbl','middle');
+  s+=P('M370 71 H418','flow','marker-end="url(#ahs)"')+T(394,60,'verify','lbl','middle');
+  s+=P('M570 71 H598','flow','marker-end="url(#ahs)"');
+  s+=B(220,150,350,58,'HSM','OEM public key · version counter · signature check','hv');
+  s+=P('M295 148 V104','wire','marker-end="url(#ah)" marker-start="url(#ah)"')+P('M495 148 V104','wire','marker-end="url(#ah)" marker-start="url(#ah)"');
+  s+=B(20,150,150,58,'Check fails','stay in bootloader|safe state · log event','');
+  s+=P('M95 104 V148','wire','marker-end="url(#ah)"');
+  s+=T(20,24,'Each stage verifies the next before starting it; the root of trust cannot be modified','lbl');
+  mount('dg-boot',730,222,s,'Secure boot chain of trust');
+}
 })();
 </script>
 
