@@ -1,0 +1,1736 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Vaishak Rajeev&#39;s Guide to Automotive Electronics</title><meta name="description" content="Interactive guide to automotive electronics: IC engines, EVs and hybrids, ECUs, sensors, the vehicle electrical system, in-vehicle networks, V-model and ISO 26262, cybersecurity and engineering calculators."><meta name="author" content="Vaishak Rajeev"><meta property="og:title" content="Vaishak Rajeev&#39;s Guide to Automotive Electronics"><meta property="og:description" content="Diagrams, simulations and calculators for students and working engineers."><link rel="icon" href="favicon.svg" type="image/svg+xml"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: engineering-notebook — fixed chapter rail on the left, a single reading column with figure panels (Fig. n.m) for diagrams and simulations */
+:root{
+  --paper:#edf0f3; --sheet:#fafbfc; --ink:#15202b; --ink-2:#4d5b69; --rule:#cfd6dd; --rule-2:#97a4b0;
+  --accent:#0b6b73; --accent-soft:#dbebed; --on-accent:#ffffff;
+  --signal:#d4520e; --signal-soft:#fbe7dc; --lv:#1f6fbf; --violet:#6a3fd1;
+  --good:#2b7a3b; --good-soft:#e0f0e3; --bad:#bf322b; --bad-soft:#f8e1df; --warn:#a86400; --warn-soft:#fbefd9;
+  --f-disp:"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#10171e; --sheet:#17212b; --ink:#e2e8ee; --ink-2:#9aa9b7; --rule:#2b3947; --rule-2:#526476;
+  --accent:#45b9c1; --accent-soft:#15343a; --on-accent:#0b1a1d;
+  --signal:#ff8a47; --signal-soft:#3a2418; --lv:#5aa5f0; --violet:#a28bf5;
+  --good:#5ccf73; --good-soft:#173322; --bad:#ff7b72; --bad-soft:#3a1d1c; --warn:#f0b54a; --warn-soft:#3a2d14; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#10171e; --sheet:#17212b; --ink:#e2e8ee; --ink-2:#9aa9b7; --rule:#2b3947; --rule-2:#526476;
+  --accent:#45b9c1; --accent-soft:#15343a; --on-accent:#0b1a1d;
+  --signal:#ff8a47; --signal-soft:#3a2418; --lv:#5aa5f0; --violet:#a28bf5;
+  --good:#5ccf73; --good-soft:#173322; --bad:#ff7b72; --bad-soft:#3a1d1c; --warn:#f0b54a; --warn-soft:#3a2d14; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15.5px/1.62 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px;border-radius:4px}
+.shell{display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px;max-width:1300px;margin:0 auto}
+
+/* Rail */
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow:auto;padding-block:28px 24px;display:flex;flex-direction:column;gap:28px}
+.brand{text-decoration:none;color:var(--ink);display:block}
+.brand .by{display:block;font:500 11px/1.2 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.brand .nm{display:block;font:700 30px/.95 var(--f-disp);text-transform:uppercase;letter-spacing:.005em}
+.brand .nm em{font-style:normal;color:var(--accent)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:grid;grid-template-columns:28px 1fr;align-items:baseline;padding:7px 10px;border-radius:6px;text-decoration:none;color:var(--ink-2);font-weight:500;font-size:14.5px}
+.nav a .n{font:500 11.5px var(--f-mono);color:var(--rule-2)}
+.nav a:hover{color:var(--ink);background:var(--sheet)}
+.nav a[aria-current="page"]{background:var(--accent-soft);color:var(--ink)}
+.nav a[aria-current="page"] .n{color:var(--accent)}
+.side .foot{margin-top:auto;font:12px/1.5 var(--f-mono);color:var(--ink-2)}
+
+main{padding-block:32px 96px;min-width:0}
+.view{max-width:980px}
+
+/* Type */
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+h1,h2{font-family:var(--f-disp);text-transform:uppercase;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-weight:700;font-size:clamp(40px,6vw,62px);line-height:.95}
+h2{font-weight:600;font-size:28px;line-height:1.05;margin-top:56px;margin-bottom:14px}
+h3{font-size:16.5px;font-weight:600;margin:28px 0 8px;text-wrap:balance}
+p{margin:0 0 12px;max-width:68ch}
+.lede{font-size:18px;color:var(--ink-2);max-width:62ch;margin-top:16px}
+ul.plain{margin:0 0 12px;padding-left:20px;max-width:68ch}
+ul.plain li{margin:4px 0}
+code,.mono{font-family:var(--f-mono);font-size:.9em}
+code{background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+.muted{color:var(--ink-2)}
+.small{font-size:13px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 32px}
+.cols > *{min-width:0}
+
+/* Figures */
+.fig{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;margin:22px 0 26px;overflow:hidden}
+.fig-h{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding:12px 16px;border-bottom:1px solid var(--rule)}
+.fig-h .cap{font:500 12.5px/1.3 var(--f-mono);color:var(--ink-2)}
+.fig-h .cap b{color:var(--ink);font-weight:600}
+.fig-b{padding:18px 16px}
+.fig-f{padding:10px 16px 14px;border-top:1px dashed var(--rule);font-size:13.5px;color:var(--ink-2)}
+.scroll{overflow-x:auto}
+.scroll > svg{min-width:640px}
+svg.dg{width:100%;height:auto;display:block}
+
+/* Controls */
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font:500 12.5px/1 var(--f-mono);border:1px solid var(--rule-2);background:var(--paper);color:var(--ink);padding:8px 12px;border-radius:6px;cursor:pointer}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.pri:hover{color:var(--on-accent);filter:brightness(1.08)}
+.btn.warn{border-color:var(--bad);color:var(--bad)}
+.seg{display:inline-flex;border:1px solid var(--rule-2);border-radius:7px;overflow:hidden}
+.seg button{font:500 12.5px/1 var(--f-mono);border:0;background:var(--paper);color:var(--ink-2);padding:8px 12px;cursor:pointer;border-right:1px solid var(--rule)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+label.rng{display:flex;align-items:center;gap:8px;font:12.5px var(--f-mono);color:var(--ink-2)}
+input[type=range]{accent-color:var(--accent);width:130px}
+select,input[type=number],input[type=text]{font:14px var(--f-mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule-2);border-radius:6px;padding:6px 8px;width:100%;min-width:0}
+.chip{display:inline-block;font:600 11.5px/1 var(--f-mono);padding:5px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);letter-spacing:.03em}
+.chip.good{background:var(--good-soft);color:var(--good)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.sig{background:var(--signal-soft);color:var(--signal)}
+
+/* Tables */
+.tbl{overflow-x:auto;margin:14px 0 22px;border:1px solid var(--rule);border-radius:10px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font:600 11px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2);background:var(--paper);white-space:nowrap}
+td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:13px}
+
+/* SVG diagram vocabulary */
+.dg text{font-family:var(--f-body);fill:var(--ink);font-size:12px}
+.dg .t{font-weight:600;font-size:12.5px}
+.dg .s{fill:var(--ink-2);font-size:11px}
+.dg .lbl{font:500 10.5px var(--f-mono);fill:var(--ink-2);letter-spacing:.06em}
+.dg .blk{fill:var(--sheet);stroke:var(--ink);stroke-width:1.2}
+.dg .blk.acc{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+.dg .blk.hv{fill:var(--signal-soft);stroke:var(--signal);stroke-width:1.5}
+.dg .blk.sel{stroke:var(--signal);stroke-width:2.4}
+.dg .grp{fill:none;stroke:var(--rule-2);stroke-dasharray:4 4;stroke-width:1}
+.dg .wire{stroke:var(--rule-2);stroke-width:1.6;fill:none}
+.dg .bus{stroke:var(--ink);stroke-width:3;fill:none}
+.dg .can{stroke:var(--accent);stroke-width:1.4;stroke-dasharray:3 4;fill:none}
+.dg .flow{stroke:var(--signal);stroke-width:2.6;fill:none;stroke-dasharray:7 7;animation:flow .9s linear infinite}
+.dg .flow.rev{animation-direction:reverse;stroke:var(--good)}
+.dg .flow.off{opacity:0}
+.dg .ah{fill:var(--rule-2)} .dg .ahs{fill:var(--signal)}
+@keyframes flow{to{stroke-dashoffset:-14}}
+.vstage{cursor:pointer}
+.vstage:hover rect{stroke:var(--signal)}
+
+/* Home */
+.hero{padding-top:12px}
+.hero .by{font:500 13px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:14px}
+.hero h1{font-size:clamp(48px,8.5vw,96px);line-height:.88}
+.hero h1 span{color:var(--accent)}
+.wave{margin-top:28px}
+.wave .scan{animation:scan 6s linear infinite}
+@keyframes scan{from{transform:translateX(0)}to{transform:translateX(650px)}}
+.idx{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-top:20px}
+.idx a{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:16px 16px 14px;min-width:0}
+.idx a:hover{border-color:var(--accent)}
+.idx .n{font:500 11.5px var(--f-mono);color:var(--accent);letter-spacing:.1em}
+.idx .tt{font:600 22px/1.05 var(--f-disp);text-transform:uppercase}
+.idx .d{font-size:13.5px;color:var(--ink-2)}
+.idx .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.idx .tags span{font:500 10.5px var(--f-mono);color:var(--ink-2);border:1px solid var(--rule);border-radius:4px;padding:2px 6px}
+
+/* Revision box */
+.revise{margin-top:56px;border-top:3px solid var(--ink);padding-top:14px}
+.revise h2{margin-top:0;font-size:22px}
+.revise ol{padding-left:22px;max-width:70ch;margin:8px 0 0}
+.revise li{margin:6px 0}
+
+/* Engine & PMSM */
+.engine-wrap{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px;align-items:start}
+.engine-wrap canvas{width:100%;max-width:340px;aspect-ratio:340/400;height:auto;display:block}
+.strokes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:4px 0 14px}
+.strokes div{border:1px solid var(--rule);border-radius:6px;padding:8px;font-size:12.5px;color:var(--ink-2);min-width:0}
+.strokes div b{display:block;font:600 15px var(--f-disp);text-transform:uppercase;color:var(--ink)}
+.strokes div.on{border-color:var(--signal);background:var(--signal-soft)}
+.readout{font:500 13px var(--f-mono);color:var(--ink-2);display:flex;gap:18px;flex-wrap:wrap}
+.readout b{color:var(--ink)}
+#pmsm{width:100%;height:auto;display:block;aspect-ratio:700/270}
+
+/* ECU catalogue */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.ecugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.ecu{border:1px solid var(--rule);background:var(--paper);border-radius:8px;padding:10px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;min-width:0}
+.ecu b{display:block;font:600 13px var(--f-mono)}
+.ecu span{display:block;font-size:12.5px;color:var(--ink-2);line-height:1.35;margin-top:2px}
+.ecu:hover{border-color:var(--accent)}
+.ecu[aria-pressed="true"]{border-color:var(--signal);background:var(--signal-soft)}
+.ecu-detail{margin-top:16px;border-top:1px dashed var(--rule);padding-top:16px}
+.io{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center;margin:12px 0}
+.io .col{display:flex;flex-direction:column;gap:6px;min-width:0}
+.io .col span{border:1px solid var(--rule-2);border-radius:6px;padding:6px 9px;font-size:13px;background:var(--sheet)}
+.io .core{border:2px solid var(--accent);background:var(--accent-soft);border-radius:8px;padding:14px 12px;text-align:center;font:600 14px var(--f-mono);min-width:110px}
+.io .core small{display:block;font:400 11.5px var(--f-body);color:var(--ink-2);margin-top:4px}
+.io .arr{font:16px var(--f-mono);color:var(--signal)}
+.io-wrap{display:grid;grid-template-columns:minmax(0,1fr) 22px minmax(110px,auto) 22px minmax(0,1fr);gap:8px;align-items:center}
+.io-wrap .arr{text-align:center;color:var(--signal);font:600 18px var(--f-mono)}
+.io-h{font:500 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13.5px;color:var(--ink-2)}
+.meta b{color:var(--ink)}
+
+/* AUTOSAR stack */
+.stack{display:grid;gap:6px;font-size:13.5px}
+.stack > div{border:1px solid var(--rule-2);border-radius:6px;padding:10px 12px;background:var(--paper);min-width:0}
+.stack .app{background:var(--accent-soft);border-color:var(--accent)}
+.stack .rte{background:var(--ink);color:var(--paper);border-color:var(--ink);text-align:center;font:600 13px var(--f-mono)}
+.stack .bsw{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:6px;background:transparent;border-style:dashed}
+.stack .bsw > div{border:1px solid var(--rule-2);border-radius:5px;padding:8px;background:var(--sheet);min-width:0}
+.stack .bsw .cdd{grid-row:span 3}
+.stack .mc{background:var(--signal-soft);border-color:var(--signal)}
+.stack b{font-weight:600}
+.stack .hw{text-align:center;font:600 12.5px var(--f-mono);background:var(--paper)}
+
+/* CAN */
+.frame{display:flex;min-width:680px;border:1px solid var(--ink);border-radius:6px;overflow:hidden;font:500 11px var(--f-mono)}
+.frame div{padding:8px 4px;text-align:center;border-right:1px solid var(--ink);min-width:28px;line-height:1.3}
+.frame div:last-child{border-right:0}
+.frame div small{display:block;color:var(--ink-2);font-size:10px}
+.frame .arb{background:var(--accent-soft)} .frame .ctl{background:var(--paper)} .frame .dat{background:var(--signal-soft)} .frame .crc{background:var(--sheet)}
+.can-nodes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.can-nodes label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2)}
+.bits{border-collapse:collapse;font:500 12.5px var(--f-mono);width:100%;min-width:560px}
+.bits th,.bits td{border:1px solid var(--rule);text-align:center;padding:6px 2px;white-space:nowrap}
+.bits th{background:var(--paper);font-size:10.5px;letter-spacing:0;text-transform:none}
+.bits td.nm{text-align:left;padding-left:8px;font-weight:600}
+.bits td.d{background:var(--ink);color:var(--paper)}
+.bits td.r{background:var(--sheet)}
+.bits td.lost{background:var(--bad-soft);color:var(--bad)}
+.bits td.gone{color:var(--rule-2)}
+.bits td.cur{outline:2px solid var(--signal);outline-offset:-2px}
+.bits tr.busrow td{font-weight:700}
+.status{margin-top:12px;font-size:14px;min-height:1.6em}
+
+/* Calculators */
+.calcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;margin-top:18px}
+.calc{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;display:flex;flex-direction:column;min-width:0}
+.calc header{padding:14px 16px 10px;border-bottom:1px solid var(--rule)}
+.calc header .tag{font:500 10.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.calc header h3{margin:4px 0 0;font:600 21px/1.05 var(--f-disp);text-transform:uppercase}
+.calc .ins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px;padding:14px 16px}
+.calc .ins label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2);min-width:0}
+.calc .ins label i{font-style:normal;font-family:var(--f-mono);font-size:11px}
+.calc .outs{padding:10px 16px 14px;border-top:1px dashed var(--rule);display:grid;gap:2px}
+.calc .outs div{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:3px 0;border-bottom:1px dotted var(--rule)}
+.calc .outs div:last-child{border-bottom:0}
+.calc .outs b{font:600 14px var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.calc .outs .key b{color:var(--accent);font-size:16px}
+.calc .eq{padding:0 16px 14px;font:12px/1.5 var(--f-mono);color:var(--ink-2)}
+
+/* Process */
+.vdetail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 28px;margin-top:6px}
+.vdetail h3{margin-top:0;grid-column:1/-1}
+.xil{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.xil div{border:1px solid var(--rule-2);border-radius:6px;padding:10px;font-size:13px;background:var(--sheet);min-width:0}
+.xil div b{display:block;font:600 16px var(--f-disp);text-transform:uppercase}
+.asil-in{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.asil-in label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2)}
+.asil-out{display:flex;align-items:center;gap:16px;margin:16px 0 6px;flex-wrap:wrap}
+.badge{font:700 40px/1 var(--f-disp);padding:8px 16px;border-radius:8px;border:2px solid currentColor;min-width:96px;text-align:center}
+.asil-t td,.asil-t th{text-align:center;font-family:var(--f-mono);font-size:12.5px;padding:6px}
+.asil-t td.hit{outline:2px solid var(--signal);outline-offset:-2px;background:var(--signal-soft);font-weight:700}
+
+/* Security */
+.layers{display:grid;gap:8px}
+.layers > div{display:grid;grid-template-columns:200px minmax(0,1fr);gap:14px;align-items:start;border:1px solid var(--rule);border-radius:8px;padding:12px 14px;background:var(--sheet)}
+.layers > div:nth-child(1){margin-inline:0}
+.layers > div:nth-child(2){margin-inline:14px}
+.layers > div:nth-child(3){margin-inline:28px}
+.layers > div:nth-child(4){margin-inline:42px;border-color:var(--accent)}
+.layers > div:nth-child(5){margin-inline:56px;border-color:var(--signal);background:var(--signal-soft)}
+.layers b{font:600 17px/1.1 var(--f-disp);text-transform:uppercase}
+.layers .ms{display:flex;flex-wrap:wrap;gap:6px}
+.layers .ms span{font-size:12.5px;border:1px solid var(--rule-2);border-radius:4px;padding:2px 7px;background:var(--paper)}
+.flowlist{counter-reset:s;list-style:none;padding:0;margin:12px 0;display:grid;gap:6px;max-width:none}
+.flowlist li{counter-increment:s;display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px dotted var(--rule)}
+.flowlist li::before{content:counter(s,decimal-leading-zero);font:600 13px var(--f-mono);color:var(--accent)}
+.log{font:12.5px/1.45 var(--f-mono);max-height:300px;overflow:auto;border:1px solid var(--rule);border-radius:8px;background:var(--paper)}
+.log div{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;padding:7px 10px;border-bottom:1px solid var(--rule)}
+.log div:last-child{border-bottom:0}
+.log .who{font-weight:600}
+.log .req .who{color:var(--accent)} .log .res .who{color:var(--signal)}
+.log .bytes{font-weight:600}
+.log .why{color:var(--ink-2);font-family:var(--f-body);font-size:12.5px}
+.log .neg .bytes{color:var(--bad)}
+.log .pos .bytes{color:var(--good)}
+.log .empty{display:block;color:var(--ink-2);font-family:var(--f-body)}
+.state{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+.pdu{display:flex;flex-wrap:wrap;gap:4px;font:500 12.5px var(--f-mono);margin:10px 0}
+.pdu span{padding:6px 9px;border-radius:5px;border:1px solid var(--rule-2)}
+.pdu .id{background:var(--paper)} .pdu .pl{background:var(--signal-soft);border-color:var(--signal)} .pdu .fv{background:var(--accent-soft);border-color:var(--accent)} .pdu .mac{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.matrix td,.matrix th{text-align:center;font-family:var(--f-mono)}
+.matrix td.hit{outline:2px solid var(--signal);outline-offset:-2px;font-weight:700;background:var(--signal-soft)}
+.feas{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 14px}
+.feas label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2)}
+
+@media (max-width: 920px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0}
+  .side{position:sticky;height:auto;padding-block:12px 10px;gap:10px;background:var(--paper);z-index:5;border-bottom:1px solid var(--rule);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .brand .nm{font-size:21px}
+  .brand .by{font-size:10px;margin-bottom:3px}
+  .nav{flex-direction:row;overflow-x:auto;gap:4px;scrollbar-width:none}
+  .nav a{display:flex;gap:6px;white-space:nowrap;padding:6px 10px;font-size:13.5px}
+  .side .foot{display:none}
+  main{padding-top:24px}
+  .engine-wrap{grid-template-columns:minmax(0,1fr)}
+  .engine-wrap canvas{margin:0 auto}
+}
+@media (max-width: 600px){
+  .calc .ins{grid-template-columns:minmax(0,1fr)}
+  .can-nodes,.asil-in{grid-template-columns:minmax(0,1fr)}
+  .strokes{grid-template-columns:repeat(2,1fr)}
+  .vdetail{grid-template-columns:minmax(0,1fr)}
+  .xil{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .layers > div{grid-template-columns:minmax(0,1fr);margin-inline:0!important}
+  .stack .bsw{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .stack .bsw .cdd{grid-row:auto;grid-column:1/-1}
+  .io-wrap{grid-template-columns:minmax(0,1fr)}
+  .io-wrap .arr{transform:rotate(90deg)}
+  h2{margin-top:44px}
+}
+@media (prefers-reduced-motion: reduce){
+  .dg .flow,.wave .scan{animation:none}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah" style="fill:var(--rule-2)"/></marker>
+    <marker id="ahs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--signal)"/></marker>
+  </defs>
+</svg>
+
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="#home"><span class="by">Vaishak Rajeev's</span><span class="nm">Guide to <em>Automotive</em> Electronics</span></a>
+    <nav class="nav" aria-label="Chapters">
+      <a href="#home"><span class="n">00</span>Overview</a>
+      <a href="#ice"><span class="n">01</span>IC engine vehicles</a>
+      <a href="#ev"><span class="n">02</span>Electric vehicles</a>
+      <a href="#ecus"><span class="n">03</span>Electronic control units</a>
+      <a href="#sensors"><span class="n">04</span>Sensors &amp; actuators</a>
+      <a href="#power"><span class="n">05</span>Vehicle electrical system</a>
+      <a href="#networks"><span class="n">06</span>Networks &amp; diagnostics</a>
+      <a href="#process"><span class="n">07</span>Development process</a>
+      <a href="#security"><span class="n">08</span>Cybersecurity</a>
+      <a href="#tools"><span class="n">09</span>Engineering calculators</a>
+    </nav>
+    <div class="foot">For students and working engineers.<br>Revised Nov 2026.</div>
+  </aside>
+
+  <main>
+<!-- ============ HOME ============ -->
+<section class="view" id="home">
+  <div class="hero">
+    <span class="by">Vaishak Rajeev's</span>
+    <h1>Guide to <span>Automotive</span> Electronics</h1>
+    <p class="lede">How a modern vehicle senses, decides and acts: engines and electric drives, the ECUs that run them, the networks that connect them, the processes used to develop them, and the security that protects them. Each chapter pairs a plain explanation with a diagram you can read at a glance and a simulation you can operate.</p>
+  </div>
+  <figure class="fig wave" style="margin-top:28px">
+    <div class="fig-h"><span class="cap"><b>Fig. 0.1</b> · A classic CAN frame on the wire: ID 0x1A4, 1 data byte (bit stuffing omitted)</span></div>
+    <div class="fig-b scroll"><div id="dg-wave"></div></div>
+  </figure>
+  <h2>Chapters</h2>
+  <div class="idx">
+    <a href="#ice"><span class="n">CHAPTER 01</span><span class="tt">IC engine vehicles</span><span class="d">Four-stroke cycle, engine management, fuel and spark control, lambda.</span><span class="tags"><span>animation</span><span>block diagram</span></span></a>
+    <a href="#ev"><span class="n">CHAPTER 02</span><span class="tt">Electric vehicles</span><span class="d">HV powertrain, power flow, hybrid topologies, regen and charging, PMSM and FOC, BMS.</span><span class="tags"><span>power-flow sim</span><span>rotating field</span></span></a>
+    <a href="#ecus"><span class="n">CHAPTER 03</span><span class="tt">Electronic control units</span><span class="d">Every major ECU by domain, its inputs and outputs, ECU hardware and AUTOSAR.</span><span class="tags"><span>ECU explorer</span><span>block diagram</span></span></a>
+    <a href="#sensors"><span class="n">CHAPTER 04</span><span class="tt">Sensors &amp; actuators</span><span class="d">Integration levels, wheel-speed and lambda sensors, MEMS, ADAS sensors, power stages and by-wire actuators.</span><span class="tags"><span>wheel-speed sim</span><span>lambda curves</span></span></a>
+    <a href="#power"><span class="n">CHAPTER 05</span><span class="tt">Vehicle electrical system</span><span class="d">Battery, alternator, starter, energy management, terminal designations, 48 V and zonal power.</span><span class="tags"><span>charge-balance sim</span><span>starter circuit</span></span></a>
+    <a href="#networks"><span class="n">CHAPTER 06</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, LIN, FlexRay, Ethernet, gateways, UDS and DoIP.</span><span class="tags"><span>CAN arbitration sim</span></span></a>
+    <a href="#process"><span class="n">CHAPTER 07</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
+    <a href="#security"><span class="n">CHAPTER 08</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, TARA, secure diagnostics and SecOC.</span><span class="tags"><span>0x27 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
+    <a href="#tools"><span class="n">CHAPTER 09</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge.</span><span class="tags"><span>9 calculators</span></span></a>
+  </div>
+  <h2>How to use this guide</h2>
+  <div class="cols">
+    <p><b>Students</b> can read each chapter top to bottom. Concepts build on each other: the engine and the motor come first, then the controllers that run them, then the networks between those controllers.</p>
+    <p><b>Engineers</b> can jump to a figure or a calculator. Every chapter ends with a <i>Revise in 60 seconds</i> list: the facts worth keeping in your head before a review or an interview.</p>
+    <p><b>Sources.</b> Concepts and diagram structure follow the Bosch reference <i>Automotive Electrics and Automotive Electronics</i> (5th ed.). Every diagram is redrawn for this site, and each chapter adds what has changed since that edition: zonal architectures, 48 V, automotive Ethernet, 4D radar, and the cybersecurity regulations. Page references are given at the top of each chapter.</p>
+  </div>
+</section>
+
+<!-- ============ ICE ============ -->
+<section class="view" id="ice" hidden>
+  <p class="eyebrow">Chapter 01</p>
+  <h1>IC engine vehicles</h1>
+  <p class="lede">An internal combustion engine turns the chemical energy in fuel into crankshaft torque. The electronics decide how much air and fuel enter each cylinder, when the spark fires, and how the exhaust is cleaned.</p>
+  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 13–31 (Motronic, EDC) and pp. 310–353 (engine sensors). Updated for 2026.</p>
+
+  <h2>The four-stroke cycle</h2>
+  <p>One complete cycle takes two crankshaft revolutions (720°). Each cylinder fires once per cycle, so a four-cylinder engine fires every 180° of crank rotation.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 1.1</b> · Four-stroke spark-ignition engine</span>
+      <div class="ctrls"><button class="btn pri" id="eng-play">Pause</button><button class="btn" id="eng-step">Step 10°</button><label class="rng" for="eng-spd">Speed <input type="range" id="eng-spd" min="0.2" max="4" step="0.1" value="1.2"></label></div></div>
+    <div class="fig-b">
+      <div class="engine-wrap">
+        <canvas id="engine" width="340" height="400" aria-label="Animated cylinder, piston, valves and crankshaft"></canvas>
+        <div>
+          <div class="readout"><span>Crank angle <b id="eng-ang">0°</b></span><span>Stroke <b id="eng-phase">Intake</b></span></div>
+          <div class="strokes" id="eng-strokes">
+            <div data-p="0"><b>Intake</b>0–180°. Intake valve open, piston moves down, air (and fuel in port injection) is drawn in.</div>
+            <div data-p="1"><b>Compression</b>180–360°. Both valves closed, charge compressed about 10:1 in petrol engines.</div>
+            <div data-p="2"><b>Power</b>360–540°. Spark fires just before TDC; burning gas pushes the piston down.</div>
+            <div data-p="3"><b>Exhaust</b>540–720°. Exhaust valve open, piston pushes burnt gas out to the catalyst.</div>
+          </div>
+          <p class="small muted">The ECM sees this motion through the crankshaft sensor (a 60-2 tooth wheel gives angle and TDC reference) and the camshaft sensor (tells compression TDC from exhaust TDC). Without both it cannot time injection or spark.</p>
+        </div>
+      </div>
+    </div>
+  </figure>
+
+  <h2>Engine management system</h2>
+  <p>The Engine Control Module (ECM) runs a sense–compute–actuate loop every few milliseconds, synchronised to crank angle. It reads air mass, speed and temperatures, looks up calibration maps, applies closed-loop corrections and drives power stages.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 1.2</b> · ECM block diagram: sensors → processing → actuators</span></div>
+    <div class="fig-b scroll"><div id="dg-ems"></div></div>
+    <div class="fig-f">Arrows animate in the direction of signal flow. The ECM also shares torque, speed and fault status on CAN with the transmission, ESC and instrument cluster.</div>
+  </figure>
+
+  <div class="cols">
+    <div><h3>Fuel control</h3><p>Base injector pulse width comes from air mass per cylinder divided by the target air–fuel ratio. Corrections are added for cold start, transients, battery voltage (injector dead time) and the lambda feedback trim.</p></div>
+    <div><h3>Spark control</h3><p>Ignition advance comes from a map indexed by speed and load, giving peak cylinder pressure around 10–15° after TDC. The knock controller retards individual cylinders when the knock sensor detects detonation.</p></div>
+    <div><h3>Air control</h3><p>With drive-by-wire, the pedal is only a request. The ECM converts it to a torque demand and positions the throttle plate with an H-bridge motor, checked by two redundant position sensors.</p></div>
+    <div><h3>Emissions</h3><p>A three-way catalyst converts CO, HC and NOx together only in a narrow window around λ = 1. The upstream lambda sensor closes the fuel loop; the downstream sensor monitors catalyst health for OBD.</p></div>
+  </div>
+
+  <h3>Lambda in one line</h3>
+  <p><code>λ = actual AFR ÷ stoichiometric AFR</code>. Stoichiometric AFR is 14.7:1 for petrol, about 14.5:1 for diesel and 17.2:1 for CNG. λ &lt; 1 is rich (excess fuel), λ &gt; 1 is lean (excess air). Use the calculator in Chapter 09 to convert.</p>
+
+  <h2>Petrol vs diesel electronics</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Aspect</th><th>Petrol (SI)</th><th>Diesel (CI)</th></tr></thead>
+    <tbody>
+      <tr><td>Ignition</td><td>Spark plug, ignition coil per cylinder</td><td>Compression heat; glow plugs for cold start</td></tr>
+      <tr><td>Load control</td><td>Throttle controls air; mixture held near λ = 1</td><td>Fuel quantity controls torque; runs lean (λ &gt; 1)</td></tr>
+      <tr><td>Injection</td><td>Port injection ~3–5 bar, GDI ~200–350 bar</td><td>Common rail ~1,600–2,500 bar, multiple injections per cycle</td></tr>
+      <tr><td>Aftertreatment</td><td>Three-way catalyst, gasoline particulate filter on GDI</td><td>DOC, DPF, SCR with urea (AdBlue) dosing</td></tr>
+      <tr><td>Extra sensors</td><td>Knock sensors, upstream/downstream lambda</td><td>Rail pressure, DPF differential pressure, NOx sensors, EGT</td></tr>
+    </tbody></table></div>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>Four-stroke cycle = 720° crank; one power stroke per cylinder per cycle.</li>
+    <li>Crank sensor gives speed and angle; cam sensor identifies the compression stroke.</li>
+    <li>Fuel mass = air mass ÷ target AFR, then corrected by lambda feedback.</li>
+    <li>Spark advance comes from an rpm × load map; knock control retards it.</li>
+    <li>TWC needs λ ≈ 1. Diesel runs lean and needs DPF + SCR instead.</li>
+    <li>Electronic throttle: pedal → torque request → throttle position, with redundant sensors (safety relevant).</li>
+  </ol></div>
+</section>
+
+<!-- ============ EV ============ -->
+<section class="view" id="ev" hidden>
+  <p class="eyebrow">Chapter 02</p>
+  <h1>Electric vehicles</h1>
+  <p class="lede">An EV replaces the engine, fuel system and most of the gearbox with a high-voltage battery, an inverter and an electric motor. The electronics now manage energy in both directions: out of the battery to drive, and back into it during braking and charging.</p>
+  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 360–383 (electrical machines, hybrid drives). BEV, 800 V and charging-standard content is newer than the book.</p>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Type</th><th>Energy source</th><th>Electric drive</th><th>Plug-in</th></tr></thead>
+    <tbody>
+      <tr><td><b>HEV</b> (hybrid)</td><td>Fuel; small battery charged by engine and regen</td><td>Assists or drives at low speed</td><td>No</td></tr>
+      <tr><td><b>PHEV</b> (plug-in hybrid)</td><td>Fuel + medium battery</td><td>Drives tens of km on electricity</td><td>Yes</td></tr>
+      <tr><td><b>BEV</b> (battery electric)</td><td>Battery only</td><td>Only propulsion</td><td>Yes</td></tr>
+      <tr><td><b>FCEV</b> (fuel cell)</td><td>Hydrogen → fuel cell stack + buffer battery</td><td>Only propulsion</td><td>No (refuel H₂)</td></tr>
+    </tbody></table></div>
+
+  <h2>BEV powertrain and power flow</h2>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 2.1</b> · BEV high-voltage architecture</span>
+      <div class="seg" id="ev-mode" role="group" aria-label="Operating mode">
+        <button aria-pressed="true" data-m="drive">Drive</button><button aria-pressed="false" data-m="regen">Regen</button><button aria-pressed="false" data-m="ac">AC charge</button><button aria-pressed="false" data-m="dc">DC fast charge</button>
+      </div></div>
+    <div class="fig-b scroll"><div id="dg-ev"></div></div>
+    <div class="fig-f" id="ev-desc"></div>
+  </figure>
+
+  <div class="cols">
+    <div><h3>VCU</h3><p>The vehicle control unit interprets the pedal, gear selector and brake, and decides how much torque to request from the inverter. It also blends regen with friction braking (with the ESC) and coordinates charging.</p></div>
+    <div><h3>PDU and precharge</h3><p>Contactors connect the pack to the HV bus. The inverter's DC-link capacitor is first charged through a precharge resistor, otherwise closing the main contactor would cause an inrush that welds its contacts.</p></div>
+    <div><h3>Inverter</h3><p>Six power switches (IGBT or SiC MOSFET) chop the DC bus into three-phase AC with PWM at roughly 8–20 kHz. Frequency sets motor speed; current amplitude and phase set torque.</p></div>
+    <div><h3>DC-DC converter</h3><p>Replaces the alternator. It steps the HV bus down to about 14 V to run every low-voltage ECU and recharge the 12 V battery.</p></div>
+  </div>
+
+  <h2>How a PMSM makes torque</h2>
+  <p>Three stator windings sit 120° apart. Feeding them with three sine currents 120° apart in time creates one magnetic field of constant strength that rotates. The permanent-magnet rotor follows that field. Torque depends on the angle between the stator field and the rotor field, called the load angle, and peaks at 90°.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 2.2</b> · Rotating stator field and three-phase currents</span>
+      <div class="ctrls"><label class="rng" for="pm-f">Speed <input type="range" id="pm-f" min="0.1" max="1.5" step="0.05" value="0.4"></label><label class="rng" for="pm-d">Load angle <input type="range" id="pm-d" min="0" max="90" step="1" value="60"></label></div></div>
+    <div class="fig-b"><canvas id="pmsm" width="700" height="270" aria-label="Animated three-phase currents and rotor"></canvas></div>
+    <div class="fig-f">Torque ∝ sin(load angle). Field-oriented control (FOC) keeps this angle at 90° by controlling the current in rotor coordinates: <span class="mono" id="pm-tq"></span></div>
+  </figure>
+  <h3>Field-oriented control in four steps</h3>
+  <ol class="flowlist">
+    <li><span>Measure two phase currents and the rotor angle (resolver or encoder).</span></li>
+    <li><span><b>Clarke</b> transform: three phase currents → two stationary-axis currents (α, β).</span></li>
+    <li><span><b>Park</b> transform: rotate by rotor angle → <i>d</i> (flux) and <i>q</i> (torque) currents. These are DC values that PI controllers can regulate.</span></li>
+    <li><span>Inverse transforms and space-vector PWM produce the switch commands. Above base speed, negative <i>i<sub>d</sub></i> weakens the field so the back-EMF stays below the DC bus voltage.</span></li>
+  </ol>
+
+  <h2>Hybrid drive concepts</h2>
+  <p>A hybrid has two energy sources, fuel and a battery, and at least one electric machine. The book classifies them by how the engine's power reaches the wheels. In a <b>series</b> hybrid the engine only drives a generator and the wheels are driven electrically. In a <b>parallel</b> hybrid engine and motor both drive the wheels mechanically and their torques add. A <b>power-split</b> hybrid uses a planetary gear to send part of the engine power mechanically and part electrically, which works like a continuously variable transmission.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 2.3</b> · Hybrid topologies and power flow</span>
+      <div class="ctrls">
+        <div class="seg" id="hy-t" role="group" aria-label="Topology"><button aria-pressed="false" data-t="series">Series</button><button aria-pressed="true" data-t="parallel">Parallel (P2)</button><button aria-pressed="false" data-t="split">Power-split</button></div>
+        <div class="seg" id="hy-m" role="group" aria-label="Operating mode"><button aria-pressed="true" data-m="ev">Electric</button><button aria-pressed="false" data-m="eng">Engine</button><button aria-pressed="false" data-m="boost">Boost</button><button aria-pressed="false" data-m="regen">Regen</button></div>
+      </div></div>
+    <div class="fig-b scroll"><div id="dg-hy"></div></div>
+    <div class="fig-f" id="hy-desc"></div>
+  </figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Class</th><th>Start/stop</th><th>Regen braking</th><th>Electric boost</th><th>Electric driving</th><th>Typical system (2026)</th></tr></thead>
+    <tbody>
+      <tr><td><b>Micro</b></td><td>✓</td><td>Limited</td><td>–</td><td>–</td><td>12 V, enhanced starter, AGM/EFB battery</td></tr>
+      <tr><td><b>Mild</b></td><td>✓</td><td>✓</td><td>✓</td><td>Very limited</td><td>48 V belt starter-generator (P0), roughly 10–25 kW</td></tr>
+      <tr><td><b>Full (strong)</b></td><td>✓</td><td>✓</td><td>✓</td><td>✓ short range</td><td>200–400 V+, P2 or power-split / dedicated hybrid transmission</td></tr>
+      <tr><td><b>Plug-in</b></td><td>✓</td><td>✓</td><td>✓</td><td>✓ 50–100+ km</td><td>Full hybrid with a larger, grid-chargeable pack</td></tr>
+    </tbody></table></div>
+  <p><b>P0–P4</b> name where the motor sits in a parallel hybrid: P0 on the belt (replaces the alternator), P1 on the crankshaft, P2 between clutch and gearbox, P3 on the gearbox output, P4 on the other axle (electric all-wheel drive). <b>Regenerative braking</b> needs cooperation with the brake system: the brake ECU fills in the friction torque the motor cannot provide (at low speed, a full battery, or during ABS intervention) so the driver feels one consistent pedal. Today's brake-by-wire units do this blending without the driver noticing.</p>
+
+  <h2>Battery and BMS</h2>
+  <p>A pack is cells in series (to raise voltage) and parallel (to raise capacity). A 96S pack of NMC cells sits around 350 V nominal; 800 V platforms use roughly 192S. The BMS keeps every cell inside its safe window.</p>
+  <div class="cols">
+    <ul class="plain">
+      <li><b>Measure:</b> every cell voltage, pack current, module temperatures, insulation resistance.</li>
+      <li><b>Estimate:</b> state of charge (coulomb counting corrected by OCV and Kalman filters), state of health, power limits.</li>
+      <li><b>Protect:</b> open contactors on over/under-voltage, over-current, over-temperature or isolation fault.</li>
+    </ul>
+    <ul class="plain">
+      <li><b>Balance:</b> passive (bleed resistors) or active (move charge) to keep cells matched.</li>
+      <li><b>Thermal:</b> request heating or cooling from the thermal system.</li>
+      <li><b>Communicate:</b> charge/discharge limits to the VCU and the charger.</li>
+    </ul>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Chemistry</th><th class="num">Nominal cell V</th><th>Energy density</th><th>Cycle life</th><th>Thermal stability</th></tr></thead>
+    <tbody>
+      <tr><td>LFP (LiFePO₄)</td><td class="num">3.2</td><td>Lower</td><td>High (3,000+)</td><td>Very good</td></tr>
+      <tr><td>NMC</td><td class="num">3.6–3.7</td><td>High</td><td>Moderate (1,000–2,000)</td><td>Needs tighter control</td></tr>
+      <tr><td>NCA</td><td class="num">3.6</td><td>Very high</td><td>Moderate</td><td>Needs tighter control</td></tr>
+    </tbody></table></div>
+
+  <h2>Charging</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Path</th><th>Converter</th><th>Typical power</th><th>Charger ↔ vehicle communication</th></tr></thead>
+    <tbody>
+      <tr><td>AC (Type 2)</td><td>On-board charger in the car</td><td class="num">3.3–22 kW</td><td>Control pilot PWM (IEC 61851), optionally ISO 15118</td></tr>
+      <tr><td>DC (CCS2)</td><td>Off-board charger; DC goes straight to the pack</td><td class="num">50–350 kW</td><td>PLC over control pilot (DIN 70121 / ISO 15118)</td></tr>
+      <tr><td>DC (CHAdeMO, GB/T)</td><td>Off-board charger</td><td class="num">50–150 kW typical</td><td>CAN</td></tr>
+    </tbody></table></div>
+  <p>Lithium-ion cells charge with <b>constant current</b> until the cell reaches its maximum voltage, then <b>constant voltage</b> while current tapers. That is why 10–80 % is fast and the last 20 % is slow.</p>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>Drive: battery → PDU → inverter → motor → reducer. Regen reverses the flow.</li>
+    <li>AC charging goes through the on-board charger; DC fast charging bypasses it.</li>
+    <li>Precharge prevents inrush into the DC-link capacitor and protects the contactors.</li>
+    <li>Three 120° currents produce one rotating field; torque ∝ sin(load angle).</li>
+    <li>FOC: Clarke → Park → PI on i<sub>d</sub>/i<sub>q</sub> → inverse Park → SVPWM.</li>
+    <li>BMS: measure, estimate SOC/SOH, protect, balance, thermal, communicate.</li>
+    <li>Hybrids: series (engine only generates), parallel (torques add; P0–P4 motor positions), power-split (planetary gear, e-CVT).</li>
+  </ol></div>
+</section>
+
+<!-- ============ ECUs ============ -->
+<section class="view" id="ecus" hidden>
+  <p class="eyebrow">Chapter 03</p>
+  <h1>Electronic control units</h1>
+  <p class="lede">A modern car carries anywhere from 30 to over 100 ECUs. Each one is a small embedded computer that reads inputs, runs control software and drives outputs, and they are grouped into functional domains.</p>
+  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 152–207 (system architecture, mechatronics, electronic components, control units). AUTOSAR and zonal content is newer than the book.</p>
+
+  <h2>ECU explorer</h2>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 3.1</b> · Select a domain, then an ECU to see its block diagram</span></div>
+    <div class="fig-b">
+      <div class="chips" id="ecu-dom" role="group" aria-label="Domain"></div>
+      <div class="ecugrid" id="ecu-grid"></div>
+      <div class="ecu-detail" id="ecu-detail"></div>
+    </div>
+  </figure>
+
+  <h2>Inside an ECU</h2>
+  <p>Almost every ECU follows the same hardware pattern, whether it controls a window or a steering rack. What changes is the size of the microcontroller, the power stages and the safety mechanisms.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 3.2</b> · Generic ECU hardware architecture</span></div>
+    <div class="fig-b scroll"><div id="dg-ecu"></div></div>
+    <div class="fig-f">Safety-relevant ECUs add lockstep CPU cores, ECC memory, an external watchdog or monitoring IC, and an HSM for cryptographic keys. The Infineon AURIX TC3xx family is a typical example.</div>
+  </figure>
+
+  <h2>AUTOSAR Classic software stack</h2>
+  <p>AUTOSAR separates application logic from hardware so the same software component can move between ECUs and suppliers. Application components talk only to the RTE; the basic software (BSW) does the rest.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 3.3</b> · Layered architecture</span></div>
+    <div class="fig-b">
+      <div class="stack">
+        <div class="app"><b>Application layer</b> — Software components (SWCs) with ports and runnables, e.g. torque arbitration, window control</div>
+        <div class="rte">Runtime Environment (RTE) — generated glue between SWCs and BSW</div>
+        <div class="bsw">
+          <div><b>Services</b><br><span class="small muted">OS, COM, DCM (diagnostics), DEM (fault memory), NvM, CryIf/Csm (crypto), SecOC</span></div>
+          <div><b>Communication</b><br><span class="small muted">PduR, CanIf, CanTp, DoIP, SoAd</span></div>
+          <div><b>Memory &amp; I/O</b><br><span class="small muted">MemIf, Fee, IoHwAb</span></div>
+          <div class="cdd"><b>Complex drivers</b><br><span class="small muted">Timing-critical or non-standard hardware: injection, motor control, sensor fusion</span></div>
+          <div><b>ECU abstraction</b><br><span class="small muted">On-board device abstraction, external transceivers, watchdog interface</span></div>
+          <div><b>(continued)</b><br><span class="small muted">Communication HW abstraction</span></div>
+          <div><b>(continued)</b><br><span class="small muted">Memory HW abstraction</span></div>
+          <div class="mc"><b>MCAL</b><br><span class="small muted">Mcu, Port, Dio, Adc, Pwm, Can, Spi, Fls, Wdg</span></div>
+          <div class="mc"><b>MCAL</b><br><span class="small muted">Can, Lin, Eth drivers</span></div>
+          <div class="mc"><b>MCAL</b><br><span class="small muted">Fls, Eep drivers</span></div>
+        </div>
+        <div class="hw">Microcontroller hardware</div>
+      </div>
+    </div>
+    <div class="fig-f">AUTOSAR Adaptive runs on POSIX operating systems for high-performance computers (ADAS, central compute) and communicates with service-oriented SOME/IP rather than fixed signals.</div>
+  </figure>
+
+  <h2>From many ECUs to zones</h2>
+  <p>The industry is moving from one ECU per function (distributed) to domain controllers and now to <b>zonal architecture</b>: a few powerful central computers plus zone controllers that collect the I/O in each physical corner of the car over Ethernet. Benefits are shorter wiring harnesses, less weight and software that can be updated over the air in one place.</p>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>ECU = power supply + input conditioning + MCU + output drivers + transceivers.</li>
+    <li>Domains: powertrain, chassis &amp; safety, body &amp; comfort, ADAS, infotainment &amp; connectivity.</li>
+    <li>ESC, EPS and airbag ECUs are typically ASIL D; infotainment is usually QM.</li>
+    <li>AUTOSAR Classic: SWC → RTE → BSW (services, ECU abstraction, MCAL) + complex drivers.</li>
+    <li>Trend: distributed → domain → zonal + central compute.</li>
+  </ol></div>
+</section>
+
+<!-- ============ SENSORS ============ -->
+<section class="view" id="sensors" hidden>
+  <p class="eyebrow">Chapter 04</p>
+  <h1>Sensors &amp; actuators</h1>
+  <p class="lede">Sensors turn a physical quantity (speed, pressure, oxygen content, yaw rate) into an electrical signal the ECU can use. Actuators do the reverse: they turn the ECU's output into force, motion, flow or heat. Every control function in the car is a loop between the two.</p>
+  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 208–359 (sensor basics, measuring principles, sensor types, actuators). Diagrams redrawn; updated for 2026.</p>
+
+  <h2>Where the intelligence sits</h2>
+  <p>A sensor's raw element produces a tiny, nonlinear, temperature-dependent signal. Somewhere between the element and the ECU's software it has to be amplified, linearised, digitised and checked. The <b>integration level</b> says how much of that work happens inside the sensor housing. The more that moves into the sensor, the more robust the signal on the wire, and the less the ECU has to know about the physics.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 4.1</b> · Sensor integration levels: what is inside the sensor, and what crosses the wire</span>
+      <div class="seg" id="si-lvl" role="group" aria-label="Integration level"><button aria-pressed="false" data-l="0">Conventional</button><button aria-pressed="false" data-l="1">1st level</button><button aria-pressed="true" data-l="2">2nd level</button><button aria-pressed="false" data-l="3">3rd level (smart)</button></div></div>
+    <div class="fig-b scroll"><div id="dg-si"></div></div>
+    <div class="fig-f" id="si-desc"></div>
+  </figure>
+
+  <h2>Wheel-speed sensors: passive vs active</h2>
+  <p>ABS, ESC, traction control and navigation all depend on four wheel-speed signals. A <b>passive (inductive)</b> sensor is a magnet and a coil facing a steel tooth wheel: each passing tooth changes the magnetic flux and induces a voltage. Both amplitude and frequency rise with speed, so at walking pace the signal disappears into noise. An <b>active</b> sensor uses a Hall or magnetoresistive IC that reacts to the field itself, not its rate of change. It outputs a clean two-level current at any speed down to standstill, which is why active sensors have been almost universal since the late 1990s.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 4.2</b> · Output signals at the same wheel speed (48-tooth wheel, 0.30 m tyre radius)</span>
+      <div class="ctrls"><label class="rng" for="ws-v">Speed <input type="range" id="ws-v" min="0" max="200" step="1" value="40"></label><span class="readout"><span>v <b id="ws-vo">40 km/h</b></span><span>f <b id="ws-f">–</b></span></span></div></div>
+    <div class="fig-b scroll"><div id="dg-ws"></div></div>
+    <div class="fig-f" id="ws-desc"></div>
+  </figure>
+
+  <h2>Lambda sensors: two-step vs wide-band</h2>
+  <p>Both types use a zirconium-dioxide ceramic that conducts oxygen ions when hot. A <b>two-step</b> (switching) sensor compares exhaust oxygen with reference air and produces a Nernst voltage that jumps at λ = 1: it can only say "rich" or "lean". A <b>wide-band</b> sensor adds an oxygen pump cell. The control electronics pump oxygen into or out of a tiny diffusion gap to hold it at λ = 1, and the pump current needed is a continuous measure of λ from very rich to pure air. Diesel and lean-burn engines need the wide-band type.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 4.3</b> · Sensor output against excess-air factor λ (illustrative curves)</span>
+      <div class="ctrls"><label class="rng" for="lm-l">λ <input type="range" id="lm-l" min="0.70" max="1.50" step="0.01" value="1.00"></label><span class="readout"><span>Mixture <b id="lm-st">–</b></span></span></div></div>
+    <div class="fig-b scroll"><div id="dg-lm"></div></div>
+    <div class="fig-f">The two-step voltage barely changes on either side of λ = 1, so the fuel loop just oscillates around the switching point. The wide-band pump current is zero at λ = 1, negative when rich and positive when lean, so the ECU can target any λ.</div>
+  </figure>
+
+  <h2>Measuring principles in one table</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Quantity</th><th>Sensor</th><th>Principle</th><th>Where it is used</th></tr></thead>
+    <tbody>
+      <tr><td>Crank speed, angle</td><td>Inductive or Hall on 60-2 wheel</td><td>Flux change / Hall effect</td><td>Injection and ignition timing</td></tr>
+      <tr><td>Camshaft phase</td><td>Hall phase sensor</td><td>Hall effect, static field</td><td>Cylinder identification, VVT</td></tr>
+      <tr><td>Air mass</td><td>Hot-film air-mass meter (HFM)</td><td>Heated film cooled by the flow; heat loss ∝ mass flow</td><td>Fuel quantity, EGR</td></tr>
+      <tr><td>Manifold / brake / rail pressure</td><td>MEMS diaphragm; steel diaphragm for rail</td><td>Piezoresistive strain gauges</td><td>Load, ESC, common rail</td></tr>
+      <tr><td>Yaw rate</td><td>MEMS gyroscope</td><td>Coriolis force on a vibrating mass</td><td>ESC, rollover, navigation</td></tr>
+      <tr><td>Acceleration</td><td>MEMS accelerometer</td><td>Capacitance change of a spring-mass comb</td><td>Airbag, ESC, IMU</td></tr>
+      <tr><td>Knock</td><td>Piezo knock sensor</td><td>Piezoelectric charge from block vibration</td><td>Ignition retard per cylinder</td></tr>
+      <tr><td>Pedal, throttle, steering angle</td><td>Hall, AMR, GMR, TMR</td><td>Magnetic angle sensing, redundant tracks</td><td>Drive-by-wire, EPS, ESC</td></tr>
+      <tr><td>Temperature</td><td>NTC thermistor</td><td>Resistance falls with temperature</td><td>Coolant, intake air, battery cells</td></tr>
+      <tr><td>Exhaust O₂, NOx</td><td>ZrO₂ lambda, NOx sensor</td><td>Nernst cell, pump cell</td><td>Fuel loop, OBD, SCR</td></tr>
+      <tr><td>E-motor rotor angle</td><td>Resolver or inductive position sensor</td><td>Coupled AC windings</td><td>FOC in the inverter</td></tr>
+      <tr><td>HV battery current</td><td>Shunt or Hall current sensor</td><td>Voltage across a known resistance / field around the busbar</td><td>BMS, SOC estimation</td></tr>
+    </tbody></table></div>
+
+  <h2>Then → now: environment sensors</h2>
+  <p>The 2007-era car had one long-range radar for ACC and ultrasonic parking sensors. A 2026 car with Level 2+ assistance fuses data from a full sensor set.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Sensor</th><th>Measures</th><th>Strength</th><th>Weakness</th><th>2026 state</th></tr></thead>
+    <tbody>
+      <tr><td><b>Ultrasonic</b></td><td>Distance, &lt; 5 m</td><td>Cheap, any light</td><td>Short range only</td><td>Parking, low-speed manoeuvring; some OEMs replace with cameras</td></tr>
+      <tr><td><b>Radar (77 GHz)</b></td><td>Range, relative speed (Doppler), angle</td><td>Works in rain, fog, darkness</td><td>Lower angular resolution</td><td><b>4D imaging radar</b> adds elevation and dense point clouds; 8Tx8Rx single-chip transceivers are in mass production</td></tr>
+      <tr><td><b>Camera</b></td><td>Colour image, classification</td><td>Reads signs, lanes, lights</td><td>Glare, darkness, no direct range</td><td>8 MP front cameras; links over SerDes (GMSL, FPD-Link, ASA)</td></tr>
+      <tr><td><b>Lidar</b></td><td>3D point cloud by laser time of flight</td><td>Precise range and shape</td><td>Cost, heavy rain/snow</td><td>Mostly on premium and L3 vehicles</td></tr>
+      <tr><td><b>Interior camera / radar</b></td><td>Driver gaze, occupants, child presence</td><td>Detects drowsiness and distraction</td><td>Privacy design needed</td><td>Driver monitoring required for new EU cars under the General Safety Regulation</td></tr>
+    </tbody></table></div>
+
+  <h2>Actuators and power stages</h2>
+  <div class="cols">
+    <div><h3>Electromagnetic</h3><p>Solenoid valves (injectors, ABS valves, transmission shift valves) and relays. The ECU drives the coil with a low-side switch; a free-wheeling path absorbs the turn-off spike. Peak-and-hold current control opens fast, then holds with less power.</p></div>
+    <div><h3>Piezo</h3><p>Stacked piezo ceramics expand in microseconds when charged. Used in diesel and GDI injectors for several precise injections per cycle. Driven with a high-voltage charge/discharge stage, not a simple switch.</p></div>
+    <div><h3>Electric motors</h3><p>Brushed DC for windows, seats and wipers, driven by H-bridges. Brushless DC/PMSM for pumps, fans, EPS and brake boosters, driven by three-phase bridges with FOC, the same principle as the traction inverter.</p></div>
+    <div><h3>Smart power switches</h3><p>2007: relays and fuses in a central box. 2026: smart high-side switches and <b>eFuses</b> with current sensing, programmable trip curves and diagnostics over SPI, placed in zone controllers. They are the actuators of the power network itself (Chapter 05).</p></div>
+  </div>
+  <p><b>By-wire actuation.</b> Electro-hydraulic brake boosters and integrated brake units already decouple the pedal from braking force, enabling regen blending. Steer-by-wire and electromechanical brakes remove the mechanical or hydraulic fallback entirely, so they need redundant sensors, power supplies and ECUs (ASIL D, fail-operational).</p>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>Integration levels: raw element → + conditioning → + A/D and digital output → smart sensor with bus.</li>
+    <li>Passive wheel-speed sensor: amplitude and frequency ∝ speed, fails near standstill. Active: Hall/MR, 7/14 mA current signal, works at 0 km/h.</li>
+    <li>f<sub>sensor</sub> = teeth × wheel revolutions per second.</li>
+    <li>Two-step lambda jumps at λ = 1 (rich ≈ 0.8 V, lean ≈ 0.1 V); wide-band pump current is continuous through 0 at λ = 1.</li>
+    <li>MEMS: capacitive accelerometers, Coriolis gyros, piezoresistive pressure.</li>
+    <li>ADAS sensor set: ultrasonic, 77 GHz radar (now 4D imaging), camera, lidar, interior monitoring.</li>
+  </ol></div>
+</section>
+
+<!-- ============ ELECTRICAL SYSTEM ============ -->
+<section class="view" id="power" hidden>
+  <p class="eyebrow">Chapter 05</p>
+  <h1>Vehicle electrical system</h1>
+  <p class="lede">Every ECU, lamp and motor in the car runs from the low-voltage network: a battery, a generator to refill it, a starter, the wiring between them and the logic that keeps the energy balance positive. In an EV the alternator and starter disappear, but the 12 V (or 48 V) network stays.</p>
+  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 384–485 (vehicle electrical systems, starter batteries, alternators, starting systems) and pp. 521–523 (terminal designations). Diagrams redrawn; updated for 2026.</p>
+
+  <h2>Charge balance: alternator vs consumers</h2>
+  <p>An alternator delivers nothing below its <b>0-ampere speed</b> (about 1,000 alternator rpm), then its current rises steeply and flattens towards a maximum. Because it turns 2.5 to 3 times faster than the crankshaft, idle is the critical point: in city traffic the engine spends much of its time there, and if the consumers draw more than the alternator delivers at idle, the battery drains.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 5.1</b> · Charge-balance simulator (150 A alternator, 14 V)</span>
+      <div class="ctrls"><label class="rng" for="cb-n">Engine <input type="range" id="cb-n" min="700" max="5000" step="50" value="800"></label>
+        <select id="cb-r" aria-label="Pulley ratio" style="width:auto"><option value="2.5">Ratio 2.5</option><option value="2.8" selected>Ratio 2.8</option><option value="3.0">Ratio 3.0</option></select>
+        <button class="btn" id="cb-eem" aria-pressed="false">EEM off</button></div></div>
+    <div class="fig-b">
+      <div class="chips" id="cb-loads" role="group" aria-label="Consumers"></div>
+      <div class="scroll"><div id="dg-cb"></div></div>
+      <div class="readout" style="margin-top:6px"><span>Engine <b id="cb-ro-n">–</b></span><span>Alternator <b id="cb-ro-a">–</b></span><span>Consumers <b id="cb-ro-l">–</b></span><span>Battery <b id="cb-ro-b">–</b></span></div>
+      <div class="status" id="cb-status"></div>
+    </div>
+    <div class="fig-f">Curve shape follows the standard alternator characteristic: zero current up to n<sub>0</sub>, rated current at 6,000 alternator rpm, saturation near I<sub>max</sub>. Turn on heavy loads at idle, then switch the electrical energy management (EEM) on to see how it restores the balance.</div>
+  </figure>
+
+  <h2>Electrical energy management (EEM)</h2>
+  <p>EEM coordinates generation, storage and consumption. Its basis is <b>battery management</b>: an intelligent battery sensor on the negative terminal measures current, voltage and temperature, and estimates state of charge (SOC), state of health (SOH) and state of function (SOF: "will the battery still crank the engine after this stop?"). From that, the energy coordinator decides whether to raise alternator voltage, raise idle speed, delay or shed comfort loads, or inhibit start/stop.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 5.2</b> · EEM structure</span></div>
+    <div class="fig-b scroll"><div id="dg-eem"></div></div>
+    <div class="fig-f">When the car is parked, EEM also watches quiescent current and switches off standby consumers before the battery falls below what is needed to start. In EVs the same role is played by the DC-DC converter control and the 12 V/48 V power distribution logic.</div>
+  </figure>
+
+  <h2>Starter and engagement relay</h2>
+  <p>Turning the key to <i>start</i> energises terminal 50. The engagement relay (solenoid) has two windings: a strong <b>pull-in</b> winding and a <b>hold-in</b> winding. Together they pull the plunger, which pushes the pinion into the ring gear through the engagement lever and then closes the main contact. Main current (several hundred amps) flows from terminal 30 through the motor. The pull-in winding is now shorted out, and the hold-in winding alone keeps the contact closed. An overrunning clutch stops the running engine from driving the starter.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 5.3</b> · Starting circuit</span>
+      <div class="seg" id="st-ph" role="group" aria-label="Phase"><button aria-pressed="true" data-p="0">Key off</button><button aria-pressed="false" data-p="1">Pull-in</button><button aria-pressed="false" data-p="2">Cranking</button></div></div>
+    <div class="fig-b scroll"><div id="dg-st"></div></div>
+    <div class="fig-f" id="st-desc"></div>
+  </figure>
+
+  <h2>Terminal designations (DIN 72552)</h2>
+  <p>These numbers label device terminals, not wires, and they still appear in every wiring diagram and in ECU power-mode logic ("KL15 on" means ignition on).</p>
+  <div class="tbl"><table>
+    <thead><tr><th class="num">Terminal</th><th>Meaning</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td class="num">30</td><td>Direct battery positive, always live</td><td>Hazard lights, ECU memory supply, central locking</td></tr>
+      <tr><td class="num">15</td><td>Switched positive, live with ignition on</td><td>Engine ECU wake-up, instrument cluster</td></tr>
+      <tr><td class="num">75</td><td>Accessory positive, off while cranking</td><td>Radio, 12 V socket</td></tr>
+      <tr><td class="num">50</td><td>Starter control</td><td>Ignition switch → starter solenoid</td></tr>
+      <tr><td class="num">31</td><td>Ground (battery negative)</td><td>Every ECU and load return</td></tr>
+      <tr><td class="num">61 / D+</td><td>Alternator charge indicator</td><td>Warning lamp, "engine running" signal</td></tr>
+      <tr><td class="num">56 / 58</td><td>Headlamps / side and tail lamps</td><td>Lighting switch outputs</td></tr>
+      <tr><td class="num">85, 86 / 30, 87</td><td>Relay coil / relay common and normally-open contact</td><td>Any standard automotive relay</td></tr>
+    </tbody></table></div>
+
+  <h2>Then → now</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Area</th><th>2007 (book)</th><th>2026</th></tr></thead>
+    <tbody>
+      <tr><td>Battery</td><td>Flooded lead-acid; AGM emerging</td><td>EFB/AGM for start/stop; intelligent battery sensor standard; 12 V lithium (LFP) in many EVs</td></tr>
+      <tr><td>Generation</td><td>Claw-pole alternator, analogue regulator</td><td>LIN-controlled smart regulators; in hybrids a 48 V belt starter-generator; in EVs a DC-DC converter from the HV pack</td></tr>
+      <tr><td>Starting</td><td>Starter motor, start/stop just arriving</td><td>Reinforced start/stop starters; mild hybrids restart with the belt starter-generator; EVs have no starter</td></tr>
+      <tr><td>Distribution</td><td>Central fuse and relay box, star wiring</td><td><b>Zonal</b> power distribution: zone controllers with eFuses and smart switches, shorter harness, software-defined protection</td></tr>
+      <tr><td>Voltage</td><td>12 V (24 V in trucks); 42 V proposed then abandoned</td><td>48 V low-voltage networks in production (mild hybrids, some EVs); 48 V cuts current by 75 % for the same power</td></tr>
+      <tr><td>Redundancy</td><td>Two-battery systems to guarantee starting</td><td>Dual power channels for automated driving: brakes and steering must keep working after a single power fault</td></tr>
+    </tbody></table></div>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>Alternator: zero current below n<sub>0</sub> ≈ 1,000 rpm; rated current at 6,000 rpm; alternator turns 2.5–3× crank speed.</li>
+    <li>Charge balance is decided at idle: idle current must at least cover the permanent consumers.</li>
+    <li>EEM = battery management (SOC, SOH, SOF) + generation management + load management.</li>
+    <li>Starter solenoid: pull-in + hold-in windings; pinion engages before the main contact closes.</li>
+    <li>KL30 battery +, KL15 ignition +, KL31 ground, KL50 start, KL75 accessory.</li>
+    <li>Trends: DC-DC instead of alternator, zonal power with eFuses, 48 V, redundant supplies.</li>
+  </ol></div>
+</section>
+
+<!-- ============ NETWORKS ============ -->
+<section class="view" id="networks" hidden>
+  <p class="eyebrow">Chapter 06</p>
+  <h1>Networks &amp; diagnostics</h1>
+  <p class="lede">ECUs exchange thousands of signals every second. Each in-vehicle network is chosen by cost, bandwidth and timing guarantee, and a central gateway connects the domains and controls what may cross between them.</p>
+  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 70–151 (networking basics, CAN, LIN, MOST, Bluetooth, FlexRay, diagnosis interfaces). CAN FD/XL, automotive Ethernet and DoIP are newer than the book.</p>
+
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 6.1</b> · Domain network architecture with central gateway</span></div>
+    <div class="fig-b scroll"><div id="dg-net"></div></div>
+    <div class="fig-f">The gateway routes only the messages each domain needs and filters diagnostic requests from the OBD port. That makes it a key security boundary (Chapter 08).</div>
+  </figure>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Network</th><th>Bit rate</th><th>Payload</th><th>Access</th><th>Typical use</th></tr></thead>
+    <tbody>
+      <tr><td><b>LIN</b></td><td class="num">≤ 20 kbit/s</td><td class="num">8 B</td><td>Single master, schedule table</td><td>Mirrors, seats, window switches, sensors</td></tr>
+      <tr><td><b>CAN</b> (ISO 11898)</td><td class="num">125 k–1 Mbit/s</td><td class="num">8 B</td><td>Multi-master, bitwise arbitration</td><td>Powertrain, chassis, body</td></tr>
+      <tr><td><b>CAN FD</b></td><td class="num">≤ 1 M arb. / 2–8 M data</td><td class="num">64 B</td><td>As CAN, faster data phase</td><td>Powertrain, ADAS, SecOC payloads</td></tr>
+      <tr><td><b>CAN XL</b></td><td class="num">≤ 20 Mbit/s</td><td class="num">2,048 B</td><td>As CAN</td><td>Bridge between CAN FD and Ethernet</td></tr>
+      <tr><td><b>FlexRay</b></td><td class="num">10 Mbit/s ×2 ch.</td><td class="num">254 B</td><td>Time-triggered TDMA</td><td>Deterministic chassis control (legacy)</td></tr>
+      <tr><td><b>Automotive Ethernet</b></td><td class="num">10 M (T1S) – 10 Gbit/s</td><td class="num">1,500 B</td><td>Switched, full duplex</td><td>ADAS, infotainment, backbone, DoIP</td></tr>
+    </tbody></table></div>
+
+  <h2>Then → now: networks since 2007</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Area</th><th>2007 (book)</th><th>2026</th></tr></thead>
+    <tbody>
+      <tr><td>Infotainment</td><td>MOST optical ring, 25–150 Mbit/s</td><td>Automotive Ethernet with AVB/TSN; MOST only in legacy platforms</td></tr>
+      <tr><td>Deterministic control</td><td>FlexRay for chassis and planned X-by-wire</td><td>FlexRay kept on existing platforms; new designs use CAN FD or Ethernet with TSN</td></tr>
+      <tr><td>Body and powertrain</td><td>CAN at 125–500 kbit/s, 8-byte payload</td><td>CAN FD standard; CAN XL emerging; <b>10BASE-T1S</b> multidrop Ethernet aimed at replacing CAN at the edge in zonal designs</td></tr>
+      <tr><td>Wireless</td><td>Bluetooth for hands-free and audio</td><td>Bluetooth LE plus UWB for phone-as-key (Car Connectivity Consortium Digital Key), Wi-Fi, 5G telematics</td></tr>
+      <tr><td>Communication model</td><td>Fixed signals in a CAN matrix</td><td>Service-oriented SOME/IP on Ethernet alongside signals</td></tr>
+      <tr><td>Cameras</td><td>Analogue or LVDS links</td><td>SerDes links (GMSL, FPD-Link, ASA Motion Link) at several Gbit/s</td></tr>
+      <tr><td>Diagnostics</td><td>K-line, KWP2000, UDS on CAN</td><td>UDS on CAN and DoIP over Ethernet; remote diagnostics and OTA</td></tr>
+    </tbody></table></div>
+
+  <h2>CAN frame anatomy</h2>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 6.2</b> · Classic CAN data frame, 11-bit identifier, 8 data bytes (111 bits before stuffing)</span></div>
+    <div class="fig-b scroll">
+      <div class="frame">
+        <div class="ctl" style="flex:1">SOF<small>1</small></div>
+        <div class="arb" style="flex:11">Identifier<small>11 bits · priority</small></div>
+        <div class="arb" style="flex:1.4">RTR<small>1</small></div>
+        <div class="ctl" style="flex:1.4">IDE<small>1</small></div>
+        <div class="ctl" style="flex:1.2">r0<small>1</small></div>
+        <div class="ctl" style="flex:4">DLC<small>4</small></div>
+        <div class="dat" style="flex:40">Data field<small>0–64 bits (0–8 bytes)</small></div>
+        <div class="crc" style="flex:15">CRC<small>15</small></div>
+        <div class="crc" style="flex:1.4">DEL<small>1</small></div>
+        <div class="ctl" style="flex:2">ACK<small>2</small></div>
+        <div class="ctl" style="flex:7">EOF<small>7</small></div>
+        <div class="ctl" style="flex:3">IFS<small>3</small></div>
+      </div>
+    </div>
+    <div class="fig-f">After five identical bits the transmitter inserts one opposite bit (bit stuffing) so receivers keep their clocks in sync. CAN FD adds the FDF and BRS bits and switches to the fast data rate after BRS.</div>
+  </figure>
+
+  <h2>CAN arbitration</h2>
+  <p>Any node may start transmitting when the bus is idle. The bus behaves as a wired-AND: a <b>dominant 0</b> overwrites a <b>recessive 1</b>. Every transmitter reads back each bit; a node that sent recessive but reads dominant has lost and becomes a receiver. The lowest identifier always wins, and the winning frame is never destroyed.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 6.3</b> · Bit-by-bit arbitration simulator</span>
+      <div class="ctrls"><button class="btn pri" id="can-step">Step one bit</button><button class="btn" id="can-run">Run</button><button class="btn" id="can-reset">Reset</button><button class="btn" id="can-rand">Random IDs</button></div></div>
+    <div class="fig-b">
+      <div class="can-nodes">
+        <label for="can-a">Node A · EMS engine torque<input type="text" id="can-a" value="0x1A4" spellcheck="false"></label>
+        <label for="can-b">Node B · ESC wheel speeds<input type="text" id="can-b" value="0x1A0" spellcheck="false"></label>
+        <label for="can-c">Node C · BCM door status<input type="text" id="can-c" value="0x3E8" spellcheck="false"></label>
+      </div>
+      <div class="scroll"><table class="bits" id="can-tbl"></table></div>
+      <div class="status" id="can-status"></div>
+    </div>
+    <div class="fig-f">Dark cells are dominant (0). A red cell marks the bit where a node lost. Try two IDs that differ only in the last bit, or give two nodes the same ID (in a real network that causes a bit error later in the frame).</div>
+  </figure>
+
+  <h2>Diagnostics: UDS and DoIP</h2>
+  <p>Unified Diagnostic Services (ISO 14229) is the request–response protocol a tester uses to read faults, read and write data, run routines and reprogram ECUs. It runs over CAN using ISO-TP (ISO 15765-2) for segmentation, or over Ethernet using DoIP (ISO 13400, TCP port 13400).</p>
+  <p>A positive response echoes the service ID plus 0x40 (request <code>22 F1 90</code> → response <code>62 F1 90 …</code>). A negative response is <code>7F</code>, the service ID, and a negative response code (NRC).</p>
+  <div class="tbl"><table>
+    <thead><tr><th class="num">SID</th><th>Service</th><th>What it is used for</th></tr></thead>
+    <tbody>
+      <tr><td class="num">0x10</td><td>DiagnosticSessionControl</td><td>Switch default / programming (02) / extended (03) session</td></tr>
+      <tr><td class="num">0x11</td><td>ECUReset</td><td>Hard, key-off-on or soft reset</td></tr>
+      <tr><td class="num">0x14</td><td>ClearDiagnosticInformation</td><td>Clear stored DTCs</td></tr>
+      <tr><td class="num">0x19</td><td>ReadDTCInformation</td><td>Read fault codes, status bytes, snapshots</td></tr>
+      <tr><td class="num">0x22 / 0x2E</td><td>Read / WriteDataByIdentifier</td><td>DIDs such as VIN (F190), software version</td></tr>
+      <tr><td class="num">0x27</td><td>SecurityAccess</td><td>Seed–key unlock before protected services</td></tr>
+      <tr><td class="num">0x28</td><td>CommunicationControl</td><td>Silence normal messages during flashing</td></tr>
+      <tr><td class="num">0x29</td><td>Authentication</td><td>Certificate-based authentication (ISO 14229-1:2020)</td></tr>
+      <tr><td class="num">0x31</td><td>RoutineControl</td><td>Erase memory, check dependencies, self-tests</td></tr>
+      <tr><td class="num">0x34 / 0x36 / 0x37</td><td>RequestDownload / TransferData / RequestTransferExit</td><td>Software download (flashing)</td></tr>
+      <tr><td class="num">0x3E</td><td>TesterPresent</td><td>Keep a non-default session alive</td></tr>
+      <tr><td class="num">0x85</td><td>ControlDTCSetting</td><td>Stop DTC logging during flashing</td></tr>
+    </tbody></table></div>
+  <p>DoIP adds vehicle discovery (UDP vehicle announcement), a <b>routing activation</b> handshake on the TCP connection, and logical addressing so the DoIP edge node can route UDS messages to ECUs behind the gateway.</p>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>LIN cheap and slow; CAN robust multi-master; CAN FD 64 B; Ethernet for bandwidth.</li>
+    <li>Dominant 0 beats recessive 1; lowest ID wins arbitration without destroying the frame.</li>
+    <li>Bit stuffing after five equal bits; 15-bit CRC; ACK slot written by receivers.</li>
+    <li>UDS positive response = SID + 0x40; negative = 7F SID NRC.</li>
+    <li>UDS on CAN uses ISO-TP; on Ethernet uses DoIP on TCP 13400 with routing activation.</li>
+  </ol></div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="view" id="process" hidden>
+  <p class="eyebrow">Chapter 07</p>
+  <h1>Development process</h1>
+  <p class="lede">Automotive software must be shown to be correct, not just tested until it seems to work. The V-model pairs every design step on the left with a verification step on the right, Automotive SPICE measures how well that process is run, and ISO 26262 sets how rigorous it must be for safety.</p>
+  <p class="ref">Reference: Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., pp. 162–167 (mechatronic development methods). V-model, ASPICE and ISO 26262 content follows the current standards; the book predates ISO 26262 (first published 2011).</p>
+
+  <h2>The V-model</h2>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 7.1</b> · System and software V-model with Automotive SPICE processes. Select a stage.</span>
+      <div class="seg" id="v-filter" role="group" aria-label="Highlight level"><button aria-pressed="true" data-f="all">All</button><button aria-pressed="false" data-f="sys">System</button><button aria-pressed="false" data-f="swe">Software</button></div></div>
+    <div class="fig-b scroll"><div id="dg-v"></div></div>
+    <div class="fig-b" style="border-top:1px dashed var(--rule)"><div class="vdetail" id="v-detail"></div></div>
+  </figure>
+
+  <h3>Traceability</h3>
+  <p>Every requirement links down to the architecture element and code that implement it, and across to the test that verifies it. Bidirectional traceability is what lets you answer "which tests must I rerun if this requirement changes?" and is checked in every ASPICE assessment.</p>
+
+  <h3>Automotive SPICE capability levels</h3>
+  <div class="tbl"><table>
+    <thead><tr><th class="num">Level</th><th>Name</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td class="num">0</td><td>Incomplete</td><td>Process not performed or fails its purpose</td></tr>
+      <tr><td class="num">1</td><td>Performed</td><td>Work products exist; the purpose is achieved</td></tr>
+      <tr><td class="num">2</td><td>Managed</td><td>Planned, monitored, work products reviewed and controlled. Common OEM target.</td></tr>
+      <tr><td class="num">3</td><td>Established</td><td>A defined organisation-wide standard process is tailored and used</td></tr>
+      <tr><td class="num">4</td><td>Predictable</td><td>Process measured and controlled quantitatively</td></tr>
+      <tr><td class="num">5</td><td>Innovating</td><td>Process continuously improved against business goals</td></tr>
+    </tbody></table></div>
+
+  <h2>Testing along the way: X-in-the-loop</h2>
+  <div class="xil">
+    <div><b>MIL</b>Model-in-the-loop. Control model + plant model in simulation (Simulink).</div>
+    <div><b>SIL</b>Software-in-the-loop. Generated or hand-written C code on a PC.</div>
+    <div><b>PIL</b>Processor-in-the-loop. Code on the target MCU, plant still simulated.</div>
+    <div><b>HIL</b>Hardware-in-the-loop. Real ECU wired to a real-time plant simulator.</div>
+    <div><b>Vehicle</b>Test bench, test track and fleet validation.</div>
+  </div>
+
+  <h2>ISO 26262 and ASIL</h2>
+  <p>ISO 26262 covers functional safety of E/E systems. In the concept phase a <b>hazard analysis and risk assessment</b> (HARA) rates each hazardous event for Severity, Exposure and Controllability. Together they give the Automotive Safety Integrity Level, from QM (normal quality management) to ASIL D (most stringent).</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 7.2</b> · ASIL determination (ISO 26262-3, Table 4)</span></div>
+    <div class="fig-b">
+      <div class="asil-in">
+        <label for="as-s">Severity<select id="as-s"><option value="0">S0 · No injuries</option><option value="1">S1 · Light and moderate injuries</option><option value="2">S2 · Severe, survival probable</option><option value="3" selected>S3 · Life-threatening, fatal</option></select></label>
+        <label for="as-e">Exposure<select id="as-e"><option value="0">E0 · Incredible</option><option value="1">E1 · Very low probability</option><option value="2">E2 · Low probability</option><option value="3">E3 · Medium probability</option><option value="4" selected>E4 · High probability</option></select></label>
+        <label for="as-c">Controllability<select id="as-c"><option value="0">C0 · Controllable in general</option><option value="1">C1 · Simply controllable</option><option value="2" selected>C2 · Normally controllable</option><option value="3">C3 · Difficult or uncontrollable</option></select></label>
+      </div>
+      <div class="asil-out"><div class="badge" id="as-badge">C</div><p id="as-text" style="margin:0"></p></div>
+      <div class="scroll"><table class="asil-t" id="as-table" style="min-width:420px"></table></div>
+    </div>
+    <div class="fig-f">Example: unintended full steering torque at highway speed is often rated S3 E4 C3 → ASIL D. Any parameter at 0 gives QM. A quick check: S + E + C = 10 → D, 9 → C, 8 → B, 7 → A, otherwise QM.</div>
+  </figure>
+  <h3>Safety lifecycle in brief</h3>
+  <ol class="flowlist">
+    <li><span><b>Item definition</b> — what the function is, its boundaries and interfaces.</span></li>
+    <li><span><b>HARA</b> — hazardous events, ASIL, and a <b>safety goal</b> for each.</span></li>
+    <li><span><b>Functional safety concept</b> — functional safety requirements allocated to architecture elements.</span></li>
+    <li><span><b>Technical safety concept</b> — technical requirements, safety mechanisms, diagnostic coverage.</span></li>
+    <li><span><b>HW and SW development</b> — ASIL-dependent methods, metrics (SPFM, LFM, PMHF) and verification.</span></li>
+    <li><span><b>Integration, validation, safety case</b> — evidence that safety goals are met, then release for production.</span></li>
+  </ol>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>Left side of V specifies, right side verifies; each level has a matching test level.</li>
+    <li>ASPICE: SYS.1–5 and SWE.1–6, plus support (SUP) and management (MAN) processes.</li>
+    <li>ASPICE level 2 = managed; that is the usual OEM requirement for suppliers.</li>
+    <li>MIL → SIL → PIL → HIL → vehicle.</li>
+    <li>ASIL = f(S, E, C). S+E+C: 10 D, 9 C, 8 B, 7 A.</li>
+    <li>HARA → safety goals → FSC → TSC → HW/SW → safety case.</li>
+  </ol></div>
+</section>
+
+<!-- ============ SECURITY ============ -->
+<section class="view" id="security" hidden>
+  <p class="eyebrow">Chapter 08</p>
+  <h1>Cybersecurity</h1>
+  <p class="lede">A connected car exposes cellular, Wi-Fi, Bluetooth, charging and diagnostic interfaces. Safety asks "what if it fails?"; security asks "what if someone makes it fail on purpose?" Both now apply to every new vehicle.</p>
+  <p class="ref">Not covered in the 2007 Bosch reference. Based on ISO/SAE 21434:2021 and UN Regulations 155 and 156.</p>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Standard / regulation</th><th>Scope</th></tr></thead>
+    <tbody>
+      <tr><td><b>ISO/SAE 21434</b></td><td>Engineering standard for cybersecurity across the vehicle lifecycle: concept, development, production, operation, decommissioning. Defines TARA.</td></tr>
+      <tr><td><b>UNECE R155</b></td><td>Regulation requiring a certified Cybersecurity Management System (CSMS) for vehicle type approval. Mandatory for all new vehicles in the EU since July 2024.</td></tr>
+      <tr><td><b>UNECE R156</b></td><td>Software Update Management System (SUMS) for type approval, covering over-the-air and workshop updates.</td></tr>
+      <tr><td><b>ISO 24089</b></td><td>Engineering standard for software updates, supporting R156.</td></tr>
+    </tbody></table></div>
+
+  <h2>Defence in depth</h2>
+  <p>No single control is enough. Each layer assumes the one outside it may already be breached.</p>
+  <div class="layers">
+    <div><b>External interfaces</b><div class="ms"><span>Telematics with TLS and mutual auth</span><span>Signed OTA packages</span><span>Bluetooth/Wi-Fi hardening</span><span>Charging (ISO 15118 PKI)</span></div></div>
+    <div><b>Gateway</b><div class="ms"><span>Message filtering / firewall</span><span>Domain separation</span><span>Diagnostic access control</span><span>Intrusion detection (IDS)</span></div></div>
+    <div><b>In-vehicle network</b><div class="ms"><span>SecOC message authentication</span><span>MACsec on Ethernet</span><span>Freshness values against replay</span></div></div>
+    <div><b>ECU</b><div class="ms"><span>Secure boot</span><span>Secure flashing</span><span>SecurityAccess / Authentication</span><span>Debug port locking (JTAG/DAP)</span><span>Memory protection</span></div></div>
+    <div><b>HSM / root of trust</b><div class="ms"><span>Key storage</span><span>AES-CMAC, RNG</span><span>Signature verification</span><span>Secure counters</span></div></div>
+  </div>
+
+  <h2>TARA: threat analysis and risk assessment</h2>
+  <ol class="flowlist">
+    <li><span><b>Asset identification</b> — what needs protecting and which property (confidentiality, integrity, availability) matters.</span></li>
+    <li><span><b>Damage scenarios</b> — what harm results if the property is lost.</span></li>
+    <li><span><b>Impact rating</b> — Safety, Financial, Operational, Privacy (SFOP): severe, major, moderate or negligible.</span></li>
+    <li><span><b>Threat scenarios</b> — how the property could be compromised (STRIDE helps).</span></li>
+    <li><span><b>Attack path analysis</b> — concrete steps an attacker takes, often drawn as attack trees.</span></li>
+    <li><span><b>Attack feasibility</b> — rated by attack potential (below).</span></li>
+    <li><span><b>Risk value</b> — impact × feasibility from a risk matrix, 1 (lowest) to 5.</span></li>
+    <li><span><b>Risk treatment</b> — reduce, avoid, share or retain; reduction produces cybersecurity goals and requirements.</span></li>
+  </ol>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 8.1</b> · Attack feasibility (attack-potential method) and risk value</span></div>
+    <div class="fig-b">
+      <div class="feas" id="feas"></div>
+      <div class="asil-out"><div class="badge" id="rk-badge">3</div><p id="rk-text" style="margin:0"></p></div>
+      <div class="scroll"><table class="matrix" id="rk-table" style="min-width:460px"></table></div>
+    </div>
+    <div class="fig-f">Attack potential values follow ISO/SAE 21434 Annex G. The risk matrix is the example from Annex H; organisations define their own.</div>
+  </figure>
+
+  <h2>Secure diagnostics: SecurityAccess (0x27)</h2>
+  <p>Protected services such as writing a VIN or flashing software are locked. The tester asks for a random <b>seed</b>, computes a <b>key</b> with a secret algorithm, and sends it back. Wrong keys are counted; after too many, the ECU enforces a delay to stop brute-force attempts.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 8.2</b> · Tester ↔ ECU SecurityAccess simulator</span></div>
+    <div class="fig-b">
+      <div class="ctrls">
+        <button class="btn" id="sa-sess">10 03 · Extended session</button>
+        <button class="btn" id="sa-seed">27 01 · Request seed</button>
+        <button class="btn pri" id="sa-good">27 02 · Send correct key</button>
+        <button class="btn warn" id="sa-bad">27 02 · Send wrong key</button>
+        <button class="btn" id="sa-reset">11 01 · ECU reset</button>
+      </div>
+      <div class="state" id="sa-state"></div>
+      <div class="log" id="sa-log" aria-live="polite"></div>
+    </div>
+    <div class="fig-f">The key function here is a toy for illustration. Production ECUs keep the secret in an HSM and many now use UDS 0x29 Authentication with certificates instead, so a leaked algorithm cannot unlock every vehicle.</div>
+  </figure>
+
+  <h2>Secure onboard communication (SecOC)</h2>
+  <p>CAN has no sender authentication: any node can send any ID. AUTOSAR SecOC appends a <b>freshness value</b> and a truncated <b>MAC</b> (normally AES-128-CMAC) to each protected PDU. The receiver recomputes the MAC with the shared key and rejects frames that are altered or replayed.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 8.3</b> · SecOC on a vehicle-speed message (ID 0x0C1)</span></div>
+    <div class="fig-b">
+      <div class="ctrls">
+        <label class="rng" for="so-v">Speed <input type="number" id="so-v" value="62" min="0" max="250" style="width:80px"> km/h</label>
+        <button class="btn pri" id="so-send">Send authentic frame</button>
+        <button class="btn warn" id="so-replay">Attacker: replay last frame</button>
+        <button class="btn warn" id="so-tamper">Attacker: modify payload</button>
+        <button class="btn" id="so-reset">Reset</button>
+      </div>
+      <div class="pdu" id="so-pdu"></div>
+      <div class="state" id="so-state"></div>
+      <div class="log" id="so-log" aria-live="polite"></div>
+    </div>
+    <div class="fig-f">For illustration the MAC is a 24-bit toy hash and only the low byte of the 32-bit freshness counter is transmitted, as in many real SecOC profiles. The receiver rebuilds the full counter from its own state.</div>
+  </figure>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>ISO/SAE 21434 = how to engineer it; UN R155 = CSMS required for type approval; R156 = updates.</li>
+    <li>TARA: assets → damage → impact (SFOP) → threats → attack paths → feasibility → risk → treatment.</li>
+    <li>Attack potential: time, expertise, knowledge, window of opportunity, equipment.</li>
+    <li>0x27: seed → key; NRC 35 invalid key, 36 attempts exceeded, 37 delay not expired.</li>
+    <li>SecOC: MAC for integrity and authenticity, freshness for replay protection; no confidentiality.</li>
+    <li>Root of trust in the HSM: secure boot, key storage, crypto acceleration.</li>
+  </ol></div>
+</section>
+
+<!-- ============ TOOLS ============ -->
+<section class="view" id="tools" hidden>
+  <p class="eyebrow">Chapter 09</p>
+  <h1>Engineering calculators</h1>
+  <p class="lede">Quick sizing tools for the numbers that come up in reviews and design discussions. Every field is editable and results update as you type. Default values describe a typical compact EV and a 1.6-litre petrol engine.</p>
+  <div class="calcs" id="calcs"></div>
+</section>
+  </main>
+</div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- SVG helpers ---------- */
+const B=(x,y,w,h,t,s,c='')=>{let o=`<rect class="blk ${c}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;const subs=s?s.split('|'):[];const top=y+h/2-subs.length*7+4;o+=`<text class="t" x="${x+w/2}" y="${top}" text-anchor="middle">${t}</text>`;subs.forEach((l,i)=>o+=`<text class="s" x="${x+w/2}" y="${top+14*(i+1)}" text-anchor="middle">${l}</text>`);return o};
+const P=(d,c='wire',ex='')=>`<path class="${c}" d="${d}" ${ex}/>`;
+const T=(x,y,s,c='s',a='start')=>`<text class="${c}" x="${x}" y="${y}" text-anchor="${a}">${s}</text>`;
+const mount=(id,w,h,inner,label)=>{$('#'+id).innerHTML=`<svg class="dg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`};
+
+/* ---------- Hero CAN waveform ---------- */
+(function(){
+  const bits=[0]; const id=0x1A4; for(let i=10;i>=0;i--)bits.push((id>>i)&1);
+  bits.push(0,0,0); [0,0,0,1].forEach(b=>bits.push(b)); const d=0x3C; for(let i=7;i>=0;i--)bits.push((d>>i)&1);
+  const x0=70,bw=24,H=v=>110-(v-1)*30; let h=`M${x0-40} ${H(2.5)} H${x0}`, l=h;
+  bits.forEach((b,i)=>{const x=x0+i*bw;const vh=b?2.5:3.5,vl=b?2.5:1.5;h+=` V${H(vh)} H${x+bw}`;l+=` V${H(vl)} H${x+bw}`});
+  const xe=x0+bits.length*bw; h+=` V${H(2.5)} H${xe+40}`; l+=` V${H(2.5)} H${xe+40}`;
+  let s='';[3.5,2.5,1.5].forEach(v=>{s+=`<line x1="${x0-40}" x2="${xe+40}" y1="${H(v)}" y2="${H(v)}" style="stroke:var(--rule);stroke-dasharray:2 4"/>`;s+=T(4,H(v)+4,v.toFixed(1)+' V','lbl')});
+  s+=P(l,'','style="fill:none;stroke:var(--signal);stroke-width:2"')+P(h,'','style="fill:none;stroke:var(--accent);stroke-width:2"');
+  s+=T(xe+44,H(3.5)+4,'CAN_H','lbl')+T(xe+44,H(1.5)+4,'CAN_L','lbl');
+  const fields=[['SOF',0,1],['Identifier 0x1A4',1,11],['RTR',12,1],['IDE',13,1],['r0',14,1],['DLC = 1',15,4],['Data 0x3C',19,8]];
+  fields.forEach(([n,a,len],i)=>{const xa=x0+a*bw+2,xb=x0+(a+len)*bw-2;s+=`<path d="M${xa} 140 V146 H${xb} V140" style="fill:none;stroke:var(--rule-2)"/>`;s+=T((xa+xb)/2,162+(len<2&&i%2?12:0),n,'lbl','middle')});
+  bits.forEach((b,i)=>s+=T(x0+i*bw+bw/2,24,b,'lbl','middle'));
+  s+=`<line class="scan" x1="${x0}" x2="${x0}" y1="30" y2="130" style="stroke:var(--ink);stroke-width:1;opacity:.35"/>`;
+  mount('dg-wave',xe+100,182,s,'CAN_H and CAN_L differential waveform');
+})();
+
+/* ---------- EMS ---------- */
+(function(){
+  let s='';
+  const sens=[['Crankshaft position','speed · TDC'],['Camshaft position','cylinder ID'],['MAF / MAP','air mass · load'],['Throttle / pedal','position'],['Coolant temperature','warm-up'],['Lambda sensor','AFR feedback'],['Knock sensor','detonation']];
+  const act=[['Fuel injectors','pulse width'],['Ignition coils','dwell · advance'],['Electronic throttle','H-bridge motor'],['VVT solenoid','cam phasing'],['EGR valve','NOx control'],['Fuel pump','rail pressure'],['Purge valve','EVAP canister']];
+  sens.forEach((a,i)=>{const y=14+i*46;s+=P(`M190 ${y+19} H286`,'flow','marker-end="url(#ahs)"')});
+  act.forEach((a,i)=>{const y=14+i*46;s+=P(`M490 ${y+19} H586`,'flow','marker-end="url(#ahs)"')});
+  sens.forEach((a,i)=>s+=B(10,14+i*46,180,38,a[0],a[1]));
+  act.forEach((a,i)=>s+=B(590,14+i*46,180,38,a[0],a[1]));
+  s+=`<rect class="blk acc" x="290" y="10" width="200" height="324" rx="8"/>`+T(390,32,'Engine Control Module','t','middle');
+  s+=B(305,46,170,74,'Input conditioning','ADC · filtering|clamp · debounce');
+  s+=B(305,142,170,92,'Microcontroller','fuel & spark maps|lambda closed loop|knock control');
+  s+=B(305,256,170,66,'Output drivers','low-side · H-bridge|ignition IGBT');
+  s+=P('M390 120 V140','wire','marker-end="url(#ah)"')+P('M390 234 V254','wire','marker-end="url(#ah)"');
+  s+=P('M390 334 V356','can')+T(400,372,'CAN → TCU · ESC · cluster · gateway','lbl');
+  s+=T(10,10,'SENSORS','lbl')+T(590,10,'ACTUATORS','lbl');
+  mount('dg-ems',780,382,s,'Engine management block diagram');
+})();
+
+/* ---------- EV power flow ---------- */
+const evPaths={ac:['M150 44 H190','M265 68 V140'],dc:['M150 124 H170 V188 H190'],bat:['M340 188 H390'],inv:['M520 188 H560'],mot:['M680 188 H720'],whl:['M770 218 V290'],dcdc:['M455 218 V290'],lv:['M520 316 H560']};
+const evModes={drive:{on:['bat','inv','mot','whl','dcdc','lv'],rev:[],d:'<b>Drive.</b> The VCU converts pedal position into a torque request. The PDU connects the pack to the HV bus, the inverter turns DC into three-phase AC and the motor drives the wheels through a single-speed reducer. The DC-DC converter keeps the 12 V system supplied.'},
+  regen:{on:['bat','inv','mot','whl','dcdc','lv'],rev:['bat','inv','mot','whl'],d:'<b>Regenerative braking.</b> The wheels drive the motor, which now works as a generator. The inverter rectifies its AC output and current flows back into the pack. Regen is limited by the BMS charge-current limit, so the ESC blends in friction braking when needed.'},
+  ac:{on:['ac','dcdc','lv'],rev:[],d:'<b>AC charging.</b> Grid AC enters through the Type 2 inlet. The on-board charger rectifies it, corrects the power factor and regulates DC current into the pack as requested by the BMS. Power is limited by the OBC rating, typically 7.2 or 11 kW.'},
+  dc:{on:['dc','dcdc','lv'],rev:[],d:'<b>DC fast charging.</b> The off-board charger supplies DC directly to the pack through the DC inlet and contactors, bypassing the OBC. The BMS sends its current and voltage limits to the charger continuously over PLC (CCS) and the charger follows them.'}};
+(function(){
+  let s='';
+  Object.entries(evPaths).forEach(([k,ds])=>ds.forEach(d=>{s+=P(d,'wire');s+=P(d,'flow off',`data-k="${k}"`)}));
+  s+=P('M390 44 H340','can')+P('M420 68 V110 H300 V140','can')+P('M520 44 H620 V158','can')+T(530,36,'CAN / CAN FD','lbl');
+  s+=B(10,20,140,48,'AC inlet','Type 2');
+  s+=B(190,20,150,48,'On-board charger','AC → DC · 3–22 kW');
+  s+=B(10,100,140,48,'DC fast inlet','CCS2 · 50–350 kW');
+  s+=B(190,140,150,96,'HV battery','350–800 V|cells + BMS','hv');
+  s+=B(390,20,130,48,'VCU','torque · mode','acc');
+  s+=B(390,158,130,60,'PDU','contactors|precharge');
+  s+=B(560,158,120,60,'Inverter','DC ⇄ 3-phase AC');
+  s+=B(720,158,100,60,'PMSM','traction motor');
+  s+=B(720,290,100,52,'Reducer','→ wheels');
+  s+=B(390,290,130,52,'DC-DC','HV → 12 V');
+  s+=B(560,290,120,52,'12 V system','ECUs · lighting');
+  s+=T(10,372,'Orange = energy toward the wheels or into the pack from outside · Green = energy returning from the wheels','lbl');
+  mount('dg-ev',830,382,s,'BEV high voltage architecture');
+})();
+function evSet(m){
+  const M=evModes[m];
+  $$('#dg-ev .flow').forEach(p=>{const k=p.dataset.k;p.classList.toggle('off',!M.on.includes(k));p.classList.toggle('rev',M.rev.includes(k))});
+  $$('#ev-mode button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  $('#ev-desc').innerHTML=M.d;
+}
+$$('#ev-mode button').forEach(b=>b.onclick=()=>evSet(b.dataset.m)); evSet('drive');
+
+/* ---------- ECU internal ---------- */
+(function(){
+  let s='';
+  const w=[['M130 150 H158',1],['M290 150 H318',1],['M550 150 H578',1],['M710 150 H738',1],['M435 46 V58',1],['M435 250 V268',0],['M550 294 H598',0]];
+  w.forEach(([d,a])=>s+=P(d,'wire',a?'marker-end="url(#ah)"':''));
+  s+=B(10,120,120,60,'Sensors','switches · inputs');
+  s+=B(160,120,130,60,'Input stage','filter · clamp|ADC scaling');
+  s+=`<rect class="blk acc" x="320" y="60" width="230" height="190" rx="8"/>`+T(435,80,'Microcontroller','t','middle');
+  [['CPU cores','lockstep'],['Flash · RAM','ECC'],['ADC',''],['Timers · PWM',''],['CAN · LIN · Eth',''],['Watchdog · HSM','']].forEach((b,i)=>s+=B(332+(i%2)*106,92+Math.floor(i/2)*50,100,40,b[0],b[1]));
+  s+=B(580,120,130,60,'Output stage','high/low-side|H-bridge');
+  s+=B(740,120,72,60,'Loads','');
+  s+=B(250,6,370,40,'Power supply','12 V → 5 V / 3.3 V · reverse-polarity and load-dump protection');
+  s+=B(320,270,230,48,'Transceivers','CAN FD · LIN · 100BASE-T1 PHY');
+  s+=B(600,270,140,48,'Vehicle network','');
+  mount('dg-ecu',820,326,s,'Generic ECU hardware architecture');
+})();
+
+/* ---------- ECU explorer ---------- */
+const DOMS={pt:'Powertrain',ch:'Chassis & safety',bd:'Body & comfort',ad:'ADAS',ic:'Infotainment & connectivity'};
+const ECUS=[
+ ['ECM','Engine control module','pt','Controls fuel injection, ignition, throttle, boost and emissions on combustion engines.',['Crank/cam sensors','MAF/MAP','Lambda, knock','Pedal position'],['Injectors','Ignition coils','Throttle motor','VVT, EGR'],'Powertrain CAN','B–C'],
+ ['TCU','Transmission control unit','pt','Selects gears and controls clutch or torque-converter pressure for smooth, efficient shifts.',['Input/output shaft speed','Oil temperature','Selector position','Engine torque (CAN)'],['Shift solenoids','Pressure regulators','Gear display (CAN)'],'Powertrain CAN','B–C'],
+ ['VCU','Vehicle control unit','pt','Top-level EV/hybrid controller: torque demand, drive modes, regen strategy, charging state machine.',['Pedal & brake','Gear selector','BMS limits','Inverter status'],['Torque request','Contactor request','Thermal requests'],'Powertrain CAN FD','C–D'],
+ ['BMS','Battery management system','pt','Monitors and protects every cell, estimates SOC/SOH and controls the HV contactors.',['Cell voltages (AFE)','Pack current','Temperatures','Isolation monitor'],['Contactors','Balancing switches','Limits to VCU/charger'],'Powertrain CAN FD','C–D'],
+ ['MCU','Motor control unit (inverter)','pt','Runs field-oriented control at 10–20 kHz to produce the requested motor torque.',['Phase currents','Rotor position (resolver)','DC-link voltage','Torque request'],['Gate drivers → IGBT/SiC','Active discharge','Status to VCU'],'Powertrain CAN FD','C–D'],
+ ['OBC','On-board charger','pt','Converts grid AC to regulated DC for the battery; handles the charge-port handshake.',['Control pilot / proximity','AC voltage & current','BMS current request'],['DC charge current','Inlet lock','Charge-port LED'],'Powertrain CAN','QM–B'],
+ ['ESC','Electronic stability control (ABS)','ch','Prevents wheel lock and skids by modulating individual brake pressures; hosts ABS, TCS and ESC.',['Wheel speed sensors','Yaw rate, lateral accel.','Steering angle','Brake pressure'],['Hydraulic valves','Pump motor','Torque reduction (CAN)'],'Chassis CAN FD','D'],
+ ['EPS','Electric power steering','ch','Adds motor torque to the driver\'s steering input; also executes lane-keeping steering requests.',['Torque sensor','Steering angle','Vehicle speed','ADAS requests'],['Assist motor (3-phase)','Steering status'],'Chassis CAN FD','D'],
+ ['ACU','Airbag control unit','ch','Detects a crash and fires airbags and belt pretensioners within milliseconds.',['Central accelerometers','Satellite crash sensors','Seat occupancy','Buckle switches'],['Airbag squibs','Pretensioners','Crash signal (unlock, eCall)'],'Chassis CAN','D'],
+ ['EPB','Electric parking brake','ch','Applies and releases the parking brake with motors on the rear calipers.',['Switch','Inclination','Wheel speed'],['Caliper motors','Status lamp'],'Chassis CAN','C'],
+ ['BCM','Body control module','bd','Central body controller for lighting, wipers, central locking, horn and many LIN sub-nodes.',['Light & wiper stalks','Door switches','Rain/light sensor (LIN)'],['Exterior & interior lamps','Wiper motor','Lock actuators'],'Body CAN + LIN','QM–B'],
+ ['DCU','Door control unit','bd','Controls window, mirror and lock in each door, often as a LIN slave of the BCM.',['Window switches','Pinch detection','Lock state'],['Window motor','Mirror motors','Lock motor'],'LIN / Body CAN','QM–A'],
+ ['HVAC','Climate control','bd','Regulates cabin temperature and airflow; in EVs coordinates the heat pump and battery thermal loop.',['Cabin & ambient temp.','Sun sensor','Panel inputs'],['Blower','Flap motors','Compressor / heater requests'],'Body CAN + LIN','QM'],
+ ['PEPS','Passive entry / keyless start','bd','Authenticates the key fob by LF/UHF challenge-response and authorises unlocking and start.',['Door handle sensors','LF antennas','UHF receiver','Start button'],['Unlock request','Immobiliser release','Steering lock'],'Body CAN','QM–B'],
+ ['FCM','Front camera module','ad','Detects lanes, vehicles, pedestrians and signs for lane keeping, AEB and traffic-sign recognition.',['Image sensor','Vehicle speed, yaw','Radar objects'],['Object list','Lane data','Warnings, brake/steer requests'],'ADAS CAN FD / Ethernet','B–D'],
+ ['RDR','Radar sensor','ad','Measures range and relative speed of objects with 77 GHz radar for ACC and AEB.',['RF echoes','Vehicle dynamics'],['Object list','ACC target'],'ADAS CAN FD','B'],
+ ['ADCU','ADAS domain controller','ad','Fuses camera, radar and ultrasonic data and plans longitudinal and lateral control.',['Camera, radar, ultrasonic','HD map, GNSS','Vehicle state'],['Torque, brake, steer requests','HMI warnings'],'Ethernet + CAN FD','B–D'],
+ ['PAS','Park assist','ad','Measures distance to obstacles with ultrasonic sensors; automates parking manoeuvres.',['Ultrasonic sensors','Surround cameras','Gear position'],['Chimes','Display overlay','Steer requests'],'ADAS / Body CAN','QM–B'],
+ ['IVI','Head unit (infotainment)','ic','Runs navigation, media, phone and app projection on Linux or Android Automotive.',['Touchscreen, controls','Tuner, GNSS','Bluetooth, Wi-Fi'],['Display','Audio amplifier','Vehicle settings (CAN)'],'Ethernet + CAN','QM'],
+ ['IPC','Instrument cluster','ic','Shows speed, warnings and telltales. Telltales for safety warnings make it safety relevant.',['Speed, rpm, fuel/SOC','Warnings from all domains'],['Display, gauges','Chimes'],'CAN / Ethernet','B'],
+ ['TCM','Telematics control unit','ic','Cellular modem and GNSS for connected services, remote commands, OTA updates and eCall.',['LTE/5G modem','GNSS','Crash signal'],['Backend data','OTA packages to gateway','eCall voice'],'Ethernet + CAN','QM–B'],
+ ['CGW','Central gateway','ic','Routes and filters messages between domains and the diagnostic port; often hosts IDS and OTA master.',['All domain buses','OBD-II / DoIP','Telematics'],['Routed frames','Firewall decisions','Security events'],'All buses','QM–B']
+];
+let ecuDom='all',ecuSel='ESC';
+function ecuRender(){
+  $('#ecu-dom').innerHTML=[['all','All']].concat(Object.entries(DOMS)).map(([k,v])=>`<button class="btn" aria-pressed="${k===ecuDom}" data-d="${k}" style="${k===ecuDom?'background:var(--ink);color:var(--paper);border-color:var(--ink)':''}">${v}</button>`).join('');
+  $$('#ecu-dom button').forEach(b=>b.onclick=()=>{ecuDom=b.dataset.d;ecuRender()});
+  const list=ECUS.filter(e=>ecuDom==='all'||e[2]===ecuDom);
+  if(!list.find(e=>e[0]===ecuSel))ecuSel=list[0][0];
+  $('#ecu-grid').innerHTML=list.map(e=>`<button class="ecu" aria-pressed="${e[0]===ecuSel}" data-e="${e[0]}"><b>${e[0]}</b><span>${e[1]}</span></button>`).join('');
+  $$('#ecu-grid .ecu').forEach(b=>b.onclick=()=>{ecuSel=b.dataset.e;ecuRender()});
+  const e=ECUS.find(x=>x[0]===ecuSel);
+  $('#ecu-detail').innerHTML=`<h3 style="margin-top:0">${e[1]} (${e[0]})</h3><p>${e[3]}</p>
+   <div class="io-wrap"><div class="io col" style="display:flex;flex-direction:column;gap:6px"><span class="io-h">Inputs</span>${e[4].map(x=>`<span style="border:1px solid var(--rule-2);border-radius:6px;padding:6px 9px;font-size:13px;background:var(--sheet)">${x}</span>`).join('')}</div>
+   <div class="arr">→</div><div class="io"><div class="core">${e[0]}<small>${DOMS[e[2]]}</small></div></div><div class="arr">→</div>
+   <div style="display:flex;flex-direction:column;gap:6px"><span class="io-h">Outputs</span>${e[5].map(x=>`<span style="border:1px solid var(--rule-2);border-radius:6px;padding:6px 9px;font-size:13px;background:var(--sheet)">${x}</span>`).join('')}</div></div>
+   <div class="meta" style="margin-top:12px"><span>Network <b>${e[6]}</b></span><span>Typical ASIL <b>${e[7]}</b> <span class="small">(set by each OEM's HARA)</span></span></div>`;
+}
+ecuRender();
+
+/* ---------- Network architecture ---------- */
+(function(){
+  let s='';
+  const dom=(x,y,title,ecus,top)=>{let o=`<rect class="grp" x="${x}" y="${y}" width="310" height="140" rx="10"/>`;
+    const busY=top?y+100:y+40, chipY=top?y+36:y+68;
+    o+=T(x+12,top?y+22:y+130,title,'t');
+    o+=P(`M${x+12} ${busY} H${x+298}`,'bus');
+    ecus.forEach((n,i)=>{const cx=x+20+i*96;o+=P(top?`M${cx+44} ${chipY+40} V${busY}`:`M${cx+44} ${chipY} V${busY}`,'wire');o+=B(cx,chipY,88,40,n,'')});
+    return o};
+  s+=P('M310 110 H330 V185 H350','bus')+P('M530 110 H510 V185 H490','bus')+P('M310 290 H330 V215 H350','bus')+P('M530 290 H510 V215 H490','bus')+P('M420 230 V318','bus');
+  s+=dom(10,10,'Powertrain · CAN FD',['ECM / VCU','TCU / MCU','BMS'],1);
+  s+=dom(520,10,'Chassis · CAN FD',['ESC','EPS','Airbag'],1);
+  s+=dom(10,250,'Body · CAN + LIN',['BCM','Doors','HVAC'],0);
+  s+=dom(520,250,'ADAS & infotainment · Ethernet',['Camera','IVI','Telematics'],0);
+  s+=B(350,170,140,60,'Central gateway','routing · firewall','acc');
+  s+=B(355,318,130,50,'OBD-II port','UDS · DoIP','hv');
+  mount('dg-net',840,400,s,'Domain network architecture');
+})();
+
+/* ---------- CAN arbitration ---------- */
+const cs={ids:[],bit:-1,alive:[],lost:[],timer:null};
+const canIn=['#can-a','#can-b','#can-c'];
+const pHex=v=>{const n=parseInt(String(v).trim().replace(/^0x/i,''),16);return isNaN(n)?0:Math.max(0,Math.min(0x7FF,n))};
+const bitsOf=id=>[0,...Array.from({length:11},(_,i)=>(id>>(10-i))&1)];
+function canReset(){clearInterval(cs.timer);cs.timer=null;$('#can-run').textContent='Run';cs.ids=canIn.map(s=>pHex($(s).value));cs.bit=-1;cs.alive=[1,1,1];cs.lost=[-1,-1,-1];canRender()}
+function canStep(){if(cs.bit>=11)return false;cs.bit++;const b=cs.bit;const sent=cs.ids.map(id=>bitsOf(id)[b]);const act=sent.filter((x,i)=>cs.alive[i]);const bus=Math.min(...act);
+  sent.forEach((x,i)=>{if(cs.alive[i]&&x===1&&bus===0){cs.alive[i]=0;cs.lost[i]=b}});canRender();return cs.bit<11}
+function canRender(){
+  const hdr=['SOF',...Array.from({length:11},(_,i)=>'ID'+(10-i))];
+  let h='<tr><th>Node</th>'+hdr.map(x=>`<th>${x}</th>`).join('')+'</tr>';
+  const names=['A','B','C'];const busBits=[];
+  for(let b=0;b<=cs.bit;b++){const act=cs.ids.map((id,i)=>(cs.lost[i]===-1||cs.lost[i]>=b)?bitsOf(id)[b]:1);busBits.push(Math.min(...act))}
+  cs.ids.forEach((id,i)=>{h+=`<tr><td class="nm">${names[i]} <span class="muted">0x${id.toString(16).toUpperCase().padStart(3,'0')}</span></td>`;
+    bitsOf(id).forEach((v,b)=>{if(b>cs.bit){h+='<td></td>';return}let c=v?'r':'d';if(cs.lost[i]===b)c='lost';else if(cs.lost[i]!==-1&&b>cs.lost[i])c='gone';h+=`<td class="${c}${b===cs.bit?' cur':''}">${c==='gone'?'·':v}</td>`});h+='</tr>'});
+  h+='<tr class="busrow"><td class="nm">Bus</td>'+hdr.map((x,b)=>b>cs.bit?'<td></td>':`<td class="${busBits[b]?'r':'d'}${b===cs.bit?' cur':''}">${busBits[b]}</td>`).join('')+'</tr>';
+  $('#can-tbl').innerHTML=h;
+  let st;
+  if(cs.bit<0)st='Bus idle (recessive). Press <b>Step one bit</b> to start: all three nodes send SOF together.';
+  else if(cs.bit<11){const lostNow=cs.lost.map((l,i)=>l===cs.bit?names[i]:null).filter(Boolean);st=`Bit ${hdr[cs.bit]}: bus reads <b>${busBits[cs.bit]?'recessive 1':'dominant 0'}</b>. `+(lostNow.length?`<span class="chip bad">${lostNow.join(', ')} lost</span> sent recessive but read dominant, so it stops transmitting and listens.`:'No node lost on this bit.')}
+  else{const w=cs.alive.map((a,i)=>a?names[i]:null).filter(Boolean);st=w.length>1?`<span class="chip warn">${w.join(' & ')} tie</span> Identical IDs both survive arbitration. Their data would collide and trigger a bit error, which is why every ID must have exactly one sender.`:`<span class="chip good">Node ${w[0]} wins</span> with 0x${cs.ids[names.indexOf(w[0])].toString(16).toUpperCase()}, the lowest identifier. It continues with RTR, control and data; the losers retry after the frame ends.`}
+  $('#can-status').innerHTML=st;
+}
+$('#can-step').onclick=()=>{if(cs.bit>=11)canReset();canStep()};
+$('#can-run').onclick=()=>{if(cs.timer){clearInterval(cs.timer);cs.timer=null;$('#can-run').textContent='Run';return}if(cs.bit>=11)canReset();$('#can-run').textContent='Pause';cs.timer=setInterval(()=>{if(!canStep()){clearInterval(cs.timer);cs.timer=null;$('#can-run').textContent='Run'}},reduce?150:550)};
+$('#can-reset').onclick=canReset;
+$('#can-rand').onclick=()=>{const base=Math.floor(Math.random()*0x700);canIn.forEach((s,i)=>$(s).value='0x'+(base+Math.floor(Math.random()*64)).toString(16).toUpperCase());canReset()};
+canIn.forEach(s=>$(s).addEventListener('change',canReset));
+canReset();
+
+/* ---------- V-model ---------- */
+const VST=[
+ {k:'SYS.1',n:'Requirements elicitation',side:'L',lv:'sys',p:'Collect stakeholder and customer requirements, including regulations, and agree them.',in:'Customer specifications, regulations, lessons learned',out:'Stakeholder requirements, change requests',m:'Workshops, requirements reviews, DOORS / Polarion'},
+ {k:'SYS.2',n:'System requirements analysis',side:'L',lv:'sys',p:'Turn stakeholder needs into testable, structured system requirements with verification criteria.',in:'Stakeholder requirements',out:'System requirements specification, verification criteria',m:'Requirement patterns, SysML requirement diagrams, reviews'},
+ {k:'SYS.3',n:'System architectural design',side:'L',lv:'sys',p:'Define system elements (HW, SW, mechanics), interfaces and dynamic behaviour; allocate requirements.',in:'System requirements',out:'System architecture, interface specs, allocation',m:'SysML block and sequence diagrams, trade-off analysis'},
+ {k:'SWE.1',n:'Software requirements analysis',side:'L',lv:'swe',p:'Derive software requirements from system requirements and architecture.',in:'System requirements and architecture allocated to SW',out:'Software requirements specification',m:'Requirement reviews, traceability matrix'},
+ {k:'SWE.2',n:'Software architectural design',side:'L',lv:'swe',p:'Define software components, interfaces, resource budgets and timing.',in:'Software requirements',out:'SW architecture, component interfaces, timing budget',m:'AUTOSAR SWC design, UML, static and dynamic views'},
+ {k:'SWE.3',n:'Detailed design & unit construction',side:'L',lv:'swe',p:'Design each unit and implement it in code or models.',in:'SW architecture',out:'Detailed design, source code / models',m:'Simulink / TargetLink, C with MISRA C rules, code reviews'},
+ {k:'SWE.4',n:'Software unit verification',side:'R',lv:'swe',p:'Show each unit meets its detailed design.',in:'Units, detailed design',out:'Unit test specification and results, coverage report',m:'Static analysis, unit tests, statement/branch/MC/DC coverage'},
+ {k:'SWE.5',n:'SW component verification & integration',side:'R',lv:'swe',p:'Integrate units into components and the full software, and verify interfaces and interactions.',in:'Verified units, SW architecture',out:'Integration test results',m:'SIL, interface tests, resource and timing measurement'},
+ {k:'SWE.6',n:'Software verification',side:'R',lv:'swe',p:'Verify the integrated software against the software requirements.',in:'Integrated software, SW requirements',out:'SW qualification test report',m:'HIL tests, requirement-based test cases, regression'},
+ {k:'SYS.4',n:'System integration & integration verification',side:'R',lv:'sys',p:'Integrate HW, SW and mechanics and verify interfaces against the system architecture.',in:'System elements, system architecture',out:'Integrated system, integration test results',m:'HIL, test benches, network tests (CANoe)'},
+ {k:'SYS.5',n:'System verification',side:'R',lv:'sys',p:'Verify the whole system against system requirements.',in:'Integrated system, system requirements',out:'System qualification test report',m:'Vehicle and bench tests, environmental tests'},
+ {k:'VAL.1',n:'Validation',side:'R',lv:'sys',p:'Confirm the product fulfils its intended use in the real vehicle and environment (ASPICE 4.0).',in:'Released system, stakeholder requirements',out:'Validation report, release decision',m:'Fleet tests, homologation, customer acceptance'}];
+const VPAIR={'SYS.1':'VAL.1','SYS.2':'SYS.5','SYS.3':'SYS.4','SWE.1':'SWE.6','SWE.2':'SWE.5','SWE.3':'SWE.4'};
+let vSel='SWE.2',vFil='all';
+function vDraw(){
+  let s='';const L=VST.filter(v=>v.side==='L'),R=VST.filter(v=>v.side==='R').reverse();
+  const pos={};L.forEach((v,i)=>pos[v.k]=[10+i*35,15+i*60]);R.forEach((v,i)=>pos[v.k]=[670-i*35,15+i*60]);
+  s+=P('M100 37 L300 360 L560 360 L760 37','','style="fill:none;stroke:var(--rule);stroke-width:18;stroke-linejoin:round;opacity:.6"');
+  Object.entries(VPAIR).forEach(([a,b])=>{const [x1,y]=pos[a],[x2]=pos[b];s+=`<line x1="${x1+180}" x2="${x2}" y1="${y+22}" y2="${y+22}" style="stroke:var(--rule-2);stroke-dasharray:3 5"/>`});
+  s+=T(430,30,'verification ←→ specification','lbl','middle');
+  VST.forEach(v=>{const [x,y]=pos[v.k];const dim=vFil!=='all'&&v.lv!==vFil;const c=(v.k===vSel?'sel ':'')+(v.lv==='sys'?'acc':'');
+    s+=`<g class="vstage" data-k="${v.k}" tabindex="0" role="button" aria-label="${v.k} ${v.n}" style="opacity:${dim?.3:1}">${B(x,y,180,44,v.n.length>30?v.n.replace(' & ',' &amp; ').slice(0,29)+'…':v.n.replace('&','&amp;'),v.k,c)}</g>`});
+  s+=B(340,375,180,40,'Implementation','code · models · build');
+  s+=`<rect x="10" y="395" width="12" height="12" rx="2" class="blk acc"/>`+T(28,405,'System level','lbl')+`<rect x="120" y="395" width="12" height="12" rx="2" class="blk"/>`+T(138,405,'Software level','lbl');
+  mount('dg-v',860,425,s,'V-model with ASPICE processes');
+  $$('#dg-v .vstage').forEach(g=>{g.onclick=()=>{vSel=g.dataset.k;vDraw()};g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();vSel=g.dataset.k;vDraw()}}});
+  const v=VST.find(x=>x.k===vSel);const pair=VPAIR[v.k]||Object.keys(VPAIR).find(k=>VPAIR[k]===v.k);const pv=VST.find(x=>x.k===pair);
+  $('#v-detail').innerHTML=`<h3><span class="chip">${v.k}</span> ${v.n}</h3><div><p><b>Purpose.</b> ${v.p}</p><p><b>Inputs.</b> ${v.in}</p></div><div><p><b>Work products.</b> ${v.out}</p><p><b>Methods &amp; tools.</b> ${v.m}</p></div><p class="small muted" style="grid-column:1/-1;margin:0">${v.side==='L'?'Verified by':'Verifies'} <b>${pv.k} ${pv.n}</b>.</p>`;
+}
+$$('#v-filter button').forEach(b=>b.onclick=()=>{vFil=b.dataset.f;$$('#v-filter button').forEach(x=>x.setAttribute('aria-pressed',x===b));vDraw()});
+vDraw();
+
+/* ---------- ASIL ---------- */
+const asil=(s,e,c)=>{if(!s||!e||!c)return'QM';return({10:'D',9:'C',8:'B',7:'A'})[s+e+c]||'QM'};
+const asilColor=a=>({QM:'var(--ink-2)',A:'var(--good)',B:'var(--warn)',C:'var(--signal)',D:'var(--bad)'})[a];
+function asRender(){const s=+$('#as-s').value,e=+$('#as-e').value,c=+$('#as-c').value;const a=asil(s,e,c);
+  const bd=$('#as-badge');bd.textContent=a==='QM'?'QM':'ASIL '+a;bd.style.color=asilColor(a);
+  $('#as-text').innerHTML=a==='QM'?'Quality management is sufficient. No ASIL-specific requirements apply, but the normal development process still does.':`Safety goal must be met with ASIL ${a} methods. ${a==='D'?'Highest rigour: e.g. MC/DC coverage, formal verification recommended, SPFM ≥ 99 %, LFM ≥ 90 %, PMHF &lt; 10 FIT.':a==='C'?'High rigour: e.g. SPFM ≥ 97 %, LFM ≥ 80 %, PMHF &lt; 100 FIT.':a==='B'?'Moderate rigour: e.g. SPFM ≥ 90 %, LFM ≥ 60 %, PMHF &lt; 100 FIT.':'Lowest ASIL; hardware metrics are not mandatory targets.'} Decomposition (e.g. D → B(D) + B(D)) can split it across independent elements.`;
+  let h='<tr><th></th><th></th><th>C1</th><th>C2</th><th>C3</th></tr>';
+  for(let S=1;S<=3;S++)for(let E=1;E<=4;E++){h+=`<tr>${E===1?`<th rowspan="4">S${S}</th>`:''}<th>E${E}</th>`;for(let C=1;C<=3;C++)h+=`<td class="${S===s&&E===e&&C===c?'hit':''}" style="color:${asilColor(asil(S,E,C))}">${asil(S,E,C)}</td>`;h+='</tr>'}
+  $('#as-table').innerHTML=h}
+['#as-s','#as-e','#as-c'].forEach(i=>$(i).onchange=asRender);asRender();
+
+/* ---------- Attack feasibility ---------- */
+const FEAS=[['et','Elapsed time',[['≤ 1 day',0],['≤ 1 week',1],['≤ 1 month',4],['≤ 6 months',17],['> 6 months',19]],1],
+ ['ex','Specialist expertise',[['Layman',0],['Proficient',3],['Expert',6],['Multiple experts',8]],1],
+ ['kn','Knowledge of the item',[['Public',0],['Restricted',3],['Confidential',7],['Strictly confidential',11]],1],
+ ['wo','Window of opportunity',[['Unlimited',0],['Easy',1],['Moderate',4],['Difficult',10]],2],
+ ['eq','Equipment',[['Standard',0],['Specialized',4],['Bespoke',7],['Multiple bespoke',9]],1],
+ ['im','Impact rating (damage scenario)',[['Severe',3],['Major',2],['Moderate',1],['Negligible',0]],0]];
+$('#feas').innerHTML=FEAS.map(([k,l,o,d])=>`<label for="fe-${k}">${l}<select id="fe-${k}">${o.map(([n,v],i)=>`<option value="${v}" ${i===d?'selected':''}>${n}${k==='im'?'':' ('+v+')'}</option>`).join('')}</select></label>`).join('');
+const RM=[[1,1,1,1],[1,2,2,3],[1,2,3,4],[2,3,4,5]];const FL=['Very low','Low','Medium','High'],IL=['Negligible','Moderate','Major','Severe'];
+function rkRender(){const v=k=>+$('#fe-'+k).value;const sum=v('et')+v('ex')+v('kn')+v('wo')+v('eq');
+  const f=sum>=25?0:sum>=20?1:sum>=14?2:3;const im=v('im');const r=RM[im][f];
+  const bd=$('#rk-badge');bd.textContent='Risk '+r;bd.style.color=['','var(--good)','var(--good)','var(--warn)','var(--signal)','var(--bad)'][r];
+  $('#rk-text').innerHTML=`Attack potential <b>${sum}</b> → feasibility <b>${FL[f]}</b>. With <b>${IL[im]}</b> impact the risk value is <b>${r}</b>. ${r>=4?'Treat by reduction: derive cybersecurity goals and controls.':r===3?'Usually reduced; retention needs a documented rationale.':'Often retained with a cybersecurity claim.'}`;
+  let h='<tr><th>Impact ↓ / Feasibility →</th>'+FL.map(x=>`<th>${x}</th>`).join('')+'</tr>';
+  for(let i=3;i>=0;i--){h+=`<tr><th>${IL[i]}</th>`+RM[i].map((x,j)=>`<td class="${i===im&&j===f?'hit':''}">${x}</td>`).join('')+'</tr>'}
+  $('#rk-table').innerHTML=h}
+FEAS.forEach(([k])=>$('#fe-'+k).onchange=rkRender);rkRender();
+
+/* ---------- SecurityAccess ---------- */
+const hx=(n,b=4)=>Array.from({length:b},(_,i)=>((n>>>(8*(b-1-i)))&255).toString(16).toUpperCase().padStart(2,'0')).join(' ');
+const sa={sess:'default',unl:false,att:0,lock:0,seed:null,log:[],tick:null};
+const keyOf=s=>((((s^0x5A3C96E1)<<7)|((s^0x5A3C96E1)>>>25))+0x1234)>>>0;
+function saLog(req,reqWhy,res,resWhy,ok){sa.log.unshift(['res',res,resWhy,ok],['req',req,reqWhy,null]);saRender()}
+function saRender(){const now=Date.now();const left=Math.max(0,Math.ceil((sa.lock-now)/1000));
+  $('#sa-state').innerHTML=`<span class="chip">${sa.sess==='default'?'Default session':'Extended session'}</span><span class="chip ${sa.unl?'good':'bad'}">${sa.unl?'Unlocked':'Locked'}</span><span class="chip ${sa.att?'warn':''}">Failed attempts ${sa.att}/3</span>${left?`<span class="chip bad">Delay ${left} s</span>`:''}`;
+  $('#sa-log').innerHTML=sa.log.length?sa.log.map(([d,b,w,ok])=>`<div class="${d} ${ok===true?'pos':ok===false?'neg':''}"><span class="who">${d==='req'?'Tester →':'← ECU'}</span><span><span class="bytes">${b}</span><br><span class="why">${w}</span></span></div>`).join(''):'<div class="empty">Start with <b>10 03</b>. SecurityAccess is not allowed in the default session.</div>';
+  if(left&&!sa.tick)sa.tick=setInterval(()=>{if(Date.now()>=sa.lock){clearInterval(sa.tick);sa.tick=null}saRender()},500)}
+$('#sa-sess').onclick=()=>{sa.sess='extended';sa.unl=false;sa.seed=null;saLog('10 03','DiagnosticSessionControl → extendedDiagnosticSession','50 03 00 32 01 F4','Positive response with P2 = 50 ms, P2* = 5,000 ms. Security level reset to locked.',true)};
+$('#sa-seed').onclick=()=>{const q='27 01',qw='SecurityAccess → requestSeed (level 1)';
+  if(sa.sess==='default')return saLog(q,qw,'7F 27 7F','NRC 0x7F serviceNotSupportedInActiveSession',false);
+  if(Date.now()<sa.lock)return saLog(q,qw,'7F 27 37','NRC 0x37 requiredTimeDelayNotExpired. Brute-force protection is active.',false);
+  if(sa.unl)return saLog(q,qw,'67 01 00 00 00 00','Seed of zero: this level is already unlocked.',true);
+  sa.seed=(Math.random()*0xFFFFFFFF)>>>0||1;saLog(q,qw,'67 01 '+hx(sa.seed),'Random 4-byte seed. A fixed or predictable seed would allow replaying an old key.',true)};
+function saKey(good){const req=s=>'27 02 '+hx(s);
+  if(sa.sess==='default')return saLog('27 02 …','SecurityAccess → sendKey','7F 27 7F','NRC 0x7F serviceNotSupportedInActiveSession',false);
+  if(sa.seed===null)return saLog('27 02 …','SecurityAccess → sendKey without a seed','7F 27 24','NRC 0x24 requestSequenceError: request a seed first.',false);
+  const k=keyOf(sa.seed),sent=good?k:(k^0x00000F00)>>>0;sa.seed=null;
+  if(good){sa.unl=true;sa.att=0;return saLog(req(sent),'Key computed from the seed with the shared secret','67 02','Positive response: security level 1 unlocked. Protected services (e.g. 2E, 34) are now allowed.',true)}
+  sa.att++;if(sa.att>=3){sa.lock=Date.now()+10000;sa.att=0;return saLog(req(sent),'Wrong key','7F 27 36','NRC 0x36 exceededNumberOfAttempts. ECU starts a 10 s delay timer.',false)}
+  saLog(req(sent),'Wrong key','7F 27 35','NRC 0x35 invalidKey. The seed is discarded; a new one is required.',false)}
+$('#sa-good').onclick=()=>saKey(true);$('#sa-bad').onclick=()=>saKey(false);
+$('#sa-reset').onclick=()=>{sa.sess='default';sa.unl=false;sa.seed=null;saLog('11 01','ECUReset → hardReset','51 01','ECU restarts in the default session, locked. The delay timer keeps running so a reset cannot bypass it.',true)};
+saRender();
+
+/* ---------- SecOC ---------- */
+const toyMac=str=>{let h=0x811c9dc5;for(let r=0;r<2;r++)for(const ch of 'K3y!'+str){h^=ch.charCodeAt(0);h=Math.imul(h,0x01000193)>>>0}return (h>>>8)&0xFFFFFF};
+const so={tx:0,rx:0,last:null,log:[]};
+const macIn=(pl,fv)=>'0C1|'+pl+'|'+fv;
+function soVerify(fr,label,isAttack){const low=fr.fv&0xFF;let cand=(so.rx&~0xFF)|low;if(cand<=so.rx)cand+=256;
+  const ok=toyMac(macIn(fr.pl,cand))===fr.mac;let why;
+  if(ok){so.rx=cand;why=`MAC matches with freshness ${cand}. Frame accepted; speed = ${parseInt(fr.pl.replace(' ',''),16)} km/h.`}
+  else why=isAttack==='replay'?`Receiver expects freshness > ${so.rx}, rebuilds ${cand}, and the MAC computed with it does not match. Replay rejected.`:`Payload changed but the MAC was computed over the original payload. Without the key the attacker cannot recompute it. Rejected.`;
+  so.log.unshift([label,fr,ok,why]);soRender(fr)}
+function soRender(fr){
+  $('#so-pdu').innerHTML=fr?`<span class="id">ID 0x0C1</span><span class="pl">Payload ${fr.pl}</span><span class="fv">FV ${hx(fr.fv&255,1)}</span><span class="mac">MAC ${hx(fr.mac,3)}</span>`:'<span class="id">ID 0x0C1</span><span class="pl">Payload — —</span><span class="fv">FV —</span><span class="mac">MAC — — —</span>';
+  $('#so-state').innerHTML=`<span class="chip">Sender freshness ${so.tx}</span><span class="chip">Receiver last accepted ${so.rx}</span>`;
+  $('#so-log').innerHTML=so.log.length?so.log.map(([l,f,ok,w])=>`<div class="${ok?'pos':'neg'}"><span class="who">${ok?'Accept':'Reject'}</span><span><span class="bytes">${l}</span><br><span class="why">${w}</span></span></div>`).join(''):'<div class="empty">Send an authentic frame first, then try the two attacks.</div>'}
+$('#so-send').onclick=()=>{so.tx++;const v=Math.max(0,Math.min(65535,+$('#so-v').value||0));const pl=hx(v,2);const fr={pl,fv:so.tx,mac:toyMac(macIn(pl,so.tx))};so.last=fr;soVerify(fr,'Sender ECU: authentic frame')};
+$('#so-replay').onclick=()=>{if(!so.last)return soRender();soVerify({...so.last},'Attacker re-sends a recorded frame','replay')};
+$('#so-tamper').onclick=()=>{so.tx++;const pl0=hx(Math.max(0,Math.min(65535,+$('#so-v').value||0)),2);const fr={pl:pl0,fv:so.tx,mac:toyMac(macIn(pl0,so.tx))};so.last=fr;const bad={...fr,pl:hx(200,2)};soVerify(bad,'Attacker changes speed to 200 km/h in transit','tamper')};
+$('#so-reset').onclick=()=>{so.tx=0;so.rx=0;so.last=null;so.log=[];soRender()};
+soRender();
+
+/* ---------- Calculators ---------- */
+const f=(x,d=1)=>isFinite(x)?x.toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
+const CALCS=[
+ {id:'pack',tag:'EV · Battery',t:'Battery pack sizing',in:[['cv','Cell nominal voltage','V',3.65,.01],['ca','Cell capacity','Ah',5,.1],['s','Cells in series','S',96,1],['p','Cells in parallel','P',4,1],['vmax','Cell max voltage','V',4.2,.01],['vmin','Cell min voltage','V',2.8,.01],['ir','Cell resistance','mΩ',20,1],['i','Pack current','A',150,1]],
+  out:v=>{const R=v.s*v.ir/1000/v.p;return[['Pack nominal voltage',f(v.s*v.cv),'V'],['Voltage window',f(v.s*v.vmin,0)+' – '+f(v.s*v.vmax,0),'V'],['Pack capacity',f(v.p*v.ca),'Ah'],['Pack energy',f(v.s*v.cv*v.p*v.ca/1000,2),'kWh',1],['Cell count',f(v.s*v.p,0),''],['Pack resistance',f(R*1000,1),'mΩ'],['Heat at this current (I²R)',f(v.i*v.i*R/1000,2),'kW']]},
+  eq:'E = S·V<sub>cell</sub>·P·Ah<sub>cell</sub>   ·   R<sub>pack</sub> = S·R<sub>cell</sub>/P'},
+ {id:'road',tag:'EV · Range',t:'Road load, power and range',in:[['m','Vehicle mass','kg',1600,10],['crr','Rolling resistance Crr','',0.01,.001],['cd','Drag coefficient Cd','',0.3,.01],['a','Frontal area','m²',2.3,.05],['v','Speed','km/h',80,1],['g','Gradient','%',0,.5],['eta','Drivetrain efficiency','%',88,1],['aux','Auxiliary load','kW',0.5,.1],['e','Usable battery energy','kWh',50,1]],
+  out:v=>{const ms=v.v/3.6,th=Math.atan(v.g/100),gg=9.81;const Fr=v.m*gg*v.crr*Math.cos(th),Fa=.5*1.2*v.cd*v.a*ms*ms,Fg=v.m*gg*Math.sin(th),F=Fr+Fa+Fg;const Pw=F*ms;const Pb=(Pw>0?Pw/(v.eta/100):Pw*(v.eta/100))+v.aux*1000;const whkm=v.v>0?Pb/v.v:NaN;
+   return[['Rolling resistance',f(Fr,0),'N'],['Aerodynamic drag',f(Fa,0),'N'],['Grade force',f(Fg,0),'N'],['Total tractive force',f(F,0),'N'],['Power at wheels',f(Pw/1000,1),'kW'],['Power from battery',f(Pb/1000,1),'kW'],['Consumption',f(whkm,0),'Wh/km'],['Range at constant speed',whkm>0?f(v.e*1000/whkm,0):'∞','km',1]]},
+  eq:'F = m·g·Crr·cosθ + ½·ρ·Cd·A·v² + m·g·sinθ   (ρ = 1.2 kg/m³)'},
+ {id:'chg',tag:'EV · Charging',t:'Charging time',in:[['e','Battery capacity','kWh',50,1],['s0','Start SOC','%',20,1],['s1','Target SOC','%',80,1],['p','Charger power','kW',7.2,.1],['eta','Charging efficiency','%',90,1]],
+  out:v=>{const eb=v.e*Math.max(0,v.s1-v.s0)/100;const h=eb/(v.p*v.eta/100);const hh=Math.floor(h),mm=Math.round((h-hh)*60);return[['Energy into battery',f(eb,1),'kWh'],['Energy from grid',f(eb/(v.eta/100),1),'kWh'],['Charging time',isFinite(h)?`${hh} h ${String(mm).padStart(2,'0')} min`:'—','',1],['Average C-rate',f(v.p*v.eta/100/v.e,2),'C']]},
+  eq:'t = E·ΔSOC / (P·η). Above ~80 % SOC the CV phase tapers current, so real time is longer.'},
+ {id:'mot',tag:'EV · Motor & gearing',t:'Motor power and vehicle speed',in:[['tq','Motor torque','Nm',250,5],['n','Motor speed','rpm',6000,100],['gr','Total gear ratio','',9,.1],['eta','Gear efficiency','%',97,1],['w','Tyre width','mm',215,5],['ar','Aspect ratio','%',60,5],['rim','Rim diameter','inch',16,1]],
+  out:v=>{const P=v.tq*v.n*2*Math.PI/60/1000;const D=(2*v.w*v.ar/100+v.rim*25.4)/1000;const spd=v.n/v.gr*Math.PI*D*60/1000;const Tw=v.tq*v.gr*v.eta/100;
+   return[['Mechanical power',f(P,1),'kW',1],['Power',f(P*1.341,0),'hp'],['Tyre diameter',f(D*1000,0),'mm'],['Wheel speed',f(v.n/v.gr,0),'rpm'],['Vehicle speed',f(spd,1),'km/h',1],['Wheel torque (total)',f(Tw,0),'Nm'],['Tractive force',f(Tw/(D/2),0),'N']]},
+  eq:'P = T·2πn/60   ·   v = (n/i)·π·D·60/1000   ·   D = 2·W·AR + rim'},
+ {id:'eng',tag:'ICE · Geometry',t:'Engine displacement and BMEP',in:[['b','Bore','mm',79,.1],['s','Stroke','mm',81.5,.1],['z','Cylinders','',4,1],['vc','Clearance volume / cyl','cc',48,1],['tq','Brake torque','Nm',150,1],['n','Engine speed','rpm',4500,100]],
+  out:v=>{const vs=Math.PI/4*v.b*v.b*v.s/1000;const vd=vs*v.z;const bmep=4*Math.PI*v.tq/(vd*1e-6)/1e5;
+   return[['Swept volume per cylinder',f(vs,1),'cc'],['Displacement',f(vd,0),'cc',1],['Compression ratio',f((vs+v.vc)/v.vc,1)+' : 1',''],['Bore / stroke',f(v.b/v.s,2),''],['Mean piston speed',f(2*v.s/1000*v.n/60,1),'m/s'],['BMEP (4-stroke)',f(bmep,1),'bar',1],['Brake power',f(v.tq*v.n*2*Math.PI/60000,1),'kW']]},
+  eq:'V<sub>s</sub> = π/4·B²·S   ·   CR = (V<sub>s</sub>+V<sub>c</sub>)/V<sub>c</sub>   ·   BMEP = 4π·T / V<sub>d</sub>'},
+ {id:'fuel',tag:'ICE · Fuel',t:'Fuel consumption and efficiency',in:[['bsfc','BSFC','g/kWh',250,5],['p','Engine power','kW',30,1],['rho','Fuel density','kg/L',0.745,.005],['lhv','Lower heating value','MJ/kg',43.4,.1],['v','Vehicle speed','km/h',90,1]],
+  out:v=>{const kg=v.bsfc*v.p/1000,L=kg/v.rho;return[['Fuel mass flow',f(kg,2),'kg/h'],['Fuel volume flow',f(L,2),'L/h'],['Brake thermal efficiency',f(3600/(v.bsfc*v.lhv)*100,1),'%',1],['Fuel economy',f(v.v/L,1),'km/L',1],['Consumption',f(L/v.v*100,1),'L/100 km']]},
+  eq:'ṁ = BSFC·P   ·   η = 3600 / (BSFC·LHV)   (petrol ≈ 0.745 kg/L, diesel ≈ 0.835 kg/L)'},
+ {id:'lam',tag:'ICE · Mixture',t:'Air–fuel ratio and lambda',in:[['afr','Measured AFR','',14.2,.1],['st','Stoichiometric AFR','',14.7,.1],['air','Air mass per cylinder','mg',400,5]],
+  out:v=>{const l=v.afr/v.st;return[['Lambda λ',f(l,3),'',1],['Mixture',l<0.98?'Rich':l>1.02?'Lean':'Stoichiometric',''],['Fuel mass per cylinder',f(v.air/v.afr,1),'mg'],['Fuel for λ = 1',f(v.air/v.st,1),'mg']]},
+  eq:'λ = AFR / AFR<sub>stoich</sub>   (petrol 14.7, diesel 14.5, CNG 17.2, E100 9.0)'},
+ {id:'pre',tag:'EV · HV safety',t:'Precharge circuit',in:[['v','Battery voltage','V',400,1],['r','Precharge resistor','Ω',50,1],['c','DC-link capacitance','µF',800,10],['pct','Close main contactor at','%',95,1]],
+  out:v=>{const tau=v.r*v.c*1e-6;const t=-tau*Math.log(1-v.pct/100);return[['Time constant τ',f(tau*1000,1),'ms'],['Precharge time',f(t*1000,0),'ms',1],['Peak resistor current',f(v.v/v.r,1),'A'],['Peak resistor power',f(v.v*v.v/v.r/1000,2),'kW'],['Energy into resistor',f(.5*v.c*1e-6*v.v*v.v,1),'J'],['Inrush step at closing',f(v.v*(1-v.pct/100),0),'V']]},
+  eq:'V<sub>C</sub>(t) = V·(1 − e<sup>−t/RC</sup>)   →   t = −RC·ln(1 − p)'},
+ {id:'can',tag:'Networks · Bus load',t:'CAN bus load',in:[['br','Bit rate','kbit/s',500,50],['dlc','Data bytes','B',8,1],['n','Number of messages','',40,1],['cyc','Average cycle time','ms',20,1]],
+  out:v=>{const d=Math.max(0,Math.min(8,v.dlc));const bits=47+8*d;const worst=bits+Math.floor((34+8*d-1)/4);const fps=v.n*1000/v.cyc;const load=fps*bits/(v.br*1000)*100,loadW=fps*worst/(v.br*1000)*100;
+   return[['Frame length (no stuffing)',f(bits,0),'bits'],['Worst-case with stuffing',f(worst,0),'bits'],['Frames per second',f(fps,0),'fps'],['Bus load (nominal)',f(load,1),'%',1],['Bus load (worst-case)',f(loadW,1),'%'],['Status',loadW>70?'Above 70 % — reduce':load>50?'High — review':'OK','']]},
+  eq:'Classic CAN, 11-bit ID: 47 + 8·DLC bits; worst-case stuffing adds ⌊(34 + 8·DLC − 1)/4⌋. Keep load under ~50–70 %.'}
+];
+$('#calcs').innerHTML=CALCS.map(c=>`<article class="calc" id="c-${c.id}"><header><span class="tag">${c.tag}</span><h3>${c.t}</h3></header>
+ <div class="ins">${c.in.map(([k,l,u,d,st])=>`<label for="${c.id}-${k}">${l}${u?` <i>[${u}]</i>`:''}<input type="number" id="${c.id}-${k}" value="${d}" step="${st}"></label>`).join('')}</div>
+ <div class="outs" aria-live="polite"></div><div class="eq">${c.eq}</div></article>`).join('');
+CALCS.forEach(c=>{const run=()=>{const v={};c.in.forEach(([k])=>v[k]=parseFloat($(`#${c.id}-${k}`).value)||0);
+  $(`#c-${c.id} .outs`).innerHTML=c.out(v).map(([l,val,u,key])=>`<div class="${key?'key':''}"><span>${l}</span><b>${val}${u?' '+u:''}</b></div>`).join('')};
+  c.in.forEach(([k])=>$(`#${c.id}-${k}`).addEventListener('input',run));run()});
+
+/* ---------- Engine animation ---------- */
+const eng={ang:0,run:!reduce,raf:0,on:false};
+const ec=$('#engine'),ex=ec.getContext('2d');
+(function(){const d=Math.min(2,window.devicePixelRatio||1);ec.width=340*d;ec.height=400*d;ex.scale(d,d)})();
+function engDraw(){
+  const C={ink:css('--ink'),ink2:css('--ink-2'),rule:css('--rule'),rule2:css('--rule-2'),sheet:css('--sheet'),acc:css('--accent'),sig:css('--signal'),lv:css('--lv'),paper:css('--paper')};
+  const a=eng.ang%720, th=a*Math.PI/180, r=40, l=112, cx=170, cy=330;
+  const pinY=cy-(r*Math.cos(th)+Math.sqrt(l*l-r*r*Math.sin(th)**2));
+  const pTop=pinY-22, headY=118;
+  ex.clearRect(0,0,340,400);
+  const phase=Math.floor(a/180);
+  // gas
+  let gas,ga=0.35;
+  if(phase===0){gas=C.lv;ga=.18+.12*(a/180)}else if(phase===1){gas=C.lv;ga=.3+.25*((a-180)/180)}else if(phase===2){gas=C.sig;ga=.6-.4*((a-360)/180)}else{gas=C.ink2;ga=.25-.12*((a-540)/180)}
+  ex.globalAlpha=Math.max(.06,ga);ex.fillStyle=gas;ex.fillRect(112,headY,116,pTop-headY);ex.globalAlpha=1;
+  // cylinder walls
+  ex.strokeStyle=C.ink;ex.lineWidth=3;ex.beginPath();ex.moveTo(110,headY);ex.lineTo(110,300);ex.moveTo(230,headY);ex.lineTo(230,300);ex.stroke();
+  // head
+  ex.fillStyle=C.rule;ex.fillRect(70,headY-46,200,46);ex.strokeStyle=C.ink;ex.lineWidth=1.5;ex.strokeRect(70,headY-46,200,46);
+  // ports
+  ex.fillStyle=C.sheet;ex.beginPath();ex.moveTo(20,72);ex.lineTo(120,72);ex.lineTo(148,headY);ex.lineTo(120,headY);ex.lineTo(100,92);ex.lineTo(20,92);ex.closePath();ex.fill();ex.stroke();
+  ex.beginPath();ex.moveTo(320,72);ex.lineTo(220,72);ex.lineTo(192,headY);ex.lineTo(220,headY);ex.lineTo(240,92);ex.lineTo(320,92);ex.closePath();ex.fill();ex.stroke();
+  if(phase===0){ex.globalAlpha=.35;ex.fillStyle=C.lv;ex.fillRect(22,74,80,16);ex.globalAlpha=1}
+  if(phase===3){ex.globalAlpha=.35;ex.fillStyle=C.ink2;ex.fillRect(238,74,80,16);ex.globalAlpha=1}
+  ex.font='600 11px '+css('--f-mono');ex.fillStyle=C.ink2;ex.fillText('INTAKE',22,64);ex.fillText('EXHAUST',262,64);
+  // valves
+  const lift=(o,c)=>a>=o&&a<=c?Math.sin((a-o)/(c-o)*Math.PI)*12:0;
+  const iv=lift(0,200),evv=lift(520,720);
+  const valve=(x,lf,col)=>{ex.strokeStyle=C.ink;ex.lineWidth=3;ex.beginPath();ex.moveTo(x,30);ex.lineTo(x,headY-4+lf);ex.stroke();ex.fillStyle=col;ex.beginPath();ex.moveTo(x-16,headY+lf);ex.lineTo(x+16,headY+lf);ex.lineTo(x+4,headY-6+lf);ex.lineTo(x-4,headY-6+lf);ex.closePath();ex.fill();ex.lineWidth=1;ex.stroke()};
+  valve(138,iv,iv>0?C.acc:C.sheet);valve(202,evv,evv>0?C.acc:C.sheet);
+  // spark plug
+  ex.fillStyle=C.ink2;ex.fillRect(165,headY-60,10,52);ex.fillStyle=C.ink;ex.fillRect(167,headY-10,6,8);
+  if(a>=340&&a<=372){ex.fillStyle=C.sig;for(let i=0;i<8;i++){const ang=i*Math.PI/4;ex.beginPath();ex.moveTo(170,headY);ex.lineTo(170+Math.cos(ang)*14,headY+4+Math.sin(ang)*14);ex.lineWidth=2;ex.strokeStyle=C.sig;ex.stroke()}ex.beginPath();ex.arc(170,headY+4,6,0,7);ex.fill()}
+  // piston
+  ex.fillStyle=C.rule2;ex.fillRect(113,pTop,114,52);ex.strokeStyle=C.ink;ex.lineWidth=1.5;ex.strokeRect(113,pTop,114,52);
+  ex.strokeStyle=C.ink2;[8,16].forEach(o=>{ex.beginPath();ex.moveTo(113,pTop+o);ex.lineTo(227,pTop+o);ex.stroke()});
+  // crank
+  ex.strokeStyle=C.rule2;ex.lineWidth=1;ex.beginPath();ex.arc(cx,cy,r+18,0,7);ex.stroke();
+  const px=cx+r*Math.sin(th),py=cy-r*Math.cos(th);
+  ex.strokeStyle=C.ink;ex.lineWidth=12;ex.lineCap='round';ex.beginPath();ex.moveTo(cx,cy);ex.lineTo(px,py);ex.stroke();
+  ex.strokeStyle=C.acc;ex.lineWidth=8;ex.beginPath();ex.moveTo(px,py);ex.lineTo(cx,pinY);ex.stroke();ex.lineCap='butt';
+  ex.fillStyle=C.sheet;ex.strokeStyle=C.ink;ex.lineWidth=1.5;[[cx,cy,6],[px,py,5],[cx,pinY,5]].forEach(([x,y,rr])=>{ex.beginPath();ex.arc(x,y,rr,0,7);ex.fill();ex.stroke()});
+  // TDC/BDC marks
+  ex.font='500 10px '+css('--f-mono');ex.fillStyle=C.ink2;ex.fillText('TDC',236,cy-r*1-(l)-22+4);ex.fillText('BDC',236,cy+r-l-22+4);
+  ex.strokeStyle=C.rule2;ex.setLineDash([2,3]);[cy-r-l-22,cy+r-l-22].forEach(y=>{ex.beginPath();ex.moveTo(230,y);ex.lineTo(260,y);ex.stroke()});ex.setLineDash([]);
+  $('#eng-ang').textContent=Math.round(a)+'°';
+  $('#eng-phase').textContent=['Intake','Compression','Power','Exhaust'][phase];
+  $$('#eng-strokes div').forEach(d=>d.classList.toggle('on',+d.dataset.p===phase));
+}
+function engLoop(){if(!eng.on)return;if(eng.run)eng.ang=(eng.ang+ +$('#eng-spd').value)%720;engDraw();eng.raf=requestAnimationFrame(engLoop)}
+$('#eng-play').onclick=()=>{eng.run=!eng.run;$('#eng-play').textContent=eng.run?'Pause':'Play'};
+$('#eng-play').textContent=eng.run?'Pause':'Play';
+$('#eng-step').onclick=()=>{eng.run=false;$('#eng-play').textContent='Play';eng.ang=(eng.ang+10)%720;engDraw()};
+
+/* ---------- PMSM animation ---------- */
+const pm={t:0,on:false,raf:0};const pc=$('#pmsm'),px=pc.getContext('2d');
+(function(){const d=Math.min(2,window.devicePixelRatio||1);pc.width=700*d;pc.height=270*d;px.scale(d,d)})();
+function pmDraw(){
+  const C={ink:css('--ink'),ink2:css('--ink-2'),rule:css('--rule'),rule2:css('--rule-2'),sheet:css('--sheet'),a:css('--accent'),b:css('--signal'),c:css('--violet'),bad:css('--bad'),lv:css('--lv'),mono:css('--f-mono')};
+  const cols=[C.a,C.b,C.c];const wt=pm.t;const del=+$('#pm-d').value*Math.PI/180;
+  px.clearRect(0,0,700,270);
+  const cx=135,cy=135,R=105;
+  px.strokeStyle=C.rule2;px.lineWidth=14;px.beginPath();px.arc(cx,cy,R,0,7);px.stroke();
+  const ax=[0,2*Math.PI/3,4*Math.PI/3];const I=ax.map((q,k)=>Math.cos(wt-q));
+  ax.forEach((q,k)=>{ // coils
+    [0,Math.PI].forEach(o=>{const g=-(q+o);px.fillStyle=cols[k];px.globalAlpha=.25+.6*Math.abs(I[k]);px.beginPath();px.arc(cx+Math.cos(g)*R,cy+Math.sin(g)*R,10,0,7);px.fill()});px.globalAlpha=1;
+    px.font='600 11px '+C.mono;px.fillStyle=cols[k];px.fillText('ABC'[k],cx+Math.cos(-q)*(R+16)-4,cy+Math.sin(-q)*(R+16)+4);
+    px.strokeStyle=cols[k];px.lineWidth=2;px.setLineDash([3,3]);px.beginPath();px.moveTo(cx,cy);px.lineTo(cx+Math.cos(-q)*I[k]*55,cy+Math.sin(-q)*I[k]*55);px.stroke();px.setLineDash([]);
+  });
+  // rotor
+  const ra=wt-del;px.save();px.translate(cx,cy);px.rotate(-ra);
+  px.fillStyle=C.sheet;px.strokeStyle=C.ink;px.lineWidth=1.5;px.beginPath();px.arc(0,0,48,0,7);px.fill();px.stroke();
+  px.fillStyle=C.bad;px.fillRect(0,-14,44,28);px.fillStyle=C.lv;px.fillRect(-44,-14,44,28);
+  px.fillStyle=C.sheet;px.font='700 13px '+C.mono;px.fillText('N',16,5);px.fillText('S',-28,5);px.restore();
+  // stator field vector
+  const arrow=(ang,len,col,w)=>{const x2=cx+Math.cos(-ang)*len,y2=cy+Math.sin(-ang)*len;px.strokeStyle=col;px.fillStyle=col;px.lineWidth=w;px.beginPath();px.moveTo(cx,cy);px.lineTo(x2,y2);px.stroke();const h=10;px.beginPath();px.moveTo(x2,y2);px.lineTo(x2-h*Math.cos(-ang-.4),y2-h*Math.sin(-ang-.4));px.lineTo(x2-h*Math.cos(-ang+.4),y2-h*Math.sin(-ang+.4));px.closePath();px.fill()};
+  arrow(wt,88,C.ink,3);
+  px.font='500 10.5px '+C.mono;px.fillStyle=C.ink2;px.fillText('stator field',8,262);
+  // waveforms
+  const x0=290,x1=690,ym=135,A=80;
+  px.strokeStyle=C.rule;px.lineWidth=1;px.beginPath();px.moveTo(x0,ym);px.lineTo(x1,ym);px.moveTo(x0,ym-A);px.lineTo(x0,ym+A);px.stroke();
+  const span=4*Math.PI;
+  ax.forEach((q,k)=>{px.strokeStyle=cols[k];px.lineWidth=2;px.beginPath();for(let x=x0;x<=x1;x+=2){const tt=wt-span+(x-x0)/(x1-x0)*span;const y=ym-A*Math.cos(tt-q);x===x0?px.moveTo(x,y):px.lineTo(x,y)}px.stroke();
+    px.fillStyle=cols[k];px.beginPath();px.arc(x1,ym-A*I[k],4,0,7);px.fill();px.fillText('i'+'abc'[k],x1-22,ym-A*I[k]-8)});
+  px.fillStyle=C.ink2;px.fillText('phase currents (now →)',x0+4,ym+A+18);
+  $('#pm-tq').textContent=`load angle ${Math.round(del*180/Math.PI)}° → torque = ${Math.round(Math.sin(del)*100)} % of maximum`;
+}
+function pmLoop(){if(!pm.on)return;pm.t+=+$('#pm-f').value*0.05;pmDraw();pm.raf=requestAnimationFrame(pmLoop)}
+$('#pm-d').oninput=()=>{if(!pm.on||reduce)pmDraw()};$('#pm-f').oninput=()=>{if(reduce){pm.t+=.3;pmDraw()}};
+
+/* ---------- Router ---------- */
+const views=$$('section.view');
+function route(){
+  const h=(location.hash||'#home').slice(1);const v=views.find(x=>x.id===h)||views[0];
+  views.forEach(x=>x.hidden=x!==v);
+  $$('.nav a').forEach(a=>a.getAttribute('href')==='#'+v.id?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  eng.on=v.id==='ice';cancelAnimationFrame(eng.raf);if(eng.on){engDraw();if(!reduce)engLoop()}
+  pm.on=v.id==='ev';cancelAnimationFrame(pm.raf);if(pm.on){pmDraw();if(!reduce)pmLoop()}
+  window.scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+})();
+</script>
+<style>
+.ref{font:12px/1.5 var(--f-mono);color:var(--ink-2);border-left:3px solid var(--accent);padding:4px 10px;margin:14px 0 0;max-width:80ch}
+.chips button.ld{font:500 12.5px var(--f-mono);border:1px solid var(--rule-2);background:var(--paper);color:var(--ink-2);padding:6px 10px;border-radius:999px;cursor:pointer}
+.chips button.ld[aria-pressed="true"]{background:var(--signal-soft);border-color:var(--signal);color:var(--ink)}
+.chips button.ld.shed{text-decoration:line-through;opacity:.6}
+.btn[aria-pressed="true"]{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.dg .flow.regen{stroke:var(--good)}
+.dg .mech{stroke:var(--ink);stroke-width:4;fill:none;stroke-linecap:round}
+.dg .elec{stroke:var(--accent);stroke-width:2;fill:none;stroke-dasharray:6 4}
+.dg .fuel{stroke:var(--warn);stroke-width:2;fill:none}
+.dg .blk.dim{opacity:.35}
+.dg .curve{fill:none;stroke:var(--accent);stroke-width:2.4}
+.dg .curve2{fill:none;stroke:var(--signal);stroke-width:2.4}
+.dg .grid{stroke:var(--rule);stroke-width:1}
+.dg .ld{stroke:var(--bad);stroke-width:2;stroke-dasharray:6 4}
+.dg .pt{fill:var(--signal);stroke:var(--sheet);stroke-width:2}
+.dg .on{stroke:var(--signal);stroke-width:3;fill:none}
+</style>
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const B=(x,y,w,h,t,s,c='')=>{let o=`<rect class="blk ${c}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;const subs=s?s.split('|'):[];const top=y+h/2-subs.length*7+4;o+=`<text class="t" x="${x+w/2}" y="${top}" text-anchor="middle">${t}</text>`;subs.forEach((l,i)=>o+=`<text class="s" x="${x+w/2}" y="${top+14*(i+1)}" text-anchor="middle">${l}</text>`);return o};
+const P=(d,c='wire',ex='')=>`<path class="${c}" d="${d}" ${ex}/>`;
+const T=(x,y,s,c='s',a='start')=>`<text class="${c}" x="${x}" y="${y}" text-anchor="${a}">${s}</text>`;
+const mount=(id,w,h,inner,label)=>{const el=$('#'+id);if(el)el.innerHTML=`<svg class="dg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`};
+const seg=(id,fn)=>{const g=$('#'+id);if(!g)return;g.querySelectorAll('button').forEach(b=>b.onclick=()=>{g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));fn(b.dataset)})};
+const cur=id=>$('#'+id+' button[aria-pressed="true"]').dataset;
+
+/* ---------- Fig 4.1 sensor integration levels ---------- */
+const SI=[['Sensing element','raw physical effect'],['Signal conditioning','amplify · linearise'],['A/D conversion','digitise · compensate'],['Microcontroller','self-test · bus protocol']];
+const SID=[
+ ['Raw analogue signal, often millivolts','The ECU does all conditioning. The weak signal travels the whole harness and picks up interference. Example: passive inductive crank or wheel-speed sensor.'],
+ ['Conditioned analogue, e.g. 0.5–4.5 V ratiometric','Amplification and temperature compensation in the sensor. The 0.5 and 4.5 V limits leave room to detect short and open circuits. Example: MAP and rail-pressure sensors.'],
+ ['Digital: PWM, current-coded, SENT (SAE J2716), PSI5','Digitised in the sensor, so the wire carries robust digital data. Example: active wheel-speed sensors (current-coded), SENT throttle and pressure sensors, PSI5 airbag satellites.'],
+ ['Bus: CAN, LIN, Ethernet, SerDes','A full smart sensor: self-diagnosis, calibration and protocol inside. Example: steering-angle and yaw-rate clusters on CAN, radar and cameras on Ethernet or SerDes links.']];
+function drawSI(l){
+  let s='';const x0=20,w=128,g=36,y=50;
+  const hx=x0-10, hw=(l+1)*(w+g)-g+20;
+  s+=`<rect class="grp" x="${hx}" y="${y-30}" width="${hw}" height="130" rx="10" style="stroke:var(--accent);stroke-dasharray:6 4"/>`+T(hx+8,y-14,'SENSOR HOUSING','lbl');
+  SI.forEach((b,i)=>{const x=x0+i*(w+g);s+=B(x,y,w,56,b[0],b[1],i<=l?'acc':'');if(i<3)s+=P(`M${x+w} ${y+28} H${x+w+g-2}`,'wire','marker-end="url(#ah)"')});
+  const ecuX=x0+4*(w+g)+30;
+  s+=B(ecuX,y,90,56,'ECU','software','');
+  const fromX=x0+l*(w+g)+w;
+  s+=P(`M${fromX} ${y+80} V${y+110} H${ecuX+45} V${y+60}`,'flow','marker-end="url(#ahs)"');
+  s+=T((fromX+ecuX+45)/2,y+130,'on the wire: '+SID[l][0],'s','middle');
+  mount('dg-si',ecuX+100,200,s,'Sensor integration levels');
+  $('#si-desc').textContent=SID[l][1];
+}
+seg('si-lvl',d=>drawSI(+d.l));if($('#dg-si'))drawSI(2);
+
+/* ---------- Fig 4.2 wheel-speed signals ---------- */
+function drawWS(){
+  const v=+$('#ws-v').value, z=48, r=0.30;
+  const f=v/3.6/(2*Math.PI*r)*z;
+  $('#ws-vo').textContent=v+' km/h';$('#ws-f').textContent=f.toFixed(0)+' Hz';
+  const W=720,x0=110,x1=700,Tw=0.02;let s='';
+  const ym1=70,A=Math.min(48,v*0.9), thr=6;
+  s+=T(10,ym1-38,'PASSIVE','lbl')+T(10,ym1-24,'inductive','s')+T(10,ym1-10,'voltage','s');
+  s+=`<line class="grid" x1="${x0}" x2="${x1}" y1="${ym1}" y2="${ym1}"/>`;
+  [thr,-thr].forEach(t=>s+=`<line x1="${x0}" x2="${x1}" y1="${ym1-t}" y2="${ym1-t}" style="stroke:var(--bad);stroke-dasharray:2 4"/>`);
+  let d='';for(let x=x0;x<=x1;x+=1.5){const t=(x-x0)/(x1-x0)*Tw;const y=ym1-A*Math.sin(2*Math.PI*f*t)+(v<8?Math.sin(x*1.7)*2.5:0);d+=(x===x0?'M':'L')+x.toFixed(1)+' '+y.toFixed(1)}
+  s+=P(d,'curve2');
+  s+=T(x1,ym1+66,'detection threshold','lbl','end');
+  const ym2=200,hi=176,lo=214;
+  s+=T(10,ym2-38,'ACTIVE','lbl')+T(10,ym2-24,'Hall / MR','s')+T(10,ym2-10,'current','s');
+  s+=T(x0-6,hi+4,'14 mA','lbl','end')+T(x0-6,lo+4,'7 mA','lbl','end');
+  let e=`M${x0} ${lo}`;let prev=lo;
+  for(let x=x0;x<=x1;x+=1){const t=(x-x0)/(x1-x0)*Tw;const ph=(f*t)%1;const y=(f>0&&ph<0.5)?hi:lo;if(y!==prev){e+=` L${x} ${prev} L${x} ${y}`;prev=y}}
+  e+=` L${x1} ${prev}`;s+=P(e,'curve');
+  s+=T(x0,250,'0 ms','lbl')+T(x1,250,'20 ms','lbl','end');
+  mount('dg-ws',W,260,s,'Passive and active wheel-speed sensor signals');
+  let msg;
+  if(v===0)msg='Standstill: the passive sensor gives nothing. The active sensor holds a steady 7 or 14 mA level, so the ECU still knows the tooth position and can detect the first movement.';
+  else if(v<8)msg=`At ${v} km/h the passive signal is only a few hundredths of its high-speed amplitude and is lost in noise below the detection threshold. The active signal is as clean as at any other speed.`;
+  else msg=`At ${v} km/h both work. The passive amplitude grows with speed (in a real sensor from millivolts to tens of volts), so its input stage must handle a wide range. The active sensor's current levels never change; only the frequency does.`;
+  $('#ws-desc').textContent=msg;
+}
+if($('#ws-v')){$('#ws-v').oninput=drawWS;drawWS();}
+
+/* ---------- Fig 4.3 lambda ---------- */
+const lmV=l=>0.08+0.82/(1+Math.exp((l-1)*90));
+const lmI=l=>2.4*(1-1/l);
+function drawLM(){
+  const L=+$('#lm-l').value;const W=720,H=260;
+  const xs=l=>60+(l-0.7)/0.8*280, xs2=l=>420+(l-0.7)/0.8*280;
+  let s='';
+  s+=T(60,18,'TWO-STEP · Nernst voltage','lbl');
+  const yv=v=>220-v*190;
+  [0,0.45,0.9].forEach(v=>{s+=`<line class="grid" x1="60" x2="340" y1="${yv(v)}" y2="${yv(v)}"/>`+T(54,yv(v)+4,v.toFixed(2)+' V','lbl','end')});
+  let d='';for(let l=0.7;l<=1.5001;l+=0.005)d+=(l===0.7?'M':'L')+xs(l).toFixed(1)+' '+yv(lmV(l)).toFixed(1);s+=P(d,'curve2');
+  s+=`<circle class="pt" cx="${xs(L)}" cy="${yv(lmV(L))}" r="6"/>`;
+  s+=T(420,18,'WIDE-BAND · pump current','lbl');
+  const yi=i=>130-i*80;
+  [-1,0,1].forEach(i=>{s+=`<line class="grid" x1="420" x2="700" y1="${yi(i)}" y2="${yi(i)}"/>`+T(414,yi(i)+4,(i>0?'+':'')+i+' mA','lbl','end')});
+  d='';for(let l=0.7;l<=1.5001;l+=0.005)d+=(l===0.7?'M':'L')+xs2(l).toFixed(1)+' '+yi(lmI(l)).toFixed(1);s+=P(d,'curve');
+  s+=`<circle class="pt" cx="${xs2(L)}" cy="${yi(lmI(L))}" r="6"/>`;
+  [0.7,1,1.5].forEach(l=>{s+=T(xs(l),246,'λ '+l.toFixed(1),'lbl','middle')+T(xs2(l),246,'λ '+l.toFixed(1),'lbl','middle')});
+  s+=`<line x1="${xs(1)}" x2="${xs(1)}" y1="26" y2="226" style="stroke:var(--rule-2);stroke-dasharray:2 4"/><line x1="${xs2(1)}" x2="${xs2(1)}" y1="26" y2="226" style="stroke:var(--rule-2);stroke-dasharray:2 4"/>`;
+  s+=T(xs(L)+10,yv(lmV(L))-10,(lmV(L)*1000).toFixed(0)+' mV','t')+T(xs2(L)+10,yi(lmI(L))-10,(Math.abs(lmI(L))<0.005?'0.00':(lmI(L)>0?'+':'')+lmI(L).toFixed(2))+' mA','t');
+  mount('dg-lm',W,H,s,'Lambda sensor characteristic curves');
+  $('#lm-st').textContent=L<0.995?'rich (excess fuel)':L>1.005?'lean (excess air)':'stoichiometric';
+}
+if($('#lm-l')){$('#lm-l').oninput=drawLM;drawLM();}
+
+/* ---------- Fig 5.1 charge balance ---------- */
+const LOADS=[
+ {k:'base',n:'ECUs, pumps, ignition',a:30,fixed:true,on:true},
+ {k:'lamp',n:'Headlamps (halogen)',a:13,on:true},
+ {k:'blow',n:'Blower max',a:20,on:false,shed:true},
+ {k:'rear',n:'Rear-window heater',a:15,on:false,shed:true},
+ {k:'seat',n:'Seat heaters',a:16,on:false,shed:true},
+ {k:'wipe',n:'Wipers',a:5,on:false},
+ {k:'fan',n:'Radiator fan',a:25,on:false},
+ {k:'aux',n:'Aux. heater (PTC)',a:40,on:false,shed:true}];
+const n0=1000,Imax=150;
+const Ialt=n=>n<=n0?0:Imax*(1-Math.exp(-(n-n0)/2200));
+let eem=false;
+function drawCB(){
+  const nUser=+$('#cb-n').value, ratio=+$('#cb-r').value;
+  let n=nUser;let load=0, shedList=[];
+  LOADS.forEach(L=>{if(L.on)load+=L.a});
+  let ia=Ialt(n*ratio);
+  let actions=[];
+  if(eem&&ia<load){
+    if(n<1000){n=1000;ia=Ialt(n*ratio);actions.push('raised idle to 1,000 rpm')}
+    for(const L of [...LOADS].reverse()){if(ia>=load)break;if(L.on&&L.shed){load-=L.a;shedList.push(L.k);}}
+    if(shedList.length)actions.push('shed '+shedList.length+' comfort load'+(shedList.length>1?'s':''));
+  }
+  $$('#cb-loads button').forEach(b=>b.classList.toggle('shed',shedList.includes(b.dataset.k)));
+  const nalt=n*ratio, ib=ia-load;
+  const X=v=>70+v/15000*600, Y=a=>210-a/160*190;let s='';
+  [0,40,80,120,160].forEach(a=>s+=`<line class="grid" x1="70" x2="670" y1="${Y(a)}" y2="${Y(a)}"/>`+T(62,Y(a)+4,a+' A','lbl','end'));
+  [0,3000,6000,9000,12000,15000].forEach(v=>s+=T(X(v),230,v.toLocaleString('en'),'lbl','middle'));
+  s+=T(370,252,'alternator speed (rpm)','lbl','middle');
+  const idleLo=X(1500), idleHi=X(2400);
+  s+=`<rect x="${idleLo}" y="20" width="${idleHi-idleLo}" height="190" style="fill:var(--warn-soft);opacity:.6"/>`+T((idleLo+idleHi)/2,32,'idle range','lbl','middle');
+  let d='';for(let v=0;v<=15000;v+=100)d+=(v?'L':'M')+X(v).toFixed(1)+' '+Y(Ialt(v)).toFixed(1);s+=P(d,'curve');
+  s+=T(X(14800),Y(Ialt(14800))-8,'I(n)','t','end');
+  s+=`<line class="ld" x1="70" x2="670" y1="${Y(load)}" y2="${Y(load)}"/>`+T(668,Y(load)-6,'consumers '+load+' A','lbl','end');
+  s+=`<line x1="${X(n0)}" x2="${X(n0)}" y1="${Y(0)}" y2="${Y(0)+6}" style="stroke:var(--ink)"/>`+T(X(n0)-4,Y(0)-8,'n₀','lbl','end');
+  s+=`<line x1="${X(6000)}" x2="${X(6000)}" y1="${Y(Ialt(6000))}" y2="${Y(0)}" style="stroke:var(--rule-2);stroke-dasharray:2 4"/>`+T(X(6000)+4,Y(Ialt(6000))+16,'rated, 6,000','lbl');
+  s+=`<circle class="pt" cx="${X(Math.min(nalt,15000))}" cy="${Y(ia)}" r="7"/>`;
+  mount('dg-cb',700,260,s,'Alternator current characteristic and consumer load');
+  $('#cb-ro-n').textContent=n.toLocaleString('en')+' rpm';
+  $('#cb-ro-a').textContent=Math.round(nalt).toLocaleString('en')+' rpm · '+ia.toFixed(0)+' A';
+  $('#cb-ro-l').textContent=load+' A';
+  $('#cb-ro-b').textContent=(ib>=0?'+':'')+ib.toFixed(0)+' A';
+  const st=$('#cb-status');
+  if(ib>=0)st.innerHTML=`<span class="chip good">CHARGING</span> Alternator covers all consumers with ${ib.toFixed(0)} A to spare for the battery.`+(actions.length?` EEM ${actions.join(' and ')}.`:'');
+  else st.innerHTML=`<span class="chip bad">DISCHARGING</span> Battery supplies ${(-ib).toFixed(0)} A.`+(eem?` EEM ${actions.join(' and ')||'has nothing left to shed'}; deficit remains.`:' In stop-and-go traffic this drains the battery. Try switching EEM on.');
+}
+if($('#cb-n')){
+  $('#cb-loads').innerHTML=LOADS.map(L=>`<button class="ld" data-k="${L.k}" aria-pressed="${L.on}" ${L.fixed?'disabled':''}>${L.n} · ${L.a} A</button>`).join('');
+  $$('#cb-loads button').forEach(b=>b.onclick=()=>{const L=LOADS.find(x=>x.k===b.dataset.k);L.on=!L.on;b.setAttribute('aria-pressed',L.on);drawCB()});
+  $('#cb-n').oninput=drawCB;$('#cb-r').onchange=drawCB;
+  $('#cb-eem').onclick=()=>{eem=!eem;$('#cb-eem').setAttribute('aria-pressed',eem);$('#cb-eem').textContent=eem?'EEM on':'EEM off';drawCB()};
+  drawCB();
+}
+
+/* ---------- Fig 5.2 EEM ---------- */
+(function(){
+  let s='';
+  s+=B(250,10,230,46,'Vehicle state + strategy','driving · stop phase · parked');
+  s+=B(250,84,230,52,'Energy coordinator','balances supply and demand','acc');
+  s+=P('M365 56 V82','wire','marker-end="url(#ah)"');
+  const row=[[20,'Battery management','SOC · SOH · SOF','Battery + sensor'],[260,'Load management','shed · delay · inhibit','Body ECU · relays · eFuses'],[500,'Generation management','voltage setpoint · idle','Alternator / DC-DC']];
+  row.forEach(([x,t,sub,dev])=>{s+=B(x,170,210,52,t,sub);s+=P(`M365 136 V150 H${x+105} V168`,'wire','marker-end="url(#ah)"');s+=B(x+20,252,170,40,dev,'');s+=P(`M${x+105} 222 V250`,'wire','marker-end="url(#ah)"')});
+  s+=B(560,84,150,52,'Other ECUs','engine · gateway · A/C');
+  s+=P('M480 110 H558','wire','marker-end="url(#ah)" marker-start="url(#ah)"');
+  mount('dg-eem',730,300,s,'Electrical energy management structure');
+})();
+
+/* ---------- Fig 5.3 starter circuit ---------- */
+function drawST(p){
+  let s='';const on=(c,cls='wire')=>c?'on':cls;
+  s+=B(20,110,90,60,'Battery','12 V');
+  s+=T(116,106,'30','lbl');
+  s+=P('M110 125 H150 V40 H470',on(p===2));
+  s+=P('M150 125 V200 H200',on(p>=1));
+  s+=B(200,180,100,40,'Ignition','switch');s+=T(306,196,'50','lbl');
+  s+=P('M300 200 H360',on(p>=1));
+  s+=`<rect class="blk ${p>=1?'hv':''}" x="360" y="150" width="150" height="100" rx="6"/>`+T(435,168,'Engagement relay','t','middle');
+  s+=`<rect class="blk" x="372" y="182" width="58" height="22" rx="3" style="${p===1?'stroke:var(--signal);stroke-width:2.4':p===2?'opacity:.35':''}"/>`+T(401,197,'pull-in','s','middle');
+  s+=`<rect class="blk" x="440" y="182" width="58" height="22" rx="3" style="${p>=1?'stroke:var(--signal);stroke-width:2.4':''}"/>`+T(469,197,'hold-in','s','middle');
+  s+=T(435,232,p===0?'plunger out':'plunger pulled in','s','middle');
+  const cy=p===2?40:56;
+  s+=`<line x1="470" x2="530" y1="40" y2="${cy}" style="stroke:var(--ink);stroke-width:3"/>`+T(500,24,'main contact','lbl','middle');
+  s+=`<line x1="435" x2="${p===2?500:470}" y1="150" y2="${p===2?44:60}" style="stroke:var(--rule-2);stroke-width:1.5;stroke-dasharray:3 3"/>`;
+  s+=P('M530 40 H600 V110',on(p===2));
+  s+=`<circle class="blk ${p===2?'hv':''}" cx="600" cy="140" r="30"/>`+T(600,145,'M','t','middle');
+  s+=P('M600 170 V290 H65 V170',p>=1?'on':'wire');s+=T(330,284,'31 · ground','lbl','middle');
+  s+=P('M435 250 V290',p>=1?'on':'wire');
+  s+=B(640,210,80,44,'Pinion',p===0?'disengaged':'in ring gear',p>=1?'acc':'');
+  s+=P('M630 140 H680 V208','mech');
+  mount('dg-st',730,300,s,'Starter motor circuit with engagement relay');
+  $('#st-desc').textContent=['Ignition switch open. Terminal 30 is live at the main contact, but no current flows.',
+   'Terminal 50 energised. Pull-in and hold-in windings together pull the plunger; the lever pushes the pinion into the ring gear. A small current through the pull-in winding turns the motor slowly so the teeth can mesh.',
+   'Main contact closed: several hundred amps flow from terminal 30 through the motor. The pull-in winding now has battery voltage on both ends and carries no current; the hold-in winding keeps the contact closed until the key is released.'][p];
+}
+seg('st-ph',d=>drawST(+d.p));if($('#dg-st'))drawST(0);
+
+/* ---------- Fig 2.3 hybrid ---------- */
+const HY={
+ series:{nodes:{tank:[20,20,'Fuel tank'],eng:[20,120,'Engine'],gen:[180,120,'Generator'],inv:[340,120,'Inverter'],bat:[340,220,'Battery'],mot:[500,120,'E-motor'],whl:[640,120,'Wheels']},
+  edges:[['tank','eng','fuel'],['eng','gen','mech'],['gen','inv','elec'],['inv','bat','elec'],['inv','mot','elec'],['mot','whl','mech']],
+  modes:{ev:{'inv-bat':-1,'inv-mot':1,'mot-whl':1},eng:{'tank-eng':1,'eng-gen':1,'gen-inv':1,'inv-mot':1,'mot-whl':1,'inv-bat':1},boost:{'tank-eng':1,'eng-gen':1,'gen-inv':1,'inv-bat':-1,'inv-mot':1,'mot-whl':1},regen:{'mot-whl':-1,'inv-mot':-1,'inv-bat':1}}},
+ parallel:{nodes:{tank:[20,20,'Fuel tank'],eng:[20,120,'Engine'],mot:[220,120,'E-motor (P2)'],gb:[420,120,'Transmission'],whl:[620,120,'Wheels'],inv:[220,220,'Inverter'],bat:[420,220,'Battery']},
+  edges:[['tank','eng','fuel'],['eng','mot','mech'],['mot','gb','mech'],['gb','whl','mech'],['mot','inv','elec'],['inv','bat','elec']],
+  modes:{ev:{'inv-bat':-1,'mot-inv':-1,'mot-gb':1,'gb-whl':1},eng:{'tank-eng':1,'eng-mot':1,'mot-gb':1,'gb-whl':1},boost:{'tank-eng':1,'eng-mot':1,'inv-bat':-1,'mot-inv':-1,'mot-gb':1,'gb-whl':1},regen:{'gb-whl':-1,'mot-gb':-1,'mot-inv':1,'inv-bat':1}}},
+ split:{nodes:{tank:[20,20,'Fuel tank'],eng:[20,120,'Engine'],pg:[200,120,'Planetary gear'],gen:[200,220,'MG1 generator'],inv:[380,220,'Inverter'],bat:[560,220,'Battery'],mot:[380,120,'MG2 motor'],whl:[560,120,'Wheels']},
+  edges:[['tank','eng','fuel'],['eng','pg','mech'],['pg','gen','mech'],['gen','inv','elec'],['inv','bat','elec'],['inv','mot','elec'],['pg','mot','mech'],['mot','whl','mech']],
+  modes:{ev:{'inv-bat':-1,'inv-mot':1,'mot-whl':1},eng:{'tank-eng':1,'eng-pg':1,'pg-mot':1,'pg-gen':1,'gen-inv':1,'inv-mot':1,'mot-whl':1},boost:{'tank-eng':1,'eng-pg':1,'pg-mot':1,'pg-gen':1,'gen-inv':1,'inv-bat':-1,'inv-mot':1,'mot-whl':1},regen:{'mot-whl':-1,'inv-mot':-1,'inv-bat':1}}}};
+const HYD={
+ series:{ev:'Engine off. The battery feeds the inverter and the motor drives the wheels. Every series hybrid is an EV with an on-board generator.',
+  eng:'The engine drives only the generator, at its most efficient speed regardless of road speed. All traction is electric; surplus generator power charges the battery. Two energy conversions cost roughly 30 % of the engine output, the main drawback. Modern example: range-extender EVs.',
+  boost:'Generator and battery feed the motor together for full power. The motor alone must be sized for peak traction power.',
+  regen:'The motor runs as a generator when braking and charges the battery through the inverter.'},
+ parallel:{ev:'Clutch K0 opens so the engine is not dragged along. The P2 motor drives through the normal transmission.',
+  eng:'Clutch closed: engine torque passes through the motor shaft and transmission to the wheels. The motor can also add load to charge the battery.',
+  boost:'Engine and motor torques add on the same shaft. This lets a smaller engine deliver the performance of a larger one.',
+  regen:'Engine decoupled, motor recovers braking energy through the transmission. Placing the motor before the gearbox lets it use the gear ratios.'},
+ split:{ev:'Engine stopped and held by the planetary gear; MG2 drives the wheels from the battery.',
+  eng:'The planetary gear splits engine power: part goes mechanically to the wheels via the ring gear, part drives MG1, whose electricity powers MG2. Varying MG1 speed changes the engine speed continuously (e-CVT), keeping the engine at its best operating point.',
+  boost:'The battery adds power to MG2 on top of the engine\'s mechanical and electrical paths.',
+  regen:'MG2 acts as generator; the battery takes the braking energy while the engine stays off.'}};
+function drawHY(){
+  const t=cur('hy-t').t, m=cur('hy-m').m, D=HY[t];const M=D.modes[m];
+  const w=110,h=50;const ctr=k=>{const [x,y]=D.nodes[k];return[x+w/2,y+h/2]};
+  const edgeKey=(a,b)=>M[a+'-'+b]!==undefined?M[a+'-'+b]:(M[b+'-'+a]!==undefined?-M[b+'-'+a]:0);
+  const ends=(a,b)=>{const [ax,ay]=ctr(a),[bx,by]=ctr(b);if(ay===by){const s=bx>ax?1:-1;return[ax+s*w/2,ay,bx-s*w/2,by]}const s=by>ay?1:-1;return[ax,ay+s*h/2,bx,by-s*h/2]};
+  let s='';const active=new Set();
+  D.edges.forEach(([a,b,ty])=>{const [x1,y1,x2,y2]=ends(a,b);s+=P(`M${x1} ${y1} L${x2} ${y2}`,ty);
+    const dir=edgeKey(a,b);if(dir){active.add(a);active.add(b);const p=dir>0?`M${x1} ${y1} L${x2} ${y2}`:`M${x2} ${y2} L${x1} ${y1}`;s+=P(p,'flow'+(m==='regen'?' regen':''),'marker-end="url(#ahs)"')}});
+  Object.entries(D.nodes).forEach(([k,[x,y,n]])=>{s+=B(x,y,w,h,n,'',active.has(k)?(k==='bat'||k==='inv'||k==='mot'||k==='gen'?'acc':k==='eng'||k==='tank'?'hv':''):'dim')});
+  s+=P('M20 290 H50','mech')+T(56,294,'mechanical','lbl')+P('M150 290 H180','elec')+T(186,294,'electrical','lbl')+P('M280 290 H310','fuel')+T(316,294,'fuel','lbl');
+  mount('dg-hy',760,300,s,'Hybrid drive topology power flow');
+  $('#hy-desc').textContent=HYD[t][m];
+}
+if($('#dg-hy')){seg('hy-t',drawHY);seg('hy-m',drawHY);drawHY();}
+})();
+</script>
+
+</body></html>
