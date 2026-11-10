@@ -353,11 +353,11 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#power"><span class="n">CHAPTER 05</span><span class="tt">Vehicle electrical system</span><span class="d">Battery, alternator, starter, energy management, terminal designations, 48 V and zonal power.</span><span class="tags"><span>charge-balance sim</span><span>starter circuit</span></span></a>
     <a href="#chassis"><span class="n">CHAPTER 06</span><span class="tt">Chassis &amp; safety systems</span><span class="d">ABS, TCS, ESC, ACC and ADAS levels, airbags and occupant protection, x-by-wire.</span><span class="tags"><span>μ-slip &amp; stopping sim</span><span>ESC wheel logic</span></span></a>
     <a href="#networks"><span class="n">CHAPTER 07</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, LIN, FlexRay, Ethernet, error confinement, bit timing, EMC, UDS and DoIP.</span><span class="tags"><span>CAN arbitration sim</span></span></a>
-    <a href="#sdv"><span class="n">CHAPTER 08</span><span class="tt">Software-defined vehicle</span><span class="d">Zonal E/E architecture, signals vs services, SOME/IP and service discovery, DDS, vehicle APIs, AUTOSAR Adaptive.</span><span class="tags"><span>SOME/IP header builder</span><span>SD sequence</span></span></a>
+    <a href="#sdv"><span class="n">CHAPTER 08</span><span class="tt">Software-defined vehicle</span><span class="d">Zonal E/E architecture, signals vs services, SOME/IP and service discovery, DDS, vehicle APIs, Adaptive AUTOSAR stack, ara::com, execution and state management, UCM.</span><span class="tags"><span>SOME/IP header builder</span><span>SD sequence</span><span>Adaptive stack</span><span>ara::com steps</span></span></a>
     <a href="#process"><span class="n">CHAPTER 09</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
-    <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">125 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">135 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
   </div>
   <h2>How to use this guide</h2>
   <div class="cols">
@@ -1211,7 +1211,64 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     </tbody></table></div>
   <p>A central computer often runs several of these worlds at once under a <b>hypervisor</b>: a safety-certified partition for vehicle functions next to an infotainment OS, each isolated so a crash in one cannot affect the other (mixed criticality).</p>
 
-  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <h2>Adaptive AUTOSAR: inside the platform</h2>
+  <p>The Adaptive Platform runs on a <b>Machine</b>: one physical or virtual computer with a POSIX operating system. Applications are ordinary OS <b>processes</b> written in C++. They do not call the OS or each other directly. They use the <b>AUTOSAR Runtime for Adaptive Applications (ARA)</b>, a set of C++ APIs in namespaces such as <code>ara::com</code>, <code>ara::log</code> and <code>ara::per</code>. Applications are limited to a small POSIX profile (PSE51), so the same code can move between Linux, QNX and other certified OSs. Each API comes from a <b>functional cluster</b>, a platform module with one job. Since R23-11 AUTOSAR groups the clusters into seven areas. Click one to see what it does.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 8.4</b> · The Adaptive Platform stack (functional clusters as grouped in AUTOSAR AP R25-11)</span></div>
+    <div class="fig-b"><div class="ap-stack" id="ap-stack"></div></div>
+    <div class="fig-f" id="ap-desc">Click a functional cluster.</div>
+  </figure>
+  <p class="callout">Identity and Access Management was a functional cluster until R22-11. AUTOSAR removed it in R23-11. Older books and courses still show it, so don't be surprised to see "ara::iam" in existing projects.</p>
+
+  <h3>ara::com: proxies and skeletons</h3>
+  <p>Communication Management hides the network behind generated C++ classes. The service provider gets a <b>skeleton</b>. It implements the methods and calls <code>OfferService()</code>. The consumer gets a <b>proxy</b>. It finds the service, then calls methods as if they were local functions and subscribes to events. A method call returns an <code>ara::core::Future</code>, so the caller does not block while the request travels. Which protocol carries the data is not in the code. It is set in the <b>Service Instance Manifest</b>: SOME/IP, DDS, or local IPC when both processes run on the same machine. The same application can therefore talk to a process on the same chip or to an ECU across the car without being recompiled.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 8.5</b> · One service, step by step: skeleton → binding → proxy</span>
+      <div class="ctrls"><button class="btn pri" id="ac-step">Next step</button><button class="btn" id="ac-reset">Reset</button></div></div>
+    <div class="fig-b scroll"><div id="dg-ac"></div></div>
+    <div class="fig-f" id="ac-desc"></div>
+  </figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Element</th><th>Skeleton side (provider)</th><th>Proxy side (consumer)</th><th>On SOME/IP</th></tr></thead>
+    <tbody>
+      <tr><td>Method</td><td>Implement the handler and return a result or error</td><td><code>proxy.Method(args)</code> returns a Future</td><td>REQUEST → RESPONSE / ERROR</td></tr>
+      <tr><td>Event</td><td><code>event.Send(sample)</code></td><td><code>Subscribe()</code>, then <code>GetNewSamples()</code> or a receive handler</td><td>SubscribeEventgroup, then NOTIFICATION</td></tr>
+      <tr><td>Field</td><td>Holds a value; send on change, optional get/set handlers</td><td><code>Get()</code>, <code>Set()</code>, subscribe for changes</td><td>Getter/setter methods plus a notifier event (initial value on subscribe)</td></tr>
+    </tbody></table></div>
+
+  <h3>Execution, state and health</h3>
+  <p>Nothing on an Adaptive machine starts by itself. The OS starts <b>Execution Management (EM)</b> first. EM reads the <b>Execution Manifest</b> of every application: which executable to run, with which arguments, in which resource group, and in which <b>Function Group States</b> the process should be running. A Function Group is a set of processes that are switched together, for example everything that belongs to driving, or to an update. <b>State Management (SM)</b> decides which state each Function Group should be in, based on vehicle mode, ignition and requests from applications. It then asks EM to make the switch. EM stops the processes that are not needed and starts the ones that are, in dependency order. Pick a state below to see the switch.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 8.6</b> · Function Group states: SM decides, EM starts and stops processes</span>
+      <div class="ctrls"><div class="seg" id="fg-seg"></div></div></div>
+    <div class="fig-b scroll"><div id="dg-fg"></div></div>
+    <div class="fig-f" id="fg-desc"></div>
+  </figure>
+  <p><b>Platform Health Management (PHM)</b> watches the running processes. An application reports <b>checkpoints</b> from its code, and PHM checks them in three ways: <i>alive</i> supervision (did the checkpoint arrive often enough?), <i>deadline</i> supervision (did B follow A within its time window?) and <i>logical</i> supervision (did the checkpoints come in an allowed order?). When a supervision fails, PHM reports it to State Management, which can restart the Function Group or move to a degraded state. If the platform itself stops responding, a hardware watchdog resets the machine.</p>
+
+  <h3>Manifests: configuration instead of code</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Manifest</th><th>Describes</th><th>Typical content</th></tr></thead>
+    <tbody>
+      <tr><td>Execution Manifest</td><td>How to run one executable</td><td>Startup arguments, Function Group States it runs in, dependencies, resource group, scheduling policy</td></tr>
+      <tr><td>Service Instance Manifest</td><td>How a service interface is deployed</td><td>Binding (SOME/IP, DDS, IPC), service and instance IDs, event groups, ports, E2E and security settings</td></tr>
+      <tr><td>Machine Manifest</td><td>The machine itself</td><td>Function Groups and their states, network endpoints, resource groups, platform module settings</td></tr>
+    </tbody></table></div>
+  <p>Manifests are written in ARXML during design. The integrator then turns them into a machine-specific <b>processed manifest</b> that the platform reads at run time. This is what makes Adaptive software installable: a new application arrives with its own manifests and the platform knows how to run and connect it, without the rest of the machine being rebuilt.</p>
+
+  <h3>Updates, security and diagnostics</h3>
+  <div class="cols">
+    <div><p><b>Update and Configuration Management (UCM)</b> installs, updates and removes <b>Software Clusters</b> on one machine. A vehicle-level master (Vehicle UCM, VUCM) takes a campaign from the OTA backend and distributes Software Packages to each machine's UCM. One update on a machine runs through these steps:</p>
+    <ol class="flowlist"><li><span><b>Transfer:</b> the package is streamed in and stored.</span></li><li><span><b>Process:</b> UCM checks its signature and integrity and unpacks it next to the running version.</span></li><li><span><b>Activate:</b> State Management switches to an update state, and the new version starts.</span></li><li><span><b>Verify:</b> the new software is checked while it runs.</span></li><li><span><b>Finish</b> keeps the new version. <b>Rollback</b> returns to the old one if anything fails.</span></li></ol>
+    <p>This flow is how a UN R156 software update management system is put into practice on the vehicle side.</p></div>
+    <div><p><b>Security clusters.</b> <b>Cryptography</b> gives applications keys and algorithms without exposing key material. Keys sit in key slots, and a crypto provider can be software or an HSM. The <b>IDS Manager</b> collects qualified security events from the platform and from applications and forwards them to the vehicle SOC (see chapter 10). The <b>Firewall</b> filters Ethernet traffic to and from the machine. EM can also perform <b>authenticated startup</b>, running only executables whose integrity has been checked. This continues the chain of trust from secure boot.</p>
+    <p><b>Diagnostic Management</b> provides UDS over DoIP for the machine and its Software Clusters, with the same services as Classic (0x22, 0x2E, 0x27/0x29, 0x31, 0x19 and so on). For newer service-oriented diagnostics, ISO 17978 (SOVD) adds a REST/HTTP interface. Instead of raw UDS bytes, a tester reads faults and data as web resources.</p></div>
+  </div>
+
+  <h3>Classic and Adaptive in one car</h3>
+  <p>Adaptive does not replace Classic. AUTOSAR's own design documents describe them as two platforms in one system. Zone controllers and actuator ECUs stay on Classic, because it is static, small and certified up to ASIL D. Central and ADAS computers run Adaptive, because they need dynamic deployment, large data flows and OTA updates. The two meet on Ethernet through SOME/IP: a Classic ECU can offer a service that an Adaptive application consumes through a normal proxy. On one SoC, a hypervisor often hosts an Adaptive partition, a Classic or RTOS partition on a safety core, and an infotainment OS side by side.</p>
+
+<div class="revise"><h2>Revise in 60 seconds</h2><ol>
     <li>SDV = features delivered and updated as software; needs central compute, services and a hardware abstraction.</li>
     <li>Zonal: zone controllers do I/O, power distribution and gatewaying; central computers do the heavy software.</li>
     <li>SOME/IP header: Message ID (service + method), Length, Request ID (client + session), versions, type, return code = 16 bytes.</li>
@@ -1219,6 +1276,10 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <li>SD: offer → (find) → subscribe eventgroup → ack → notifications; TTL removes dead services.</li>
     <li>DDS = data-centric topics with rich QoS; used in ROS 2 and as an Adaptive AUTOSAR binding.</li>
     <li>COVESA VSS gives every vehicle signal a standard name; AUTOSAR Adaptive uses <code>ara::com</code> on POSIX systems.</li>
+    <li>Adaptive = C++ processes on a POSIX Machine, using ARA APIs from functional clusters (7 groups since R23-11: runtime, communication, storage, security, safety, configuration, diagnostics).</li>
+    <li>ara::com: skeleton offers, proxy finds and subscribes; methods return a Future; the binding (SOME/IP, DDS, IPC) is set in the Service Instance Manifest.</li>
+    <li>State Management decides Function Group States; Execution Management starts and stops processes; PHM supervises alive, deadline and logical checkpoints.</li>
+    <li>UCM: transfer → process → activate → verify → finish or roll back; VUCM coordinates the vehicle. IAM was removed in R23-11.</li>
   </ol></div>
 </section>
 
@@ -2565,6 +2626,16 @@ const G=[
 ['ASIL','Automotive Safety Integrity Level','Process & safety','process','Risk class from ISO 26262 (QM, A to D) derived from severity, exposure and controllability; D demands the most rigorous development.'],
 ['ASPICE','Automotive SPICE','Process & safety','process','Process assessment model for system and software development; OEMs typically require suppliers to reach capability level 2.'],
 ['AUTOSAR','AUTomotive Open System ARchitecture','ECU & software','ecus','Industry standard for ECU software architecture. Classic Platform for microcontrollers, Adaptive Platform for high-performance computers.'],
+['ARA','AUTOSAR Runtime for Adaptive Applications','SDV','sdv','The set of C++ APIs (ara::com, ara::log, ara::per, ara::crypto and others) through which Adaptive applications use the platform.'],
+['Functional cluster','','SDV','sdv','A module of the Adaptive Platform with one responsibility, such as Execution Management or Persistency, exposing its API through ARA.'],
+['Execution Management','','SDV','sdv','Adaptive functional cluster that starts and stops processes according to their Execution Manifests and the current Function Group States.'],
+['State Management','','SDV','sdv','Adaptive functional cluster that decides the target Function Group States (e.g. Driving, Parking, Update) and asks Execution Management to switch.'],
+['Function Group','','SDV','sdv','A set of Adaptive processes that are started and stopped together; each Function Group has states defined in the Machine Manifest.'],
+['Proxy / Skeleton','','SDV','sdv','Classes generated by ara::com: the skeleton lets a provider offer a service, the proxy lets a consumer call its methods and subscribe to its events.'],
+['Manifest','','SDV','sdv','ARXML configuration for the Adaptive Platform: Execution, Service Instance and Machine Manifests describe how to run, connect and host software.'],
+['PHM','Platform Health Management','SDV','sdv','Adaptive functional cluster that supervises processes with alive, deadline and logical checkpoints and reports failures for recovery.'],
+['UCM','Update and Configuration Management','SDV','sdv','Adaptive functional cluster that installs, updates and rolls back Software Clusters; the vehicle-level VUCM coordinates OTA campaigns.'],
+['SOVD','Service-Oriented Vehicle Diagnostics','Diagnostics','sdv','ISO 17978: diagnostics through a REST/HTTP API with JSON resources instead of raw UDS bytes.'],
 ['AUTOSAR Adaptive','','SDV','sdv','AUTOSAR platform for POSIX-based computers; applications communicate through services (ara::com) and can be installed and updated.'],
 ['Back-EMF','Back electromotive force','EV & energy','ev','Voltage induced in a motor winding as the rotor turns; it rises with speed and opposes the supply voltage.'],
 ['BCM','Body control module','ECU & software','ecus','ECU that runs comfort and body functions such as lighting, locks, wipers and windows.'],
@@ -2930,6 +3001,143 @@ Object.keys(IC).forEach(id=>{
   if(card){card.style.setProperty('--c',COL[id]);if(!card.querySelector('.ic'))card.insertAdjacentHTML('afterbegin',`<span class="ic" aria-hidden="true">${IC[id]}</span>`)}
 });
 document.querySelectorAll('.photo img').forEach(img=>{const f=()=>img.closest('.photo').classList.add('err');img.addEventListener('error',f);if(img.complete&&img.naturalWidth===0&&img.src)f()});
+})();
+</script>
+
+<style>
+.ap-stack{display:grid;gap:8px;min-width:0}
+.ap-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:stretch}
+.ap-lab{font:600 11.5px/1.3 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center}
+.ap-band{border:1px solid var(--rule-2);border-radius:8px;padding:10px 12px;background:var(--paper);font-size:14px}
+.ap-band.app{background:color-mix(in srgb,var(--ch) 14%,var(--sheet));border-color:color-mix(in srgb,var(--ch) 45%,var(--rule))}
+.ap-band.ara{background:var(--ch);color:#fff;border-color:var(--ch);font-weight:600;text-align:center}
+.ap-fcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.ap-grp{border:1px solid var(--rule);border-top:3px solid var(--g);border-radius:8px;padding:8px;background:var(--sheet)}
+.ap-grp h4{margin:0 0 6px;font:600 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--g)}
+.ap-grp button{display:block;width:100%;text-align:left;margin:4px 0 0;padding:6px 8px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);font:500 12.5px/1.25 var(--f-body);cursor:pointer}
+.ap-grp button:hover{border-color:var(--g)}
+.ap-grp button[aria-pressed="true"]{background:var(--g);border-color:var(--g);color:#fff}
+.ap-grp button small{display:block;font:11px var(--f-mono);opacity:.75}
+.callout{border:1px solid color-mix(in srgb,var(--warn) 50%,var(--rule));background:color-mix(in srgb,var(--warn) 10%,var(--sheet));border-radius:8px;padding:10px 14px;font-size:14px}
+@media (max-width:720px){.ap-row{grid-template-columns:1fr}.ap-lab{padding-top:4px}}
+</style>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+if(!$('#ap-stack'))return;
+const B=(x,y,w,h,t,s,c='')=>{let o=`<rect class="blk ${c}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;const subs=s?s.split('|'):[];const top=y+h/2-subs.length*7+4;o+=`<text class="t" x="${x+w/2}" y="${top}" text-anchor="middle">${t}</text>`;subs.forEach((l,i)=>o+=`<text class="s" x="${x+w/2}" y="${top+14*(i+1)}" text-anchor="middle">${l}</text>`);return o};
+const P=(d,c='wire',ex='')=>`<path class="${c}" d="${d}" ${ex}/>`;
+const T=(x,y,s,c='s',a='start')=>`<text class="${c}" x="${x}" y="${y}" text-anchor="${a}">${s}</text>`;
+const mount=(id,w,h,inner,label)=>{const el=$('#'+id);if(el)el.innerHTML=`<svg class="dg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`};
+
+/* ---------- Fig 8.4 stack ---------- */
+const GR=[
+ ['Runtime','#7048e8',[
+  ['Execution Management','ara::exec','Starts first after the OS. Starts, configures and stops every process according to the Execution Manifests and the requested Function Group States. Applies resource groups (CPU, memory limits) and can do authenticated startup. Applications report their state to it (kRunning, then terminate on SIGTERM).'],
+  ['State Management','ara::sm','Decides which state each Function Group should be in (e.g. Driving, Parking, Update) from vehicle mode, ignition and requests, then asks Execution Management to switch. Its logic is partly project-specific. Works with UCM during updates and with PHM on failures. R25-11 added suspend-to-RAM.'],
+  ['Log and Trace','ara::log','Standard logging API. Messages carry an application and context ID and a severity level and are sent in the DLT format to a file, the console or a tester on the network.'],
+  ['Core','ara::core','Basic C++ types every cluster uses: Result and ErrorCode (error handling without exceptions), Future and Promise, InstanceSpecifier, plus Initialize() and Deinitialize() for the ARA runtime.'],
+  ['Operating System Interface','POSIX PSE51','Not a library of its own: the defined subset of POSIX that applications may use (PSE51 profile: threads, timers, synchronisation, no process creation). Keeps applications portable between OSs.']]],
+ ['Communication','#1c7ed6',[
+  ['Communication Management','ara::com','Service-oriented communication: generated proxies and skeletons, service discovery, methods, events and fields. The binding (SOME/IP, DDS, local IPC) comes from the Service Instance Manifest, not the code.'],
+  ['Raw Data Stream','ara::com::raw','Plain TCP/UDP socket streams for high-volume sensor data (e.g. lidar point clouds) where the service layer would add too much overhead.'],
+  ['Network Management','ara::nm','Coordinates sleep and wake-up of Ethernet partial networks, like CAN NM does on Classic ECUs, so idle parts of the network can power down.'],
+  ['Time Synchronization','ara::tsync','Gives applications a synchronised global time base (gPTP, IEEE 802.1AS), needed to time-stamp and fuse sensor data from different ECUs.'],
+  ['Automotive API Gateway','—','Added in R24-11. Translates between platform services and standardised vehicle APIs (for example a VSS-style signal model) so third-party apps do not depend on ECU-specific services.']]],
+ ['Storage','#0c8599',[
+  ['Persistency','ara::per','Key-value storage and file storage that survive restarts, with redundancy (CRC, copies) and installation and update handling of stored data.'],
+  ['Remote Persistency','—','New in R25-11. Lets an application store data on another machine through the platform, for example when the local machine has no suitable non-volatile memory.']]],
+ ['Security','#4263eb',[
+  ['Cryptography','ara::crypto','Keys in key slots, algorithms through crypto providers (software or HSM), and X.509 certificate handling. Applications use keys without seeing the key material. Used for TLS, signature checks and SecOC-style message authentication.'],
+  ['Intrusion Detection System Manager','ara::idsm','Collects security events reported by platform modules and applications, filters and rate-limits them, signs them and forwards qualified events to the vehicle SOC. The Adaptive counterpart of the Classic IdsM.'],
+  ['Firewall','—','Stateful packet filtering of the machine\'s Ethernet traffic, configured from the manifest: which hosts, ports and protocols are allowed in and out.']]],
+ ['Safety','#e03131',[
+  ['Platform Health Management','ara::phm','Supervises processes using checkpoints: alive, deadline and logical supervision. Reports failures to State Management for recovery and services the hardware watchdog.'],
+  ['Safe Hardware Acceleration','—','New in R25-11. A safety-oriented API to run work on GPUs and other accelerators, which ADAS computers rely on for perception.']]],
+ ['Configuration','#66a80f',[
+  ['Update and Configuration Management','ara::ucm','Installs, updates and removes Software Clusters on this machine: transfer, process (verify signature, unpack), activate, verify, then finish or roll back.'],
+  ['Vehicle Update and Configuration Management','ara::ucm (master)','The vehicle-level OTA master. Takes an update campaign from the backend, checks preconditions (e.g. vehicle parked, enough battery charge) and distributes Software Packages to the UCMs of each machine.'],
+  ['Registry','—','Platform-wide registry of configuration information that other clusters and tools can query.']]],
+ ['Diagnostics','#d6336c',[
+  ['Diagnostic Management','ara::diag','UDS over DoIP for the machine and each Software Cluster: DIDs, routines, DTCs and their status, security access and authentication. Each Software Cluster can appear to the tester as its own diagnostic server.']]]];
+let html=`<div class="ap-row"><div class="ap-lab">Applications</div><div class="ap-band app">Adaptive Applications: processes, e.g. ADAS planner, OTA client, diagnostics app, vehicle-API apps</div></div>
+<div class="ap-row"><div class="ap-lab">API</div><div class="ap-band ara">ARA: AUTOSAR Runtime for Adaptive Applications (C++ APIs)</div></div>
+<div class="ap-row"><div class="ap-lab">Functional clusters</div><div class="ap-fcs">`;
+GR.forEach(([g,c,fcs],gi)=>{html+=`<div class="ap-grp" style="--g:${c}"><h4>${g}</h4>`;fcs.forEach((f,fi)=>html+=`<button type="button" data-g="${gi}" data-f="${fi}" aria-pressed="false">${f[0]}<small>${f[1]}</small></button>`);html+='</div>'});
+html+=`</div></div>
+<div class="ap-row"><div class="ap-lab">Operating system</div><div class="ap-band">POSIX OS (Linux, QNX, others), often in a partition on a hypervisor</div></div>
+<div class="ap-row"><div class="ap-lab">Hardware</div><div class="ap-band">Machine: SoC or microprocessor with CPU cores, GPU or NPU, HSM, Ethernet switch ports</div></div>`;
+$('#ap-stack').innerHTML=html;
+$('#ap-stack').addEventListener('click',e=>{const b=e.target.closest('button[data-g]');if(!b)return;
+  $('#ap-stack').querySelectorAll('button[data-g]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+  const [g,c,fcs]=GR[b.dataset.g];const f=fcs[b.dataset.f];
+  $('#ap-desc').innerHTML=`<b style="color:${c}">${g} · ${f[0]}</b> <code>${f[1]}</code><br>${f[2]}`;});
+$('#ap-stack').querySelector('button[data-g]').click();
+
+/* ---------- Fig 8.5 ara::com sequence ---------- */
+const L=[['Server app','ServiceImpl','acc'],['Skeleton','generated','hv'],['Binding','SOME/IP · DDS · IPC',''],['Proxy','generated','hv'],['Client app','consumer','acc']];
+const X=i=>80+i*150;
+const AC=[
+ [null,'A camera-processing app provides the service "ObjectList". An ADAS planner on another machine needs it. Both use only ara::com classes generated from the same service interface description.'],
+ [0,1,'skeleton.OfferService()','The provider constructs its skeleton with an InstanceSpecifier from the manifest, implements the method handlers, and calls OfferService().'],
+ [1,2,'offer instance','The binding announces the instance. With SOME/IP this is an SD OfferService entry on UDP port 30490 (see Fig. 8.3). With DDS it is DDS discovery. With IPC it stays inside the machine.'],
+ [4,3,'StartFindService(handler)','The consumer asks for the service by its InstanceSpecifier. It is notified whenever a matching instance appears or disappears, so it copes with ECUs that start late or restart.'],
+ [3,4,'handle → new Proxy(handle)','When the offer is found, the client creates a proxy from the handle. The proxy now has an event member, a method member and a field member for every element of the interface.'],
+ [4,3,'objects.Subscribe(maxSamples)','The client subscribes to the event and says how many samples it may hold at once. With SOME/IP this becomes SubscribeEventgroup and an Ack.'],
+ [0,1,'objects.Send(sample)','Each time the camera app has a new object list it calls Send() on the skeleton event.'],
+ [1,3,'serialise → network → deserialise','The binding serialises the sample (SOME/IP payload or DDS CDR), sends it to every subscriber and deserialises it on the far side. The application code on both sides stays the same.'],
+ [3,4,'GetNewSamples(callback)','The client takes the new samples, usually inside a receive handler, without blocking.'],
+ [4,3,'proxy.Calibrate(param) → Future','A method call returns an ara::core::Future at once. The request travels as a SOME/IP REQUEST to the skeleton, which runs the handler and returns a value or an ApplicationError.'],
+ [3,4,'future.get() → Result','The response completes the Future. The client gets a Result: either the value or an error code (for example the service went away). No exceptions are needed.']];
+let ai=0;
+function drawAC(){
+  let s='';const top=60,dy=34,H=top+AC.length*dy+10;
+  L.forEach(([t,sub,c],i)=>{s+=B(X(i)-65,8,130,40,t,sub,c);s+=`<line x1="${X(i)}" x2="${X(i)}" y1="48" y2="${H-6}" style="stroke:var(--rule-2);stroke-dasharray:4 4"/>`;});
+  for(let i=1;i<=ai;i++){const [a,b,lab]=AC[i];const y=top+i*dy;const x1=X(a),x2=X(b);const cur=i===ai;
+    s+=P(`M${x1} ${y} L${x2+(x2>x1?-4:4)} ${y}`,cur?'flow':'wire',`marker-end="url(#${cur?'ahs':'ah'})"`);
+    s+=T((x1+x2)/2,y-6,lab,cur?'t':'s','middle');}
+  mount('dg-ac',X(4)+80,H,s,'ara::com proxy and skeleton sequence');
+  $('#ac-desc').textContent=ai===0?AC[0][1]:'Step '+ai+' of '+(AC.length-1)+': '+AC[ai][3];
+  $('#ac-step').textContent=ai>=AC.length-1?'Done':'Next step';
+}
+$('#ac-step').onclick=()=>{if(ai<AC.length-1){ai++;drawAC()}};$('#ac-reset').onclick=()=>{ai=0;drawAC()};drawAC();
+
+/* ---------- Fig 8.6 Function Group states ---------- */
+const PR=[['Diagnostic server','ara::diag',['Parking','Driving','Update','Off']],
+ ['SOME/IP gateway','ara::com',['Parking','Driving','Update']],
+ ['Perception','camera + radar fusion',['Driving']],
+ ['Path planner','ADAS L2+',['Driving']],
+ ['Remote services','telematics, cabin pre-heat',['Parking']],
+ ['OTA client (UCM)','ara::ucm',['Parking','Update']],
+ ['IDS Manager','ara::idsm',['Parking','Driving','Update']]];
+const ST={Off:'Machine Function Group "Off": only what is needed to wake up and answer diagnostics stays alive. Everything else is terminated cleanly (SIGTERM, then the process exits).',
+ Parking:'Vehicle parked: driving functions are stopped to save power and free the CPU. Remote services and the OTA client can run. The IDS Manager keeps watching.',
+ Driving:'Ignition on, gear engaged: State Management requests "Driving". EM stops remote services and the OTA client and starts perception and the planner, in dependency order (perception before the planner).',
+ Update:'An update campaign was accepted and the vehicle is safe to update. Driving functions stay off, UCM activates the new Software Cluster, and only the processes needed for the update run.'};
+let cur='Parking',prev='Parking';
+$('#fg-seg').innerHTML=Object.keys(ST).map(k=>`<button type="button" data-s="${k}">${k}</button>`).join('');
+$('#fg-seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;prev=cur;cur=b.dataset.s;drawFG()});
+function drawFG(){
+  $('#fg-seg').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===cur?'true':'false'));
+  let s='';
+  s+=B(20,20,150,48,'State Management','decides target state','acc');
+  s+=B(20,110,150,48,'Execution Mgmt','starts / stops','hv');
+  s+=P('M95 68 L95 106','wire','marker-end="url(#ah)"')+T(102,92,'SetState('+cur+')','lbl');
+  s+=B(20,200,150,48,'Platform Health','checkpoints','');
+  s+=P('M95 200 L95 162','wire','marker-end="url(#ah)"')+T(102,186,'failure → recover','lbl');
+  const x0=250,w=330;
+  s+=T(x0,24,'PROCESS','lbl')+T(x0+w+20,24,'STATE','lbl');
+  PR.forEach(([n,sub,on],i)=>{const y=34+i*34;const run=on.includes(cur),was=on.includes(prev);
+    const tag=run&&!was?'starting':!run&&was?'stopping':run?'running':'terminated';
+    s+=`<rect x="${x0}" y="${y}" width="${w}" height="28" rx="5" style="fill:${run?'color-mix(in srgb,var(--good) 18%,var(--sheet))':'var(--paper)'};stroke:${run?'var(--good)':'var(--rule-2)'};${run?'':'stroke-dasharray:4 3'}"/>`;
+    s+=T(x0+10,y+18,n,'t')+T(x0+w-10,y+18,sub,'s','end');
+    s+=T(x0+w+20,y+18,tag,tag==='terminated'?'s':'t');
+    if(tag==='starting'||tag==='stopping')s+=P(`M170 135 C210 135 210 ${y+14} ${x0-4} ${y+14}`,'flow','marker-end="url(#ahs)"');
+  });
+  mount('dg-fg',x0+w+110,Math.max(260,34+PR.length*34+10),s,'Function group state switch');
+  $('#fg-desc').textContent=ST[cur];
+}
+drawFG();
 })();
 </script>
 
