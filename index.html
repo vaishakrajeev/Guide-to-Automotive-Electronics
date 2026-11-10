@@ -327,6 +327,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <a href="#process"><span class="n">09</span>Development process</a>
       <a href="#security"><span class="n">10</span>Cybersecurity</a>
       <a href="#tools"><span class="n">11</span>Engineering calculators</a>
+      <a href="#glossary"><span class="n">12</span>Glossary</a>
     </nav>
     <div class="foot">For students and working engineers.<br>Revised Nov 2026.</div>
   </aside>
@@ -356,6 +357,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#process"><span class="n">CHAPTER 09</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, TARA, secure diagnostics and SecOC.</span><span class="tags"><span>0x27 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
+    <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">118 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
   </div>
   <h2>How to use this guide</h2>
   <div class="cols">
@@ -1401,6 +1403,20 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   </figure>
 
 </section>
+<!-- ============ GLOSSARY ============ -->
+<section class="view" id="glossary" hidden>
+  <p class="eyebrow">Chapter 12</p>
+  <h1>Glossary</h1>
+  <p class="lede">The acronyms and terms you meet every day in automotive electronics, each in a sentence or two, with a link to the chapter that explains it properly. Search by abbreviation or by any word in the definition.</p>
+  <div class="gl-bar">
+    <input type="search" id="gl-q" placeholder="Search, e.g. ASIL, arbitration, isolation" aria-label="Search glossary">
+    <div class="chips" id="gl-cat" role="group" aria-label="Category"></div>
+  </div>
+  <p class="small muted" id="gl-count"></p>
+  <div id="gl-az" class="gl-az" aria-label="Jump to letter"></div>
+  <dl id="gl-list" class="gl-list"></dl>
+</section>
+
   </main>
 </div>
 
@@ -2393,6 +2409,172 @@ function drawCC(){
   $('#cc-out').innerHTML=`Rise to 90 % of the step: <b>${isNaN(t90)?'not reached':t90.toFixed(1)+' s'}</b> · speed before hill <b>${pre[1].toFixed(1)} km/h</b> · at 70 s on the hill <b>${end[1].toFixed(1)} km/h</b> (throttle ${(end[2]*100).toFixed(0)} %). Linearised plant at set speed: ${Ke} ÷ ((${te}s + 1)(${M}s + ${beff.toFixed(1)})).`;
 }
 if($('#cc-set')){['cc-set','cc-kp','cc-ki','cc-g','cc-m'].forEach(id=>$('#'+id).oninput=drawCC);drawCC();}
+})();
+</script>
+
+<style>
+.gl-bar{display:flex;flex-direction:column;gap:10px;margin:18px 0 6px}
+.gl-bar input{font:15px var(--f-body);padding:10px 12px;border:1px solid var(--rule-2);border-radius:8px;background:var(--sheet);color:var(--ink);width:100%;max-width:520px}
+.gl-az{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 14px}
+.gl-az a{font:600 12px var(--f-mono);text-decoration:none;padding:4px 7px;border:1px solid var(--rule);border-radius:4px;color:var(--ink-2)}
+.gl-az a:hover{border-color:var(--accent);color:var(--accent)}
+.gl-az span{font:600 12px var(--f-mono);padding:4px 7px;color:var(--rule-2)}
+.gl-list{margin:0;max-width:820px}
+.gl-list h3.gl-l{font:700 22px var(--f-disp);color:var(--accent);margin:22px 0 4px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.gl-item{display:grid;grid-template-columns:minmax(0,210px) minmax(0,1fr);gap:4px 18px;padding:10px 0;border-bottom:1px dotted var(--rule)}
+.gl-item dt{font:600 14px var(--f-mono);color:var(--ink)}
+.gl-item dt small{display:block;font:400 12.5px var(--f-body);color:var(--ink-2);margin-top:2px}
+.gl-item dd{margin:0;font-size:14.5px}
+.gl-item dd .gl-meta{display:flex;gap:8px;align-items:center;margin-top:4px;font-size:12px}
+.gl-item dd .gl-meta a{font:500 12px var(--f-mono)}
+@media (max-width:600px){.gl-item{grid-template-columns:minmax(0,1fr)}}
+</style>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+if(!$('#gl-list'))return;
+const CH={ice:'01 IC engines',ev:'02 Electric vehicles',ecus:'03 ECUs',sensors:'04 Sensors & actuators',power:'05 Electrical system',chassis:'06 Chassis & safety',networks:'07 Networks & diagnostics',sdv:'08 Software-defined vehicle',process:'09 Development process',security:'10 Cybersecurity',tools:'11 Calculators'};
+// [term, expansion, category, chapter, definition]
+const G=[
+['ABS','Anti-lock braking system','Chassis & ADAS','chassis','Modulates brake pressure at each wheel so the wheels do not lock under hard braking, keeping the car steerable and usually shortening the stop.'],
+['AC charging','','EV & energy','ev','Charging from the grid through the on-board charger, which converts AC to DC for the battery; typically 3.3–22 kW.'],
+['ACC','Adaptive cruise control','Chassis & ADAS','chassis','Cruise control that uses radar (and often a camera) to keep a set time gap to the vehicle ahead by controlling drive torque and brakes.'],
+['ADAS','Advanced driver assistance systems','Chassis & ADAS','chassis','Functions that support the driver, such as emergency braking, ACC and lane keeping; the driver remains responsible up to SAE Level 2.'],
+['ADC','Analogue-to-digital converter','ECU & software','ecus','Microcontroller peripheral that turns a sensor voltage into a number the software can use.'],
+['AEB','Autonomous emergency braking','Chassis & ADAS','chassis','Warns and then brakes automatically when a collision is imminent.'],
+['AFR','Air–fuel ratio','Powertrain','ice','Mass of air divided by mass of fuel in the cylinder charge; 14.7:1 is stoichiometric for petrol.'],
+['Airbag control unit','ACU','Chassis & ADAS','chassis','Decides within milliseconds whether a crash requires firing belt pretensioners and airbags, using central and satellite acceleration sensors.'],
+['Alternator','','Electrical system','power','Belt-driven three-phase generator with rectifier and voltage regulator that supplies the 12 V network in combustion cars.'],
+['Arbitration','','Networks','networks','How CAN decides which node may send: the lowest identifier wins bit by bit, without destroying the winning frame.'],
+['ASIL','Automotive Safety Integrity Level','Process & safety','process','Risk class from ISO 26262 (QM, A to D) derived from severity, exposure and controllability; D demands the most rigorous development.'],
+['ASPICE','Automotive SPICE','Process & safety','process','Process assessment model for system and software development; OEMs typically require suppliers to reach capability level 2.'],
+['AUTOSAR','AUTomotive Open System ARchitecture','ECU & software','ecus','Industry standard for ECU software architecture. Classic Platform for microcontrollers, Adaptive Platform for high-performance computers.'],
+['AUTOSAR Adaptive','','SDV','sdv','AUTOSAR platform for POSIX-based computers; applications communicate through services (ara::com) and can be installed and updated.'],
+['Back-EMF','Back electromotive force','EV & energy','ev','Voltage induced in a motor winding as the rotor turns; it rises with speed and opposes the supply voltage.'],
+['BCM','Body control module','ECU & software','ecus','ECU that runs comfort and body functions such as lighting, locks, wipers and windows.'],
+['BEV','Battery electric vehicle','EV & energy','ev','Vehicle driven only by electric motors with energy from a rechargeable traction battery.'],
+['Bit stuffing','','Networks','networks','After five equal bits the CAN transmitter inserts one opposite bit so receivers see enough edges to stay synchronised.'],
+['Bit timing','','Networks','networks','Division of a CAN bit into time quanta (sync, propagation, phase segments) that fixes the sample point and synchronisation range.'],
+['BLDC','Brushless DC motor','EV & energy','ev','Permanent-magnet motor commutated electronically, often in six steps using Hall sensors; common in pumps, fans and blowers.'],
+['BMS','Battery management system','EV & energy','ev','Measures every cell, estimates state of charge and health, balances cells and opens the contactors when limits are exceeded.'],
+['BRS','Bit rate switch','Networks','networks','CAN FD control bit; when recessive, the data phase is sent at the faster data bit rate.'],
+['Bus-off','','Networks','networks','CAN state a node enters when its transmit error counter exceeds 255; it stops transmitting until a recovery sequence completes.'],
+['CAN','Controller Area Network','Networks','networks','Robust multi-master serial bus (ISO 11898) with priority arbitration and strong error detection; the backbone of vehicle networks since the 1990s.'],
+['CAN FD','CAN with flexible data rate','Networks','networks','CAN extension with up to 64 data bytes and a faster data phase, plus stronger CRCs and a stuff-bit counter.'],
+['CAN XL','','Networks','networks','Newest CAN generation (ISO 11898-1:2024) with up to 2,048 data bytes and data rates around 10–20 Mbit/s.'],
+['CCS','Combined Charging System','EV & energy','ev','Charging standard that adds DC pins to the AC Type 1 or Type 2 inlet; communicates over power-line carrier on the control pilot.'],
+['CISPR 25','','Networks','networks','Standard limiting radio emissions from vehicle components to protect the car\'s own receivers.'],
+['Common rail','','Powertrain','ice','Diesel injection system that stores fuel at very high pressure in a shared rail and injects it through electronically controlled injectors.'],
+['Contactor','','EV & energy','ev','High-voltage relay that connects or isolates the traction battery from the vehicle\'s HV bus.'],
+['COVESA VSS','Vehicle Signal Specification','SDV','sdv','Standard naming tree for vehicle data (for example Vehicle.Speed) used to build hardware-independent vehicle APIs.'],
+['CRC','Cyclic redundancy check','Networks','networks','Checksum computed from frame bits so receivers can detect transmission errors.'],
+['CSMS','Cybersecurity management system','Security','security','Organisation-wide processes for vehicle cybersecurity across the lifecycle; certification is required for type approval under UN R155.'],
+['DC fast charging','','EV & energy','ev','Charging with an off-board charger that supplies DC straight to the battery, bypassing the on-board charger; typically 50–350 kW.'],
+['DC-DC converter','','EV & energy','ev','Converts the high-voltage battery down to 12 V (or 48 V) to power the low-voltage network in an EV.'],
+['DDS','Data Distribution Service','SDV','sdv','Data-centric publish/subscribe middleware with rich quality-of-service settings; used by ROS 2 and as an AUTOSAR Adaptive binding.'],
+['DID','Data identifier','Diagnostics','networks','Two-byte number that names a data item read or written with UDS services 0x22/0x2E, such as 0xF190 for the VIN.'],
+['DLC','Data length code','Networks','networks','Four-bit field in a CAN frame that gives the number of data bytes.'],
+['DoIP','Diagnostics over IP','Diagnostics','networks','ISO 13400 transport for UDS over Ethernet, using TCP and UDP port 13400 with vehicle discovery and routing activation.'],
+['Domain controller','','SDV','sdv','Powerful ECU that runs the software of one functional domain such as chassis, body or ADAS.'],
+['DPF','Diesel particulate filter','Powertrain','ice','Filter in the diesel exhaust that traps soot and is periodically regenerated by burning it off.'],
+['DTC','Diagnostic trouble code','Diagnostics','networks','Stored fault code such as P0301; the letter gives the system and the digits identify the fault.'],
+['ECU','Electronic control unit','ECU & software','ecus','Embedded computer that reads sensors, runs control software and drives actuators for one or more vehicle functions.'],
+['EEM','Electrical energy management','Electrical system','power','Coordinates battery, generator and loads so the vehicle keeps a positive charge balance and can always restart.'],
+['eFuse','Electronic fuse','Electrical system','power','Semiconductor switch with current sensing and programmable trip behaviour that replaces a melting fuse and relay.'],
+['EMC','Electromagnetic compatibility','Networks','networks','Ability of electronics to work without disturbing others (emissions) and without being disturbed (immunity).'],
+['Error-passive','','Networks','networks','CAN state reached when an error counter exceeds 127; the node can only send recessive (passive) error flags.'],
+['ESC / ESP','Electronic stability control / program','Chassis & ADAS','chassis','Brakes individual wheels and reduces drive torque to correct oversteer or understeer when the car does not follow the steering.'],
+['Ethernet (automotive)','100BASE-T1, 1000BASE-T1, 10BASE-T1S','Networks','networks','Switched Ethernet over a single twisted pair, used for backbones, cameras, ADAS and diagnostics.'],
+['FDF','FD format bit','Networks','networks','CAN control bit that marks a frame as CAN FD when recessive.'],
+['FlexRay','','Networks','networks','Deterministic, time-triggered 10 Mbit/s bus with two channels, used in some chassis systems; largely legacy now.'],
+['FOC','Field-oriented control','EV & energy','ev','Motor control that regulates torque- and flux-producing currents in rotor coordinates for smooth, efficient torque.'],
+['Gateway','','Networks','networks','ECU that routes and filters messages between networks and domains; also a key security boundary.'],
+['GDI','Gasoline direct injection','Powertrain','ice','Petrol injection straight into the combustion chamber at high pressure instead of into the intake port.'],
+['HARA','Hazard analysis and risk assessment','Process & safety','process','ISO 26262 step that rates hazardous events by severity, exposure and controllability to assign an ASIL and a safety goal.'],
+['HEV','Hybrid electric vehicle','EV & energy','ev','Vehicle with an engine and at least one electric machine; charged only by the engine and regenerative braking.'],
+['HIL','Hardware-in-the-loop','Process & safety','process','Testing a real ECU connected to a real-time simulator that models the rest of the vehicle.'],
+['HSM','Hardware security module','Security','security','Isolated security core in a microcontroller that stores keys and runs cryptography for secure boot and secure communication.'],
+['HVIL','High-voltage interlock loop','EV & energy','ev','Low-voltage loop through every HV connector so that opening one is detected and the HV system can be shut down.'],
+['Hypervisor','','SDV','sdv','Software layer that runs several isolated operating systems on one processor, for example safety and infotainment partitions.'],
+['IMD','Insulation monitoring device','EV & energy','ev','Continuously measures isolation resistance between the HV system and the chassis.'],
+['Inverter','','EV & energy','ev','Power electronics that turn the battery\'s DC into three-phase AC for the traction motor, and back again during regeneration.'],
+['ISO 26262','','Process & safety','process','Functional-safety standard for road-vehicle electrical and electronic systems.'],
+['ISO/SAE 21434','','Security','security','Engineering standard for cybersecurity of road vehicles across their lifecycle; defines TARA.'],
+['ISO-TP','ISO 15765-2','Diagnostics','networks','Transport protocol that segments messages longer than one CAN frame, used for UDS on CAN.'],
+['Isolation resistance','','EV & energy','ev','Resistance between HV conductors and the chassis; regulations require at least 100 Ω per volt for DC circuits.'],
+['KL15 / KL30 / KL31','Terminal designations','Electrical system','power','DIN 72552 labels: 30 is permanent battery positive, 15 is ignition-switched positive, 31 is ground.'],
+['Lambda (λ)','Excess-air factor','Powertrain','ice','Actual air–fuel ratio divided by stoichiometric; λ = 1 is ideal for a three-way catalyst, below 1 is rich, above 1 lean.'],
+['LFP','Lithium iron phosphate','EV & energy','ev','Lithium-ion cathode chemistry with lower energy density but long life and good thermal stability.'],
+['LIN','Local Interconnect Network','Networks','networks','Low-cost single-wire bus up to 20 kbit/s with one master, used for switches, motors and sensors.'],
+['Lockstep','','ECU & software','ecus','Two CPU cores running the same code in parallel and compared every cycle to detect hardware faults.'],
+['MAC (crypto)','Message authentication code','Security','security','Short cryptographic tag that proves a message came from a key holder and was not changed.'],
+['MAF','Mass air flow sensor','Sensors & actuators','sensors','Hot-film sensor that measures the air mass entering the engine.'],
+['MCAL','Microcontroller abstraction layer','ECU & software','ecus','Lowest AUTOSAR layer: drivers that give standard access to the microcontroller\'s peripherals.'],
+['MEMS','Micro-electro-mechanical systems','Sensors & actuators','sensors','Tiny mechanical structures on silicon used as accelerometers, gyroscopes and pressure sensors.'],
+['MHEV','Mild hybrid electric vehicle','EV & energy','ev','Hybrid with a small electric machine, typically a 48 V belt starter-generator, for start/stop, regeneration and boost.'],
+['NMC','Nickel manganese cobalt','EV & energy','ev','Lithium-ion cathode chemistry with high energy density, widely used in EV batteries.'],
+['NRC','Negative response code','Diagnostics','networks','Byte in a UDS negative response (7F) that says why a request was refused, such as 0x35 invalid key.'],
+['OBD','On-board diagnostics','Diagnostics','networks','Legislated self-diagnosis of emissions-related systems with a standard connector, services and fault codes.'],
+['OTA','Over-the-air update','Security','security','Installing software in the vehicle remotely; governed by UN R156 and ISO 24089.'],
+['PDU','Protocol data unit','Networks','networks','A unit of data exchanged at one protocol layer, such as a signal group packed into a CAN frame.'],
+['PHEV','Plug-in hybrid electric vehicle','EV & energy','ev','Hybrid with a larger battery that can be charged from the grid and drive tens of kilometres electrically.'],
+['PID (OBD)','Parameter identifier','Diagnostics','networks','Number that selects a live value in OBD service 01, such as 0C for engine speed.'],
+['PMSM','Permanent-magnet synchronous motor','EV & energy','ev','AC motor with magnets in the rotor; the most common traction motor in EVs.'],
+['Precharge','','EV & energy','ev','Charging the inverter\'s DC-link capacitor through a resistor before closing the main contactor to avoid a damaging inrush.'],
+['PWM','Pulse-width modulation','ECU & software','ecus','Switching a signal on and off at a fixed frequency and varying the on-time to control average power.'],
+['Radar (77 GHz)','','Sensors & actuators','sensors','Sensor that measures distance, relative speed and angle with radio waves; works in rain, fog and darkness.'],
+['Regenerative braking','','EV & energy','ev','Using the motor as a generator to slow the vehicle and recharge the battery.'],
+['REESS','Rechargeable electrical energy storage system','EV & energy','ev','Regulatory term for the traction battery and its housing, BMS and protection devices.'],
+['RRS','Remote request substitution','Networks','networks','Always-dominant CAN FD bit that takes the place of the classical RTR bit.'],
+['RTE','Runtime environment','ECU & software','ecus','Generated AUTOSAR Classic layer that connects software components to each other and to basic software.'],
+['SAE levels','SAE J3016','Chassis & ADAS','chassis','Levels 0–5 of driving automation; up to Level 2 the driver supervises, from Level 3 the system drives within its domain.'],
+['Sample point','','Networks','networks','Moment within a bit when a CAN node reads the bus level, set by the bit-timing configuration.'],
+['SecOC','Secure onboard communication','Security','security','AUTOSAR mechanism that adds a freshness value and a MAC to messages so receivers can reject forged or replayed frames.'],
+['Secure boot','','Security','security','Start-up check that verifies the software\'s signature before it runs.'],
+['SecurityAccess','UDS 0x27','Diagnostics','security','Seed–key challenge that unlocks protected diagnostic services.'],
+['SENT','Single Edge Nibble Transmission','Sensors & actuators','sensors','Digital one-way sensor interface (SAE J2716) that encodes data in the time between falling edges.'],
+['SJW','Synchronisation jump width','Networks','networks','Maximum correction a CAN node may apply to its bit timing at each resynchronisation.'],
+['SOA','Service-oriented architecture','SDV','sdv','Design in which software offers and consumes services over a network instead of exchanging fixed signals.'],
+['SOC / SOH','State of charge / state of health','EV & energy','ev','How full the battery is, and how much capacity and power it retains compared with new.'],
+['SoC (chip)','System on chip','SDV','sdv','Processor that integrates CPU cores, GPU, accelerators and interfaces on one die; used in central computers.'],
+['SOME/IP','Scalable service-Oriented MiddlewarE over IP','SDV','sdv','Automotive middleware for services (methods, events, fields) over Ethernet, with its own service discovery.'],
+['Stuff count','','Networks','networks','CAN FD field carrying the number of dynamic stuff bits modulo 8, Gray-coded with a parity bit.'],
+['TARA','Threat analysis and risk assessment','Security','security','ISO/SAE 21434 method that identifies assets, threats and attack paths and rates risk to decide on countermeasures.'],
+['TCS','Traction control system','Chassis & ADAS','chassis','Prevents driven wheels from spinning by braking them and reducing drive torque.'],
+['TEC / REC','Transmit / receive error counter','Networks','networks','Counters in each CAN node that rise with errors and fall with successful frames, driving fault confinement.'],
+['TSN','Time-Sensitive Networking','Networks','networks','IEEE 802.1 extensions that give Ethernet bounded latency and time synchronisation.'],
+['Type approval','','EV & energy','ev','Certification that a vehicle type meets all applicable regulations before it may be sold.'],
+['UDS','Unified Diagnostic Services','Diagnostics','networks','ISO 14229 request–response protocol for reading faults and data, running routines and reprogramming ECUs.'],
+['UN R100 / R136','','EV & energy','ev','UN regulations for electric-powertrain and battery safety: R100 for cars and commercial vehicles, R136 for two- and three-wheelers.'],
+['UN R155 / R156','','Security','security','UN regulations requiring a certified cybersecurity management system and software-update management system for type approval.'],
+['V-model','','Process & safety','process','Development model in which each specification step on the left is matched by a verification step on the right.'],
+['VCU','Vehicle control unit','EV & energy','ev','EV supervisor that interprets driver demands and coordinates the inverter, BMS, charging and regenerative braking.'],
+['Watchdog','','ECU & software','ecus','Timer that resets the microcontroller unless software services it regularly, catching hung programs.'],
+['X-by-wire','','Chassis & ADAS','chassis','Replacing mechanical or hydraulic links (throttle, brakes, steering) with sensors, ECUs and electric actuators.'],
+['XiL','MIL, SIL, PIL, HIL','Process & safety','process','Family of in-the-loop test methods from pure simulation to real hardware.'],
+['Zonal architecture','','SDV','sdv','E/E architecture with zone controllers by physical location and central computers linked by an Ethernet backbone.'],
+['Zone controller','','SDV','sdv','ECU that handles I/O, power distribution and gatewaying for one area of the vehicle.']
+];
+G.sort((a,b)=>a[0].localeCompare(b[0],'en',{sensitivity:'base'}));
+const cats=['All',...[...new Set(G.map(g=>g[2]))].sort()];
+let cat='All';
+$('#gl-cat').innerHTML=cats.map(c=>`<button class="ld" data-c="${c}" aria-pressed="${c==='All'}">${c}</button>`).join('');
+$('#gl-cat').querySelectorAll('button').forEach(b=>b.onclick=()=>{cat=b.dataset.c;$('#gl-cat').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function render(){
+  const q=($('#gl-q').value||'').trim().toLowerCase();
+  const list=G.filter(g=>(cat==='All'||g[2]===cat)&&(!q||(g[0]+' '+g[1]+' '+g[4]).toLowerCase().includes(q)));
+  $('#gl-count').textContent=`${list.length} of ${G.length} terms`;
+  const letter=t=>{const c=t[0].toUpperCase();return /[A-Z]/.test(c)?c:'#'};
+  const letters=[...new Set(list.map(g=>letter(g[0])))];
+  $('#gl-az').innerHTML='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>letters.includes(l)?`<a href="#glossary" data-l="${l}">${l}</a>`:`<span>${l}</span>`).join('');
+  $('#gl-az').querySelectorAll('a').forEach(a=>a.onclick=e=>{e.preventDefault();const el=document.getElementById('gl-'+a.dataset.l);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})});
+  let html='',last='';
+  list.forEach(([t,x,c,ch,d])=>{const L=letter(t);if(L!==last){html+=`<h3 class="gl-l" id="gl-${L}">${L}</h3>`;last=L}
+    html+=`<div class="gl-item"><dt>${esc(t)}${x?`<small>${esc(x)}</small>`:''}</dt><dd>${esc(d)}<div class="gl-meta"><span class="chip">${esc(c)}</span><a href="#${ch}">→ Ch ${CH[ch]}</a></div></dd></div>`});
+  $('#gl-list').innerHTML=html||'<p class="muted">No term matches. Try a shorter word.</p>';
+}
+$('#gl-q').oninput=render;render();
 })();
 </script>
 
