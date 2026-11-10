@@ -365,6 +365,9 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <p><b>Engineers</b> can jump to a figure or a calculator. Every chapter ends with a <i>Revise in 60 seconds</i> list: the facts worth keeping in your head before a review or an interview.</p>
     <p><b>Sources.</b> Concepts and diagram structure follow the Bosch reference <i>Automotive Electrics and Automotive Electronics</i> (5th ed.). Every diagram is redrawn for this site, and each chapter adds what has changed since that edition: zonal architectures, 48 V, automotive Ethernet, 4D radar, and the cybersecurity regulations. Page references are given at the top of each chapter.</p>
   </div>
+  <h2>Photo credits</h2>
+  <p>The photos are openly licensed files from Wikimedia Commons, shown unchanged and loaded from Commons. All diagrams are original drawings for this guide.</p>
+  <ul class="credits-list"><li>A real engine, cut open: Kassander der Minoer, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Porsche-engine-cutaway.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></li><li>An EV battery pack (Nissan Leaf): Mario Roberto Durán Ortiz, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Nissan_Leaf_battery_pack_DC_03_2011_1629.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></li><li>CCS2 (Type 2 Combo) plug: Danilo Bargen, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:CCS_%28Type2_Combo%29_Charging_Plug.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></li><li>A Bosch engine ECU with its case opened: Raimond Spekking, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Bosch_0_281_003_039_-_case_opened_-_IC_30428_0829_V6817857-7102.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></li><li>A real lambda (oxygen) sensor: Martin Olsson, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Lambda_sond_till_volvo240_etc.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></li><li>Alternator, cut away: S.J. de Waard, <a href="https://creativecommons.org/licenses/by/2.5/" target="_blank" rel="noopener">CC BY 2.5</a>, via <a href="https://commons.wikimedia.org/wiki/File:Alternator_%28cut-away%29_%2801%29.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></li><li>A car starter motor: Willdre, <a href="https://www.gnu.org/licenses/fdl-1.3.html" target="_blank" rel="noopener">GFDL</a>, via <a href="https://commons.wikimedia.org/wiki/File:Automobile_starter_2.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></li><li>Bosch ABS 8 hydraulic modulator: Beademung, <a href="https://creativecommons.org/licenses/by-sa/3.0/de/deed.en" target="_blank" rel="noopener">CC BY-SA 3.0 DE</a>, via <a href="https://commons.wikimedia.org/wiki/File:Bosch_ABS%E2%80%938M.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></li><li>The OBD-II (SAE J1962) connector: 0x010C, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:2016-07_ODB-II_connector_01.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></li></ul>
 </section>
 
 <!-- ============ ICE ============ -->
@@ -376,6 +379,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
   <h2>The four-stroke cycle</h2>
   <p>One complete cycle takes two crankshaft revolutions (720°). Each cylinder fires once per cycle, so a four-cylinder engine fires every 180° of crank rotation.</p>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Porsche-engine-cutaway.jpg?width=640" alt="A real engine, cut open" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>A real engine, cut open</b><span class="look">the pistons, connecting rods and crankshaft at the bottom, and the camshaft-driven valves at the top. The four strokes in the animation below happen in each of these cylinders.</span><span class="credit">Photo: Kassander der Minoer · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Porsche-engine-cutaway.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 1.1</b> · Four-stroke spark-ignition engine</span>
       <div class="ctrls"><button class="btn pri" id="eng-play">Pause</button><button class="btn" id="eng-step">Step 10°</button><label class="rng" for="eng-spd">Speed <input type="range" id="eng-spd" min="0.2" max="4" step="0.1" value="1.2"></label></div></div>
@@ -507,6 +511,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
   <h2>Battery and BMS</h2>
   <p>A pack is cells in series (to raise voltage) and parallel (to raise capacity). A 96S pack of NMC cells sits around 350 V nominal; 800 V platforms use roughly 192S. The BMS keeps every cell inside its safe window.</p>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Nissan_Leaf_battery_pack_DC_03_2011_1629.jpg?width=640" alt="An EV battery pack (Nissan Leaf)" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>An EV battery pack (Nissan Leaf)</b><span class="look">the flat pack is made of many modules. Each module groups cells, and the BMS measures their voltages and temperatures.</span><span class="credit">Photo: Mario Roberto Durán Ortiz · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Nissan_Leaf_battery_pack_DC_03_2011_1629.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <div class="cols">
     <ul class="plain">
       <li><b>Measure:</b> every cell voltage, pack current, module temperatures, insulation resistance.</li>
@@ -528,6 +533,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     </tbody></table></div>
 
   <h2>Charging</h2>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/CCS_%28Type2_Combo%29_Charging_Plug.jpg?width=640" alt="CCS2 (Type 2 Combo) plug" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>CCS2 (Type 2 Combo) plug</b><span class="look">the upper part is the Type 2 AC connector. The two large pins below carry high-current DC. The small CP and PE contacts carry the charger ↔ vehicle signalling in the table.</span><span class="credit">Photo: Danilo Bargen · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · <a href="https://commons.wikimedia.org/wiki/File:CCS_%28Type2_Combo%29_Charging_Plug.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <div class="tbl"><table>
     <thead><tr><th>Path</th><th>Converter</th><th>Typical power</th><th>Charger ↔ vehicle communication</th></tr></thead>
     <tbody>
@@ -605,6 +611,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
   <h2>Inside an ECU</h2>
   <p>Almost every ECU follows the same hardware pattern, whether it controls a window or a steering rack. What changes is the size of the microcontroller, the power stages and the safety mechanisms.</p>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bosch_0_281_003_039_-_case_opened_-_IC_30428_0829_V6817857-7102.jpg?width=640" alt="A Bosch engine ECU with its case opened" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>A Bosch engine ECU with its case opened</b><span class="look">the large connector (I/O to the harness), the microcontroller, and the power stages near the edge that drive injectors and relays. This is the same block structure as the diagram below.</span><span class="credit">Photo: Raimond Spekking · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Bosch_0_281_003_039_-_case_opened_-_IC_30428_0829_V6817857-7102.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 3.2</b> · Generic ECU hardware architecture</span></div>
     <div class="fig-b scroll"><div id="dg-ecu"></div></div>
@@ -693,6 +700,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
   <h2>Lambda sensors: two-step vs wide-band</h2>
   <p>Both types use a zirconium-dioxide ceramic that conducts oxygen ions when hot. A <b>two-step</b> (switching) sensor compares exhaust oxygen with reference air and produces a Nernst voltage that jumps at λ = 1: it can only say "rich" or "lean". A <b>wide-band</b> sensor adds an oxygen pump cell. The control electronics pump oxygen into or out of a tiny diffusion gap to hold it at λ = 1, and the pump current needed is a continuous measure of λ from very rich to pure air. Diesel and lean-burn engines need the wide-band type.</p>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lambda_sond_till_volvo240_etc.jpg?width=640" alt="A real lambda (oxygen) sensor" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>A real lambda (oxygen) sensor</b><span class="look">the threaded tip with slots screws into the exhaust pipe. The zirconia element sits inside it, and the wires carry the sensor signal and the heater supply.</span><span class="credit">Photo: Martin Olsson · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Lambda_sond_till_volvo240_etc.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 4.3</b> · Sensor output against excess-air factor λ (illustrative curves)</span>
       <div class="ctrls"><label class="rng" for="lm-l">λ <input type="range" id="lm-l" min="0.70" max="1.50" step="0.01" value="1.00"></label><span class="readout"><span>Mixture <b id="lm-st">–</b></span></span></div></div>
@@ -758,6 +766,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
   <h2>Charge balance: alternator vs consumers</h2>
   <p>An alternator delivers nothing below its <b>0-ampere speed</b> (about 1,000 alternator rpm), then its current rises steeply and flattens towards a maximum. Because it turns 2.5 to 3 times faster than the crankshaft, idle is the critical point: in city traffic the engine spends much of its time there, and if the consumers draw more than the alternator delivers at idle, the battery drains.</p>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Alternator_%28cut-away%29_%2801%29.JPG?width=640" alt="Alternator, cut away" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>Alternator, cut away</b><span class="look">the rotor with its claw poles (the field winding is inside), the stator windings around it, and the rectifier diodes that turn three-phase AC into DC for the 12 V network.</span><span class="credit">Photo: S.J. de Waard · <a href="https://creativecommons.org/licenses/by/2.5/" target="_blank" rel="noopener">CC BY 2.5</a> · <a href="https://commons.wikimedia.org/wiki/File:Alternator_%28cut-away%29_%2801%29.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 5.1</b> · Charge-balance simulator (150 A alternator, 14 V)</span>
       <div class="ctrls"><label class="rng" for="cb-n">Engine <input type="range" id="cb-n" min="700" max="5000" step="50" value="800"></label>
@@ -782,6 +791,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
   <h2>Starter and engagement relay</h2>
   <p>Turning the key to <i>start</i> energises terminal 50. The engagement relay (solenoid) has two windings: a strong <b>pull-in</b> winding and a <b>hold-in</b> winding. Together they pull the plunger, which pushes the pinion into the ring gear through the engagement lever and then closes the main contact. Main current (several hundred amps) flows from terminal 30 through the motor. The pull-in winding is now shorted out, and the hold-in winding alone keeps the contact closed. An overrunning clutch stops the running engine from driving the starter.</p>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Automobile_starter_2.JPG?width=640" alt="A car starter motor" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>A car starter motor</b><span class="look">the cylinder on top is the engagement relay (solenoid). It pushes the pinion forward to mesh with the flywheel ring gear and closes the main motor contacts.</span><span class="credit">Photo: Willdre · <a href="https://www.gnu.org/licenses/fdl-1.3.html" target="_blank" rel="noopener">GFDL</a> · <a href="https://commons.wikimedia.org/wiki/File:Automobile_starter_2.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 5.3</b> · Starting circuit</span>
       <div class="seg" id="st-ph" role="group" aria-label="Phase"><button aria-pressed="true" data-p="0">Key off</button><button aria-pressed="false" data-p="1">Pull-in</button><button aria-pressed="false" data-p="2">Cranking</button></div></div>
@@ -835,6 +845,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
   <h2>Tyre grip and brake slip</h2>
   <p>A braked wheel turns slightly slower than the car moves. <b>Brake slip</b> λ = (v<sub>vehicle</sub> − v<sub>wheel</sub>) ÷ v<sub>vehicle</sub>: 0 % is a free-rolling wheel, 100 % a locked one. Braking force rises with slip up to a peak, usually between about 8 % and 30 %, then falls. A locked wheel also loses almost all of its <b>side force</b>, which is why a car with locked front wheels cannot be steered.</p>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bosch_ABS%E2%80%938M.JPG?width=640" alt="Bosch ABS 8 hydraulic modulator" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>Bosch ABS 8 hydraulic modulator</b><span class="look">the aluminium block contains the inlet and outlet valves and the return pump. The ECU on its side switches them to hold, reduce or raise brake pressure.</span><span class="credit">Photo: Beademung · <a href="https://creativecommons.org/licenses/by-sa/3.0/de/deed.en" target="_blank" rel="noopener">CC BY-SA 3.0 DE</a> · <a href="https://commons.wikimedia.org/wiki/File:Bosch_ABS%E2%80%938M.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 6.1</b> · Friction coefficient vs brake slip, and stopping distance with and without ABS</span>
       <div class="ctrls">
@@ -1078,6 +1089,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
     <h2>On-board diagnostics (OBD-II / EOBD)</h2>
   <p>Legislated OBD makes every car report emissions-related faults through a standard connector (SAE J1962) and standard services, so any scan tool works on any brand. The messages run over CAN (ISO 15765-4) in all current cars; UDS (above) is the manufacturer's richer superset, and newer vehicles are moving legislated diagnostics to UDS too (SAE J1979-2).</p>
+  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/2016-07_ODB-II_connector_01.JPG?width=640" alt="The OBD-II (SAE J1962) connector" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>The OBD-II (SAE J1962) connector</b><span class="look">16 pins in two rows. The pins that matter most: 6 and 14 (CAN high/low), 4 and 5 (grounds), 16 (battery +).</span><span class="credit">Photo: 0x010C · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> · <a href="https://commons.wikimedia.org/wiki/File:2016-07_ODB-II_connector_01.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <div class="tbl"><table>
     <thead><tr><th class="num">Service</th><th>Purpose</th></tr></thead>
     <tbody>
@@ -2828,6 +2840,96 @@ if($('#dg-boot')){
   s+=T(20,24,'Each stage verifies the next before starting it; the root of trust cannot be modified','lbl');
   mount('dg-boot',730,222,s,'Secure boot chain of trust');
 }
+})();
+</script>
+
+<style>
+/* ---------- Chapter colours ---------- */
+#ice{--ch:#e8590c}#ev{--ch:#2f9e44}#ecus{--ch:#7048e8}#sensors{--ch:#0c8599}#power{--ch:#f08c00}#chassis{--ch:#e03131}
+#networks{--ch:#1c7ed6}#sdv{--ch:#ae3ec9}#process{--ch:#66a80f}#security{--ch:#4263eb}#tools{--ch:#1098ad}#glossary{--ch:#d6336c}#home{--ch:var(--accent)}
+section.view{--ch-soft:color-mix(in srgb,var(--ch) 12%,var(--sheet));--ch-ink:color-mix(in srgb,var(--ch) 82%,var(--ink))}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) section.view{--ch-ink:color-mix(in srgb,var(--ch) 70%,white)}}
+:root[data-theme="dark"] section.view{--ch-ink:color-mix(in srgb,var(--ch) 70%,white)}
+
+section.view .eyebrow{color:var(--ch-ink);display:flex;align-items:center;gap:10px}
+section.view .eyebrow .ch-ic{width:34px;height:34px;border-radius:10px;display:inline-grid;place-items:center;background:var(--ch);color:#fff;box-shadow:0 6px 16px color-mix(in srgb,var(--ch) 35%,transparent)}
+section.view .eyebrow .ch-ic svg{width:20px;height:20px}
+section.view > h1{position:relative;padding-bottom:14px}
+section.view > h1::after{content:"";position:absolute;left:0;bottom:0;width:120px;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--ch),color-mix(in srgb,var(--ch) 30%,transparent))}
+section.view h2{position:relative;padding-left:14px}
+section.view h2::before{content:"";position:absolute;left:0;top:.12em;bottom:.12em;width:5px;border-radius:3px;background:var(--ch)}
+section.view .revise h2::before,.gl-l::before{display:none}
+section.view .revise h2{padding-left:0}
+section.view .fig{border-top:3px solid var(--ch);box-shadow:0 1px 0 var(--rule),0 10px 30px -18px color-mix(in srgb,var(--ch) 45%,transparent)}
+section.view .fig-h{background:var(--ch-soft)}
+section.view .fig-h .cap b{color:var(--ch-ink)}
+section.view .revise{border-top-color:var(--ch);background:linear-gradient(180deg,var(--ch-soft),transparent 140px);padding:14px 16px 6px;border-radius:0 0 10px 10px}
+section.view .ref{border-left-color:var(--ch)}
+section.view .tbl th{background:var(--ch-soft)}
+section.view .btn.pri{background:var(--ch);border-color:var(--ch)}
+section.view .lede{border-left:3px solid color-mix(in srgb,var(--ch) 40%,transparent);padding-left:14px}
+
+/* nav: coloured chapter numbers */
+.nav a .n{font-weight:700}
+.nav a[href="#ice"] .n{color:#e8590c}.nav a[href="#ev"] .n{color:#2f9e44}.nav a[href="#ecus"] .n{color:#7048e8}.nav a[href="#sensors"] .n{color:#0c8599}.nav a[href="#power"] .n{color:#f08c00}.nav a[href="#chassis"] .n{color:#e03131}.nav a[href="#networks"] .n{color:#1c7ed6}.nav a[href="#sdv"] .n{color:#ae3ec9}.nav a[href="#process"] .n{color:#66a80f}.nav a[href="#security"] .n{color:#4263eb}.nav a[href="#tools"] .n{color:#1098ad}.nav a[href="#glossary"] .n{color:#d6336c}
+
+/* ---------- Home ---------- */
+#home .hero{position:relative;isolation:isolate;padding:28px 26px 26px;border-radius:18px;overflow:hidden;background:var(--sheet);border:1px solid var(--rule)}
+#home .hero::before{content:"";position:absolute;inset:-40%;z-index:-1;background:
+ radial-gradient(closest-side at 18% 30%,color-mix(in srgb,#1c7ed6 28%,transparent),transparent),
+ radial-gradient(closest-side at 80% 20%,color-mix(in srgb,#ae3ec9 24%,transparent),transparent),
+ radial-gradient(closest-side at 70% 85%,color-mix(in srgb,#2f9e44 22%,transparent),transparent),
+ radial-gradient(closest-side at 25% 90%,color-mix(in srgb,#f08c00 22%,transparent),transparent)}
+#home .hero h1 span{background:linear-gradient(90deg,#1c7ed6,#ae3ec9 45%,#e8590c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.idx a{position:relative;overflow:hidden;border-top:4px solid var(--c,var(--accent));transition:transform .15s ease,box-shadow .15s ease}
+.idx a:hover{transform:translateY(-3px);box-shadow:0 14px 28px -16px var(--c,var(--accent));border-color:var(--c)}
+.idx a .n{color:var(--c)!important}
+.idx a .ic{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c)}
+.idx a .ic svg{width:24px;height:24px}
+.idx a .tt{padding-right:46px}
+.idx a .tags span{border-color:color-mix(in srgb,var(--c) 40%,var(--rule));color:var(--c)}
+@media (prefers-reduced-motion: reduce){.idx a{transition:none}.idx a:hover{transform:none}}
+
+/* ---------- Photos ---------- */
+.photo{display:grid;grid-template-columns:minmax(220px,320px) 1fr;margin:18px 0 22px;background:var(--sheet);border:1px solid var(--rule);border-left:4px solid var(--ch,var(--accent));border-radius:12px;overflow:hidden;box-shadow:0 12px 26px -20px color-mix(in srgb,var(--ch,#000) 70%,transparent)}
+.photo img{display:block;width:100%;height:100%;min-height:200px;max-height:240px;object-fit:cover;background:var(--ch-soft,var(--paper))}
+.photo figcaption{padding:14px 16px;font-size:14px;line-height:1.55;align-self:center}
+.photo figcaption b{display:block;font:600 14px var(--f-body);color:var(--ch-ink,var(--ink));margin-bottom:4px}
+.photo .look{display:block;margin-top:6px}
+.photo .look::before{content:"Look for: ";font-weight:600;color:var(--ch-ink,var(--ink))}
+.photo .credit{display:block;margin-top:8px;font:11px/1.4 var(--f-mono);color:var(--ink-2)}
+.photo .credit a{color:var(--ink-2)}
+.photo.err{grid-template-columns:1fr}
+.photo.err img{display:none}
+.photo.err figcaption::after{content:"(The photo could not load in this view. Use the Commons link to see it.)";display:block;font-size:12px;color:var(--ink-2);margin-top:6px}
+@media (max-width:720px){.photo{grid-template-columns:1fr}.photo img{height:200px}}
+.credits-list{columns:2 300px;font-size:13px;color:var(--ink-2);padding-left:18px}
+.credits-list li{margin:4px 0;break-inside:avoid}
+</style>
+<script>
+(()=>{
+const S='fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"';
+const IC={
+ ice:`<svg viewBox="0 0 24 24" ${S}><rect x="7" y="3" width="10" height="9" rx="1.5"/><path d="M12 12v5"/><circle cx="12" cy="19" r="2.5"/><path d="M5 6h2M17 6h2"/></svg>`,
+ ev:`<svg viewBox="0 0 24 24" ${S}><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M19 10h2v4h-2"/><path d="M11 8.5l-2.5 4h3l-2 3.5"/></svg>`,
+ ecus:`<svg viewBox="0 0 24 24" ${S}><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M12 3v3M15 3v3M9 18v3M12 18v3M15 18v3M3 9h3M3 12h3M3 15h3M18 9h3M18 12h3M18 15h3"/></svg>`,
+ sensors:`<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="2"/><path d="M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg>`,
+ power:`<svg viewBox="0 0 24 24" ${S}><rect x="3" y="8" width="18" height="11" rx="2"/><path d="M7 8V6h3v2M14 8V6h3v2"/><path d="M7 13.5h3M15.5 12v3M14 13.5h3"/></svg>`,
+ chassis:`<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3.5v4M12 16.5v4M3.5 12h4M16.5 12h4"/></svg>`,
+ networks:`<svg viewBox="0 0 24 24" ${S}><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M5 8v8M19 8v8M7 12h10M12 12v0"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg>`,
+ sdv:`<svg viewBox="0 0 24 24" ${S}><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.2 9.1 4.5 4.5 0 0 0 7 18z"/><path d="M10 12.5l-1.5 1.5 1.5 1.5M14 12.5l1.5 1.5-1.5 1.5"/></svg>`,
+ process:`<svg viewBox="0 0 24 24" ${S}><path d="M3 5l9 14 9-14"/><path d="M6.5 10.5h11M9.2 14.7h5.6"/></svg>`,
+ security:`<svg viewBox="0 0 24 24" ${S}><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.2 11V9.6a1.8 1.8 0 0 1 3.6 0V11"/></svg>`,
+ tools:`<svg viewBox="0 0 24 24" ${S}><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="4" rx="1"/><path d="M8.5 13.5h.01M12 13.5h.01M15.5 13.5h.01M8.5 17h.01M12 17h.01M15.5 17h.01"/></svg>`,
+ glossary:`<svg viewBox="0 0 24 24" ${S}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M8.5 8h7M8.5 11.5h5"/></svg>`};
+const COL={ice:'#e8590c',ev:'#2f9e44',ecus:'#7048e8',sensors:'#0c8599',power:'#f08c00',chassis:'#e03131',networks:'#1c7ed6',sdv:'#ae3ec9',process:'#66a80f',security:'#4263eb',tools:'#1098ad',glossary:'#d6336c'};
+Object.keys(IC).forEach(id=>{
+  const sec=document.getElementById(id);const eb=sec&&sec.querySelector('.eyebrow');
+  if(eb&&!eb.querySelector('.ch-ic'))eb.insertAdjacentHTML('afterbegin',`<span class="ch-ic" aria-hidden="true">${IC[id]}</span>`);
+  const card=document.querySelector(`.idx a[href="#${id}"]`);
+  if(card){card.style.setProperty('--c',COL[id]);if(!card.querySelector('.ic'))card.insertAdjacentHTML('afterbegin',`<span class="ic" aria-hidden="true">${IC[id]}</span>`)}
+});
+document.querySelectorAll('.photo img').forEach(img=>{const f=()=>img.closest('.photo').classList.add('err');img.addEventListener('error',f);if(img.complete&&img.naturalWidth===0&&img.src)f()});
 })();
 </script>
 
