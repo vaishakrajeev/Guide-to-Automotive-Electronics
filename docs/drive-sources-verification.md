@@ -43,3 +43,24 @@ Items confirmed correct (sample): CAN FD CRC-17 for ≤ 16 bytes and CRC-21 abov
 
 - **Ch 06 Networks:** CAN FD frame and error-detection table, CAN error-confinement simulator, CAN FD bit-timing and oscillator-tolerance calculator (Mutter iCC 2013 conditions 1–5), EMC test-standard table.
 - **Ch 07 Software-defined vehicle (new):** E/E architecture stages, signal vs service communication, SOME/IP header builder, SOME/IP-SD sequence simulator, DDS vs SOME/IP, COVESA VSS, AUTOSAR Classic vs Adaptive.
+
+## 4. Second pass (10 Nov 2026): folders missed in the first listing
+
+The first listing was paginated and missed five sub-folders and about 20 root-level books. Added on this pass: **Automotive Systems** (ABS, ESP, TCS, ACC, ADAS, occupant safety, steering, suspension, x-by-wire, engine management), **Electric Vehicles** (UNECE/AIS regulations, R100 tests, hybrids, BLDC, charging standards), **EE Architecture** (CAN, LIN/FlexRay, Ethernet, OBD, UDS, CAPL, AUTOSAR), **Automotive Control Systems** (modelling, state space, cruise-control assignment) and **Embedded Systems with STM32** (ARM, GPIO, ADC, timers, UART/SPI/I²C). Root also holds Hillier books 1 and 3, Held *Inter- and intra-vehicle communications*, control and maths textbooks.
+
+| # | Source (Drive) | Claim in source | Correct statement | Checked against |
+|---|---|---|---|---|
+| 18 | 03_BBN_EV_Regulations | UN R136 = hydrogen fuel-cell vehicle safety | **R136** = electric-powertrain safety of **L-category** vehicles; hydrogen vehicles are **R134** | UNECE regulation list; AIS-156 states it is based on R136 |
+| 19 | 03_BBN_EV_Regulations | R100 Rev. 3 applies to M, N and L | R100 Rev. 3 covers **M and N**; L-category moved to R136 (India: AIS-038 Rev. 2 for M/N, AIS-156 for L) | UNECE; ARAI |
+| 20 | 05_BBN R100 tests | (omission) | Rev. 3 also requires a **thermal-propagation** warning to occupants | UN R100 Rev. 3 / GTR 20 |
+| 21 | ael_assignment cruise control | √(30² + 4·0.6·250) ≈ 37.42 and v₀ ≈ 7.42 m/s | √1500 = **38.73**, and the root must be divided by 2c = 1.2: **v₀ ≈ 7.28 m/s**; b_eff ≈ **38.7 N·s/m**; DC gain ≈ **25.8** | Arithmetic |
+| 22 | Antilock braking system (ABS) | Digital wheel-speed sensors use Hall or variable reluctance and output a square wave | Variable-reluctance (inductive) sensors are passive and give a sine-like AC voltage; square-wave/current outputs come from **active** Hall or magnetoresistive sensors | Bosch book pp. 316–319 |
+
+Confirmed correct (sample): ABS build/hold/release valve logic; ESC brakes outer front for oversteer and inner rear for understeer; ESC mandatory in the EU for all new cars from Nov 2014; R100 Rev. 3 test parameters (vibration 7–50 Hz 3 h, thermal shock +60/−40 °C × 5, crush ≥ 100 kN, short ≤ 5 mΩ, overcharge to 2× capacity, over-discharge to 25 % voltage, new overcurrent test, LPG fire option, "no venting"); isolation ≥ 100 Ω/V DC / 500 Ω/V AC; IPXXB/IPXXD; airbag timing (≈10 ms sensing, ≈30 ms inflation; Bosch book p. 63).
+
+### Used on the site (second pass)
+- **Ch 06 Chassis & safety (new):** μ-slip curves and stopping-distance simulator (Burckhardt tyre model), ABS valve phases, TCS/ESC, ESC wheel-selection figure, ACC/ADAS and SAE levels, occupant protection timing, x-by-wire.
+- **Ch 02 EV:** BLDC six-step commutation figure; EV type-approval table (R100, R136, GTR 20, R10/R85/R154, AIS-038 Rev. 2, AIS-156) and R100 Rev. 3 tests.
+- **Ch 03 ECUs:** microcontroller peripherals table (from the STM32/ARM and AURIX material).
+- **Ch 07 Networks:** OBD-II services, DTC decoder and PID calculator.
+- **Ch 11 Calculators:** nonlinear cruise-control simulation with PI controller (model from the control-systems assignment, corrected).
