@@ -2556,6 +2556,7 @@ const G=[
 ['Zone controller','','SDV','sdv','ECU that handles I/O, power distribution and gatewaying for one area of the vehicle.']
 ];
 G.sort((a,b)=>a[0].localeCompare(b[0],'en',{sensitivity:'base'}));
+window.__GLOSS=G;
 const cats=['All',...[...new Set(G.map(g=>g[2]))].sort()];
 let cat='All';
 $('#gl-cat').innerHTML=cats.map(c=>`<button class="ld" data-c="${c}" aria-pressed="${c==='All'}">${c}</button>`).join('');
@@ -2575,6 +2576,85 @@ function render(){
   $('#gl-list').innerHTML=html||'<p class="muted">No term matches. Try a shorter word.</p>';
 }
 $('#gl-q').oninput=render;render();
+})();
+</script>
+
+<style>
+.gt{text-decoration:underline dotted var(--accent);text-decoration-thickness:1.5px;text-underline-offset:3px;cursor:help;border-radius:3px}
+.gt:hover,.gt:focus-visible,.gt[aria-expanded="true"]{background:var(--accent-soft);outline:none}
+.gtip{position:fixed;z-index:50;max-width:min(340px,calc(100vw - 24px));background:var(--sheet);color:var(--ink);border:1px solid var(--rule-2);border-left:3px solid var(--accent);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:10px 12px;font:13.5px/1.5 var(--f-body);pointer-events:auto}
+.gtip[hidden]{display:none}
+.gtip b{font:600 13.5px var(--f-mono)}
+.gtip .x{display:block;color:var(--ink-2);font-size:12px;margin:1px 0 5px}
+.gtip .m{display:flex;justify-content:space-between;gap:8px;margin-top:7px;font:500 11.5px var(--f-mono)}
+.gtip .m span{color:var(--ink-2)}
+</style>
+<script>
+(()=>{
+const G=window.__GLOSS;if(!G)return;
+const CH={ice:'Ch 01',ev:'Ch 02',ecus:'Ch 03',sensors:'Ch 04',power:'Ch 05',chassis:'Ch 06',networks:'Ch 07',sdv:'Ch 08',process:'Ch 09',security:'Ch 10',tools:'Ch 11'};
+// aliases: split "A / B", drop "(...)" qualifiers, add a few common spellings
+const SKIP=new Set(['MAC (crypto)','PID (OBD)','Type approval','SAE levels']);
+const EXTRA={'ESC / ESP':['ESC','ESP'],'KL15 / KL30 / KL31':['KL15','KL30','KL31'],'UN R100 / R136':['R100','R136'],'UN R155 / R156':['R155','R156'],'Lambda (λ)':['lambda'],'SoC (chip)':['SoC'],'Ethernet (automotive)':['Automotive Ethernet'],'Radar (77 GHz)':[],'Regenerative braking':['regenerative braking','regen'],'Zone controller':['zone controller','zone controllers'],'Zonal architecture':['zonal architecture'],'Bit stuffing':['bit stuffing'],'Sample point':['sample point'],'Isolation resistance':['isolation resistance'],'DC fast charging':['DC fast charging'],'AC charging':['AC charging'],'Domain controller':['domain controller','domain controllers'],'Secure boot':['secure boot'],'Airbag control unit':['airbag control unit'],'Common rail':['common rail','Common rail'],'Bus-off':['bus-off','Bus-off'],'Error-passive':['error-passive','Error-passive'],'DC-DC converter':['DC-DC converter'],'Back-EMF':['back-EMF','Back-EMF'],'X-by-wire':['x-by-wire','X-by-wire','by-wire'],'V-model':['V-model'],'Arbitration':['arbitration'],'Gateway':['gateway'],'Inverter':['inverter'],'Contactor':['contactor','contactors'],'Precharge':['precharge'],'Hypervisor':['hypervisor'],'Lockstep':['lockstep'],'Watchdog':['watchdog'],'Bit timing':['bit timing'],'Stuff count':['stuff count','Stuff count'],'Type approval':['type approval'],'SOC / SOH':['SOC','SOH'],'TEC / REC':['TEC','REC'],'CAN':['CAN'],'CAN FD':['CAN FD'],'CAN XL':['CAN XL']};
+const map=new Map();const alts=[];
+G.forEach((g,i)=>{
+  let al=EXTRA[g[0]];
+  if(!al){ if(SKIP.has(g[0]))return; al=g[0].split(' / ').map(s=>s.replace(/\s*\(.*?\)\s*/g,'').trim()).filter(Boolean); }
+  al.forEach(a=>{if(a.length<2)return;const cs=/[A-Z]{2}/.test(a)||/^[A-Z][a-z]*[A-Z]/.test(a);const k=a.toLowerCase();
+    if(!map.has(k))map.set(k,[]);map.get(k).push({a,cs,i});alts.push(a)});
+});
+const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const uniq=[...new Set(alts.map(a=>a.toLowerCase()))].sort((x,y)=>y.length-x.length);
+const re=new RegExp('(?<![\\w-])('+uniq.map(esc).join('|')+')(?![\\w-])','gi');
+const resolve=m=>{const c=map.get(m.toLowerCase());if(!c)return null;const exact=c.find(e=>e.a===m);if(exact)return exact.i;const ci=c.find(e=>!e.cs);return ci?ci.i:null};
+const BAN='svg,script,style,code,pre,input,select,textarea,button,a,h1,.eyebrow,.ref,.nav,.side,.idx,.gl-list,.gl-bar,.gl-az,.gt,.gtip,.cap,.lbl,.badge,.chip,.chips,.frame,.bits,.pdu,.log,.status,.readout';
+document.querySelectorAll('section.view').forEach(sec=>{
+  if(sec.id==='home'||sec.id==='glossary')return;
+  const seen=new Set();
+  const walker=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT,{acceptNode:n=>{if(!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;const p=n.parentElement;if(!p||p.closest(BAN))return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT}});
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    const txt=node.nodeValue;re.lastIndex=0;let m,last=0,frag=null;
+    while((m=re.exec(txt))){
+      const i=resolve(m[1]);if(i===null||seen.has(i))continue;
+      seen.add(i);frag=frag||document.createDocumentFragment();
+      frag.appendChild(document.createTextNode(txt.slice(last,m.index)));
+      const s=document.createElement('span');s.className='gt';s.tabIndex=0;s.dataset.g=i;s.setAttribute('role','button');s.setAttribute('aria-expanded','false');s.textContent=m[1];frag.appendChild(s);
+      last=m.index+m[1].length;
+    }
+    if(frag){frag.appendChild(document.createTextNode(txt.slice(last)));node.parentNode.replaceChild(frag,node)}
+  });
+});
+// popup
+const tip=document.createElement('div');tip.className='gtip';tip.hidden=true;tip.setAttribute('role','tooltip');tip.id='gtip';document.body.appendChild(tip);
+let owner=null,pinned=false,hideT=null;
+const h=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function show(el,pin){
+  clearTimeout(hideT);const g=G[+el.dataset.g];if(!g)return;
+  if(owner&&owner!==el)owner.setAttribute('aria-expanded','false');
+  owner=el;pinned=!!pin;el.setAttribute('aria-expanded','true');el.setAttribute('aria-describedby','gtip');
+  tip.innerHTML=`<b>${h(g[0])}</b>${g[1]?`<span class="x">${h(g[1])}</span>`:'<span class="x"></span>'}${h(g[4])}<div class="m"><span>${h(g[2])}${CH[g[3]]&&location.hash.slice(1)!==g[3]?' · '+CH[g[3]]:''}</span><a href="#glossary" data-q="${h(g[0].split(' / ')[0].replace(/\s*\(.*?\)/,''))}">Open in glossary →</a></div>`;
+  tip.hidden=false;
+  const r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;
+  let x=Math.min(Math.max(12,r.left+r.width/2-tw/2),innerWidth-tw-12);
+  let y=r.bottom+8;if(y+th>innerHeight-8)y=Math.max(8,r.top-th-8);
+  tip.style.left=x+'px';tip.style.top=y+'px';
+}
+function hide(force){if(pinned&&!force)return;tip.hidden=true;if(owner){owner.setAttribute('aria-expanded','false');owner.removeAttribute('aria-describedby')}owner=null;pinned=false}
+const later=()=>{clearTimeout(hideT);hideT=setTimeout(()=>hide(),180)};
+document.addEventListener('mouseover',e=>{const el=e.target.closest&&e.target.closest('.gt');if(el){if(!pinned||owner!==el)show(el,pinned&&owner===el)}else if(e.target.closest&&e.target.closest('.gtip'))clearTimeout(hideT)});
+document.addEventListener('mouseout',e=>{const el=e.target.closest&&e.target.closest('.gt,.gtip');if(el&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest('.gt,.gtip')))later()});
+document.addEventListener('click',e=>{
+  const el=e.target.closest('.gt');
+  if(el){e.preventDefault();if(owner===el&&pinned)hide(true);else show(el,true);return}
+  const a=e.target.closest('.gtip a[data-q]');
+  if(a){const q=document.getElementById('gl-q');if(q){q.value=a.dataset.q;q.dispatchEvent(new Event('input'))}hide(true);return}
+  if(!e.target.closest('.gtip'))hide(true);
+});
+document.addEventListener('focusin',e=>{const el=e.target.closest&&e.target.closest('.gt');if(el)show(el,false)});
+document.addEventListener('focusout',e=>{if(e.target.closest&&e.target.closest('.gt')&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest('.gtip')))later()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')hide(true);if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('gt')){e.preventDefault();show(e.target,true)}});
+addEventListener('scroll',()=>hide(true),{passive:true});addEventListener('hashchange',()=>hide(true));
 })();
 </script>
 
