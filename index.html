@@ -345,6 +345,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <a href="#security"><span class="n">10</span>Cybersecurity</a>
       <a href="#tools"><span class="n">11</span>Engineering calculators</a>
       <a href="#glossary"><span class="n">12</span>Glossary</a>
+      <a href="#about"><span class="n">13</span>About me</a>
     </nav>
     <div class="foot">For students and working engineers.<br>Revised Nov 2026.</div>
   </aside>
@@ -375,6 +376,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
     <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">135 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#about" style="--c:#0ca678"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span><span class="n">ABOUT</span><span class="tt">About me</span><span class="d">Vaishak Rajeev: student intern at BGSW, Bengaluru, with 3.5 years in automotive electronics validation and test automation.</span><span class="tags"><span>Experience</span><span>Projects</span></span></a>
   </div>
   <h2>How to use this guide</h2>
   <div class="cols">
@@ -1610,6 +1612,58 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <div id="gl-az" class="gl-az" aria-label="Jump to letter"></div>
   <dl id="gl-list" class="gl-list"></dl>
 </section>
+<section class="view" id="about" hidden>
+  <p class="eyebrow"><span class="ch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span>About the author</p>
+  <h1>About me</h1>
+  <div class="me-card">
+    <img src="img/vaishak.jpg" alt="Vaishak Rajeev in riding gear beside his motorcycle on a highway near Kolar, Karnataka" width="720" height="1120" loading="lazy">
+    <div class="me-txt">
+      <p class="me-name">Vaishak Rajeev</p>
+      <p class="me-role">Student Intern · Bosch Global Software Technologies (BGSW), Bengaluru</p>
+      <ul class="me-facts">
+        <li><b>3.5 years</b> in automotive electronics: systems engineering, HIL validation and test automation</li>
+        <li><b>M.Tech, Automotive Electronics</b>, Amrita Vishwa Vidyapeetham, Coimbatore (2025–2027)</li>
+        <li><b>Focus:</b> in-vehicle networks, diagnostics and automotive cybersecurity</li>
+      </ul>
+      <p class="me-links"><a class="btn pri" href="https://www.linkedin.com/in/vaishakrajeev" target="_blank" rel="noopener">LinkedIn</a><a class="btn" href="https://github.com/vaishakrajeev/Guide-to-Automotive-Electronics" target="_blank" rel="noopener">This guide on GitHub</a></p>
+    </div>
+  </div>
+  <p class="lede">I am an automotive electronics engineer and postgraduate student. I spent three and a half years validating production ECUs for global OEM and Tier-1 programmes, and I'm now studying and interning to go deeper into embedded software, vehicle networks and software-defined vehicle design. I built this guide to explain the concepts I wish I had seen drawn clearly when I started: each with a diagram you can read and a simulation you can operate.</p>
+
+  <h2>Experience</h2>
+  <ol class="me-tl">
+    <li><span class="when">Current</span><div><b>Student Intern, Bosch Global Software Technologies (BGSW)</b><span class="where">Bengaluru</span><p>Internship alongside the M.Tech programme, working on system validation.</p></div></li>
+    <li><span class="when">Dec 2021 – Jul 2025</span><div><b>Senior Engineer, Automation &amp; Validation, Tata Elxsi</b><span class="where">Trivandrum, Kerala</span>
+      <p><b>Test Automation Engineer, client Jaguar Land Rover (UK)</b>, Jul 2024 – Jul 2025: automated HIL test cases on Vector VT System; validated SecOC, SOME/IP service-discovery timing and 100BASE-T1 TC10 wake-up timing; built scripts for a keyword-driven test framework and integrated them into a BDD (Behave/Gherkin) framework with CANoe and XML/YAML test modules.</p>
+      <p><b>Systems &amp; Validation Engineer, client Nippon Seiki International (USA)</b>, Dec 2021 – Jul 2024: owned systems engineering and validation for two variants of a production Head-Up Display ECU, from stakeholder requirements, the system requirements specification and qualification test specs to HIL architecture, SQT and SIT execution, and EMC/ESD end-of-line panels. Commissioned HIL automation with Vector VT System, CANoe (CAPL), vTest Studio, GÖPEL Video Dragon and OpenCV-based checks.</p>
+      <p class="me-award">Extra Mile Award, Tata Elxsi, twice (August and October 2023): for delivery quality on the HUD programme and for enabling HUD test automation.</p></div></li>
+  </ol>
+
+  <h2>Projects</h2>
+  <div class="me-grid">
+    <article><h3>Secure automotive central gateway</h3><p class="me-tag">M.Tech capstone · Infineon AURIX TC375</p><p>Message routing and filtering between networks, with AES-128/CMAC message authentication and cybersecurity validation in Vector CANoe and with hardware CAN analysers.</p></article>
+    <article><h3>Gateway scheduling for a CAN/CAN FD hybrid network</h3><p class="me-tag">Vector CANoe · CAPL</p><p>Simulating gateway message-scheduling strategies and comparing latency, jitter, bus load and bandwidth use under different traffic conditions.</p></article>
+    <article><h3>Intrusion detection for in-vehicle networks</h3><p class="me-tag">Python · Embedded C · CAN/CAN FD</p><p>Rule-based and anomaly-based detection of flooding, spoofing and replay attacks, evaluated on false positives, detection latency and accuracy.</p></article>
+    <article><h3>Reinforcement learning for microgrid battery scheduling</h3><p class="me-tag">B.Tech project · Python</p><p>A learned charging and discharging policy for a residential PV microgrid that cuts electricity cost under time-of-use tariffs. Published at an IEEE conference (<a href="https://ieeexplore.ieee.org/document/9774140" target="_blank" rel="noopener">IEEE Xplore</a>).</p></article>
+  </div>
+
+  <h2>Skills and tools</h2>
+  <div class="me-skills">
+    <div><h4>Protocols</h4><p><span>CAN</span><span>CAN FD</span><span>LIN</span><span>Automotive Ethernet</span><span>SOME/IP</span><span>UDS</span><span>SecOC</span><span>I²C</span><span>FPD-Link III</span></p></div>
+    <div><h4>Programming</h4><p><span>C</span><span>Embedded C</span><span>C++</span><span>Python</span><span>CAPL</span></p></div>
+    <div><h4>Tools</h4><p><span>Vector CANoe</span><span>Vector VT System</span><span>vTest Studio</span><span>IBM DOORS</span><span>CATIA Magic (SysML)</span><span>Git</span><span>JIRA</span></p></div>
+    <div><h4>Platforms</h4><p><span>STM32</span><span>Infineon AURIX TriCore</span><span>NVIDIA CUDA (basics)</span></p></div>
+    <div><h4>Methods</h4><p><span>HIL testing</span><span>Test automation</span><span>Requirements engineering</span><span>MBSE</span><span>ASPICE</span><span>ISO 26262</span></p></div>
+  </div>
+
+  <h2>Education</h2>
+  <div class="tbl"><table><tbody>
+    <tr><td><b>M.Tech, Automotive Electronics</b></td><td>Amrita Vishwa Vidyapeetham, Coimbatore</td><td>2025 – 2027</td></tr>
+    <tr><td><b>B.Tech, Electrical and Electronics Engineering</b></td><td>TKM College of Engineering, Kollam</td><td>2017 – 2021</td></tr>
+  </tbody></table></div>
+  <p class="ref">Photo: Vaishak Rajeev, on the road near Kolar, Karnataka.</p>
+</section>
+
 
   </main>
 </div>
@@ -2819,7 +2873,7 @@ const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const uniq=[...new Set(alts.map(a=>a.toLowerCase()))].sort((x,y)=>y.length-x.length);
 const re=new RegExp('(?<![\\w-])('+uniq.map(esc).join('|')+')(?![\\w-])','gi');
 const resolve=m=>{const c=map.get(m.toLowerCase());if(!c)return null;const exact=c.find(e=>e.a===m);if(exact)return exact.i;const ci=c.find(e=>!e.cs);return ci?ci.i:null};
-const BAN='svg,script,style,code,pre,input,select,textarea,button,a,h1,.eyebrow,.ref,.nav,.side,.idx,.gl-list,.gl-bar,.gl-az,.gt,.gtip,.cap,.lbl,.badge,.chip,.chips,.frame,.bits,.pdu,.log,.status,.readout';
+const BAN='svg,script,style,code,pre,input,select,textarea,button,a,h1,.eyebrow,.ref,.nav,.side,.idx,.gl-list,.gl-bar,.gl-az,.gt,.gtip,.cap,.lbl,.badge,.chip,.chips,.frame,.bits,.pdu,.log,.status,.readout,.me-skills,.me-tag,.me-card';
 document.querySelectorAll('section.view').forEach(sec=>{
   if(sec.id==='home'||sec.id==='glossary')return;
   const seen=new Set();
@@ -3159,4 +3213,32 @@ drawFG();
 })();
 </script>
 
+<style>
+#about{--ch:#0ca678}
+.nav a[href="#about"] .n{color:#0ca678}
+.me-card{display:grid;grid-template-columns:minmax(200px,280px) 1fr;gap:24px;align-items:center;background:var(--sheet);border:1px solid var(--rule);border-top:4px solid var(--ch);border-radius:16px;padding:18px;margin:18px 0 22px;box-shadow:0 14px 30px -22px color-mix(in srgb,var(--ch) 70%,transparent)}
+.me-card img{width:100%;height:auto;aspect-ratio:720/1120;object-fit:cover;border-radius:12px;display:block}
+.me-name{font:700 30px/1.1 var(--f-disp);margin:0;letter-spacing:-.01em}
+.me-role{margin:6px 0 12px;font-weight:600;color:var(--ch-ink)}
+.me-facts{margin:0 0 14px;padding-left:18px;line-height:1.6}
+.me-links{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.me-links .btn{text-decoration:none}
+.me-tl{list-style:none;padding:0;margin:10px 0;border-left:3px solid color-mix(in srgb,var(--ch) 45%,var(--rule));max-width:none}
+.me-tl>li{position:relative;display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:6px 0 18px 20px}
+.me-tl>li::before{content:"";position:absolute;left:-8px;top:10px;width:13px;height:13px;border-radius:50%;background:var(--ch);box-shadow:0 0 0 3px var(--paper)}
+.me-tl .when{font:600 12.5px var(--f-mono);color:var(--ch-ink);padding-top:3px}
+.me-tl .where{display:block;font-size:13px;color:var(--ink-2);margin-bottom:6px}
+.me-tl p{margin:6px 0}
+.me-award{border-left:3px solid var(--warn);padding:4px 10px;background:color-mix(in srgb,var(--warn) 10%,transparent);border-radius:0 6px 6px 0}
+.me-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.me-grid article{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
+.me-grid h3{margin:0 0 4px;font-size:16px}
+.me-tag{margin:0 0 8px;font:12px var(--f-mono);color:var(--ch-ink)}
+.me-grid p{margin:0 0 6px;font-size:14px;line-height:1.55}
+.me-skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 24px}
+.me-skills h4{margin:8px 0 6px;font:600 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.me-skills p{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.me-skills span{padding:4px 10px;border-radius:999px;font-size:13px;background:color-mix(in srgb,var(--ch) 12%,var(--sheet));border:1px solid color-mix(in srgb,var(--ch) 35%,var(--rule))}
+@media (max-width:720px){.me-card{grid-template-columns:1fr}.me-card img{max-width:280px;margin:0 auto}.me-tl>li{grid-template-columns:1fr;gap:2px}}
+</style>
 </body></html>
