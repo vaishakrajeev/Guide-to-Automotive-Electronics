@@ -2438,7 +2438,7 @@ const EE={
  dom:'Domain (2010s): a domain controller per area (powertrain, chassis, body, infotainment, ADAS) concentrates software; smaller ECUs remain below it. Domains still follow function, so wires still run across the car.',
  zone:'Zonal + central (2020s): zone controllers by physical location collect I/O and distribute power; an Ethernet backbone links them to one or a few central computers that run the vehicle software. Shorter harness, fewer ECUs, software updatable in one place.'};
 function drawEE(g){
-  let s='';const car=()=>`<rect x="40" y="20" width="640" height="220" rx="60" style="fill:none;stroke:var(--rule-2);stroke-width:1.5"/>`+T(46,16,'FRONT','lbl')+T(674,16,'REAR','lbl','end');
+  let s='';const car=()=>`<rect x="40" y="20" width="640" height="${g==='dom'?260:220}" rx="60" style="fill:none;stroke:var(--rule-2);stroke-width:1.5"/>`+T(46,16,'FRONT','lbl')+T(674,16,'REAR','lbl','end');
   s+=car();
   if(g==='dist'){
     const e=[[80,50],[80,170],[170,90],[170,140],[260,50],[260,190],[350,100],[350,150],[440,50],[440,190],[530,90],[530,140],[610,60],[610,170]];
@@ -2446,9 +2446,14 @@ function drawEE(g){
     e.forEach(([x,y],i)=>{s+=`<rect class="blk" x="${x}" y="${y}" width="44" height="26" rx="4"/>`+T(x+22,y+17,'ECU','lbl','middle');s+=P(`M${x+22} ${y+(y<125?26:0)} V${y<125?125:200}`,'wire')});
     s+=B(320,105,80,30,'Gateway','','acc');
   } else if(g==='dom'){
-    const d=[[70,40,'Powertrain'],[70,170,'Chassis'],[300,40,'Body'],[300,170,'Infotainment'],[530,105,'ADAS']];
-    s+=B(300,105,120,36,'Central gateway','','acc');
-    d.forEach(([x,y,n])=>{s+=B(x,y,120,40,n,'domain ctrl','hv');s+=P(`M${x+60} ${y+(y<105?40:0)} L360 ${y<105?105:141}`,'wire');[0,1,2].forEach(k=>{const ex=x+k*44-4,ey=y<105?y+52:y-30;s+=`<rect class="blk" x="${ex}" y="${ey}" width="36" height="20" rx="3"/>`})});
+    // top row: ECUs above the controller; bottom row: ECUs below. Links to the gateway run through the open middle band.
+    const d=[[100,64,'Powertrain',320],[300,64,'Body',360],[500,64,'ADAS',400],[200,196,'Chassis',330],[400,196,'Infotainment',390]];
+    s+=B(300,132,120,36,'Central gateway','','acc');
+    d.forEach(([x,y,n,gx])=>{const top=y<132;
+      s+=P(top?`M${x+60} ${y+40} L${gx} 132`:`M${x+60} ${y} L${gx} 168`,'wire');
+      [0,1,2].forEach(k=>{const ex=x+k*42,ey=top?y-38:y+58;s+=P(`M${ex+18} ${top?ey+20:ey} V${top?y:y+40}`,'wire');s+=`<rect class="blk" x="${ex}" y="${ey}" width="36" height="20" rx="3"/>`});
+      s+=B(x,y,120,40,n,'domain ctrl','hv');});
+    s+=T(436,154,'CAN · CAN FD · FlexRay · Ethernet','lbl');
   } else {
     s+=B(300,100,120,48,'Central compute','ADAS · apps · infotainment','acc');
     const z=[[70,40,'Zone FL'],[70,180,'Zone FR'],[530,40,'Zone RL'],[530,180,'Zone RR']];
@@ -2456,7 +2461,7 @@ function drawEE(g){
       [0,1,2,3].forEach(k=>{const ex=x+(x<300?-20+k*36:k*36),ey=y<120?y+54:y-28;s+=`<circle cx="${ex+12}" cy="${ey+8}" r="7" style="fill:var(--sheet);stroke:var(--rule-2)"/>`;s+=P(`M${ex+12} ${ey+(y<120?1:15)} L${x+60} ${y+(y<120?40:0)}`,'wire')})});
     s+=T(360,170,'Ethernet backbone','lbl','middle')+T(360,232,'○ sensors/actuators on short local CAN, LIN or direct I/O','lbl','middle');
   }
-  mount('dg-ee',720,250,s,'Vehicle E/E architecture');
+  mount('dg-ee',720,g==='dom'?290:250,s,'Vehicle E/E architecture');
   $('#ee-desc').textContent=EE[g];
 }
 if($('#dg-ee')){seg('ee-g',d=>drawEE(d.g));drawEE('zone');}
