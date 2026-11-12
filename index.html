@@ -375,7 +375,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#process"><span class="n">CHAPTER 09</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
-    <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">135 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">137 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
     <a href="#about" style="--c:#0ca678"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span><span class="n">ABOUT</span><span class="tt">About me</span><span class="d">Vaishak Rajeev: student intern at BGSW, Bengaluru, with 3.5 years in automotive electronics validation and test automation.</span><span class="tags"><span>Experience</span><span>Projects</span></span></a>
   </div>
   <h2>How to use this guide</h2>
@@ -502,8 +502,8 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <h3>Field-oriented control in four steps</h3>
   <ol class="flowlist">
     <li><span>Measure two phase currents and the rotor angle (resolver or encoder).</span></li>
-    <li><span><b>Clarke</b> transform: three phase currents → two stationary-axis currents (α, β).</span></li>
-    <li><span><b>Park</b> transform: rotate by rotor angle → <i>d</i> (flux) and <i>q</i> (torque) currents. These are DC values that PI controllers can regulate.</span></li>
+    <li><span><b>Clarke transform</b>: three phase currents → two stationary-axis currents (α, β).</span></li>
+    <li><span><b>Park transform</b>: rotate by rotor angle → <i>d</i> (flux) and <i>q</i> (torque) currents. These are DC values that PI controllers can regulate.</span></li>
     <li><span>Inverse transforms and space-vector PWM produce the switch commands. Above base speed, negative <i>i<sub>d</sub></i> weakens the field so the back-EMF stays below the DC bus voltage.</span></li>
   </ol>
 
@@ -2747,6 +2747,8 @@ const G=[
 ['Ethernet (automotive)','100BASE-T1, 1000BASE-T1, 10BASE-T1S','Networks','networks','Switched Ethernet over a single twisted pair, used for backbones, cameras, ADAS and diagnostics.'],
 ['FDF','FD format bit','Networks','networks','CAN control bit that marks a frame as CAN FD when recessive.'],
 ['FlexRay','','Networks','networks','Deterministic, time-triggered 10 Mbit/s bus with two channels, used in some chassis systems; largely legacy now.'],
+['Clarke transform','α-β transform','EV & energy','ev','First step of FOC. Turns the three phase currents (120° apart) into two currents on fixed, perpendicular axes: iα = ia and iβ = (ia + 2·ib) ÷ √3, using ia + ib + ic = 0, so only two phases need sensing. iα and iβ are still sine waves at the electrical frequency.'],
+['Park transform','d-q transform','EV & energy','ev','Second step of FOC. Rotates the α-β currents by the rotor electrical angle θ: id = iα·cosθ + iβ·sinθ, iq = −iα·sinθ + iβ·cosθ. Seen from the rotor the currents become DC values: id sets the flux, iq sets the torque, so simple PI controllers can regulate them. The inverse Park transform turns the controller outputs back into α-β voltages for space-vector PWM.'],
 ['FOC','Field-oriented control','EV & energy','ev','Motor control that regulates torque- and flux-producing currents in rotor coordinates for smooth, efficient torque.'],
 ['Gateway','','Networks','networks','ECU that routes and filters messages between networks and domains; also a key security boundary.'],
 ['GDI','Gasoline direct injection','Powertrain','ice','Petrol injection straight into the combustion chamber at high pressure instead of into the intake port.'],
