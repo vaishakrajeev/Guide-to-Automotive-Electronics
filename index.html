@@ -1578,8 +1578,10 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 <section class="view" id="tools" hidden>
   <p class="eyebrow">Chapter 11</p>
   <h1>Engineering calculators</h1>
-  <p class="lede">Quick sizing tools for the numbers that come up in reviews and design discussions. Every field is editable and results update as you type. Default values describe a typical compact EV and a 1.6-litre petrol engine.</p>
-  <div class="calcs" id="calcs"></div>
+  <p class="lede">Quick sizing tools for the numbers that come up in reviews and design discussions. Pick a calculation from the menu: the page shows its inputs, its results and a picture of what is being calculated. Every field is editable and results update as you type. Default values describe a typical compact EV and a 1.6-litre petrol engine.</p>
+  <div class="cpick"><label for="calc-sel">Choose a calculation</label><select id="calc-sel"></select><span class="cpick-n" id="calc-n"></span></div>
+  <div class="cstage"><figure class="cill" id="calc-ill"></figure><div class="calcs" id="calcs"></div></div>
+  <div id="cruise-wrap" hidden>
   <h2>Cruise control: from physics to a PI controller</h2>
   <p>The longitudinal model is Newton's law: M·dv/dt = F<sub>drive</sub> − b·v − c·v² − M·g·sin θ, with the drive force following the throttle command through a first-order lag (time constant τ<sub>e</sub>). The quadratic air drag makes the plant nonlinear. Linearised around a cruising speed v<sub>0</sub>, it behaves like K<sub>e</sub> ÷ ((τ<sub>e</sub>s + 1)(Ms + b + 2cv<sub>0</sub>)): the drag adds 2cv<sub>0</sub> of effective damping, so the car responds faster at higher speed. A PI controller removes the steady-state error that a hill would otherwise leave.</p>
   <figure class="fig">
@@ -1597,7 +1599,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     </div>
     <div class="fig-f">Model: b = 30 N·s/m rolling and driveline loss, c = 0.45 N·s²/m² (½·ρ·C<sub>d</sub>·A for C<sub>d</sub> 0.30, A 2.5 m²), K<sub>e</sub> = 5,000 N at full throttle, τ<sub>e</sub> = 0.5 s, throttle limited to 0–1 with anti-windup. Starts at 60 km/h. Set Ki to 0 to see the speed drop the P controller leaves on the hill.</div>
   </figure>
-
+  </div>
 </section>
 <!-- ============ GLOSSARY ============ -->
 <section class="view" id="glossary" hidden>
@@ -3240,4 +3242,100 @@ drawFG();
 .me-skills span{padding:4px 10px;border-radius:999px;font-size:13px;background:color-mix(in srgb,var(--ch) 12%,var(--sheet));border:1px solid color-mix(in srgb,var(--ch) 35%,var(--rule))}
 @media (max-width:720px){.me-card{grid-template-columns:1fr}.me-card img{max-width:280px;margin:0 auto}.me-tl>li{grid-template-columns:1fr;gap:2px}}
 </style>
+<style>
+.cpick{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:18px 0 14px;padding:14px 16px;background:var(--sheet);border:1px solid var(--rule);border-top:4px solid var(--ch);border-radius:12px}
+.cpick label{font:600 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ch-ink)}
+.cpick select{flex:1 1 320px;max-width:520px;font:600 15px var(--f-body);padding:10px 38px 10px 12px;border:1px solid var(--rule-2);border-radius:8px;background:var(--paper);color:var(--ink);cursor:pointer}
+.cpick select:focus-visible{outline:2px solid var(--ch);outline-offset:2px}
+.cpick-n{font:12px var(--f-mono);color:var(--ink-2)}
+.cstage{display:grid;grid-template-columns:minmax(260px,400px) minmax(0,1fr);gap:16px;align-items:start}
+.cstage .calcs{margin-top:0;grid-template-columns:minmax(0,1fr)}
+.cill{margin:0;background:linear-gradient(160deg,var(--ch-soft),var(--sheet) 70%);border:1px solid var(--rule);border-radius:12px;padding:14px;position:sticky;top:70px}
+.cill svg{display:block;width:100%;height:auto}
+.cill figcaption{margin-top:10px;font-size:14px;line-height:1.55}
+.cill figcaption b{display:block;color:var(--ch-ink);font-size:15px;margin-bottom:4px}
+.cill .ink{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.cill .thin{fill:none;stroke:var(--ink-2);stroke-width:1.4;stroke-linecap:round}
+.cill text{font:600 12px var(--f-mono);fill:var(--ink)}
+.cill text.m{fill:var(--ink-2);font-weight:500;font-size:11px}
+.cstage.cruise{grid-template-columns:minmax(0,1fr)}
+.cstage.cruise .cill{position:static;display:grid;grid-template-columns:minmax(220px,360px) 1fr;gap:16px;align-items:center}
+.cstage.cruise .calcs{display:none}
+@media (max-width:900px){.cstage{grid-template-columns:1fr}.cill{position:static}.cstage.cruise .cill{grid-template-columns:1fr}}
+</style>
+<script>
+(()=>{
+const sel=document.getElementById('calc-sel');if(!sel)return;
+const wrap=document.getElementById('calcs'),ill=document.getElementById('calc-ill'),cr=document.getElementById('cruise-wrap'),stage=document.querySelector('.cstage');
+const arrow=(x1,y1,x2,y2,c)=>{const a=Math.atan2(y2-y1,x2-x1),h=9;return `<path d="M${x1} ${y1}L${x2} ${y2}" stroke="${c}" stroke-width="3" fill="none"/><path d="M${x2} ${y2}L${x2-h*Math.cos(a-.45)} ${y2-h*Math.sin(a-.45)}L${x2-h*Math.cos(a+.45)} ${y2-h*Math.sin(a+.45)}Z" fill="${c}"/>`};
+const car=(x,y,c='#1c7ed6')=>`<path d="M${x} ${y}h150v-22c0-6-4-10-10-12l-22-6-26-24c-4-4-9-6-15-6h-36c-6 0-11 3-14 8l-14 22-14 4c-6 2-9 6-9 12z" fill="${c}" opacity=".9"/><path d="M${x+52} ${y-62}h30l22 22h-60z" fill="#d0ebff"/><circle cx="${x+32}" cy="${y}" r="15" fill="#343a40"/><circle cx="${x+32}" cy="${y}" r="6" fill="#ced4da"/><circle cx="${x+122}" cy="${y}" r="15" fill="#343a40"/><circle cx="${x+122}" cy="${y}" r="6" fill="#ced4da"/>`;
+const ILL={
+ pack:['Cells → modules → pack',`<svg viewBox="0 0 360 240"><rect x="20" y="40" width="320" height="150" rx="14" fill="#2f9e44" opacity=".14" stroke="#2f9e44" stroke-width="2"/>
+  ${[0,1,2,3].map(m=>`<rect x="${34+m*76}" y="58" width="66" height="114" rx="8" fill="#2f9e44" opacity=".22" stroke="#2f9e44"/>`+[0,1,2].map(r=>[0,1].map(k=>`<rect x="${42+m*76+k*28}" y="${66+r*34}" width="22" height="28" rx="4" fill="#51cf66" stroke="#2b8a3e"/><rect x="${49+m*76+k*28}" y="${63+r*34}" width="8" height="4" fill="#2b8a3e"/>`).join('')).join('')).join('')}
+  <rect x="300" y="18" width="16" height="22" rx="3" fill="#e03131"/><rect x="44" y="18" width="16" height="22" rx="3" fill="#343a40"/>
+  <text x="308" y="14" text-anchor="middle">+</text><text x="52" y="14" text-anchor="middle">−</text>
+  <text x="180" y="212" text-anchor="middle">pack = cells in series (S) × in parallel (P)</text>
+  <text class="m" x="180" y="230" text-anchor="middle">voltage adds in series · capacity adds in parallel</text></svg>`,'Series cells set the pack voltage, parallel cells set the capacity. Energy is voltage × capacity.'],
+ road:['Forces on a moving car',`<svg viewBox="0 0 360 240"><path d="M0 190h360" class="thin"/>${car(100,175,'#1c7ed6')}
+  ${arrow(255,140,320,140,'#2f9e44')}<text x="288" y="130" text-anchor="middle">F drive</text>
+  ${arrow(95,120,35,120,'#e03131')}<text x="62" y="110" text-anchor="middle">air drag</text>
+  ${arrow(95,170,45,170,'#f08c00')}<text x="62" y="160" text-anchor="middle">rolling</text>
+  ${[0,1,2].map(i=>`<path d="M${20+i*20} ${70+i*12}h50" stroke="#74c0fc" stroke-width="2" stroke-dasharray="6 5"/>`).join('')}
+  <text x="180" y="218" text-anchor="middle">P = (F_roll + F_air + F_grade) · v</text><text class="m" x="180" y="234" text-anchor="middle">air drag grows with v², so power grows with v³</text></svg>`,'At a steady speed the motor only has to replace what rolling resistance, air drag and climbing take away. Range is battery energy divided by energy per km.'],
+ chg:['Charging an EV',`<svg viewBox="0 0 360 240"><rect x="24" y="40" width="80" height="140" rx="10" fill="#4263eb" opacity=".85"/><rect x="36" y="56" width="56" height="34" rx="4" fill="#dbe4ff"/><text x="64" y="78" text-anchor="middle" style="fill:#364fc7">DC</text>
+  <path d="M104 120c50 0 40 40 100 40" stroke="#343a40" stroke-width="7" fill="none" stroke-linecap="round"/>${car(190,190,'#2f9e44')}<rect x="206" y="150" width="14" height="12" rx="3" fill="#343a40"/>
+  <rect x="250" y="30" width="80" height="38" rx="6" fill="none" stroke="#2f9e44" stroke-width="2"/><rect x="254" y="34" width="52" height="30" rx="3" fill="#51cf66"/><rect x="330" y="42" width="6" height="14" rx="2" fill="#2f9e44"/><text x="290" y="88" text-anchor="middle">SoC 10 → 80 %</text>
+  <path d="M60 196l-8 18h12l-6 16" stroke="#fab005" stroke-width="3" fill="none"/>
+  <text x="200" y="228" text-anchor="middle">t = ΔEnergy ÷ (P × efficiency)</text></svg>`,'Charging time is the energy you add divided by the power that actually reaches the cells. Real chargers taper the power above about 80 % SoC.'],
+ mot:['Motor, gearbox and wheel',`<svg viewBox="0 0 360 240"><rect x="22" y="70" width="110" height="90" rx="14" fill="#7048e8" opacity=".85"/>${[0,1,2,3,4].map(i=>`<path d="M${36+i*18} 74v82" stroke="#d0bfff" stroke-width="3"/>`).join('')}<text x="77" y="182" text-anchor="middle">motor</text>
+  <path d="M132 115h36" stroke="#495057" stroke-width="8"/><circle cx="185" cy="115" r="18" fill="#f08c00" stroke="#d9480f" stroke-width="3" stroke-dasharray="5 3"/><circle cx="222" cy="115" r="34" fill="#ffc078" stroke="#d9480f" stroke-width="3" stroke-dasharray="5 3"/><text x="204" y="172" text-anchor="middle">gear ratio i</text>
+  <path d="M256 115h20" stroke="#495057" stroke-width="8"/><circle cx="312" cy="115" r="42" fill="#343a40"/><circle cx="312" cy="115" r="20" fill="#adb5bd"/><text x="312" y="182" text-anchor="middle">wheel r</text>
+  <text x="180" y="212" text-anchor="middle">v = n_motor ÷ i × 2πr · torque × i at the wheel</text><text class="m" x="180" y="230" text-anchor="middle">P = T · ω (power is the same either side of the gear)</text></svg>`,'The gear trades speed for torque. Motor speed and wheel radius set the top speed; motor torque times the ratio sets the pull at the wheel.'],
+ eng:['One cylinder: bore and stroke',`<svg viewBox="0 0 360 240"><rect x="120" y="34" width="120" height="120" fill="#ffe8cc" stroke="#e8590c" stroke-width="3"/><path d="M146 42l10 10M168 42l10 10M190 42l10 10M212 42l10 10" stroke="#fab005" stroke-width="2"/>
+  <rect x="128" y="58" width="104" height="34" rx="4" fill="#e8590c"/><path d="M180 92L166 176" stroke="#495057" stroke-width="9" stroke-linecap="round"/><circle cx="180" cy="186" r="22" class="ink"/><circle cx="166" cy="176" r="6" fill="#495057"/><circle cx="180" cy="186" r="4" fill="var(--ink)"/>
+  <path d="M120 24h120" stroke="#1c7ed6" stroke-width="2"/><path d="M120 18v12M240 18v12" stroke="#1c7ed6" stroke-width="2"/><text x="180" y="14" text-anchor="middle" style="fill:#1c7ed6">bore B</text>
+  <path d="M100 58h20M100 126h20" stroke="var(--ink-2)" stroke-dasharray="4 3"/><text x="94" y="62" text-anchor="end">TDC</text><text x="94" y="130" text-anchor="end">BDC</text>
+  <path d="M262 58v68" stroke="#2f9e44" stroke-width="2"/><path d="M256 58h12M256 126h12" stroke="#2f9e44" stroke-width="2"/><text x="272" y="96" style="fill:#2f9e44">stroke S</text>
+  <text x="180" y="230" text-anchor="middle">V = π/4 · B² · S · cylinders</text></svg>`,'Displacement is the volume the pistons sweep. BMEP divides the work per cycle by that volume, so engines of different size can be compared.'],
+ fuel:['Fuel in, power out',`<svg viewBox="0 0 360 240"><path d="M70 40c0 0-36 50-36 76a36 36 0 0 0 72 0c0-26-36-76-36-76z" fill="#fab005" stroke="#e67700" stroke-width="2"/><text x="70" y="182" text-anchor="middle">fuel</text>
+  ${arrow(116,110,170,110,'#868e96')}<rect x="176" y="70" width="90" height="80" rx="10" fill="#e8590c" opacity=".85"/><text x="221" y="115" text-anchor="middle" style="fill:#fff">engine</text>
+  ${arrow(270,95,330,70,'#2f9e44')}<text x="306" y="60" text-anchor="middle" style="fill:#2f9e44">work ~30 %</text>
+  ${arrow(270,125,330,160,'#e03131')}<text x="304" y="182" text-anchor="middle" style="fill:#e03131">heat ~70 %</text>
+  <text x="180" y="222" text-anchor="middle">BSFC = fuel flow ÷ power · η = 3600 ÷ (BSFC · LHV)</text></svg>`,'Brake-specific fuel consumption says how many grams of fuel the engine burns for each kWh of work. Lower BSFC means higher efficiency.'],
+ lam:['Lambda: air–fuel balance',`<svg viewBox="0 0 360 240"><rect x="30" y="150" width="300" height="16" rx="8" fill="url(#lg)"/><defs><linearGradient id="lg"><stop offset="0" stop-color="#e03131"/><stop offset=".5" stop-color="#2f9e44"/><stop offset="1" stop-color="#1c7ed6"/></linearGradient></defs>
+  <path d="M180 140v34" stroke="var(--ink)" stroke-width="3"/><text x="180" y="196" text-anchor="middle">λ = 1 (14.7 : 1)</text><text x="50" y="196">rich λ&lt;1</text><text x="310" y="196" text-anchor="end">lean λ&gt;1</text>
+  ${[0,1,2,3,4,5].map(i=>`<circle cx="${60+i*20}" cy="${60+(i%2)*16}" r="8" fill="#74c0fc"/>`).join('')}<text x="100" y="112" text-anchor="middle">air</text>
+  ${[0,1].map(i=>`<circle cx="${250+i*24}" cy="${68}" r="10" fill="#fab005"/>`).join('')}<text x="262" y="112" text-anchor="middle">fuel</text><text x="180" y="74" text-anchor="middle" style="font-size:22px">÷</text>
+  <text class="m" x="180" y="226" text-anchor="middle">three-way catalyst needs λ ≈ 1</text></svg>`,'Lambda compares the actual air–fuel ratio with the stoichiometric one. Petrol engines with a three-way catalyst run at λ = 1.'],
+ pre:['Precharge before the contactor closes',`<svg viewBox="0 0 360 240"><rect x="20" y="60" width="50" height="110" rx="6" fill="#2f9e44" opacity=".85"/><text x="45" y="190" text-anchor="middle">HV</text>
+  <path d="M70 80h70" class="ink"/><path d="M140 80l26-12" class="ink"/><path d="M168 80h112" class="ink"/><text x="154" y="62" text-anchor="middle">main +</text>
+  <path d="M100 80v40h30" class="ink"/><rect x="130" y="112" width="44" height="16" fill="#ffd43b" stroke="var(--ink)" stroke-width="2"/><text x="152" y="150" text-anchor="middle">R pre</text><path d="M174 120h20l22-10" class="ink"/><path d="M218 120h22v-40" class="ink"/>
+  <path d="M280 80v28M266 108h28M266 118h28M280 118v32" class="ink"/><text x="306" y="118">C link</text><path d="M70 150h210" class="ink"/>
+  <path d="M196 226h140M196 226v-50" class="thin"/><path d="M196 226c20-40 60-50 136-50" stroke="#e8590c" stroke-width="3" fill="none"/><text x="266" y="216" text-anchor="middle" style="fill:#e8590c">V_C rises, τ = R·C</text></svg>`,'Closing the main contactor onto an empty DC-link capacitor would cause a huge inrush current. A resistor charges it first; the contactor closes at about 95 % voltage.'],
+ can:['Frames sharing one CAN bus',`<svg viewBox="0 0 360 240"><path d="M20 120h320" stroke="#1c7ed6" stroke-width="4"/><path d="M20 132h320" stroke="#f08c00" stroke-width="4"/><rect x="10" y="114" width="10" height="24" fill="#868e96"/><rect x="340" y="114" width="10" height="24" fill="#868e96"/>
+  ${['ECU A','ECU B','ECU C','ECU D'].map((n,i)=>`<rect x="${34+i*80}" y="40" width="60" height="38" rx="6" fill="${['#7048e8','#2f9e44','#e8590c','#0c8599'][i]}"/><text x="${64+i*80}" y="64" text-anchor="middle" style="fill:#fff">${n}</text><path d="M${58+i*80} 78v42M${70+i*80} 78v54" class="thin"/>`).join('')}
+  ${[0,1,2,3,4,5,6].map(i=>`<rect x="${30+i*44}" y="164" width="${[30,40,22,38,30,16,34][i]}" height="18" rx="3" fill="${['#7048e8','#2f9e44','#e8590c','#7048e8','#0c8599','#2f9e44','#e8590c'][i]}" opacity=".85"/>`).join('')}
+  <text x="180" y="208" text-anchor="middle">load = Σ (frame bits × rate) ÷ bit rate</text><text class="m" x="180" y="226" text-anchor="middle">keep it below about 50–60 % for safe latency</text></svg>`,'Bus load is the share of time the bus is busy. Each frame costs its bits plus stuff bits; the busier the bus, the longer low-priority frames wait.'],
+ cruise:['Cruise control on a hill',`<svg viewBox="0 0 360 240"><path d="M0 190h150l210-70" class="thin"/><g transform="translate(160 175) rotate(-18)">${car(0,0,'#1098ad')}</g>
+  <text x="40" y="60">set 90 km/h</text><rect x="36" y="70" width="110" height="26" rx="6" fill="#1098ad" opacity=".2" stroke="#1098ad"/><text x="91" y="88" text-anchor="middle">PI → throttle</text>
+  ${arrow(150,83,200,83,'#1098ad')}<text x="300" y="200" text-anchor="middle">grade at t = 30 s</text><text class="m" x="180" y="232" text-anchor="middle">error → Kp·e + Ki·∫e → throttle → speed</text></svg>`,'A PI controller turns the speed error into a throttle command. Watch how it recovers when the road starts to climb.']};
+const items=[...wrap.querySelectorAll('article.calc')].map(a=>({id:a.id.replace(/^c-/,''),el:a,t:a.querySelector('h3').textContent,tag:(a.querySelector('.tag')||{}).textContent||''}));
+items.push({id:'cruise',el:null,t:'Cruise control simulation (PI controller)',tag:'Control · Simulation'});
+const grp={};items.forEach(it=>{const g=it.tag.split('·')[0].trim()||'Other';(grp[g]=grp[g]||[]).push(it)});
+sel.innerHTML=Object.entries(grp).map(([g,a])=>`<optgroup label="${g}">${a.map(it=>`<option value="${it.id}">${it.t}</option>`).join('')}</optgroup>`).join('');
+function show(id){
+  const it=items.find(x=>x.id===id)||items[0];sel.value=it.id;
+  items.forEach(x=>{if(x.el)x.el.hidden=x!==it});
+  cr.hidden=it.id!=='cruise';stage.classList.toggle('cruise',it.id==='cruise');
+  const d=ILL[it.id];ill.innerHTML=d?`${d[1]}<figcaption><b>${d[0]}</b>${d[2]}</figcaption>`:'';ill.hidden=!d;
+  ill.querySelector('svg')&&ill.querySelector('svg').setAttribute('role','img');ill.querySelector('svg')&&ill.querySelector('svg').setAttribute('aria-label',d?d[0]:'');
+  const ord=[...sel.options].map(o=>o.value);document.getElementById('calc-n').textContent=(ord.indexOf(it.id)+1)+' of '+ord.length;
+  try{localStorage.setItem('ae-calc',it.id)}catch(e){}
+}
+sel.addEventListener('change',()=>show(sel.value));
+let start=items[0].id;try{const v=localStorage.getItem('ae-calc');if(v&&items.some(x=>x.id===v))start=v}catch(e){}
+show(start);
+})();
+</script>
+
 </body></html>
