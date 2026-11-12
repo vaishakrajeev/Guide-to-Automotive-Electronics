@@ -1196,10 +1196,55 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <div class="fig-f">Message ID = Service ID + Method ID; event IDs have the top bit set (0x8000–0xFFFE). Length counts everything after the Length field: 8 header bytes + payload. Request ID = Client ID + Session ID, used to match responses to requests. Protocol version is 0x01.</div>
   </figure>
 
+  <h3>SOME/IP frame format</h3>
+  <p>A SOME/IP message never travels alone. On the wire it is the innermost layer of an ordinary Ethernet frame: Ethernet header (usually with an IEEE 802.1Q VLAN tag carrying the priority), then IP, then UDP or TCP, then the 16-byte SOME/IP header and the serialized payload. Several SOME/IP messages may share one UDP datagram or TCP segment; the Length field tells the receiver where each one ends.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 8.3</b> · One SOME/IP message inside an Ethernet frame</span>
+      <div class="ctrls"><div class="seg" id="sf-tp" role="group" aria-label="Transport"><button aria-pressed="true" data-v="udp">UDP</button><button aria-pressed="false" data-v="tcp">TCP</button></div><div class="seg" id="sf-ip" role="group" aria-label="IP version"><button aria-pressed="true" data-v="4">IPv4</button><button aria-pressed="false" data-v="6">IPv6</button></div><div class="seg" id="sf-vl" role="group" aria-label="VLAN tag"><button aria-pressed="true" data-v="1">VLAN tag</button><button aria-pressed="false" data-v="0">No VLAN</button></div></div></div>
+    <div class="fig-b">
+      <div class="bt-grid"><label>SOME/IP payload <i>bytes</i><input type="number" id="sf-pl" value="64" min="0" max="4000"></label><label>Link speed<select id="sf-sp"><option value="100">100BASE-T1 (100 Mbit/s)</option><option value="1000">1000BASE-T1 (1 Gbit/s)</option><option value="10">10BASE-T1S (10 Mbit/s)</option></select></label></div>
+      <div class="scroll"><div id="dg-sf"></div></div>
+      <div class="status" id="sf-out"></div>
+    </div>
+    <div class="fig-f">Byte counts are the minimum header sizes (no IP or TCP options). On the wire every frame also costs 8 bytes of preamble and start delimiter and a 12-byte inter-frame gap. Frames shorter than 64 bytes are padded.</div>
+  </figure>
+  <p>The header itself is four 32-bit words, all big-endian (network byte order). The first two words, Message ID and Length, have the same layout in every SOME/IP version, so a receiver can always find the end of a message even if it does not understand the rest.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 8.4</b> · SOME/IP header layout, 32 bits per row</span></div>
+    <div class="fig-b scroll">
+      <table class="bitmap" aria-label="SOME/IP header bit layout">
+        <thead><tr><th class="off">Byte</th><th colspan="8">Bits 0–7</th><th colspan="8">8–15</th><th colspan="8">16–23</th><th colspan="8">24–31</th></tr></thead>
+        <tbody>
+          <tr><td class="off">0</td><td colspan="16" class="f-id">Service ID</td><td colspan="16" class="f-id">Method ID / Event ID</td></tr>
+          <tr><td class="off">4</td><td colspan="32" class="f-len">Length (bytes from Request ID to end of payload)</td></tr>
+          <tr><td class="off">8</td><td colspan="16" class="f-req">Client ID</td><td colspan="16" class="f-req">Session ID</td></tr>
+          <tr><td class="off">12</td><td colspan="8" class="f-ver">Protocol Version</td><td colspan="8" class="f-ver">Interface Version</td><td colspan="8" class="f-typ">Message Type</td><td colspan="8" class="f-typ">Return Code</td></tr>
+          <tr class="tp"><td class="off">16*</td><td colspan="28" class="f-tp">TP Offset (×16 bytes), SOME/IP-TP segments only</td><td colspan="3" class="f-tp">Res.</td><td colspan="1" class="f-tp">M</td></tr>
+          <tr><td class="off">16 / 20*</td><td colspan="32" class="f-pl">Payload: serialized arguments, variable length</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="fig-f">Message ID = Service ID + Method ID (bytes 0–3); Request ID = Client ID + Session ID (bytes 8–11). Length covers bytes 8 onward, so Length = 8 + payload. *Only for SOME/IP-TP segments: when the TP flag (0x20) is set in Message Type, a 4-byte TP header follows the 16-byte header and the payload starts at byte 20. The TP header holds the segment offset in units of 16 bytes and the More-segments flag M.</div>
+  </figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Field</th><th>Size</th><th>Meaning and typical values</th></tr></thead>
+    <tbody>
+      <tr><td>Service ID</td><td>16 bit</td><td>Identifies the service interface, e.g. 0x1234. 0xFFFF is reserved for SOME/IP-SD.</td></tr>
+      <tr><td>Method / Event ID</td><td>16 bit</td><td>Bit 15 = 0: method (0x0000–0x7FFF). Bit 15 = 1: event or field notifier (0x8000–0xFFFE). SD uses 0x8100.</td></tr>
+      <tr><td>Length</td><td>32 bit</td><td>Number of bytes from Client ID to the end of the payload: 8 + payload length.</td></tr>
+      <tr><td>Client ID</td><td>16 bit</td><td>Identifies the calling client within the ECU (may carry a configurable prefix). 0x0000 for notifications.</td></tr>
+      <tr><td>Session ID</td><td>16 bit</td><td>Counter that matches a response to its request; 0x0000 when session handling is not used, otherwise 0x0001–0xFFFF and then wraps to 0x0001.</td></tr>
+      <tr><td>Protocol Version</td><td>8 bit</td><td>Always 0x01 for the current SOME/IP header format.</td></tr>
+      <tr><td>Interface Version</td><td>8 bit</td><td>Major version of the service interface. A mismatch gives E_WRONG_INTERFACE_VERSION.</td></tr>
+      <tr><td>Message Type</td><td>8 bit</td><td>0x00 REQUEST, 0x01 REQUEST_NO_RETURN, 0x02 NOTIFICATION, 0x80 RESPONSE, 0x81 ERROR. Adding 0x20 marks a SOME/IP-TP segment (e.g. 0x22 TP_NOTIFICATION).</td></tr>
+      <tr><td>Return Code</td><td>8 bit</td><td>0x00 E_OK in requests and successful responses; error codes such as 0x02 E_UNKNOWN_SERVICE, 0x03 E_UNKNOWN_METHOD, 0x07 E_WRONG_PROTOCOL_VERSION in ERROR messages.</td></tr>
+    </tbody></table></div>
+  <p><b>When the payload does not fit.</b> With IPv4 and a standard 1500-byte MTU, a UDP datagram carries at most 1472 bytes, so one SOME/IP message over UDP can hold about 1456 bytes of payload. Larger messages are either sent over TCP, which segments the stream itself, or split by <b>SOME/IP-TP</b> into UDP segments. Each segment repeats the 16-byte header, sets the TP flag and adds the 4-byte TP header. Every segment except the last carries a multiple of 16 bytes. The receiver reassembles the message using the offset and the More-segments flag.</p>
+
   <h3>Service discovery (SOME/IP-SD)</h3>
   <p>Before a client can call a service it has to know where the service runs. SOME/IP-SD messages are themselves SOME/IP messages (Message ID 0xFFFF8100) sent over UDP, by default on port 30490, usually to a multicast group. A server repeatedly <b>offers</b> its services; a client that starts later can <b>find</b> them; then it <b>subscribes</b> to the event groups it wants. Offers and subscriptions carry a time-to-live, so a crashed ECU's services disappear on their own.</p>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 8.3</b> · Service discovery and publish/subscribe, step by step</span>
+    <div class="fig-h"><span class="cap"><b>Fig. 8.5</b> · Service discovery and publish/subscribe, step by step</span>
       <div class="ctrls"><button class="btn pri" id="sd-step">Next step</button><button class="btn" id="sd-reset">Reset</button></div></div>
     <div class="fig-b scroll"><div id="dg-sd"></div></div>
     <div class="fig-f" id="sd-desc"></div>
@@ -1233,7 +1278,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <h2>Adaptive AUTOSAR: inside the platform</h2>
   <p>The Adaptive Platform runs on a <b>Machine</b>: one physical or virtual computer with a POSIX operating system. Applications are ordinary OS <b>processes</b> written in C++. They do not call the OS or each other directly. They use the <b>AUTOSAR Runtime for Adaptive Applications (ARA)</b>, a set of C++ APIs in namespaces such as <code>ara::com</code>, <code>ara::log</code> and <code>ara::per</code>. Applications are limited to a small POSIX profile (PSE51), so the same code can move between Linux, QNX and other certified OSs. Each API comes from a <b>functional cluster</b>, a platform module with one job. Since R23-11 AUTOSAR groups the clusters into seven areas. Click one to see what it does.</p>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 8.4</b> · The Adaptive Platform stack (functional clusters as grouped in AUTOSAR AP R25-11)</span></div>
+    <div class="fig-h"><span class="cap"><b>Fig. 8.6</b> · The Adaptive Platform stack (functional clusters as grouped in AUTOSAR AP R25-11)</span></div>
     <div class="fig-b"><div class="ap-stack" id="ap-stack"></div></div>
     <div class="fig-f" id="ap-desc">Click a functional cluster.</div>
   </figure>
@@ -1242,7 +1287,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <h3>ara::com: proxies and skeletons</h3>
   <p>Communication Management hides the network behind generated C++ classes. The service provider gets a <b>skeleton</b>. It implements the methods and calls <code>OfferService()</code>. The consumer gets a <b>proxy</b>. It finds the service, then calls methods as if they were local functions and subscribes to events. A method call returns an <code>ara::core::Future</code>, so the caller does not block while the request travels. Which protocol carries the data is not in the code. It is set in the <b>Service Instance Manifest</b>: SOME/IP, DDS, or local IPC when both processes run on the same machine. The same application can therefore talk to a process on the same chip or to an ECU across the car without being recompiled.</p>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 8.5</b> · One service, step by step: skeleton → binding → proxy</span>
+    <div class="fig-h"><span class="cap"><b>Fig. 8.7</b> · One service, step by step: skeleton → binding → proxy</span>
       <div class="ctrls"><button class="btn pri" id="ac-step">Next step</button><button class="btn" id="ac-reset">Reset</button></div></div>
     <div class="fig-b scroll"><div id="dg-ac"></div></div>
     <div class="fig-f" id="ac-desc"></div>
@@ -1258,7 +1303,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <h3>Execution, state and health</h3>
   <p>Nothing on an Adaptive machine starts by itself. The OS starts <b>Execution Management (EM)</b> first. EM reads the <b>Execution Manifest</b> of every application: which executable to run, with which arguments, in which resource group, and in which <b>Function Group States</b> the process should be running. A Function Group is a set of processes that are switched together, for example everything that belongs to driving, or to an update. <b>State Management (SM)</b> decides which state each Function Group should be in, based on vehicle mode, ignition and requests from applications. It then asks EM to make the switch. EM stops the processes that are not needed and starts the ones that are, in dependency order. Pick a state below to see the switch.</p>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 8.6</b> · Function Group states: SM decides, EM starts and stops processes</span>
+    <div class="fig-h"><span class="cap"><b>Fig. 8.8</b> · Function Group states: SM decides, EM starts and stops processes</span>
       <div class="ctrls"><div class="seg" id="fg-seg"></div></div></div>
     <div class="fig-b scroll"><div id="dg-fg"></div></div>
     <div class="fig-f" id="fg-desc"></div>
@@ -1292,6 +1337,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <li>Zonal: zone controllers do I/O, power distribution and gatewaying; central computers do the heavy software.</li>
     <li>SOME/IP header: Message ID (service + method), Length, Request ID (client + session), versions, type, return code = 16 bytes.</li>
     <li>SOME/IP runs over UDP or TCP as configured; SOME/IP-SD always over UDP, default port 30490.</li>
+    <li>Frame: Ethernet (+802.1Q) → IP → UDP/TCP → 16-byte SOME/IP header → payload → FCS; over UDP ≈1456 B payload per frame, larger messages use SOME/IP-TP (flag 0x20 + 4-byte TP header).</li>
     <li>SD: offer → (find) → subscribe eventgroup → ack → notifications; TTL removes dead services.</li>
     <li>DDS = data-centric topics with rich QoS; used in ROS 2 and as an Adaptive AUTOSAR binding.</li>
     <li>COVESA VSS gives every vehicle signal a standard name; AUTOSAR Adaptive uses <code>ara::com</code> on POSIX systems.</li>
@@ -3160,7 +3206,7 @@ const X=i=>80+i*150;
 const AC=[
  [null,'A camera-processing app provides the service "ObjectList". An ADAS planner on another machine needs it. Both use only ara::com classes generated from the same service interface description.'],
  [0,1,'skeleton.OfferService()','The provider constructs its skeleton with an InstanceSpecifier from the manifest, implements the method handlers, and calls OfferService().'],
- [1,2,'offer instance','The binding announces the instance. With SOME/IP this is an SD OfferService entry on UDP port 30490 (see Fig. 8.3). With DDS it is DDS discovery. With IPC it stays inside the machine.'],
+ [1,2,'offer instance','The binding announces the instance. With SOME/IP this is an SD OfferService entry on UDP port 30490 (see Fig. 8.5). With DDS it is DDS discovery. With IPC it stays inside the machine.'],
  [4,3,'StartFindService(handler)','The consumer asks for the service by its InstanceSpecifier. It is notified whenever a matching instance appears or disappears, so it copes with ECUs that start late or restart.'],
  [3,4,'handle → new Proxy(handle)','When the offer is found, the client creates a proxy from the handle. The proxy now has an event member, a method member and a field member for every element of the interface.'],
  [4,3,'objects.Subscribe(maxSamples)','The client subscribes to the event and says how many samples it may hold at once. With SOME/IP this becomes SubscribeEventgroup and an Ack.'],
@@ -3360,4 +3406,61 @@ show(start);
 }
 .nav a,.idx a,.btn,.theme-tg{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 </style>
+<style>
+.bitmap{border-collapse:collapse;width:100%;min-width:640px;table-layout:fixed;font:12.5px/1.3 var(--f-mono)}
+.bitmap th{font-weight:500;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--rule);text-align:left}
+.bitmap th.off,.bitmap td.off{width:80px;white-space:nowrap;color:var(--ink-2);text-align:right;padding-right:10px;background:none;border:none}
+.bitmap td{padding:10px 6px;text-align:center;border:2px solid var(--sheet);border-radius:6px;font-weight:600}
+.bitmap .f-id{background:color-mix(in srgb,#1c7ed6 22%,var(--sheet))}
+.bitmap .f-len{background:color-mix(in srgb,#ae3ec9 20%,var(--sheet))}
+.bitmap .f-req{background:color-mix(in srgb,#2f9e44 22%,var(--sheet))}
+.bitmap .f-ver{background:color-mix(in srgb,#f08c00 24%,var(--sheet))}
+.bitmap .f-typ{background:color-mix(in srgb,#e03131 18%,var(--sheet))}
+.bitmap .f-pl{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--ink) 6%,var(--sheet)) 0 8px,var(--sheet) 8px 16px);font-weight:500}
+.bitmap .f-tp{background:color-mix(in srgb,#0c8599 18%,var(--sheet));font-weight:500;border-style:dashed;border-color:color-mix(in srgb,#0c8599 50%,var(--sheet))}
+</style>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);if(!$('#dg-sf'))return;
+const st={tp:'udp',ip:'4',vl:'1'};
+['tp','ip','vl'].forEach(k=>{const g=$('#sf-'+k);g.querySelectorAll('button').forEach(b=>b.onclick=()=>{g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));st[k]=b.dataset.v;draw()})});
+$('#sf-pl').oninput=draw;$('#sf-sp').onchange=draw;
+const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function draw(){
+  const pl=Math.max(0,Math.min(4000,Math.round(+$('#sf-pl').value||0)));
+  const ipH=st.ip==='4'?20:40,l4=st.tp==='udp'?8:20,vlan=st.vl==='1'?4:0;
+  const mtu=1500,maxPl=mtu-ipH-l4-16;
+  const fits=pl<=maxPl;
+  const plIn=fits?pl:maxPl;
+  const parts=[['Dest MAC',6,'#868e96','Ethernet II'],['Src MAC',6,'#868e96','Ethernet II']];
+  if(vlan)parts.push(['802.1Q tag',4,'#495057','VLAN ID + PCP priority']);
+  parts.push(['EtherType',2,'#868e96',st.ip==='4'?'0x0800 IPv4':'0x86DD IPv6'],[st.ip==='4'?'IPv4':'IPv6',ipH,'#4263eb','addresses, TTL, protocol'],[st.tp.toUpperCase(),l4,'#0c8599',st.tp==='udp'?'ports, length, checksum':'ports, seq/ack, flags'],['SOME/IP header',16,'#ae3ec9','Message ID, Length, Request ID, versions, type, code'],['Payload',plIn,'#2f9e44','serialized data']);
+  const frame=parts.reduce((a,p)=>a+p[1],0)+4;const pad=Math.max(0,64-frame);
+  if(pad)parts.push(['Padding',pad,'#ced4da','to 64-byte minimum']);
+  parts.push(['FCS',4,'#868e96','CRC-32']);
+  const total=frame+pad,wire=total+20;
+  // draw: proportional with a minimum width
+  const W=860,minW=46,sum=parts.reduce((a,p)=>a+p[1],0);let free=W-parts.length*minW;
+  let x=10,s='';const y=46,h=44;
+  // bracket for layers
+  const xs=[];parts.forEach(p=>{const w=minW+free*p[1]/sum;xs.push([x,w]);x+=w});
+  parts.forEach((p,i)=>{const [px,w]=xs[i];s+=`<rect x="${px}" y="${y}" width="${w-2}" height="${h}" rx="4" style="fill:color-mix(in srgb,${p[2]} 26%,var(--sheet));stroke:${p[2]}"/>`;
+    const SH={'EtherType':'Type','Payload':'Data','Padding':'Pad','SOME/IP header':'SOME/IP','802.1Q tag':'802.1Q','Dest MAC':'Dst','Src MAC':'Src'};const name=w>(p[0].length*7.2+8)?p[0]:(SH[p[0]]||p[0]);
+    s+=`<text class="t" x="${px+w/2-1}" y="${y+19}" text-anchor="middle" style="font-size:11.5px">${esc(name)}</text><text class="s" x="${px+w/2-1}" y="${y+35}" text-anchor="middle">${p[1]} B</text>`;});
+  const grp=(a,b,label,c)=>{const x1=xs[a][0],x2=xs[b][0]+xs[b][1]-2;return `<path d="M${x1} 36 V30 H${x2} V36" style="fill:none;stroke:${c};stroke-width:1.5"/><text class="lbl" x="${(x1+x2)/2}" y="24" text-anchor="middle" style="fill:${c}">${label}</text>`};
+  const iE=vlan?3:2,iIP=iE+1,iL4=iIP+1,iSH=iL4+1,iPL=iSH+1;
+  s+=grp(0,iE,'Ethernet header '+(14+vlan)+' B','var(--ink-2)')+grp(iIP,iIP,'L3','#4263eb')+grp(iL4,iL4,'L4','#0c8599')+grp(iSH,iPL,'SOME/IP message '+(16+plIn)+' B','#ae3ec9');
+  s+=`<path d="M10 104 H${x-2}" style="stroke:var(--rule-2)"/><text class="lbl" x="${(10+x)/2}" y="122" text-anchor="middle">Ethernet frame ${total} B  ·  on the wire ${wire} B incl. preamble, SFD and gap</text>`;
+  const svg=`<svg class="dg" viewBox="0 0 ${W+20} 132" role="img" aria-label="SOME/IP message encapsulated in an Ethernet frame">${s}</svg>`;
+  $('#dg-sf').innerHTML=svg;
+  const sp=+$('#sf-sp').value;const us=wire*8/sp;
+  const eff=Math.round(plIn/wire*100);
+  let msg=`Payload ${plIn} B of ${wire} B on the wire = ${eff} % efficiency · frame time ${us<10?us.toFixed(2):us.toFixed(1)} µs at ${sp>=1000?'1 Gbit/s':sp+' Mbit/s'} · max payload per frame here: ${maxPl} B.`;
+  if(!fits){msg=st.tp==='udp'?`${pl} B does not fit one ${mtu}-byte MTU (max ${maxPl} B). Over UDP use SOME/IP-TP: about ${Math.ceil(pl/Math.floor((maxPl-4)/16)/16)} segments, each with its own 16-byte header + 4-byte TP header. The frame above shows the first one.`:`${pl} B is larger than one segment (max ${maxPl} B). TCP splits the byte stream across ${Math.ceil((pl+16)/(mtu-ipH-l4))} segments and reassembles it; the frame above shows the first one.`}
+  $('#sf-out').textContent=msg;
+}
+draw();
+})();
+</script>
+
 </body></html>
