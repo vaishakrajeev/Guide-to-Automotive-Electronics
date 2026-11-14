@@ -810,7 +810,15 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 
   <h2>Starter and engagement relay</h2>
   <p>Turning the key to <i>start</i> energises terminal 50. The engagement relay (solenoid) has two windings: a strong <b>pull-in</b> winding and a <b>hold-in</b> winding. Together they pull the plunger, which pushes the pinion into the ring gear through the engagement lever and then closes the main contact. Main current (several hundred amps) flows from terminal 30 through the motor. The pull-in winding is now shorted out, and the hold-in winding alone keeps the contact closed. An overrunning clutch stops the running engine from driving the starter.</p>
-  <figure class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Automobile_starter_2.JPG?width=640" alt="A car starter motor" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>A car starter motor</b><span class="look">the cylinder on top is the engagement relay (solenoid). It pushes the pinion forward to mesh with the flywheel ring gear and closes the main motor contacts.</span><span class="credit">Photo: Willdre · <a href="https://www.gnu.org/licenses/fdl-1.3.html" target="_blank" rel="noopener">GFDL</a> · <a href="https://commons.wikimedia.org/wiki/File:Automobile_starter_2.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+  <figure class="photo wide"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Automobile_starter_2.JPG?width=900" alt="A car starter motor taken apart, with parts numbered 1 to 6" loading="lazy" decoding="async" referrerpolicy="no-referrer"><figcaption><b>A car starter motor, taken apart</b>
+<ol class="parts">
+<li><b>Drive-end bracket</b>: the front housing (far left) that bolts to the gearbox bell housing and carries the bearing at the pinion end.</li>
+<li><b>Pinion and overrunning clutch</b>: the small gear that meshes with the flywheel ring gear. It slides on helical splines, and its one-way roller clutch stops the running engine from spinning the motor too fast.</li>
+<li><b>Armature</b>: the rotor of the DC motor, with its windings and the copper commutator. It carries the full starter current of several hundred amps.</li>
+<li><b>Field windings and pole shoes</b>: the stator (red coils). They produce the magnetic field the armature pushes against. Many modern starters use permanent magnets here instead.</li>
+<li><b>Brush plate with carbon brushes</b>: the brushes press on the commutator and feed current into the armature windings in the right sequence. They are the main wear part.</li>
+<li><b>Engagement relay (solenoid)</b>: energised through terminal 50. Its plunger swings the engagement lever (fork) below it to push the pinion into mesh, then closes the main contact from terminal 30 to the motor.</li>
+</ol><span class="credit">Photo: Willdre · <a href="https://www.gnu.org/licenses/fdl-1.3.html" target="_blank" rel="noopener">GFDL</a> · <a href="https://commons.wikimedia.org/wiki/File:Automobile_starter_2.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 5.3</b> · Starting circuit</span>
       <div class="seg" id="st-ph" role="group" aria-label="Phase"><button aria-pressed="true" data-p="0">Key off</button><button aria-pressed="false" data-p="1">Pull-in</button><button aria-pressed="false" data-p="2">Cranking</button></div></div>
@@ -3543,4 +3551,12 @@ draw();
 })();
 </script>
 
+<style>
+.photo.wide{grid-template-columns:1fr}
+.photo.wide img{max-height:none;height:auto;min-height:0;aspect-ratio:auto;object-fit:contain;background:#eef0f2}
+.photo .parts{margin:8px 0 0;padding-left:0;list-style:none;counter-reset:pt;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px 18px}
+.photo .parts li{counter-increment:pt;position:relative;padding-left:32px;font-size:14px;line-height:1.5}
+.photo .parts li::before{content:counter(pt);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--ch);color:#fff;font:700 12px/22px var(--f-mono);text-align:center}
+.photo .parts li b{display:inline;font-size:14px;margin:0;color:var(--ink)}
+</style>
 </body></html>
