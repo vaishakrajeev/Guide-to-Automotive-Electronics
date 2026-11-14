@@ -832,6 +832,14 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <tr><td class="num">56 / 58</td><td>Headlamps / side and tail lamps</td><td>Lighting switch outputs</td></tr>
       <tr><td class="num">85, 86 / 30, 87</td><td>Relay coil / relay common and normally-open contact</td><td>Any standard automotive relay</td></tr>
     </tbody></table></div>
+  <p>The place you see these numbers most is a standard automotive relay. The terminal numbers are moulded into its base next to each blade, so a fitter can wire it without a datasheet. Click a pin, or switch the coil on, to follow the current.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 5.4</b> · ISO mini relay with DIN 72552 terminal numbers: base view and circuit</span>
+      <div class="ctrls"><div class="seg" id="ry-coil" role="group" aria-label="Coil"><button aria-pressed="true" data-v="0">Coil off</button><button aria-pressed="false" data-v="1">Coil on</button></div></div></div>
+    <div class="fig-b scroll"><div id="dg-ry"></div></div>
+    <div class="fig-f" id="ry-desc"></div>
+  </figure>
+
 
   <h2>Then → now</h2>
   <div class="tbl"><table>
@@ -3459,6 +3467,78 @@ function draw(){
   if(!fits){msg=st.tp==='udp'?`${pl} B does not fit one ${mtu}-byte MTU (max ${maxPl} B). Over UDP use SOME/IP-TP: about ${Math.ceil(pl/Math.floor((maxPl-4)/16)/16)} segments, each with its own 16-byte header + 4-byte TP header. The frame above shows the first one.`:`${pl} B is larger than one segment (max ${maxPl} B). TCP splits the byte stream across ${Math.ceil((pl+16)/(mtu-ipH-l4))} segments and reassembles it; the frame above shows the first one.`}
   $('#sf-out').textContent=msg;
 }
+draw();
+})();
+</script>
+
+<style>
+#dg-ry path{fill:none}#dg-ry .body{pointer-events:none}#dg-ry .pin{cursor:pointer}
+#dg-ry .pin:focus{outline:none}
+#dg-ry .pin:focus-visible rect,#dg-ry .pin:focus-visible circle{stroke-width:3.5}
+#dg-ry text{font-family:var(--f-mono)}
+</style>
+<script>
+(()=>{
+const el=document.getElementById('dg-ry');if(!el)return;
+const C={30:'#e03131',87:'#2f9e44','87a':'#f08c00',85:'#868e96',86:'#1c7ed6'};
+const INFO={
+ 30:['30','Common contact. Fed from battery positive through a fuse (terminal 30 = permanent +). It connects to 87 when the coil is on and to 87a when it is off.'],
+ 87:['87','Normally-open contact. Goes to the load (fan, horn, fuel pump, headlamps). Live only while the coil is energised.'],
+ '87a':['87a','Normally-closed contact (5-pin changeover relays only). Live while the coil is off; useful for "either/or" circuits such as switching a fan between two speeds.'],
+ 85:['85','Coil end, usually to ground (terminal 31) or to an ECU low-side driver. Relays with a built-in suppression diode or resistor have a polarity: check which end is 85.'],
+ 86:['86','Coil end, usually the switched positive: KL15, a dashboard switch or an ECU high-side output. About 70–150 mA flows through the coil.']};
+let coil=0,sel=null;
+function draw(){
+  const on=!!coil,cur=(p)=>sel===p?' style="stroke-width:3.5"':'';
+  let s='';
+  // ---------- base view ----------
+  s+=`<text x="150" y="20" text-anchor="middle" class="lbl">BASE VIEW (pins towards you)</text>`;
+  s+=`<rect class="body" x="40" y="32" width="220" height="220" rx="16" style="fill:color-mix(in srgb,#343a40 12%,var(--sheet));stroke:var(--ink-2);stroke-width:2"/>`;
+  s+=`<rect class="body" x="54" y="46" width="192" height="192" rx="10" style="fill:none;stroke:var(--rule-2);stroke-dasharray:4 4"/>`;
+  // ISO 280 mini relay layout: 30 and 87 face each other (vertical blades), 85/86 horizontal, 87a centre
+  const pins=[['30',150,212,40,10],['87',150,72,40,10],['85',84,142,10,40],['86',216,142,10,40],['87a',150,142,40,10]];
+  pins.forEach(([n,cx,cy,w,h])=>{const c=C[n],live=(n==='30')||(n==='87'&&on)||(n==='87a'&&!on)||((n==='86'||n==='85')&&on);
+    s+=`<g class="pin" tabindex="0" role="button" data-p="${n}" aria-label="Terminal ${n}"><rect x="${cx-w/2}" y="${cy-h/2}" width="${w}" height="${h}" rx="2" style="fill:${live?c:'color-mix(in srgb,'+c+' 30%,var(--sheet))'};stroke:${c};stroke-width:${sel===n?3.5:1.5}"/>`;
+    const ty=n==='30'?cy+30:n==='87'?cy-16:n==='87a'?cy+28:cy+42;const tx=cx;
+    s+=`<text x="${tx}" y="${ty}" text-anchor="middle" style="font-weight:700;font-size:15px;fill:${c}">${n}</text></g>`;});
+  s+=`<text x="150" y="272" text-anchor="middle" class="s">ISO 280 "mini" relay, 12 V, ~30–40 A contacts</text>`;
+  // ---------- schematic ----------
+  const X=330;
+  s+=`<text x="${X+200}" y="20" text-anchor="middle" class="lbl">CIRCUIT</text>`;
+  // supply rails
+  s+=`<text x="${X+10}" y="54" class="t" style="fill:#e03131">KL30 (+12 V)</text><path d="M${X+10} 62 H${X+120}" style="stroke:#e03131;stroke-width:2"/>`;
+  s+=`<rect x="${X+120}" y="54" width="34" height="16" rx="3" style="fill:#fff3bf;stroke:var(--ink-2)"/><text x="${X+137}" y="66" text-anchor="middle" class="s">F</text>`;
+  s+=`<path d="M${X+154} 62 H${X+200} V100" style="stroke:#e03131;stroke-width:${on||1?2.5:2}" ${cur('30')}/>`;
+  // relay box
+  s+=`<rect x="${X+150}" y="90" width="230" height="140" rx="10" style="fill:none;stroke:var(--ink-2);stroke-dasharray:5 4"/>`;
+  // contacts: common 30 pivot at (X+200,110); 87 at (X+260,130) ; 87a at (X+260,170)
+  const px=X+200,py=110;
+  s+=`<circle cx="${px}" cy="${py}" r="4" style="fill:#e03131"/>`;
+  s+=`<path d="M${px} ${py} L${on?X+262:X+262} ${on?132:170}" style="stroke:#e03131;stroke-width:3;stroke-linecap:round"/>`;
+  s+=`<circle cx="${X+268}" cy="132" r="4" style="fill:${C[87]}"/><circle cx="${X+268}" cy="172" r="4" style="fill:${C['87a']}"/>`;
+  s+=`<path d="M${X+268} 132 H${X+410}" style="stroke:${C[87]};stroke-width:${on?3:1.6}"/><text x="${X+278}" y="125" class="t" style="fill:${C[87]}">87</text>`;
+  s+=`<path d="M${X+268} 172 H${X+410}" style="stroke:${C['87a']};stroke-width:${on?1.6:3}"/><text x="${X+278}" y="190" class="t" style="fill:${C['87a']}">87a</text>`;
+  s+=`<text x="${px-26}" y="${py+4}" class="t" style="fill:#e03131">30</text>`;
+  // loads
+  s+=`<circle cx="${X+430}" cy="132" r="14" style="fill:${on?'#ffe066':'var(--sheet)'};stroke:var(--ink)"/><path d="M${X+420} 122l20 20M${X+440} 122l-20 20" style="stroke:var(--ink);stroke-width:1.4"/><text x="${X+452}" y="128" class="s">load A</text>`;
+  s+=`<circle cx="${X+430}" cy="172" r="14" style="fill:${on?'var(--sheet)':'#ffe066'};stroke:var(--ink)"/><path d="M${X+420} 162l20 20M${X+440} 162l-20 20" style="stroke:var(--ink);stroke-width:1.4"/><text x="${X+452}" y="168" class="s">load B</text>`;
+  s+=`<path d="M${X+444} 132 h14 v74 M${X+444} 172 h14 M${X+450} 206 H${X+466} M${X+453} 211 H${X+463} M${X+456} 216 H${X+460}" style="stroke:var(--ink-2);fill:none;stroke-width:1.6"/>`;
+  // coil
+  const cy0=200;s+=`<rect x="${X+180}" y="${cy0}" width="40" height="18" rx="3" style="fill:${on?'#a5d8ff':'var(--sheet)'};stroke:var(--ink)"/>`;
+  s+=`<path d="M${X+186} ${cy0+18}c4-12 8-12 12 0c4-12 8-12 12 0" style="fill:none;stroke:var(--ink);stroke-width:1.2"/>`;
+  s+=`<path d="M${X+200} ${cy0} V${py+30}" style="stroke:var(--ink-2);stroke-dasharray:3 3"/>`;
+  s+=`<path d="M${X+180} ${cy0+9} H${X+120} V280" style="stroke:${C[86]};stroke-width:${on?3:2}"/><text x="${X+150}" y="${cy0+4}" class="t" style="fill:${C[86]}">86</text>`;
+  s+=`<path d="M${X+220} ${cy0+9} H${X+300} V280" style="stroke:${C[85]};stroke-width:${on?3:2}"/><text x="${X+234}" y="${cy0+4}" class="t" style="fill:${C[85]}">85</text>`;
+  s+=`<path d="M${X+60} 280 H${X+120}" style="stroke:${C[86]};stroke-width:2"/><path d="M${X+40} 280 l18 -8" style="stroke:var(--ink);stroke-width:2"/><circle cx="${X+38}" cy="280" r="3" style="fill:var(--ink)"/><text x="${X+10}" y="300" class="s">switch / ECU output (KL15)</text>`;
+  if(on)s+=`<path d="M${X+40} 280 H${X+60}" style="stroke:var(--ink);stroke-width:2"/>`;
+  s+=`<path d="M${X+290} 280 H${X+310} M${X+294} 286 H${X+306} M${X+298} 292 H${X+302}" style="stroke:var(--ink);stroke-width:2"/><text x="${X+318}" y="290" class="s">KL31 ground</text>`;
+  el.innerHTML=`<svg class="dg" viewBox="0 0 ${X+520} 310" role="img" aria-label="Relay base view with DIN 72552 terminal numbers and circuit">${s}</svg>`;
+  el.querySelectorAll('.pin').forEach(g=>{const f=()=>{sel=g.dataset.p;draw();el.querySelector(`.pin[data-p="${sel}"]`)?.focus()};g.onclick=f;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}}});
+  const d=document.getElementById('ry-desc');
+  const base=on?'Coil on: current flows 86 → coil → 85, the armature pulls in, and 30 connects to 87 (load A on). 87a is open.':'Coil off: the spring holds the armature, so 30 connects to 87a (load B on). 87 is dead.';
+  d.innerHTML=sel?`<b style="color:${C[sel]}">Terminal ${INFO[sel][0]}.</b> ${INFO[sel][1]} <br>${base}`:base+' Click a pin in the base view for its meaning. 4-pin relays have no 87a.';
+}
+const g=document.getElementById('ry-coil');g.querySelectorAll('button').forEach(b=>b.onclick=()=>{g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));coil=+b.dataset.v;draw()});
 draw();
 })();
 </script>
