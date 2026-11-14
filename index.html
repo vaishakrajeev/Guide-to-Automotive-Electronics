@@ -344,8 +344,9 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <a href="#process"><span class="n">09</span>Development process</a>
       <a href="#security"><span class="n">10</span>Cybersecurity</a>
       <a href="#tools"><span class="n">11</span>Engineering calculators</a>
-      <a href="#glossary"><span class="n">12</span>Glossary</a>
-      <a href="#about"><span class="n">13</span>About me</a>
+      <a href="#adas"><span class="n">12</span>ADAS &amp; automated driving</a>
+      <a href="#glossary"><span class="n">13</span>Glossary</a>
+      <a href="#about"><span class="n">14</span>About me</a>
     </nav>
     <div class="foot">For students and working engineers.<br>Revised Nov 2026.</div>
   </aside>
@@ -375,7 +376,8 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#process"><span class="n">CHAPTER 09</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
-    <a href="#glossary"><span class="n">CHAPTER 12</span><span class="tt">Glossary</span><span class="d">137 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#adas"><span class="n">CHAPTER 12</span><span class="tt">ADAS &amp; automated driving</span><span class="d">SAE levels, the sense-to-actuate pipeline, sensor coverage, FMCW radar, fusion, AEB time to collision, SOTIF and the 2026 rules.</span><span class="tags"><span>AEB simulator</span><span>Radar chirp</span><span>Sensor coverage</span></span></a>
+    <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">149 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
     <a href="#about" style="--c:#0ca678"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span><span class="n">ABOUT</span><span class="tt">About me</span><span class="d">Vaishak Rajeev: student intern at BGSW, Bengaluru, with 3.5 years in automotive electronics validation and test automation.</span><span class="tags"><span>Experience</span><span>Projects</span></span></a>
   </div>
   <h2>How to use this guide</h2>
@@ -930,7 +932,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <tr><td>Blind-spot and rear cross-traffic</td><td>Warns of vehicles beside or behind</td><td>Corner radars</td></tr>
       <tr><td>Park assist</td><td>Finds a space and steers (and brakes) into it</td><td>Ultrasonic, surround cameras</td></tr>
     </tbody></table></div>
-  <p>SAE J3016 defines the levels: up to <b>Level 2</b> the driver must supervise at all times (this includes "hands-off" highway systems); at <b>Level 3</b> the system drives within its operating domain and the driver only has to take over when asked, as approved for some highway traffic-jam systems under UN Regulation 157.</p>
+  <p>SAE J3016 defines the levels: up to <b>Level 2</b> the driver must supervise at all times (this includes "hands-off" highway systems); at <b>Level 3</b> the system drives within its operating domain and the driver only has to take over when asked, as approved for some highway traffic-jam systems under UN Regulation 157. <a href="#adas">Chapter 12</a> covers sensors, fusion, AEB logic and the current rules in depth.</p>
 
   <h2>Occupant protection</h2>
   <p>In a frontal impact at about 50 km/h against a hard obstacle, the airbag control unit needs roughly 10 ms to recognise the crash and fire the inflator; the driver airbag then takes around 30 ms more to fill, so it is ready about 40 ms after first contact, before the occupant moves forward into it. Side impacts leave far less room, so side sensing and thorax-bag inflation each have to happen within roughly 5 to 10 ms.</p>
@@ -1664,8 +1666,151 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   </div>
 </section>
 <!-- ============ GLOSSARY ============ -->
-<section class="view" id="glossary" hidden>
+<section class="view" id="adas" hidden>
   <p class="eyebrow">Chapter 12</p>
+  <h1>ADAS &amp; automated driving</h1>
+  <p class="lede">Advanced driver assistance systems watch the road with cameras, radar, lidar and ultrasonic sensors, decide whether something needs to happen, and then brake, steer or warn. Chapter 6 introduced ACC and AEB as chassis functions. This chapter opens the box: how the car senses its surroundings, how it decides, how much of the driving it may take over, and which rules apply in 2026.</p>
+
+  <h2>Who is driving? The SAE J3016 levels</h2>
+  <p>SAE J3016 sorts driving automation into six levels. The question that separates them is not how clever the system is. It is <b>who is responsible</b> for watching the road and for handling a failure. Up to Level 2 that is always the driver, even when the car steers and brakes and even when the hands may leave the wheel. From Level 3 the system is responsible while it is engaged, but only inside its <b>operational design domain (ODD)</b>: the roads, speeds, weather and times of day it was designed and approved for.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 12.1</b> · Levels of driving automation: what the driver and the system each do</span>
+      <div class="ctrls"><div class="seg" id="lv-seg" role="group" aria-label="Level"></div></div></div>
+    <div class="fig-b scroll"><div id="dg-lv"></div></div>
+    <div class="fig-f" id="lv-desc"></div>
+  </figure>
+
+  <h2>From photons to brake pressure: the ADAS pipeline</h2>
+  <p>Every assistance function, from a simple lane-departure warning to a Level 3 motorway pilot, follows the same chain. Sensors deliver raw data. Perception turns it into objects, lanes and free space. Fusion merges the views of different sensors into one consistent picture and tracks objects over time. Prediction estimates where each object will be in the next few seconds. Planning chooses a manoeuvre and a trajectory, and control turns that trajectory into torque and brake requests for the actuators that already exist in the chassis. Click a stage for details.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 12.2</b> · Sense → perceive → fuse → predict → plan → control → actuate</span></div>
+    <div class="fig-b scroll"><div id="dg-pipe"></div></div>
+    <div class="fig-f" id="pipe-desc"></div>
+  </figure>
+  <p>Where this chain runs has moved. In 2007 each function had its own ECU: a radar ECU for ACC, a camera ECU for lane departure. Today a central <b>ADAS domain controller</b> or the vehicle's central computer runs perception for all sensors on one SoC with GPU or neural-network accelerators, while safety-rated microcontrollers check its outputs before they reach the brakes and the steering. A single 8-megapixel camera produces several gigabits per second, which is why cameras connect over SerDes links and the controller sits on the Ethernet backbone (chapter 7).</p>
+
+  <h2>Sensor coverage around the car</h2>
+  <p>No single sensor is good at everything, so production cars combine them. The long-range radar sees far and measures speed directly but has coarse angular resolution. The camera classifies objects and reads lanes and signs but struggles with glare and darkness and has no direct range measurement. Lidar gives precise 3D shape, and ultrasonic sensors cover the last few metres while parking. Chapter 4 compares their strengths in a table. Switch the sensors on and off below to see how the zones overlap.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 12.3</b> · Typical Level 2+ sensor set (top view; distances on a square-root scale)</span></div>
+    <div class="fig-b"><div class="chips" id="cv-chips" role="group" aria-label="Sensors"></div><div class="scroll"><div id="dg-cv"></div></div></div>
+    <div class="fig-f" id="cv-desc">Typical ranges and fields of view; real values vary by supplier and vehicle.</div>
+  </figure>
+
+  <h2>How radar measures distance and speed (FMCW)</h2>
+  <p>Automotive radars transmit <b>chirps</b>: a signal whose frequency ramps linearly, for example from 77 to 78 GHz in a few tens of microseconds. The echo from a target arrives after the round-trip delay τ = 2R/c, so at any instant the received frequency is a little lower than the one being transmitted. Mixing the two gives a <b>beat frequency</b> proportional to the distance. A moving target adds a Doppler shift, which the radar measures from the phase change over a train of chirps. With several receive antennas the phase difference between them gives the angle. Because the range resolution depends only on the swept bandwidth (ΔR = c / 2B), the 76–81 GHz band with up to 4 GHz of bandwidth allows centimetre-level resolution for short-range sensors.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 12.4</b> · FMCW chirp: transmitted and received frequency, beat frequency and resolution</span></div>
+    <div class="fig-b">
+      <div class="bt-grid">
+        <label>Swept bandwidth B <i>MHz</i><input type="number" id="fm-b" value="1000" min="100" max="4000" step="50"></label>
+        <label>Chirp duration T<sub>c</sub> <i>µs</i><input type="number" id="fm-t" value="40" min="5" max="200" step="1"></label>
+        <label>Target range R <i>m</i><input type="number" id="fm-r" value="60" min="1" max="300" step="1"></label>
+        <label>Closing speed <i>km/h</i><input type="number" id="fm-v" value="50" min="-250" max="250" step="1"></label>
+        <label>Chirps per frame N<input type="number" id="fm-n" value="128" min="16" max="512" step="16"></label>
+      </div>
+      <div class="scroll"><div id="dg-fm"></div></div>
+      <div class="status" id="fm-out"></div>
+    </div>
+    <div class="fig-f">Carrier 77 GHz (λ ≈ 3.9 mm). The delay in the plot is exaggerated so it can be seen: real delays are below 2 µs. Beat frequency f<sub>b</sub> = 2·R·B / (c·T<sub>c</sub>); Doppler f<sub>d</sub> = 2·v / λ; maximum unambiguous speed v<sub>max</sub> = λ / (4·T<sub>c</sub>).</div>
+  </figure>
+
+  <h2>Sensor fusion and tracking</h2>
+  <div class="cols">
+    <div><h3>Late (object-level) fusion</h3><p>Each sensor runs its own detection and reports an <b>object list</b>: position, speed, size, class and a confidence. The fusion stage associates objects that belong together and combines their attributes, taking the radar's speed and the camera's class. It is simple to integrate across suppliers, and it was the standard architecture for a decade.</p></div>
+    <div><h3>Early (raw or feature-level) fusion</h3><p>Raw data or neural-network features from all sensors are combined before objects are formed, often in a <b>bird's-eye-view</b> grid around the car. A weak radar return and a blurry camera patch can together confirm an object that neither would report alone. It needs central compute and time-synchronised sensor data (gPTP, chapter 8).</p></div>
+  </div>
+  <p>Either way a <b>tracker</b> follows each object over time. A Kalman filter is the classic tool. It <i>predicts</i> where the object should be at the next sensor cycle from its last state and a motion model. It then <i>updates</i> that prediction with the new measurement, weighting the two by how much it trusts each. The result is a smooth position and velocity estimate even when single measurements are noisy or missing, and it is what the planner uses to compute a time to collision.</p>
+
+  <h2>Emergency braking: time to collision</h2>
+  <p>AEB decides with a simple quantity: <b>time to collision</b>, TTC = gap ÷ closing speed. A typical cascade first warns the driver, then pre-fills the brakes and brakes partially, and finally applies full braking when a collision can no longer be avoided by steering. The thresholds below are representative; each manufacturer tunes them against false alarms. Run the scenario with and without AEB.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 12.5</b> · AEB scenario: approaching a slower or stopped vehicle</span>
+      <div class="ctrls"><div class="seg" id="aeb-mode" role="group" aria-label="Mode"><button aria-pressed="true" data-v="aeb">AEB on</button><button aria-pressed="false" data-v="drv">Driver only</button><button aria-pressed="false" data-v="none">No reaction</button></div></div></div>
+    <div class="fig-b">
+      <div class="bt-grid">
+        <label>Own speed <i>km/h</i><input type="number" id="aeb-v0" value="60" min="10" max="150" step="5"></label>
+        <label>Vehicle ahead <i>km/h</i><input type="number" id="aeb-v1" value="0" min="0" max="140" step="5"></label>
+        <label>Initial gap <i>m</i><input type="number" id="aeb-d" value="45" min="5" max="200" step="1"></label>
+        <label>Road<select id="aeb-mu"><option value="9">Dry (9 m/s²)</option><option value="6">Wet (6 m/s²)</option><option value="3">Snow (3 m/s²)</option></select></label>
+      </div>
+      <div class="scroll"><div id="dg-aeb"></div></div>
+      <div class="status" id="aeb-out"></div>
+    </div>
+    <div class="fig-f">AEB thresholds: warning at TTC 2.6 s, partial braking (4 m/s²) at 1.6 s, full braking at 0.9 s. Driver only: the driver hears the same warning, reacts after 1.5 s and brakes at about 70 % of the maximum, as studies show most drivers do not brake fully in an emergency. Brake build-up time is ignored for clarity.</div>
+  </figure>
+
+  <h2>Lateral support and the driver in the loop</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Function</th><th>What it does</th><th>How it acts</th></tr></thead>
+    <tbody>
+      <tr><td>Lane departure warning (LDW)</td><td>Warns when the car crosses a lane marking without the indicator</td><td>Sound, display or steering-wheel vibration</td></tr>
+      <tr><td>Lane keeping assist (LKA)</td><td>Steers back when the car drifts towards a marking</td><td>Torque overlay through the electric power steering</td></tr>
+      <tr><td>Emergency lane keeping (ELK)</td><td>Intervenes when leaving the lane would hit oncoming traffic or a road edge</td><td>Stronger EPS torque; mandatory on new EU cars</td></tr>
+      <tr><td>Lane centring / highway assist</td><td>Keeps the car in the middle of the lane together with ACC</td><td>Continuous EPS control; Level 2</td></tr>
+      <tr><td>Assisted lane change</td><td>Changes lane after the driver confirms or, in newer systems, proposes it</td><td>EPS + ACC, checks blind-spot radars first</td></tr>
+      <tr><td>Driver monitoring (DMS / ADDW)</td><td>Tracks gaze and eyelids with an infrared camera; detects distraction and drowsiness</td><td>Warnings, escalation, safe stop if the driver does not respond</td></tr>
+    </tbody></table></div>
+  <p>Because the driver is still responsible at Level 2, the system has to make sure they are actually paying attention. Older systems sensed hands on the wheel through steering torque or a capacitive rim. Hands-off systems instead rely on an interior camera that checks the driver's eyes are on the road. UN Regulation 171 (DCAS) sets the rules for this. The first approval under it went to BMW for the hands-off system in the new iX3, which uses eye-tracking to confirm the driver is watching.</p>
+
+  <h2>Safety: when nothing is broken but the car is still wrong</h2>
+  <p><b>ISO 26262</b> (chapter 9) protects against hardware faults and software bugs. ADAS adds a second kind of risk: the system works exactly as designed, but the design is not good enough for the situation, for example a camera that does not recognise a pedestrian in an unusual pose. <b>ISO 21448, Safety of the Intended Functionality (SOTIF)</b>, deals with these insufficiencies. It sorts scenarios into four areas and asks engineers to shrink the unsafe ones through analysis, simulation, track tests and real-world driving.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 12.6</b> · SOTIF: making known and unknown hazardous scenarios as small as possible</span></div>
+    <div class="fig-b scroll"><div id="dg-sotif"></div></div>
+    <div class="fig-f">Area 2 shrinks when known hazards are designed out or the ODD is restricted. Area 3 shrinks when testing and field monitoring turn unknown hazards into known ones.</div>
+  </figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Standard</th><th>Question it answers</th></tr></thead>
+    <tbody>
+      <tr><td>ISO 26262</td><td>Is the system safe when components fail? (ASIL, safety mechanisms)</td></tr>
+      <tr><td>ISO 21448 (SOTIF)</td><td>Is the intended behaviour safe enough, including sensor limits and misuse?</td></tr>
+      <tr><td>ISO 34502 and scenario databases</td><td>Which traffic scenarios must an automated system be tested against?</td></tr>
+      <tr><td>UL 4600</td><td>Is there a convincing safety case for a system with no human fallback (Level 4)?</td></tr>
+      <tr><td>ISO/SAE 21434</td><td>Can an attacker make it unsafe? (chapter 10)</td></tr>
+    </tbody></table></div>
+
+  <h2>Rules and ratings in 2026</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Rule or programme</th><th>Scope</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>UN R152</td><td>AEB for cars and light vans (vehicle, pedestrian and cyclist targets)</td><td>Basis for the EU and other mandates</td></tr>
+      <tr><td>UN R79</td><td>Steering equipment, including automatically commanded steering (LKA, lane change)</td><td>In force; combined Level 2 systems can instead be approved under R171</td></tr>
+      <tr><td>UN R171 (DCAS)</td><td>Level 2 driver control assistance, including hands-off driving with driver monitoring</td><td>Hands-on requests may be withheld on highway-like roads up to 130 km/h; a 02 series on system-initiated manoeuvres is in drafting</td></tr>
+      <tr><td>UN R157 (ALKS)</td><td>Level 3 automated lane keeping on motorways</td><td>Mercedes-Benz DRIVE PILOT: German approval up to 95 km/h on the Autobahn (Dec 2024)</td></tr>
+      <tr><td>EU General Safety Regulation</td><td>Mandatory ADAS for new cars and vans</td><td>From 7 July 2026 every newly registered car and van needs pedestrian- and cyclist-detecting AEB and a camera-based driver distraction warning (ADDW)</td></tr>
+      <tr><td>Euro NCAP 2026</td><td>Consumer rating</td><td>Rating rebuilt around four stages: safe driving, crash avoidance, crash protection, post-crash safety</td></tr>
+      <tr><td>India: buses and trucks</td><td>AEBS, DDAWS and LDWS on M2/M3/N2/N3 vehicles</td><td>New models from April 2026, existing models from October 2026 (e.g. LDWS to AIS-188, DDAWS to AIS-184)</td></tr>
+      <tr><td>India: passenger cars</td><td>AEB to AIS-185 (draft)</td><td>Draft (October 2026): new models from October 2030, all models from October 2032</td></tr>
+      <tr><td>Bharat NCAP 2.0</td><td>Consumer rating with ADAS pillars</td><td>Planned from October 2027; ESC required for a rating, AEB optional but scored</td></tr>
+    </tbody></table></div>
+
+  <h2>Then → now</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Area</th><th>2007 (book)</th><th>2026</th></tr></thead>
+    <tbody>
+      <tr><td>Functions</td><td>ACC on premium cars, parking aid, first lane departure warnings</td><td>AEB, ELK, ISA and driver monitoring mandatory in the EU; Level 2 hands-off on approved motorways; Level 3 in traffic up to 95 km/h</td></tr>
+      <tr><td>Sensors</td><td>One 77 GHz long-range radar, ultrasonic sensors</td><td>Front camera up to 8 MP, 4D imaging radar, corner radars, surround cameras, optional lidar, interior camera</td></tr>
+      <tr><td>Compute</td><td>One ECU per function</td><td>Central ADAS controller or vehicle computer with AI accelerators, fed over SerDes and Ethernet</td></tr>
+      <tr><td>Perception</td><td>Hand-crafted signal processing and rules</td><td>Deep neural networks, bird's-eye-view fusion, end-to-end models under research</td></tr>
+      <tr><td>Safety argument</td><td>Functional safety of the hardware</td><td>ISO 26262 + SOTIF + scenario-based testing, simulation and field monitoring; cybersecurity under UN R155</td></tr>
+    </tbody></table></div>
+
+  <div class="revise"><h2>Revise in 60 seconds</h2><ol>
+    <li>SAE levels: up to L2 the driver monitors and is the fallback, even hands-off; from L3 the system drives inside its ODD and requests take-over.</li>
+    <li>Pipeline: sense → perceive → fuse → predict → plan → control → actuate; the actuators are EPS, brakes and powertrain.</li>
+    <li>Radar measures range and speed directly; camera classifies; lidar gives 3D shape; ultrasonic covers the last metres.</li>
+    <li>FMCW: f<sub>b</sub> = 2RB/(cT<sub>c</sub>), ΔR = c/2B, Doppler from phase over many chirps.</li>
+    <li>Late fusion merges object lists; early fusion merges raw data or features; a Kalman filter tracks each object.</li>
+    <li>AEB decides on time to collision: warn, partial brake, full brake.</li>
+    <li>ISO 26262 covers faults; SOTIF (ISO 21448) covers performance limits of a fault-free system.</li>
+    <li>2026 rules: UN R152 (AEB), R171 (L2 DCAS), R157 (L3 ALKS); EU GSR phase from July 2026; India's car AEB draft aims at 2030.</li>
+  </ol></div>
+  <p class="ref">Sources: SAE J3016; ISO 21448; UNECE R152, R157 and R171 documents via globalautoregs.com; European Commission and Euro NCAP press releases; MoRTH draft notifications as reported by Autocar India, DriveSpark and Motor India; Bosch, <i>Automotive Electrics and Automotive Electronics</i>, 5th ed., 2007, for the 2007 baseline.</p>
+</section>
+
+<section class="view" id="glossary" hidden>
+  <p class="eyebrow">Chapter 13</p>
   <h1>Glossary</h1>
   <p class="lede">The acronyms and terms you meet every day in automotive electronics, each in a sentence or two, with a link to the chapter that explains it properly. Search by abbreviation or by any word in the definition.</p>
   <div class="gl-bar">
@@ -2750,9 +2895,21 @@ if($('#cc-set')){['cc-set','cc-kp','cc-ki','cc-g','cc-m'].forEach(id=>$('#'+id).
 (()=>{
 const $=s=>document.querySelector(s);
 if(!$('#gl-list'))return;
-const CH={ice:'01 IC engines',ev:'02 Electric vehicles',ecus:'03 ECUs',sensors:'04 Sensors & actuators',power:'05 Electrical system',chassis:'06 Chassis & safety',networks:'07 Networks & diagnostics',sdv:'08 Software-defined vehicle',process:'09 Development process',security:'10 Cybersecurity',tools:'11 Calculators'};
+const CH={ice:'01 IC engines',ev:'02 Electric vehicles',ecus:'03 ECUs',sensors:'04 Sensors & actuators',power:'05 Electrical system',chassis:'06 Chassis & safety',networks:'07 Networks & diagnostics',sdv:'08 Software-defined vehicle',process:'09 Development process',security:'10 Cybersecurity',tools:'11 Calculators',adas:'12 ADAS & automated driving'};
 // [term, expansion, category, chapter, definition]
 const G=[
+['ODD','Operational design domain','ADAS','adas','The conditions an automated driving function is designed and approved for: road types, speed range, weather, lighting and geography. Outside its ODD the system must not operate.'],
+['SOTIF','Safety of the intended functionality (ISO 21448)','ADAS','adas','Safety standard for hazards that arise without any fault, from performance limits of sensors and algorithms or from foreseeable misuse.'],
+['TTC','Time to collision','ADAS','adas','Gap divided by closing speed. AEB and forward-collision warnings trigger on TTC thresholds, typically warning at about 2–3 s and full braking below about 1 s.'],
+['FMCW','Frequency-modulated continuous wave','ADAS','adas','Radar method using linear frequency chirps. Range comes from the beat frequency between transmitted and received signal, speed from the Doppler phase shift across chirps.'],
+['Sensor fusion','','ADAS','adas','Combining camera, radar, lidar and ultrasonic data into one consistent environment model, either from object lists (late fusion) or from raw data and features (early fusion).'],
+['Kalman filter','','ADAS','adas','Recursive estimator that predicts an object\'s state with a motion model and corrects it with each new measurement, weighting both by their uncertainty. The standard tool for object tracking.'],
+['Lidar','Light detection and ranging','ADAS','adas','Sensor that measures distance by laser time of flight and builds a 3D point cloud of the surroundings.'],
+['DMS / ADDW','Driver monitoring system / advanced driver distraction warning','ADAS','adas','Infrared interior camera that tracks gaze and eyelid closure to detect distraction and drowsiness. ADDW is mandatory on all new EU cars from July 2026.'],
+['ALKS','Automated lane keeping system (UN R157)','ADAS','adas','UN regulation for Level 3 motorway driving in which the system drives and monitors the road and the driver takes over on request.'],
+['DCAS','Driver control assistance systems (UN R171)','ADAS','adas','UN regulation for Level 2 systems that steer and control speed together, including hands-off operation with camera-based driver monitoring.'],
+['ELKS','Emergency lane keeping system','ADAS','adas','Steers the car back when it is about to leave its lane into oncoming traffic or off the road edge. Mandatory for new EU cars.'],
+['ISA','Intelligent speed assistance','ADAS','adas','Detects the speed limit from cameras and maps and warns or limits the vehicle speed. Mandatory on new EU cars.'],
 ['ABS','Anti-lock braking system','Chassis & ADAS','chassis','Modulates brake pressure at each wheel so the wheels do not lock under hard braking, keeping the car steerable and usually shortening the stop.'],
 ['AC charging','','EV & energy','ev','Charging from the grid through the on-board charger, which converts AC to DC for the battery; typically 3.3–22 kW.'],
 ['ACC','Adaptive cruise control','Chassis & ADAS','chassis','Cruise control that uses radar (and often a camera) to keep a set time gap to the vehicle ahead by controlling drive torque and brakes.'],
@@ -2928,7 +3085,7 @@ $('#gl-q').oninput=render;render();
 <script>
 (()=>{
 const G=window.__GLOSS;if(!G)return;
-const CH={ice:'Ch 01',ev:'Ch 02',ecus:'Ch 03',sensors:'Ch 04',power:'Ch 05',chassis:'Ch 06',networks:'Ch 07',sdv:'Ch 08',process:'Ch 09',security:'Ch 10',tools:'Ch 11'};
+const CH={ice:'Ch 01',ev:'Ch 02',ecus:'Ch 03',sensors:'Ch 04',power:'Ch 05',chassis:'Ch 06',networks:'Ch 07',sdv:'Ch 08',process:'Ch 09',security:'Ch 10',tools:'Ch 11',adas:'Ch 12'};
 // aliases: split "A / B", drop "(...)" qualifiers, add a few common spellings
 const SKIP=new Set(['MAC (crypto)','PID (OBD)','Type approval','SAE levels']);
 const EXTRA={'ESC / ESP':['ESC','ESP'],'KL15 / KL30 / KL31':['KL15','KL30','KL31'],'UN R100 / R136':['R100','R136'],'UN R155 / R156':['R155','R156'],'Lambda (λ)':['lambda'],'SoC (chip)':['SoC'],'Ethernet (automotive)':['Automotive Ethernet'],'Radar (77 GHz)':[],'Regenerative braking':['regenerative braking','regen'],'Zone controller':['zone controller','zone controllers'],'Zonal architecture':['zonal architecture'],'Bit stuffing':['bit stuffing'],'Sample point':['sample point'],'Isolation resistance':['isolation resistance'],'DC fast charging':['DC fast charging'],'AC charging':['AC charging'],'Domain controller':['domain controller','domain controllers'],'Secure boot':['secure boot'],'Airbag control unit':['airbag control unit'],'Common rail':['common rail','Common rail'],'Bus-off':['bus-off','Bus-off'],'Error-passive':['error-passive','Error-passive'],'DC-DC converter':['DC-DC converter'],'Back-EMF':['back-EMF','Back-EMF'],'X-by-wire':['x-by-wire','X-by-wire','by-wire'],'V-model':['V-model'],'Arbitration':['arbitration'],'Gateway':['gateway'],'Inverter':['inverter'],'Contactor':['contactor','contactors'],'Precharge':['precharge'],'Hypervisor':['hypervisor'],'Lockstep':['lockstep'],'Watchdog':['watchdog'],'Bit timing':['bit timing'],'Stuff count':['stuff count','Stuff count'],'Type approval':['type approval'],'SOC / SOH':['SOC','SOH'],'TEC / REC':['TEC','REC'],'CAN':['CAN'],'CAN FD':['CAN FD'],'CAN XL':['CAN XL']};
@@ -3134,8 +3291,9 @@ const IC={
  process:`<svg viewBox="0 0 24 24" ${S}><path d="M3 5l9 14 9-14"/><path d="M6.5 10.5h11M9.2 14.7h5.6"/></svg>`,
  security:`<svg viewBox="0 0 24 24" ${S}><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.2 11V9.6a1.8 1.8 0 0 1 3.6 0V11"/></svg>`,
  tools:`<svg viewBox="0 0 24 24" ${S}><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="4" rx="1"/><path d="M8.5 13.5h.01M12 13.5h.01M15.5 13.5h.01M8.5 17h.01M12 17h.01M15.5 17h.01"/></svg>`,
+ adas:`<svg viewBox="0 0 24 24" ${S}><path d="M5 17h14l-1.5-5h-11z"/><circle cx="8" cy="18.5" r="1.5"/><circle cx="16" cy="18.5" r="1.5"/><path d="M8.5 8.5a5 5 0 0 1 7 0M6 6a8.5 8.5 0 0 1 12 0"/></svg>`,
  glossary:`<svg viewBox="0 0 24 24" ${S}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M8.5 8h7M8.5 11.5h5"/></svg>`};
-const COL={ice:'#e8590c',ev:'#2f9e44',ecus:'#7048e8',sensors:'#0c8599',power:'#f08c00',chassis:'#e03131',networks:'#1c7ed6',sdv:'#ae3ec9',process:'#66a80f',security:'#4263eb',tools:'#1098ad',glossary:'#d6336c'};
+const COL={ice:'#e8590c',ev:'#2f9e44',ecus:'#7048e8',sensors:'#0c8599',power:'#f08c00',chassis:'#e03131',networks:'#1c7ed6',sdv:'#ae3ec9',process:'#66a80f',security:'#4263eb',tools:'#1098ad',adas:'#5f3dc4',glossary:'#d6336c'};
 Object.keys(IC).forEach(id=>{
   const sec=document.getElementById(id);const eb=sec&&sec.querySelector('.eyebrow');
   if(eb&&!eb.querySelector('.ch-ic'))eb.insertAdjacentHTML('afterbegin',`<span class="ch-ic" aria-hidden="true">${IC[id]}</span>`);
@@ -3559,4 +3717,194 @@ draw();
 .photo .parts li::before{content:counter(pt);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--ch);color:#fff;font:700 12px/22px var(--f-mono);text-align:center}
 .photo .parts li b{display:inline;font-size:14px;margin:0;color:var(--ink)}
 </style>
+<style>
+#adas{--ch:#5f3dc4}
+.nav a[href="#adas"] .n{color:#5f3dc4}
+#dg-pipe .stg{cursor:pointer}
+#dg-pipe .stg:focus{outline:none}
+#dg-pipe .stg:focus-visible rect{stroke-width:3}
+#cv-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+#cv-chips button{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--rule-2);background:var(--paper);color:var(--ink);font:500 13px var(--f-body);cursor:pointer}
+#cv-chips button i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+#cv-chips button[aria-pressed="false"]{opacity:.5}
+#cv-chips button[aria-pressed="false"] i{background:transparent;border:1px solid var(--c)}
+.lv-grid{display:grid;grid-template-columns:150px repeat(6,minmax(0,1fr));gap:6px;min-width:640px;font-size:13px}
+.lv-grid .h{font:600 12px var(--f-mono);text-align:center;padding:6px 2px;border-radius:6px;background:var(--paper);border:1px solid var(--rule);cursor:pointer;color:var(--ink)}
+.lv-grid .h.on{background:var(--ch);color:#fff;border-color:var(--ch)}
+.lv-grid .rl{font:600 11.5px var(--f-mono);color:var(--ink-2);text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center}
+.lv-grid .c{padding:7px 4px;text-align:center;border-radius:6px;font-weight:600;font-size:12.5px;opacity:.55}
+.lv-grid .c.on{opacity:1;outline:2px solid var(--ch);outline-offset:1px}
+.lv-grid .d{background:color-mix(in srgb,#f08c00 22%,var(--sheet))}
+.lv-grid .s{background:color-mix(in srgb,#5f3dc4 22%,var(--sheet))}
+.lv-grid .b{background:linear-gradient(90deg,color-mix(in srgb,#f08c00 22%,var(--sheet)),color-mix(in srgb,#5f3dc4 22%,var(--sheet)))}
+.lv-grid .n{background:var(--paper);color:var(--ink-2);font-weight:500}
+</style>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);if(!$('#adas'))return;
+const B=(x,y,w,h,t,s,c='')=>{let o=`<rect class="blk ${c}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;const subs=s?s.split('|'):[];const top=y+h/2-subs.length*7+4;o+=`<text class="t" x="${x+w/2}" y="${top}" text-anchor="middle">${t}</text>`;subs.forEach((l,i)=>o+=`<text class="s" x="${x+w/2}" y="${top+14*(i+1)}" text-anchor="middle">${l}</text>`);return o};
+const T=(x,y,s,c='s',a='start',st='')=>`<text class="${c}" x="${x}" y="${y}" text-anchor="${a}" ${st?`style="${st}"`:''}>${s}</text>`;
+const mount=(id,w,h,inner,label)=>{const el=$('#'+id);if(el)el.innerHTML=`<svg class="dg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`};
+const press=(g,b)=>g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+
+/* ---------- 13.1 SAE levels ---------- */
+const LV=[
+ ['L0','No driving automation','Warnings and short emergency interventions only. The driver steers, accelerates and brakes all the time.','Forward collision warning, AEB, blind-spot warning, lane departure warning'],
+ ['L1','Driver assistance','The system controls either steering or speed, not both. The driver does the rest and supervises.','ACC, or lane keeping assist'],
+ ['L2','Partial automation','The system steers and controls speed together, but the driver must supervise every second and is the fallback. Hands-off systems are still Level 2; an interior camera checks the driver is watching.','Highway assist, traffic jam assist, hands-off motorway systems under UN R171'],
+ ['L3','Conditional automation','Inside its ODD the system drives and monitors the road. The driver may look away but must take over within a few seconds when asked. If they do not, the system brings the car to a safe stop.','Motorway traffic pilots approved under UN R157 (ALKS), e.g. up to 95 km/h in Germany'],
+ ['L4','High automation','Inside its ODD no human fallback is needed: on a failure the system reaches a minimal-risk condition itself. Outside the ODD it does not operate.','Driverless robotaxis and shuttles in geofenced areas'],
+ ['L5','Full automation','Drives everywhere a human could, with no ODD limits.','None exists today']];
+// rows: who steers/speed, who monitors, who is fallback, ODD
+const ROWS=[['Steering & speed',['d','d|s','s','s','s','s'],['Driver','Driver + system','System','System','System','System']],
+ ['Watches the road',['d','d','d','s','s','s'],['Driver','Driver','Driver','System','System','System']],
+ ['Fallback on failure',['d','d','d','b','s','s'],['Driver','Driver','Driver','Driver when asked','System','System']],
+ ['Operating domain',['n','n','n','n','n','n'],['—','Limited','Limited','Limited (ODD)','Limited (ODD)','Unlimited']]];
+let lv=2;
+$('#lv-seg').innerHTML=LV.map((l,i)=>`<button aria-pressed="${i===lv}" data-i="${i}">${l[0]}</button>`).join('');
+$('#lv-seg').querySelectorAll('button').forEach(b=>b.onclick=()=>{press($('#lv-seg'),b);lv=+b.dataset.i;drawLv()});
+function drawLv(){
+  let h=`<div class="lv-grid"><div></div>${LV.map((l,i)=>`<div class="h${i===lv?' on':''}" data-i="${i}">${l[0]}<br><span style="font-weight:400;font-size:10.5px">${l[1].split(' ')[0]}</span></div>`).join('')}`;
+  ROWS.forEach(([r,cls,tx])=>{h+=`<div class="rl">${r}</div>`+cls.map((c,i)=>`<div class="c ${c==='d|s'?'b':c}${i===lv?' on':''}">${tx[i]}</div>`).join('')});
+  h+='</div>';$('#dg-lv').innerHTML=h;
+  $('#dg-lv').querySelectorAll('.h').forEach(e=>e.onclick=()=>{lv=+e.dataset.i;press($('#lv-seg'),$('#lv-seg').querySelectorAll('button')[lv]);drawLv()});
+  const L=LV[lv];$('#lv-desc').innerHTML=`<b>${L[0]} · ${L[1]}.</b> ${L[2]} <i>Examples:</i> ${L[3]}.`;
+}
+drawLv();
+
+/* ---------- 13.2 pipeline ---------- */
+const ST=[
+ ['Sensors','camera · radar|lidar · ultrasonic','hv','Raw data: images, radar detections with range, speed and angle, lidar point clouds, ultrasonic echoes, plus vehicle data (speed, yaw rate, steering angle), GNSS/IMU and HD or navigation maps. All time-stamped on a common clock.'],
+ ['Perception','detect · classify','','Neural networks find vehicles, pedestrians, cyclists, lanes, signs, traffic lights and drivable free space. Radar signal processing produces detections from FFTs of the chirps (Fig. 12.4).'],
+ ['Fusion','tracking · world model','','Associates detections from all sensors with tracked objects and updates each track with a Kalman-type filter. Output: an object list with position, speed, acceleration, class and existence probability, plus a lane and free-space model.'],
+ ['Prediction','next 3–8 s','','Estimates where each road user will go: keep lane, cut in, cross the road. Modern systems output several possible trajectories with probabilities.'],
+ ['Planning','manoeuvre · path','acc','Behaviour planning picks the manoeuvre (follow, overtake, brake, stay in lane). Trajectory planning computes a smooth, collision-free path and speed profile within comfort and safety limits.'],
+ ['Control','long. · lateral','','Turns the trajectory into set-points: longitudinal (acceleration or torque request, brake deceleration) and lateral (steering angle or torque), often with model-predictive control.'],
+ ['Actuators','EPS · brakes|powertrain','hv','Existing chassis ECUs execute the request: the EPS adds steering torque, the ESC/brake booster builds pressure, the powertrain sets drive torque. They check limits and plausibility themselves.']];
+let ps=0;
+function drawPipe(){
+  let s='';const w=104,g=18,y=40,h=56;
+  ST.forEach((st,i)=>{const x=10+i*(w+g);s+=`<g class="stg" tabindex="0" role="button" data-i="${i}" aria-label="${st[0]}">${B(x,y,w,h,st[0],st[1],st[2])}${i===ps?`<rect x="${x-3}" y="${y-3}" width="${w+6}" height="${h+6}" rx="8" style="fill:none;stroke:var(--ch);stroke-width:2.5"/>`:''}</g>`;
+    if(i<ST.length-1)s+=`<path class="wire" d="M${x+w} ${y+h/2} H${x+w+g-2}" marker-end="url(#ah)"/>`;});
+  const W=10+ST.length*(w+g)-g+10;
+  // side boxes
+  s+=B(10+2*(w+g),130,w*2+g,40,'Safety monitor','plausibility · degraded modes','')+`<path class="wire" d="M${10+2*(w+g)+w/2} 96 V130 M${10+5*(w+g)+w/2} 96 V150 H${10+2*(w+g)+2*w+g}" style="stroke-dasharray:4 3"/>`;
+  s+=B(10,130,w*2+g,40,'Driver & HMI','DMS camera · display · haptics','')+`<path class="wire" d="M${10+w/2} 130 V96" style="stroke-dasharray:4 3"/>`;
+  s+=T(W-12,22,'cycle ≈ 30–100 ms','lbl','end');
+  mount('dg-pipe',W,180,s,'ADAS processing pipeline');
+  $('#dg-pipe').querySelectorAll('.stg').forEach(e=>{const f=()=>{ps=+e.dataset.i;drawPipe();$(`#dg-pipe .stg[data-i="${ps}"]`).focus()};e.onclick=f;e.onkeydown=k=>{if(k.key==='Enter'||k.key===' '){k.preventDefault();f()}}});
+  $('#pipe-desc').innerHTML=`<b>${ST[ps][0]}.</b> ${ST[ps][3]}`;
+}
+drawPipe();
+
+/* ---------- 13.3 coverage ---------- */
+const SEN=[
+ ['lrr','Front long-range radar','#e03131',[[0,-38,0,18,250]],'77 GHz, ~±9° at up to ~250 m (plus a wider near beam). Measures range and speed directly; works in rain, fog and darkness.'],
+ ['fcam','Front camera','#1c7ed6',[[0,-24,0,100,150]],'Behind the windscreen, ~100–120° field of view, objects to ~150 m. Lanes, signs, traffic lights, object classes.'],
+ ['crr','Corner radars','#f08c00',[[-15,-34,-45,150,80],[15,-34,45,150,80],[-15,34,-135,150,80],[15,34,135,150,80]],'Four short/mid-range radars, ~150° each, ~80 m. Blind spot, cross traffic, lane-change checks, side collisions.'],
+ ['lid','Front lidar','#2f9e44',[[0,-32,0,120,200]],'Roof or grille mounted, ~120° horizontal, ~200 m. Precise 3D shape and free space; mostly on premium and Level 3 cars.'],
+ ['svc','Surround cameras','#ae3ec9',[[0,-38,0,190,10],[0,38,180,190,10],[-17,0,-90,190,10],[17,0,90,190,10]],'Four fisheye cameras (~190°), useful to ~10 m. 360° view for parking and low-speed manoeuvres.'],
+ ['uss','Ultrasonic','#868e96',[[0,-38,0,140,5],[0,38,180,140,5]],'About 12 sensors in the bumpers, 0.2–5 m. Parking distance and low-speed obstacle detection.']];
+const on={lrr:1,fcam:1,crr:1,lid:0,svc:1,uss:1};
+$('#cv-chips').innerHTML=SEN.map(s=>`<button style="--c:${s[2]}" data-k="${s[0]}" aria-pressed="${!!on[s[0]]}"><i></i>${s[1]}</button>`).join('');
+$('#cv-chips').querySelectorAll('button').forEach(b=>b.onclick=()=>{on[b.dataset.k]^=1;b.setAttribute('aria-pressed',!!on[b.dataset.k]);drawCv(b.dataset.k)});
+function drawCv(last){
+  const cx=360,cy=230,k=12;let s='';
+  [5,25,50,100,150,250].forEach(m=>{const r=k*Math.sqrt(m);s+=`<circle cx="${cx}" cy="${cy}" r="${r}" style="fill:none;stroke:var(--rule);stroke-dasharray:3 4"/>`+T(cx+r*0.71+3,cy-r*0.71-3,m+' m','s','start','font-size:10px')});
+  SEN.forEach(([key,n,c,list])=>{if(!on[key])return;list.forEach(([dx,dy,dir,fov,rng])=>{
+    const r=k*Math.sqrt(rng),x=cx+dx,y=cy+dy,a0=(dir-fov/2-90)*Math.PI/180,a1=(dir+fov/2-90)*Math.PI/180;
+    const p1=[x+r*Math.cos(a0),y+r*Math.sin(a0)],p2=[x+r*Math.cos(a1),y+r*Math.sin(a1)];
+    s+=`<path d="M${x} ${y} L${p1[0].toFixed(1)} ${p1[1].toFixed(1)} A${r} ${r} 0 ${fov>180?1:0} 1 ${p2[0].toFixed(1)} ${p2[1].toFixed(1)} Z" style="fill:${c};fill-opacity:.14;stroke:${c};stroke-opacity:.7;stroke-width:1.2"/>`;})});
+  s+=`<rect x="${cx-17}" y="${cy-38}" width="34" height="76" rx="10" style="fill:var(--ink);opacity:.85"/><rect x="${cx-12}" y="${cy-22}" width="24" height="14" rx="3" style="fill:#a5d8ff"/><rect x="${cx-12}" y="${cy+16}" width="24" height="10" rx="3" style="fill:#a5d8ff"/>`;
+  s+=T(cx,442,'car drawn enlarged · driving direction ↑','s','middle');
+  mount('dg-cv',720,450,s,'ADAS sensor coverage around the car');
+  const sel=SEN.find(x=>x[0]===last)||SEN[0];$('#cv-desc').innerHTML=`<b style="color:${sel[2]}">${sel[1]}.</b> ${sel[4]} <span style="color:var(--ink-2)">Typical values; real ones vary by supplier and vehicle.</span>`;
+}
+drawCv('lrr');
+
+/* ---------- 13.4 FMCW ---------- */
+['b','t','r','v','n'].forEach(k=>$('#fm-'+k).oninput=drawFm);
+function drawFm(){
+  const c=3e8,f0=77e9,lam=c/f0;
+  const B=(+$('#fm-b').value||1000)*1e6,Tc=(+$('#fm-t').value||40)*1e-6,R=+$('#fm-r').value||0,v=(+$('#fm-v').value||0)/3.6,N=+$('#fm-n').value||128;
+  const S=B/Tc,tau=2*R/c,fb=S*tau,fd=2*v/lam,dR=c/(2*B),vmax=lam/(4*Tc),dv=lam/(2*N*Tc);
+  // plot 3 chirps
+  const W=720,H=200,x0=84,y0=170,pw=600,ph=130;let s='';
+  s+=`<path class="wire" d="M${x0} ${y0} H${x0+pw+10} M${x0} ${y0} V${y0-ph-14}"/>`+T(x0+pw+12,y0+4,'t','s')+T(x0-6,y0-ph-16,'f','s','end');
+  s+=T(x0-6,y0-ph+4,(77+B/1e9).toFixed(2)+' GHz','s','end','font-size:10px')+T(x0-6,y0+4,'77 GHz','s','end','font-size:10px');
+  const cw=pw/3,dly=Math.min(0.35,Math.max(0.06,tau/Tc*40))*cw; // exaggerated
+  let tx='',rx='';
+  for(let i=0;i<3;i++){const a=x0+i*cw;tx+=`M${a} ${y0} L${a+cw*0.85} ${y0-ph} `;rx+=`M${a+dly} ${y0} L${a+cw*0.85+dly} ${y0-ph} `;}
+  s+=`<path d="${tx}" style="fill:none;stroke:#1c7ed6;stroke-width:2.5"/><path d="${rx}" style="fill:none;stroke:#e03131;stroke-width:2.5;stroke-dasharray:6 3"/>`;
+  // beat annotation on first chirp
+  const xa=x0+cw*0.5,ya=y0-ph*(0.5),yb=y0-ph*((cw*0.5-dly)/(cw*0.85));
+  s+=`<path d="M${xa} ${ya} V${yb}" style="stroke:#2f9e44;stroke-width:2"/>`+T(xa+6,(ya+yb)/2+4,'f_b','t','start','fill:#2f9e44');
+  s+=`<path d="M${x0} ${y0+12} H${x0+dly}" style="stroke:var(--ink-2)"/>`+T(x0+dly+4,y0+16,'τ = 2R/c (exaggerated)','s','start','font-size:10px');
+  s+=T(x0+cw*0.42,y0+16+0,'','s');
+  s+=`<rect x="${x0+pw-150}" y="14" width="12" height="3" style="fill:#1c7ed6"/>`+T(x0+pw-134,20,'transmitted','s')+`<rect x="${x0+pw-60}" y="14" width="12" height="3" style="fill:#e03131"/>`+T(x0+pw-44,20,'echo','s');
+  mount('dg-fm',W,H,s,'FMCW chirp diagram');
+  const f=(x)=>x>=1e6?(x/1e6).toFixed(2)+' MHz':x>=1e3?(x/1e3).toFixed(1)+' kHz':x.toFixed(0)+' Hz';
+  let m=`Slope ${(S/1e12).toFixed(1)} MHz/µs · delay τ ${(tau*1e9).toFixed(0)} ns · beat f_b ${f(fb)} · Doppler f_d ${f(Math.abs(fd))} · range resolution ${(dR*100).toFixed(1)} cm · max speed ±${(vmax*3.6).toFixed(0)} km/h · speed resolution ${(dv*3.6).toFixed(2)} km/h.`;
+  if(Math.abs(v)>vmax)m+=' ⚠ Speed exceeds the unambiguous limit: shorten the chirp.';
+  $('#fm-out').textContent=m;
+}
+drawFm();
+
+/* ---------- 13.5 AEB ---------- */
+let mode='aeb';
+$('#aeb-mode').querySelectorAll('button').forEach(b=>b.onclick=()=>{press($('#aeb-mode'),b);mode=b.dataset.v;drawAeb()});
+['v0','v1','d'].forEach(k=>$('#aeb-'+k).oninput=drawAeb);$('#aeb-mu').onchange=drawAeb;
+function simulate(){
+  const amax=+$('#aeb-mu').value,v1=Math.max(0,(+$('#aeb-v1').value||0)/3.6);let v=(+$('#aeb-v0').value||0)/3.6,gap=Math.max(1,+$('#aeb-d').value||1);
+  const dt=0.01;let t=0,warn=null,phase=0,pts=[],impact=null,drvT=null;
+  while(t<15){
+    const rel=v-v1;const ttc=rel>0?gap/rel:Infinity;
+    if(warn===null&&ttc<=2.6&&mode!=='none')warn=t;
+    let a=0;
+    if(mode==='aeb'){if(ttc<=0.9)phase=Math.max(phase,2);else if(ttc<=1.6)phase=Math.max(phase,1);a=phase===2?amax:phase===1?Math.min(4,amax):0;}
+    else if(mode==='drv'){if(warn!==null&&t>=warn+1.5){if(drvT===null)drvT=t;a=amax*0.7;phase=1}}
+    pts.push([t,gap,v*3.6,phase,ttc]);
+    if(gap<=0){impact=rel*3.6;break}
+    if(v1>0&&v<=v1+1e-3&&t>0){break}
+    if(v<=v1&&t===0){break}
+    let vn=v-a*dt;if(v1>0&&vn<v1)vn=v1;v=Math.max(0,vn);gap-=(v-v1)*dt;t+=dt;
+    if(v1===0&&v<=0){pts.push([t,gap,0,phase,Infinity]);break}
+  }
+  return {pts,impact,warn,minGap:Math.min(...pts.map(p=>p[1]))};
+}
+function drawAeb(){
+  const r=simulate(),P=r.pts,W=720,H=230,x0=56,pw=600,y0=190,ph=150;
+  const tm=Math.max(2,P[P.length-1][0]),gm=Math.max(...P.map(p=>p[1])),vm=Math.max(...P.map(p=>p[2]),1);
+  const X=t=>x0+t/tm*pw,Yg=g=>y0-Math.max(0,g)/gm*ph,Yv=v=>y0-v/vm*ph;
+  let s='';
+  // phase bands
+  let cur=P[0][3],st=0;const col=['transparent','color-mix(in srgb,#f08c00 18%,transparent)','color-mix(in srgb,#e03131 18%,transparent)'];
+  for(let i=1;i<=P.length;i++){if(i===P.length||P[i][3]!==cur){if(cur)s+=`<rect x="${X(P[st][0])}" y="${y0-ph}" width="${X(P[i-1][0])-X(P[st][0])}" height="${ph}" style="fill:${col[cur]}"/>`;if(i<P.length){cur=P[i][3];st=i}}}
+  if(r.warn!==null)s+=`<path d="M${X(r.warn)} ${y0-ph} V${y0}" style="stroke:#f59f00;stroke-width:2;stroke-dasharray:4 3"/>`+T(X(r.warn)+4,y0-ph+12,'warning','s','start','fill:#e67700');
+  s+=`<path class="wire" d="M${x0} ${y0} H${x0+pw} M${x0} ${y0} V${y0-ph}"/>`;
+  for(let i=0;i<=Math.floor(tm);i++)s+=T(X(i),y0+14,i+' s','s','middle','font-size:10px');
+  s+=`<polyline points="${P.map(p=>X(p[0]).toFixed(1)+','+Yg(p[1]).toFixed(1)).join(' ')}" style="fill:none;stroke:#1c7ed6;stroke-width:2.5"/>`;
+  s+=`<polyline points="${P.map(p=>X(p[0]).toFixed(1)+','+Yv(p[2]).toFixed(1)).join(' ')}" style="fill:none;stroke:#2f9e44;stroke-width:2.5"/>`;
+  s+=T(x0-6,y0-ph+4,gm.toFixed(0)+' m','s','end','fill:#1c7ed6')+T(x0+pw+6,y0-ph+4,vm.toFixed(0)+' km/h','s','start','fill:#2f9e44');
+  s+=`<rect x="${x0+8}" y="12" width="12" height="3" style="fill:#1c7ed6"/>`+T(x0+24,18,'gap','s')+`<rect x="${x0+64}" y="12" width="12" height="3" style="fill:#2f9e44"/>`+T(x0+80,18,'own speed','s');
+  s+=`<rect x="${x0+160}" y="10" width="12" height="8" style="fill:${col[1]}"/>`+T(x0+176,18,'partial braking','s')+`<rect x="${x0+280}" y="10" width="12" height="8" style="fill:${col[2]}"/>`+T(x0+296,18,'full braking','s');
+  if(r.impact!==null){const t=P[P.length-1][0];s+=`<circle cx="${X(t)}" cy="${y0}" r="7" style="fill:#e03131"/>`+T(X(t)-10,y0-12,'impact','t','end','fill:#e03131');}
+  mount('dg-aeb',W,H,s,'AEB time plot');
+  const o=$('#aeb-out');
+  o.textContent=r.impact!==null?`Collision at ${r.impact.toFixed(0)} km/h relative speed${mode==='aeb'?' (reduced from '+Math.max(0,(+$('#aeb-v0').value)-(+$('#aeb-v1').value)).toFixed(0)+' km/h)':''}.`:`Collision avoided, closest gap ${r.minGap.toFixed(1)} m.`;
+  o.style.color=r.impact!==null?'var(--bad)':'var(--good)';
+}
+drawAeb();
+
+/* ---------- 13.6 SOTIF ---------- */
+(()=>{let s='';const x=120,y=30,w=480,h=220;
+  const q=[[x,y,'1 · Known, safe','#2f9e44',0.22],[x+w/2,y,'2 · Known, unsafe','#f08c00',0.25],[x,y+h/2,'4 · Unknown, safe','#868e96',0.18],[x+w/2,y+h/2,'3 · Unknown, unsafe','#e03131',0.25]];
+  q.forEach(([qx,qy,t,c,o])=>{s+=`<rect x="${qx}" y="${qy}" width="${w/2}" height="${h/2}" style="fill:${c};fill-opacity:${o};stroke:var(--sheet);stroke-width:3"/>`+T(qx+w/4,qy+h/4+5,t,'t','middle')});
+  s+=T(x-10,y+h/4+4,'Known','lbl','end')+T(x-10,y+3*h/4+4,'Unknown','lbl','end')+T(x+w/4,y-10,'Safe','lbl','middle')+T(x+3*w/4,y-10,'Hazardous','lbl','middle');
+  s+=`<path class="flow" d="M${x+w*0.95} ${y+h*0.42} L${x+w*0.54} ${y+h*0.42}" marker-end="url(#ahs)"/><path class="flow" d="M${x+w*0.95} ${y+h*0.92} L${x+w*0.95} ${y+h*0.56}" marker-end="url(#ahs)"/>`;
+  s+=T(x+w+12,y+h*0.25,'design out,','s')+T(x+w+12,y+h*0.25+14,'restrict ODD','s')+T(x+w+12,y+h*0.75,'test, simulate,','s')+T(x+w+12,y+h*0.75+14,'monitor the field','s');
+  mount('dg-sotif',720,270,s,'SOTIF scenario areas');})();
+})();
+</script>
+
 </body></html>
