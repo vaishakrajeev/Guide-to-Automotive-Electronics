@@ -371,13 +371,13 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#sensors"><span class="n">CHAPTER 04</span><span class="tt">Sensors &amp; actuators</span><span class="d">Integration levels, wheel-speed and lambda sensors, MEMS, ADAS sensors, power stages and by-wire actuators.</span><span class="tags"><span>wheel-speed sim</span><span>lambda curves</span></span></a>
     <a href="#power"><span class="n">CHAPTER 05</span><span class="tt">Vehicle electrical system</span><span class="d">Battery, alternator, starter, energy management, terminal designations, 48 V and zonal power.</span><span class="tags"><span>charge-balance sim</span><span>starter circuit</span></span></a>
     <a href="#chassis"><span class="n">CHAPTER 06</span><span class="tt">Chassis &amp; safety systems</span><span class="d">ABS, TCS, ESC, ACC and ADAS levels, airbags and occupant protection, x-by-wire.</span><span class="tags"><span>μ-slip &amp; stopping sim</span><span>ESC wheel logic</span></span></a>
-    <a href="#networks"><span class="n">CHAPTER 07</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, LIN, FlexRay, Ethernet, error confinement, bit timing, EMC, UDS and DoIP.</span><span class="tags"><span>CAN arbitration sim</span></span></a>
+    <a href="#networks"><span class="n">CHAPTER 07</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, J1939, LIN, FlexRay, Ethernet, error confinement, bit timing, EMC, UDS and DoIP.</span><span class="tags"><span>CAN arbitration sim</span></span></a>
     <a href="#sdv"><span class="n">CHAPTER 08</span><span class="tt">Software-defined vehicle</span><span class="d">Zonal E/E architecture, signals vs services, SOME/IP and service discovery, DDS, vehicle APIs, Adaptive AUTOSAR stack, ara::com, execution and state management, UCM.</span><span class="tags"><span>SOME/IP header builder</span><span>SD sequence</span><span>Adaptive stack</span><span>ara::com steps</span></span></a>
     <a href="#process"><span class="n">CHAPTER 09</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
     <a href="#adas"><span class="n">CHAPTER 12</span><span class="tt">ADAS &amp; automated driving</span><span class="d">SAE levels, the sense-to-actuate pipeline, sensor coverage, FMCW radar, fusion, AEB time to collision, SOTIF and the 2026 rules.</span><span class="tags"><span>AEB simulator</span><span>Radar chirp</span><span>Sensor coverage</span></span></a>
-    <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">149 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">155 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
     <a href="#about" style="--c:#0ca678"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span><span class="n">ABOUT</span><span class="tt">About me</span><span class="d">Vaishak Rajeev: student intern at BGSW, Bengaluru, with 3.5 years in automotive electronics validation and test automation.</span><span class="tags"><span>Experience</span><span>Projects</span></span></a>
   </div>
   <h2>How to use this guide</h2>
@@ -1091,6 +1091,62 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <div class="fig-f">Conditions 1–2 are the classical CAN rules for the arbitration phase; 3–5 cover data-phase resynchronisation, the bit after an error flag, and the arbitration-to-data bit-rate switch (A. Mutter, <i>Robustness of a CAN FD Bus System</i>, iCC 2013). Defaults: 500 kbit/s at 80 % sample point, 2 Mbit/s at 60 %. Bosch recommends CAN clocks of 20, 40 or 80 MHz so all nodes can use identical settings. Results are an upper bound for an ideal bus; edge asymmetry from transceivers and topology still has to fit in the remaining phase margin.</div>
   </figure>
 
+  <h2>SAE J1939: CAN for trucks, buses and machines</h2>
+  <p>Passenger cars use CAN with identifiers and signals that each manufacturer defines privately. Commercial vehicles cannot work that way: a truck from one maker pulls a trailer from another, and an engine from a third supplier must talk to the transmission, the brakes and the instrument cluster. <b>SAE J1939</b> solves this with a public dictionary. Every message (a <b>parameter group</b>) has a standard number, the <b>PGN</b>, and every signal inside it (a <b>suspect parameter</b>) has a standard number, the <b>SPN</b>, with fixed position, resolution and offset. Engine speed, for example, is SPN 190 in PGN 61444 on every J1939 vehicle. The same protocol, or close relatives such as ISO 11783 (ISOBUS) for tractors and NMEA 2000 for boats, runs on buses, construction and agricultural machines, generators and marine engines.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Document</th><th>Covers</th></tr></thead>
+    <tbody>
+      <tr><td>J1939-11 / -14 / -15</td><td>Physical layer: shielded or unshielded twisted pair at 250 kbit/s (-11, -15) or 500 kbit/s (-14)</td></tr>
+      <tr><td>J1939-21</td><td>Data link: 29-bit identifier layout, PDU1/PDU2, request, acknowledgement, transport protocol</td></tr>
+      <tr><td>J1939-22</td><td>Data link for CAN FD: up to 64-byte frames carrying several parameter groups each</td></tr>
+      <tr><td>J1939-71</td><td>Vehicle application layer: the PGN and SPN dictionary (now maintained as the J1939 Digital Annex)</td></tr>
+      <tr><td>J1939-73</td><td>Diagnostics: diagnostic messages DM1…DMxx, DTC format, lamps</td></tr>
+      <tr><td>J1939-81</td><td>Network management: 64-bit NAME, address claiming</td></tr>
+      <tr><td>J1939-13</td><td>Off-board diagnostic connector: 9-pin Deutsch (black: 250 kbit/s only; green: 250 or 500 kbit/s)</td></tr>
+    </tbody></table></div>
+
+  <h3>The 29-bit identifier</h3>
+  <p>J1939 always uses the extended 29-bit CAN identifier and splits it into fields. The lowest byte is the <b>source address (SA)</b> of the sender, so the same parameter group sent by two ECUs still has two different identifiers and arbitration never collides. The 3-bit <b>priority</b> at the top decides arbitration: 0 wins, 7 loses; engine and transmission control messages typically use 3, information messages 6. In between sits the 18-bit PGN, made of the Extended Data Page (EDP), Data Page (DP), PDU Format (PF) and PDU Specific (PS) fields. PF decides how PS is used:</p>
+  <div class="cols">
+    <div><h3>PDU1 · PF &lt; 240 (0xF0)</h3><p>Peer-to-peer. PS is the <b>destination address</b>: 0x00–0xFD for one ECU, 0xFF for all. PS is not part of the PGN, so the PGN ends in 00. Examples: request (PGN 59904, 0xEA00), transport protocol, address claim, proprietary A.</p></div>
+    <div><h3>PDU2 · PF ≥ 240</h3><p>Broadcast only. PS is a <b>group extension</b> and belongs to the PGN, giving 4096 broadcast parameter groups per data page. Most operating data lives here: engine speed, vehicle speed, temperatures, DM1 fault codes.</p></div>
+  </div>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 7.6</b> · J1939 frame decoder: identifier fields, PGN and signal values</span>
+      <div class="ctrls"><div class="seg" id="jd-ex" role="group" aria-label="Example frame"><button aria-pressed="true" data-i="0">EEC1</button><button aria-pressed="false" data-i="1">CCVS</button><button aria-pressed="false" data-i="2">ET1</button><button aria-pressed="false" data-i="3">DM1</button><button aria-pressed="false" data-i="4">Request</button></div></div></div>
+    <div class="fig-b">
+      <div class="bt-grid"><label>29-bit CAN ID <i>hex</i><input type="text" id="jd-id" value="0CF00400" maxlength="8" spellcheck="false" autocomplete="off"></label><label style="grid-column:span 2">Data bytes <i>hex, byte 1 first</i><input type="text" id="jd-data" value="F0 96 96 40 1F 00 F0 7D" spellcheck="false" autocomplete="off"></label></div>
+      <div class="scroll"><div id="dg-jd"></div></div>
+      <div class="status" id="jd-out"></div>
+      <div class="tbl" id="jd-sig"></div>
+    </div>
+    <div class="fig-f">Multi-byte J1939 signals are little-endian (least significant byte first). Values 0xFE… mean "error" and 0xFF… mean "not available"; the decoder shows these instead of a number.</div>
+  </figure>
+
+  <h3>Address claiming and the NAME</h3>
+  <p>Each ECU has a preferred source address: by convention 0x00 is engine #1, 0x03 the transmission, 0x0B the brake system, 0x17 the instrument cluster, 0xF9 an off-board service tool. Because trailers, bodies and implements are added later, addresses can clash. At start-up every ECU therefore sends an <b>Address Claimed</b> message (PGN 60928, 0xEE00) carrying its 64-bit <b>NAME</b>: manufacturer code, identity number, function, vehicle system and an "arbitrary address capable" bit. If two ECUs claim the same address, the one with the numerically lower NAME keeps it. The other picks a free address if it can, or sends "Cannot Claim" from the null address 0xFE and stays silent.</p>
+
+  <h3>Transport protocol: messages longer than 8 bytes</h3>
+  <p>A classic CAN frame carries 8 bytes, but a list of fault codes, a VIN or a software ID can be longer. J1939-21 splits such messages into up to 255 packets of 7 bytes, up to 1785 bytes in total. A connection-management frame (TP.CM, PGN 60416) announces the message and names the PGN being carried. Data-transfer frames (TP.DT, PGN 60160) then carry a sequence number in byte 1 and 7 data bytes each. Broadcasts use <b>BAM</b> (broadcast announce message) with fixed 50–200 ms gaps between packets. Messages to one ECU use <b>RTS/CTS</b> flow control, in which the receiver says how many packets it can take and acknowledges the end.</p>
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 7.7</b> · Transport protocol sequences</span>
+      <div class="ctrls"><div class="seg" id="tp-mode" role="group" aria-label="Mode"><button aria-pressed="true" data-v="bam">BAM (broadcast)</button><button aria-pressed="false" data-v="cts">RTS/CTS (to one ECU)</button></div><button class="btn pri" id="tp-step">Next step</button><button class="btn" id="tp-reset">Reset</button></div></div>
+    <div class="fig-b scroll"><div id="dg-tp"></div></div>
+    <div class="fig-f" id="tp-desc"></div>
+  </figure>
+
+  <h3>J1939 diagnostics (J1939-73)</h3>
+  <p>J1939 has its own diagnostic messages, numbered DM1, DM2 and so on. The most important is <b>DM1</b> (PGN 65226, 0xFECA): every ECU with an active fault broadcasts it once per second, and also whenever a fault becomes active. It starts with the status of four lamps: malfunction indicator (MIL), red stop, amber warning and protect. Then come one or more 4-byte DTCs. <b>DM2</b> (PGN 65227) lists previously active faults and is sent on request. <b>DM3</b> and <b>DM11</b> clear them. A tester reads them by sending a Request (PGN 59904) for the wanted PGN. Many modern trucks also offer UDS (ISO 14229) over CAN or DoIP alongside J1939-73, especially for flashing.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>DTC field</th><th>Bits</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>SPN</td><td>19</td><td>Which parameter or component has the fault (e.g. 110 = engine coolant temperature, 190 = engine speed)</td></tr>
+      <tr><td>FMI, failure mode identifier</td><td>5</td><td>How it failed: 0 above normal (most severe), 1 below normal, 2 erratic, 3 voltage high or shorted to high, 4 voltage low or shorted to low, 5 current low or open circuit, 9 abnormal update rate, 31 condition exists, and so on</td></tr>
+      <tr><td>OC, occurrence count</td><td>7</td><td>How many times the fault has gone from inactive to active (127 = not available)</td></tr>
+      <tr><td>CM, conversion method</td><td>1</td><td>0 for the current SPN byte order; 1 marks old (pre-1996) layouts</td></tr>
+    </tbody></table></div>
+  <p class="ref">Sources: SAE J1939-21, -71, -73 and -81 (structure as summarised in public SAE abstracts and vendor application notes from Vector and Kvaser); CSS Electronics, "J1939 Explained" for the identifier layout and examples.</p>
+
   <h2>Electromagnetic compatibility: which test is which</h2>
   <p>Every ECU must neither disturb the car's own radios (emissions) nor be disturbed by phones, transmitters and its neighbours (immunity). Emissions and immunity are covered by different standard families, which are easy to confuse.</p>
   <div class="tbl"><table>
@@ -1138,7 +1194,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <tr><td class="num">09</td><td>Vehicle information (VIN, calibration IDs)</td></tr>
     </tbody></table></div>
   <figure class="fig">
-    <div class="fig-h"><span class="cap"><b>Fig. 7.6</b> · DTC decoder and PID calculator</span></div>
+    <div class="fig-h"><span class="cap"><b>Fig. 7.8</b> · DTC decoder and PID calculator</span></div>
     <div class="fig-b">
       <div class="bt-grid">
         <label>Trouble code<input type="text" id="ob-dtc" value="P0301" spellcheck="false"></label>
@@ -1162,7 +1218,8 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <li>CAN FD: RRS always dominant, FDF marks FD, BRS switches bit rate; stuff count = dynamic stuff bits mod 8, Gray-coded + parity.</li>
     <li>Fault confinement: TEC/REC &gt; 127 → error-passive; TEC &gt; 255 → bus-off; recover after 128 × 11 recessive bits.</li>
     <li>Emissions: CISPR 25 (component), CISPR 12/36 (vehicle). Immunity: ISO 11452 (component), ISO 11451 (vehicle).</li>
-  </ol></div>
+      <li>J1939: 29-bit ID = priority (3) + EDP + DP + PF + PS + SA; PF &lt; 240 → PS is destination (PDU1), PF ≥ 240 → PS is part of the PGN (PDU2, broadcast). Signals are SPNs; DM1 (PGN 65226) broadcasts active DTCs as SPN + FMI + OC; BAM or RTS/CTS carry up to 1785 bytes.</li>
+</ol></div>
 </section>
 
 <!-- ============ SDV ============ -->
@@ -2944,6 +3001,12 @@ const G=[
 ['BRS','Bit rate switch','Networks','networks','CAN FD control bit; when recessive, the data phase is sent at the faster data bit rate.'],
 ['Bus-off','','Networks','networks','CAN state a node enters when its transmit error counter exceeds 255; it stops transmitting until a recovery sequence completes.'],
 ['CAN','Controller Area Network','Networks','networks','Robust multi-master serial bus (ISO 11898) with priority arbitration and strong error detection; the backbone of vehicle networks since the 1990s.'],
+['J1939','SAE J1939','Networks','networks','CAN-based protocol family for trucks, buses and off-highway machines with a standard dictionary of messages (PGNs) and signals (SPNs), 250 or 500 kbit/s, 29-bit identifiers.'],
+['PGN','Parameter group number','Networks','networks','18-bit J1939 message number inside the 29-bit identifier (EDP, DP, PF and, for broadcasts, PS). Example: 61444 = EEC1, engine speed and torque.'],
+['SPN','Suspect parameter number','Networks','networks','J1939 number of a single signal with fixed position, resolution and offset, e.g. SPN 190 = engine speed at 0.125 rpm/bit. Also identifies the faulty component in a J1939 DTC.'],
+['FMI','Failure mode identifier','Networks','networks','5-bit field of a J1939 DTC that says how a parameter failed: 0 above normal, 1 below normal, 3 shorted high, 4 shorted low, 5 open circuit, and so on.'],
+['DM1','Diagnostic message 1 (J1939-73)','Networks','networks','J1939 broadcast (PGN 65226) listing lamp status and all active DTCs, sent once per second while a fault is active.'],
+['BAM','Broadcast announce message','Networks','networks','J1939 transport-protocol mode for broadcasting messages longer than 8 bytes as a series of 7-byte packets without handshake.'],
 ['CAN FD','CAN with flexible data rate','Networks','networks','CAN extension with up to 64 data bytes and a faster data phase, plus stronger CRCs and a stuff-bit counter.'],
 ['CAN XL','','Networks','networks','Newest CAN generation (ISO 11898-1:2024) with up to 2,048 data bytes and data rates around 10–20 Mbit/s.'],
 ['CCS','Combined Charging System','EV & energy','ev','Charging standard that adds DC pins to the AC Type 1 or Type 2 inlet; communicates over power-line carrier on the control pilot.'],
@@ -3904,6 +3967,102 @@ drawAeb();
   s+=`<path class="flow" d="M${x+w*0.95} ${y+h*0.42} L${x+w*0.54} ${y+h*0.42}" marker-end="url(#ahs)"/><path class="flow" d="M${x+w*0.95} ${y+h*0.92} L${x+w*0.95} ${y+h*0.56}" marker-end="url(#ahs)"/>`;
   s+=T(x+w+12,y+h*0.25,'design out,','s')+T(x+w+12,y+h*0.25+14,'restrict ODD','s')+T(x+w+12,y+h*0.75,'test, simulate,','s')+T(x+w+12,y+h*0.75+14,'monitor the field','s');
   mount('dg-sotif',720,270,s,'SOTIF scenario areas');})();
+})();
+</script>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);if(!$('#dg-jd'))return;
+const B=(x,y,w,h,t,s,c='')=>{let o=`<rect class="blk ${c}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;const subs=s?s.split('|'):[];const top=y+h/2-subs.length*7+4;o+=`<text class="t" x="${x+w/2}" y="${top}" text-anchor="middle">${t}</text>`;subs.forEach((l,i)=>o+=`<text class="s" x="${x+w/2}" y="${top+14*(i+1)}" text-anchor="middle">${l}</text>`);return o};
+const T=(x,y,s,c='s',a='start',st='')=>`<text class="${c}" x="${x}" y="${y}" text-anchor="${a}" ${st?`style="${st}"`:''}>${s}</text>`;
+const mount=(id,w,h,inner,label)=>{const el=$('#'+id);if(el)el.innerHTML=`<svg class="dg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`};
+const press=(g,b)=>g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const hx=(n,d)=>'0x'+n.toString(16).toUpperCase().padStart(d,'0');
+const SA={0x00:'Engine #1',0x01:'Engine #2',0x03:'Transmission #1',0x0B:'Brakes – system controller',0x0F:'Retarder, engine',0x11:'Cruise control',0x17:'Instrument cluster #1',0x21:'Body controller',0x31:'Cab controller',0xF9:'Off-board diagnostic tool #1',0xFA:'Off-board diagnostic tool #2',0xFE:'Null address',0xFF:'Global (all)'};
+// value: [bytePos(1-based), lenBits, startBit(0=lsb of byte), scale, offset, unit, name, spn]
+const PG={
+ 61444:['EEC1','Electronic Engine Controller 1',[[3,8,0,1,-125,'%','Actual engine torque (percent)',513],[2,8,0,1,-125,'%','Driver demand engine torque',512],[4,16,0,0.125,0,'rpm','Engine speed',190],[6,8,0,1,0,'','Source address of controlling device',1483]]],
+ 65265:['CCVS1','Cruise Control / Vehicle Speed 1',[[2,16,0,1/256,0,'km/h','Wheel-based vehicle speed',84],[1,2,2,1,0,'','Parking brake switch (00 off, 01 on)',70],[4,2,0,1,0,'','Cruise control active (00 off, 01 on)',595]]],
+ 65262:['ET1','Engine Temperature 1',[[1,8,0,1,-40,'°C','Engine coolant temperature',110],[2,8,0,1,-40,'°C','Fuel temperature',174],[3,16,0,0.03125,-273,'°C','Engine oil temperature 1',175]]],
+ 65226:['DM1','Active Diagnostic Trouble Codes',null],
+ 65227:['DM2','Previously Active DTCs',null],
+ 59904:['RQST','Request',null],
+ 60928:['ACL','Address Claimed',null],
+ 60416:['TP.CM','Transport Protocol – Connection Management',null],
+ 60160:['TP.DT','Transport Protocol – Data Transfer',null],
+ 65259:['CI','Component Identification',null],
+ 65260:['VI','Vehicle Identification (VIN)',null]};
+const EX=[['0CF00400','F0 96 96 40 1F 00 F0 7D'],['18FEF100','F3 00 50 C1 00 00 00 FF'],['18FEEE00','82 46 20 2B FF FF FF FF'],['18FECA00','04 FF 6E 00 00 01 FF FF'],['18EA00F9','CA FE 00']];
+$('#jd-ex').querySelectorAll('button').forEach(b=>b.onclick=()=>{press($('#jd-ex'),b);const e=EX[+b.dataset.i];$('#jd-id').value=e[0];$('#jd-data').value=e[1];drawJd()});
+$('#jd-id').oninput=drawJd;$('#jd-data').oninput=drawJd;
+function drawJd(){
+  const raw=$('#jd-id').value.replace(/[^0-9a-f]/gi,'');let id=parseInt(raw||'0',16);
+  const out=$('#jd-out');if(!raw||isNaN(id)||id>0x1FFFFFFF){out.textContent='Enter up to 8 hex digits (29-bit identifier, max 1FFFFFFF).';out.style.color='var(--bad)';return}
+  out.style.color='';
+  const pri=id>>>26&7,edp=id>>>25&1,dp=id>>>24&1,pf=id>>>16&0xFF,ps=id>>>8&0xFF,sa=id&0xFF;
+  const pdu1=pf<240,pgn=(edp<<17)|(dp<<16)|(pf<<8)|(pdu1?0:ps);
+  const data=($('#jd-data').value.match(/[0-9a-f]{1,2}/gi)||[]).map(x=>parseInt(x,16));
+  // bit field diagram
+  const F=[['Priority',3,pri,'#e03131',String(pri)],['EDP',1,edp,'#868e96',String(edp)],['DP',1,dp,'#868e96',String(dp)],['PF · PDU format',8,pf,'#1c7ed6',hx(pf,2)],[pdu1?'PS · destination':'PS · group ext.',8,ps,pdu1?'#f08c00':'#1c7ed6',hx(ps,2)],['SA · source',8,sa,'#2f9e44',hx(sa,2)]];
+  let s='',x=20;const W=700,u=(W-40)/29;
+  F.forEach(([n,len,v,c,txt])=>{const w=len*u;s+=`<rect x="${x}" y="34" width="${w-2}" height="40" rx="4" style="fill:color-mix(in srgb,${c} 20%,var(--sheet));stroke:${c}"/>`+T(x+w/2-1,52,txt,'t','middle')+T(x+w/2-1,67,v.toString(2).padStart(len,'0'),'s','middle','font-size:10px;letter-spacing:.5px')+T(x+w/2-1,26,n,'s','middle',len<3?'font-size:9.5px':'');x+=w});
+  const px0=20+5*u,px1=20+(pdu1?13:21)*u;
+  s+=`<path d="M${20+3*u} 84 V90 H${px1-2} V84" style="fill:none;stroke:#1c7ed6;stroke-width:1.5"/>`+T((20+3*u+px1)/2,104,`PGN = ${pgn} (${hx(pgn,5)})`,'t','middle','fill:#1c7ed6');
+  s+=T(20,12,'bit 28','s','start','font-size:10px')+T(W-20,12,'bit 0','s','end','font-size:10px');
+  mount('dg-jd',W,112,s,'J1939 identifier fields');
+  const pg=PG[pgn];
+  const dst=pdu1?(ps===0xFF?'global (all ECUs)':hx(ps,2)+(SA[ps]?' '+SA[ps]:'')):'broadcast';
+  out.innerHTML=`<b>${pdu1?'PDU1 (peer-to-peer)':'PDU2 (broadcast)'}</b> · priority ${pri} · PGN ${pgn}${pg?' <b>'+pg[0]+'</b> '+esc(pg[1]):' (not in this demo dictionary)'} · from ${hx(sa,2)}${SA[sa]?' '+SA[sa]:''} · to ${dst}`;
+  // signals
+  const box=$('#jd-sig');let rows='';
+  const get=(b,len,sb)=>{let v=0;const n=Math.ceil((sb+len)/8);for(let i=n-1;i>=0;i--){const by=data[b-1+i];if(by===undefined)return null;v=v*256+by}return (v>>>sb)&(len>=32?0xFFFFFFFF:(2**len-1))};
+  if(pg&&pg[2]){pg[2].forEach(([b,len,sb,sc,off,unit,name,spn])=>{const v=get(b,len,sb);let val;
+      const hi=len<8?v:v>>>(len-8);if(v===null)val='—';else if(hi===(len<8?3:0xFF))val='not available';else if(hi===(len<8?2:0xFE))val='error indicator';else val=(+(v*sc+off).toFixed(3))+(unit?' '+unit:'');
+      rows+=`<tr><td>SPN ${spn}</td><td>${esc(name)}</td><td>byte ${b}${len>8?'–'+(b+len/8-1):''}${len<8?' bits '+(sb+1)+'–'+(sb+len):''}</td><td>${sc===1?'1':Math.abs(1/sc-Math.round(1/sc))<1e-9&&1/sc>8?'1/'+Math.round(1/sc):+sc.toFixed(5)}${unit?' '+unit:''}/bit, offset ${off}</td><td><b>${val}</b></td></tr>`});
+    box.innerHTML=`<table><thead><tr><th>SPN</th><th>Signal</th><th>Position</th><th>Scaling</th><th>Value</th></tr></thead><tbody>${rows}</tbody></table>`;}
+  else if(pgn===65226||pgn===65227){
+    const L=['MIL','Red stop','Amber warning','Protect'],st=['off','on','reserved','n/a'];
+    const lb=data[0]??0xFF;let l=L.map((n,i)=>`${n}: ${st[(lb>>(6-2*i))&3]}`).join(' · ');
+    for(let i=2;i+3<data.length;i+=4){const b3=data[i],b4=data[i+1],b5=data[i+2],b6=data[i+3];if(b6===undefined)break;
+      const spn=b3|(b4<<8)|((b5>>5)<<16),fmi=b5&0x1F,cm=b6>>7,oc=b6&0x7F;
+      if(spn===0&&fmi===0&&oc===0)continue;
+      const SPN={110:'Engine coolant temperature',190:'Engine speed',100:'Engine oil pressure',84:'Wheel-based vehicle speed',168:'Battery potential',91:'Accelerator pedal position'};
+      const FMI={0:'above normal (most severe)',1:'below normal (most severe)',2:'data erratic',3:'voltage above normal / short to high',4:'voltage below normal / short to low',5:'current below normal / open circuit',6:'current above normal / grounded',7:'mechanical system not responding',8:'abnormal frequency',9:'abnormal update rate',10:'abnormal rate of change',11:'root cause not known',12:'bad device',13:'out of calibration',14:'special instructions',15:'above normal (least severe)',16:'above normal (moderately severe)',17:'below normal (least severe)',18:'below normal (moderately severe)',19:'received network data in error',31:'condition exists'};
+      rows+=`<tr><td>SPN ${spn}${SPN[spn]?' · '+SPN[spn]:''}</td><td>FMI ${fmi}${FMI[fmi]?' · '+FMI[fmi]:''}</td><td>${oc===127?'n/a':oc}</td><td>${cm}</td></tr>`;}
+    box.innerHTML=`<p style="margin:8px 0">Lamps (byte 1): ${l}</p><table><thead><tr><th>SPN (19 bits)</th><th>FMI (5 bits)</th><th>Occurrences</th><th>CM</th></tr></thead><tbody>${rows||'<tr><td colspan="4">No DTC in these bytes</td></tr>'}</tbody></table>`;}
+  else if(pgn===59904){const r=(data[0]??0)|((data[1]??0)<<8)|((data[2]??0)<<16);box.innerHTML=`<p style="margin:8px 0">Requested PGN (bytes 1–3, little-endian): <b>${r} (${hx(r,5)})</b>${PG[r]?' = '+PG[r][0]+', '+esc(PG[r][1]):''}. The addressed ECU answers by sending that parameter group, or a NACK (PGN 59392) if it does not support it.</p>`;}
+  else box.innerHTML='';
+}
+drawJd();
+
+/* ---------- Fig 7.7 transport protocol ---------- */
+let mode='bam',step=0;
+const SEQ={
+ bam:[[null,'An engine controller (SA 0x00) must broadcast DM1 with three DTCs: 2 lamp bytes + 3 × 4 = 14 bytes, too long for one frame.'],
+  ['L','R','TP.CM BAM','PGN 60416 to 0xFF. Byte 1 = 32 (BAM), bytes 2–3 = 14 (total size), byte 4 = 2 packets, bytes 6–8 = PGN 65226 being transported.'],
+  ['L','R','TP.DT #1','PGN 60160. Byte 1 = sequence number 1, bytes 2–8 = first 7 data bytes. Sent 50–200 ms after the announcement.'],
+  ['L','R','TP.DT #2','Sequence number 2, the remaining 7 bytes (unused bytes padded with 0xFF). No acknowledgement: every listener reassembles the message on its own.']],
+ cts:[[null,'A service tool (SA 0xF9) asks the engine (SA 0x00) for its software identification, 40 bytes long, so the engine must send it peer-to-peer.'],
+  ['L','R','TP.CM RTS','Request to send: byte 1 = 16, total 40 bytes, 6 packets, max packets per CTS = 0xFF, PGN being sent.'],
+  ['R','L','TP.CM CTS','Clear to send: byte 1 = 17, "send 3 packets starting at #1". The receiver controls the pace.'],
+  ['L','R','TP.DT #1–3','Three data packets with sequence numbers 1, 2 and 3, each carrying 7 bytes.'],
+  ['R','L','TP.CM CTS','Clear to send packets 4–6. A CTS with 0 packets would mean "wait" and hold the connection open.'],
+  ['L','R','TP.DT #4–6','The last three packets (40 bytes = 6 × 7 − 2 padding bytes).'],
+  ['R','L','TP.CM EoMA','End of message acknowledgement: byte 1 = 19, total size and packet count confirmed. A problem at any point is answered with Abort (byte 1 = 255).']]};
+$('#tp-mode').querySelectorAll('button').forEach(b=>b.onclick=()=>{press($('#tp-mode'),b);mode=b.dataset.v;step=0;drawTp()});
+$('#tp-step').onclick=()=>{if(step<SEQ[mode].length-1){step++;drawTp()}};$('#tp-reset').onclick=()=>{step=0;drawTp()};
+function drawTp(){
+  const Q=SEQ[mode],xl=140,xr=560,top=60,dy=40,H=top+(Q.length-1)*dy+24;let s='';
+  s+=B(xl-90,8,180,40,mode==='bam'?'Engine ECU':'Engine ECU','SA 0x00 · sender','hv')+B(xr-90,8,180,40,mode==='bam'?'All ECUs':'Service tool',mode==='bam'?'DA 0xFF · listeners':'SA 0xF9 · receiver','acc');
+  s+=`<path d="M${xl} 48 V${H}" style="stroke:var(--rule-2);stroke-dasharray:4 4"/><path d="M${xr} 48 V${H}" style="stroke:var(--rule-2);stroke-dasharray:4 4"/>`;
+  for(let i=1;i<=step;i++){const [a,b,l]=Q[i];const y=top+i*dy-14,x1=a==='L'?xl:xr,x2=b==='L'?xl:xr,cur=i===step;
+    s+=`<path class="${cur?'flow':'wire'}" d="M${x1} ${y} L${x2+(x2>x1?-4:4)} ${y}" marker-end="url(#${cur?'ahs':'ah'})"/>`+T((xl+xr)/2,y-6,l,cur?'t':'s','middle');}
+  mount('dg-tp',700,H,s,'J1939 transport protocol sequence');
+  $('#tp-desc').textContent=step===0?Q[0][1]:'Step '+step+' of '+(Q.length-1)+': '+Q[step][3];
+  $('#tp-step').textContent=step>=Q.length-1?'Done':'Next step';
+}
+drawTp();
 })();
 </script>
 
