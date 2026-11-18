@@ -442,7 +442,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 1.2</b> · ECM block diagram: sensors → processing → actuators</span></div>
     <div class="fig-b scroll"><div id="dg-ems"></div></div>
-    <div class="fig-f">Arrows animate in the direction of signal flow. The ECM also shares torque, speed and fault status on CAN with the transmission, ESC and instrument cluster. <b>Click any sensor</b> to see what it does and how it works.</div>
+    <div class="fig-f">Arrows animate in the direction of signal flow. The ECM also shares torque, speed and fault status on CAN with the transmission, ESC and instrument cluster. <b>Click any sensor or actuator</b> to see what it does and how it works.</div>
     <div class="sn-d" id="ems-sn" aria-live="polite" hidden></div>
   </figure>
 
@@ -2016,15 +2016,51 @@ const EMS_SN=[
   w:'The sensor is bolted to the cylinder block. Inside, a seismic mass presses on a piezoceramic ring; engine vibration makes the mass push harder or softer, and the ceramic produces a matching charge and voltage. Knock shows up as a characteristic high-frequency vibration, roughly 5–20 kHz depending on bore size. The ECM band-pass filters the signal, looks only in a crank-angle window after each cylinder\'s TDC (using the crank and cam signals), integrates it and compares it with an adaptive background noise level. When a cylinder knocks, its ignition is retarded by a few degrees, then advanced back step by step.',
   sg:'Broadband AC voltage proportional to vibration; amplitude depends on mounting torque, which is specified.',
   x:'ECM retards ignition across the whole map as a precaution: the engine is safe but loses power and fuel economy.'}];
+EMS_SN.push(
+ {n:'Fuel injectors',t:'Solenoid (port injection) · solenoid or piezo (direct injection)',
+  f:'Meter the fuel. At a known pressure difference across the nozzle, the quantity injected is set by how long the injector is held open, so the ECM controls fuel mass through the pulse width and, for sequential injection, the start angle of each cylinder\'s injection.',
+  w:'Inside a <b>solenoid injector</b> a spring holds the needle (or ball) on its seat. When the ECM\'s output stage grounds the coil, the magnetic field pulls the armature and needle up and fuel sprays through the orifice disc; when the current stops, the spring snaps it shut. Port injectors spray onto the intake valve at about 3–5 bar. <b>Direct-injection</b> petrol injectors work at roughly 200–350 bar, so they need a fast opening current: a dedicated driver uses a boosted voltage (around 65 V) for a peak current, then drops to a lower hold current. Some diesel and GDI systems use <b>piezo</b> injectors, where a stack of piezoceramic layers expands in microseconds when charged, allowing several injections per cycle. Because the needle takes time to open, the ECM adds a dead-time correction that depends on battery voltage.',
+  sg:'Low-side switched coil at battery voltage (port injection); peak-and-hold current from a boost/high-side + low-side driver (direct injection).',
+  x:'That cylinder misfires. The output stage detects open or short circuits, a misfire DTC is stored and the MIL lights.',a:1},
+ {n:'Ignition coils',t:'Inductive coil-on-plug (pencil coil) with IGBT switch',
+  f:'Produce the high-voltage spark at the right crank angle. The ECM sets two things per cylinder: dwell (how long the coil charges) and ignition advance (when the spark fires), taken from speed–load maps and corrected for knock, temperature and torque requests.',
+  w:'Each coil is a transformer with a few hundred primary turns and tens of thousands of secondary turns on a laminated iron core. During the dwell time an IGBT switches battery voltage across the primary, and the current rises to about 6–10 A, storing energy in the magnetic field. At the ignition point the IGBT turns off; the field collapses and the secondary voltage rises until the spark-plug gap breaks down, typically at 10–30 kV, with up to around 40 kV available. Dwell is lengthened at low battery voltage so the stored energy stays constant. The IGBT is either in the ECM or built into the coil, which then gets a logic-level trigger.',
+  sg:'Logic-level trigger to a coil with integrated IGBT, or the ECM\'s own IGBT switching the primary current directly.',
+  x:'That cylinder misfires; the ECM detects the misfire from crank-speed variation and cuts injection to that cylinder to protect the catalyst from unburnt fuel.',a:1},
+ {n:'Electronic throttle',t:'DC motor throttle body with redundant position sensors',
+  f:'Sets the air flow into the engine, and with it the torque. The pedal is only a request: the ECM\'s torque structure combines it with idle control, cruise control, traction and stability requests from the ESC and gear-shift torque reductions, then commands a throttle angle.',
+  w:'A small DC motor turns the throttle plate through a reduction gear. Return and limp-home springs hold the plate slightly open when the motor is unpowered. The ECM drives the motor through an H-bridge with a PWM signal, so it can push in either direction. Two throttle-position sensors on the shaft report the actual angle, and a closed-loop position controller adjusts the duty cycle until actual matches target. The ECM continuously compares the two sensors with each other and with the air-mass signal for plausibility.',
+  sg:'H-bridge PWM (bidirectional DC motor current); position feedback from two sensors.',
+  x:'The ECM switches off the motor and the springs hold the limp-home position: engine speed and power are limited so the car can still be driven slowly.',a:1},
+ {n:'VVT solenoid',t:'PWM proportional oil-control valve for a hydraulic cam phaser',
+  f:'Shifts camshaft timing relative to the crankshaft while the engine runs. Advancing or retarding the cam changes valve overlap, which gives more low-end torque, more peak power, internal exhaust-gas recirculation for lower NOx, and lower pumping losses at part load.',
+  w:'The cam phaser on the camshaft sprocket is a vane-type hydraulic actuator: a rotor with vanes sits inside a housing driven by the timing chain, forming advance and retard chambers. The solenoid moves a spool valve that directs engine oil pressure into one set of chambers and drains the other, rotating the camshaft relative to the sprocket. The ECM controls the spool position by PWM duty cycle and measures the actual cam phase from the camshaft sensor, closing the loop. A spring-loaded locking pin holds the phaser at its base position when oil pressure is low, such as at start-up.',
+  sg:'Low-side PWM, typically a few hundred Hz, giving a proportional coil current.',
+  x:'The phaser stays locked at its base position: the engine runs, but with less torque and higher emissions, and a DTC is stored.',a:1},
+ {n:'EGR valve',t:'Electrically actuated poppet or flap valve with position sensor',
+  f:'Feeds a controlled amount of exhaust gas back into the intake. The inert gas slows combustion and lowers the peak flame temperature, which is the main driver of NOx formation. In petrol engines at part load it also reduces throttling (pumping) losses; in diesels it is a primary NOx measure, usually with an EGR cooler.',
+  w:'A DC motor (or on older designs a solenoid or vacuum actuator) opens a poppet valve or flap between the exhaust and intake manifolds. The pressure difference between them drives the exhaust gas through. A position sensor on the valve stem lets the ECM control the opening in closed loop to a target EGR rate taken from speed–load maps, and the air-mass or manifold-pressure signal confirms the actual EGR flow. Soot and deposits are the classic problem, so ECMs periodically sweep the valve to keep it free.',
+  sg:'H-bridge or low-side PWM to the motor; analog or SENT position feedback.',
+  x:'Stuck open: rough idle, stalling and smoke. Stuck closed: NOx rises and petrol engines become more knock-prone. Either way a DTC and the MIL.',a:1},
+ {n:'Fuel pump',t:'Electric in-tank pump (plus cam-driven high-pressure pump for direct injection)',
+  f:'Delivers fuel from the tank to the injectors at the required pressure, and only as much as the engine needs. Demand control saves electrical power and keeps fuel in the tank cooler.',
+  w:'The low-pressure pump sits in the tank, immersed in fuel for cooling. A DC motor drives an impeller (turbine) pump that delivers about 3–6 bar. In returnless systems a fuel-pump control module, commanded by the ECM, varies the motor speed by PWM to hold the pressure measured by a sensor in the feed line. Direct-injection engines add a <b>high-pressure pump</b> driven by a cam lobe on the camshaft: a single piston compresses fuel to 200–350 bar, and an ECM-controlled quantity-control solenoid valve decides how much of each stroke goes to the rail, closing the loop on the rail-pressure sensor. A safety function stops the pump if the engine is not turning, for example after a crash.',
+  sg:'Relay or PWM via a pump control module (low-pressure side); low-side solenoid drive synchronised to cam angle (high-pressure valve).',
+  x:'Low or no pressure: lean running, misfires, loss of power or no start.',a:1},
+ {n:'Canister-purge valve',t:'PWM solenoid valve in the evaporative-emissions (EVAP) system',
+  f:'Petrol in the tank continuously evaporates. Instead of venting those hydrocarbons, an activated-carbon canister stores them, and the purge valve lets the engine burn them off in a controlled way.',
+  w:'The canister is filled with activated carbon that adsorbs fuel vapour from the tank. When the engine is warm and in closed-loop lambda control, the ECM opens the purge valve with a PWM signal. Manifold vacuum draws fresh air through the canister, which strips the stored vapour and carries it into the intake. Because this gas is extra fuel, the ECM opens the valve gradually and uses the lambda signal to estimate how rich the purge gas is, reducing injected fuel to compensate. Leak diagnostics (required by OBD) check the tank system for leaks using pressure or vacuum tests with this valve and a canister vent valve.',
+  sg:'Low-side PWM at a low frequency (around 10–30 Hz).',
+  x:'Stuck open: rich mixture at idle and hard starting after refuelling. Stuck closed: the canister saturates, fuel smell, EVAP DTC and MIL.',a:1});
 let emsSel=-1;
 function emsInfo(){
   const d=$('#ems-sn');if(!d)return;
   if(emsSel<0){d.hidden=true;d.innerHTML='';return}
   const e=EMS_SN[emsSel];d.hidden=false;
-  d.innerHTML=`<div class="sn-hd"><h3>${e.n}</h3><span class="sn-ty">${e.t}</span><button class="btn sn-x" type="button" aria-label="Close sensor details">Close</button></div>
+  d.innerHTML=`<div class="sn-hd"><h3>${e.n}</h3><span class="sn-ty">${e.t}</span><button class="btn sn-x" type="button" aria-label="Close details">Close</button></div>
 <div class="sn-g"><div><h4>Functionality</h4><p>${e.f}</p></div><div><h4>Working principle</h4><p>${e.w}</p></div></div>
-<div class="sn-m"><div><b>Signal to ECM</b> ${e.sg}</div><div><b>If it fails</b> ${e.x}</div></div>
-<p class="sn-more small muted">More sensor types and comparisons in <a href="#sensors">Chapter 4 · Sensors</a>.</p>`;
+<div class="sn-m"><div><b>${e.a?'Drive from ECM':'Signal to ECM'}</b> ${e.sg}</div><div><b>If it fails</b> ${e.x}</div></div>
+${e.a?'':'<p class="sn-more small muted">More sensor types and comparisons in <a href="#sensors">Chapter 4 · Sensors</a>.</p>'}`;
   d.querySelector('.sn-x').onclick=()=>{const i=emsSel;emsSel=-1;drawEms();const g=$(`#dg-ems .sn[data-i="${i}"]`);if(g)g.focus()};
 }
 function drawEms(){
@@ -2034,7 +2070,7 @@ function drawEms(){
   sens.forEach((a,i)=>{const y=14+i*46;s+=P(`M190 ${y+19} H286`,'flow','marker-end="url(#ahs)"')});
   act.forEach((a,i)=>{const y=14+i*46;s+=P(`M490 ${y+19} H586`,'flow','marker-end="url(#ahs)"')});
   sens.forEach((a,i)=>s+=`<g class="sn${i===emsSel?' sel':''}" tabindex="0" role="button" data-i="${i}" aria-pressed="${i===emsSel}" aria-label="${a[0]}: show function and working principle">${B(10,14+i*46,180,38,a[0],a[1])}</g>`);
-  act.forEach((a,i)=>s+=B(590,14+i*46,180,38,a[0],a[1]));
+  act.forEach((a,i)=>{const k=i+sens.length;s+=`<g class="sn${k===emsSel?' sel':''}" tabindex="0" role="button" data-i="${k}" aria-pressed="${k===emsSel}" aria-label="${a[0]}: show function and working principle">${B(590,14+i*46,180,38,a[0],a[1])}</g>`});
   s+=`<rect class="blk acc" x="290" y="10" width="200" height="324" rx="8"/>`+T(390,32,'Engine Control Module','t','middle');
   s+=B(305,46,170,74,'Input conditioning','ADC · filtering|clamp · debounce');
   s+=B(305,142,170,92,'Microcontroller','fuel & spark maps|lambda closed loop|knock control');
