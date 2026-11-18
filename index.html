@@ -139,6 +139,22 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 .dg .flow.off{opacity:0}
 .dg .ah{fill:var(--rule-2)} .dg .ahs{fill:var(--signal)}
 @keyframes flow{to{stroke-dashoffset:-14}}
+#dg-ems .sn{cursor:pointer}
+#dg-ems .sn:focus{outline:none}
+#dg-ems .sn:hover .blk,#dg-ems .sn:focus-visible .blk{stroke:var(--signal);stroke-width:2}
+#dg-ems .sn.sel .blk{fill:var(--signal-soft);stroke:var(--signal);stroke-width:2.4}
+.sn-d{padding:16px;border-top:1px solid var(--rule);background:var(--paper)}
+.sn-hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.sn-hd h3{margin:0;font-size:17px}
+.sn-ty{font:500 11.5px var(--f-mono);color:var(--ink-2);letter-spacing:.04em}
+.sn-x{margin-left:auto}
+.sn-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 24px;margin-top:10px}
+.sn-g h4{margin:6px 0 4px;font:600 11px var(--f-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--ch-ink,var(--ink-2))}
+.sn-g p{margin:0;font-size:14.5px}
+.sn-m{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px 24px;margin-top:14px}
+.sn-m div{border-left:3px solid var(--ch,var(--accent));padding:4px 0 4px 10px;font-size:13.5px;color:var(--ink-2)}
+.sn-m b{display:block;font:600 11px var(--f-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--ink);margin-bottom:2px}
+.sn-more{margin:12px 0 0}
 .vstage{cursor:pointer}
 .vstage:hover rect{stroke:var(--signal)}
 
@@ -426,7 +442,8 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 1.2</b> · ECM block diagram: sensors → processing → actuators</span></div>
     <div class="fig-b scroll"><div id="dg-ems"></div></div>
-    <div class="fig-f">Arrows animate in the direction of signal flow. The ECM also shares torque, speed and fault status on CAN with the transmission, ESC and instrument cluster.</div>
+    <div class="fig-f">Arrows animate in the direction of signal flow. The ECM also shares torque, speed and fault status on CAN with the transmission, ESC and instrument cluster. <b>Click any sensor</b> to see what it does and how it works.</div>
+    <div class="sn-d" id="ems-sn" aria-live="polite" hidden></div>
   </figure>
 
   <div class="cols">
@@ -1963,13 +1980,60 @@ const mount=(id,w,h,inner,label)=>{$('#'+id).innerHTML=`<svg class="dg" viewBox=
 })();
 
 /* ---------- EMS ---------- */
-(function(){
+const EMS_SN=[
+ {n:'Crankshaft position sensor',t:'Inductive (variable reluctance) or Hall-effect',
+  f:'The ECM\'s master clock. It measures engine speed and the exact crank angle, and the gap in the trigger wheel marks the TDC reference for cylinder 1. Every injection and ignition event is scheduled from this signal.',
+  w:'The sensor faces a steel trigger wheel with 60−2 teeth (6° per tooth) on the crankshaft or flywheel. In the <b>inductive</b> type, a permanent magnet and a coil sit behind a soft-iron pole pin; each passing tooth changes the magnetic flux and induces an AC voltage whose frequency and amplitude rise with speed. The two missing teeth produce a longer, larger period that the ECM recognises as the reference mark. The <b>Hall-effect</b> type outputs a clean square wave and works down to almost zero speed, which start-stop systems need to know where the engine stopped.',
+  sg:'Inductive: AC sine-like, a few hundred mV at cranking up to tens of volts at high rpm. Hall: 0/5 V digital square wave.',
+  x:'No speed or angle signal: on most systems the engine stalls and will not restart.'},
+ {n:'Camshaft position sensor',t:'Hall-effect',
+  f:'The crank turns twice per combustion cycle, so crank angle alone cannot tell the compression stroke from the exhaust stroke. The cam sensor resolves this, enabling sequential injection and cylinder-selective knock control. With variable valve timing it also measures the actual cam phase so the ECM can close the loop on the VVT solenoid.',
+  w:'A Hall IC sits next to a trigger wheel on the camshaft, which turns at half crank speed. When current flows through the Hall element and a magnetic field passes through it at right angles, a small Hall voltage appears across it. The teeth of the trigger wheel change the field, and an integrated Schmitt trigger turns the Hall voltage into a square wave. Segmented "quick-start" wheels let the ECM identify the cylinder within a fraction of a revolution, shortening cranking time.',
+  sg:'Digital square wave (0/5 V or open-collector), one or more edges per cam revolution.',
+  x:'Engine usually still runs on crank signal with group or batch injection; VVT is disabled and starting takes longer.'},
+ {n:'Air-mass / manifold-pressure sensor',t:'Hot-film anemometer (MAF) or piezoresistive (MAP)',
+  f:'Measures how much air the engine is drawing in, which is the engine load. Air mass per cylinder divided by the target air–fuel ratio gives the base fuel quantity, and load is one axis of the ignition and other calibration maps.',
+  w:'The <b>hot-film air-mass meter</b> (HFM) places a micromachined silicon chip in a bypass channel of the intake. A heater in the centre of a thin diaphragm is held at a fixed temperature above the incoming air, with temperature sensors upstream and downstream of it. Flowing air cools the upstream side and carries heat to the downstream side; the temperature difference gives the air mass and its direction, so pulsating back-flow is not counted twice. The <b>MAP sensor</b> instead measures absolute manifold pressure: a silicon diaphragm over a vacuum reference chamber flexes with pressure, and piezoresistors in a Wheatstone bridge convert the strain to a voltage. The ECM then calculates air mass from pressure, rpm, intake temperature and a volumetric-efficiency map (speed–density).',
+  sg:'MAF: analog 0–5 V or a digital frequency/SENT signal. MAP: ratiometric analog, typically 0.5–4.5 V.',
+  x:'ECM switches to a substitute load from throttle angle and rpm; drivability, power and emissions suffer.'},
+ {n:'Throttle and pedal position sensors',t:'Redundant potentiometer or contactless Hall/inductive',
+  f:'With drive-by-wire there is no cable: the pedal module tells the ECM what the driver wants, and the throttle-body sensor reports where the throttle plate actually is so the ECM can position it with the H-bridge motor. Both are safety-relevant, so each has two independent sensors.',
+  w:'Older modules use <b>potentiometers</b>: a wiper slides over a resistive track fed with 5 V, giving a voltage proportional to angle. Newer ones are <b>contactless</b>: a magnet on the shaft rotates over a Hall IC (or a coil arrangement in inductive sensors) that measures the field angle, so there is no wear. Two channels are always fitted, either with opposite slopes or one at half the voltage of the other. The ECM checks continuously that both agree; if they do not, it treats the signal as implausible.',
+  sg:'Two analog voltages (e.g. 0.5–4.5 V and its mirror or half), or digital SENT on newer parts.',
+  x:'Limp-home: torque is limited and the throttle drops to a spring-held position slightly above idle so the car can be driven slowly.'},
+ {n:'Coolant temperature sensor',t:'NTC thermistor',
+  f:'Tells the ECM how warm the engine is. It drives cold-start enrichment, idle speed, ignition timing during warm-up, the moment closed-loop lambda control is enabled, the radiator fan and the temperature gauge.',
+  w:'A negative-temperature-coefficient (NTC) semiconductor resistor sits in a brass housing screwed into the coolant passage. Its resistance falls steeply as temperature rises, from several kΩ when cold to a few hundred Ω at operating temperature. The ECM connects it in series with a fixed pull-up resistor to its 5 V reference and reads the voltage at the junction, then converts it to temperature with a look-up table, because the curve is strongly non-linear.',
+  sg:'Analog voltage, high when cold (near 5 V) and low when hot.',
+  x:'ECM uses a substitute value (about 80–90 °C), usually runs the fan continuously; cold starts become poor.'},
+ {n:'Lambda (oxygen) sensor',t:'Zirconia solid electrolyte, wideband or two-step',
+  f:'Measures the residual oxygen in the exhaust and so the actual air–fuel ratio. The sensor before the catalyst closes the fuel control loop, trimming injection to hold λ = 1 where the three-way catalyst works best. The sensor after the catalyst checks catalyst health for OBD.',
+  w:'Zirconium dioxide (ZrO<sub>2</sub>) conducts oxygen ions once it is hotter than about 350 °C, so a built-in heater brings it to around 700–800 °C within seconds. In a <b>two-step (switching)</b> sensor, the ceramic separates exhaust gas from reference air; the oxygen difference creates a Nernst voltage that jumps sharply at λ = 1, from about 0.8–0.9 V when rich to about 0.1 V when lean. A <b>wideband (planar LSU)</b> sensor adds a pump cell: the ECM pumps oxygen ions into or out of a small measuring chamber to hold the Nernst cell at 450 mV, and the pump current needed is a direct measure of λ over a wide range, from rich to pure air.',
+  sg:'Two-step: 0.1–0.9 V switching. Wideband: pump current (mA) measured by a dedicated interface IC, reported as λ.',
+  x:'Fuel control runs open-loop from maps, emissions rise and the MIL lights.'},
+ {n:'Knock sensor',t:'Piezoelectric accelerometer',
+  f:'Detects knock (uncontrolled self-ignition of the end gas), which can damage pistons within seconds. Knock control lets the calibration run ignition close to the knock limit for best efficiency, retarding only the cylinder that knocks, only when it knocks.',
+  w:'The sensor is bolted to the cylinder block. Inside, a seismic mass presses on a piezoceramic ring; engine vibration makes the mass push harder or softer, and the ceramic produces a matching charge and voltage. Knock shows up as a characteristic high-frequency vibration, roughly 5–20 kHz depending on bore size. The ECM band-pass filters the signal, looks only in a crank-angle window after each cylinder\'s TDC (using the crank and cam signals), integrates it and compares it with an adaptive background noise level. When a cylinder knocks, its ignition is retarded by a few degrees, then advanced back step by step.',
+  sg:'Broadband AC voltage proportional to vibration; amplitude depends on mounting torque, which is specified.',
+  x:'ECM retards ignition across the whole map as a precaution: the engine is safe but loses power and fuel economy.'}];
+let emsSel=-1;
+function emsInfo(){
+  const d=$('#ems-sn');if(!d)return;
+  if(emsSel<0){d.hidden=true;d.innerHTML='';return}
+  const e=EMS_SN[emsSel];d.hidden=false;
+  d.innerHTML=`<div class="sn-hd"><h3>${e.n}</h3><span class="sn-ty">${e.t}</span><button class="btn sn-x" type="button" aria-label="Close sensor details">Close</button></div>
+<div class="sn-g"><div><h4>Functionality</h4><p>${e.f}</p></div><div><h4>Working principle</h4><p>${e.w}</p></div></div>
+<div class="sn-m"><div><b>Signal to ECM</b> ${e.sg}</div><div><b>If it fails</b> ${e.x}</div></div>
+<p class="sn-more small muted">More sensor types and comparisons in <a href="#sensors">Chapter 4 · Sensors</a>.</p>`;
+  d.querySelector('.sn-x').onclick=()=>{const i=emsSel;emsSel=-1;drawEms();const g=$(`#dg-ems .sn[data-i="${i}"]`);if(g)g.focus()};
+}
+function drawEms(){
   let s='';
   const sens=[['Crankshaft position','speed · TDC'],['Camshaft position','cylinder ID'],['MAF / MAP','air mass · load'],['Throttle / pedal','position'],['Coolant temperature','warm-up'],['Lambda sensor','AFR feedback'],['Knock sensor','detonation']];
   const act=[['Fuel injectors','pulse width'],['Ignition coils','dwell · advance'],['Electronic throttle','H-bridge motor'],['VVT solenoid','cam phasing'],['EGR valve','NOx control'],['Fuel pump','rail pressure'],['Purge valve','EVAP canister']];
   sens.forEach((a,i)=>{const y=14+i*46;s+=P(`M190 ${y+19} H286`,'flow','marker-end="url(#ahs)"')});
   act.forEach((a,i)=>{const y=14+i*46;s+=P(`M490 ${y+19} H586`,'flow','marker-end="url(#ahs)"')});
-  sens.forEach((a,i)=>s+=B(10,14+i*46,180,38,a[0],a[1]));
+  sens.forEach((a,i)=>s+=`<g class="sn${i===emsSel?' sel':''}" tabindex="0" role="button" data-i="${i}" aria-pressed="${i===emsSel}" aria-label="${a[0]}: show function and working principle">${B(10,14+i*46,180,38,a[0],a[1])}</g>`);
   act.forEach((a,i)=>s+=B(590,14+i*46,180,38,a[0],a[1]));
   s+=`<rect class="blk acc" x="290" y="10" width="200" height="324" rx="8"/>`+T(390,32,'Engine Control Module','t','middle');
   s+=B(305,46,170,74,'Input conditioning','ADC · filtering|clamp · debounce');
@@ -1979,7 +2043,10 @@ const mount=(id,w,h,inner,label)=>{$('#'+id).innerHTML=`<svg class="dg" viewBox=
   s+=P('M390 334 V356','can')+T(400,372,'CAN → TCU · ESC · cluster · gateway','lbl');
   s+=T(10,10,'SENSORS','lbl')+T(590,10,'ACTUATORS','lbl');
   mount('dg-ems',780,382,s,'Engine management block diagram');
-})();
+  $$('#dg-ems .sn').forEach(g=>{const f=()=>{const i=+g.dataset.i;emsSel=emsSel===i?-1:i;drawEms();$(`#dg-ems .sn[data-i="${i}"]`).focus();if(emsSel>=0){const d=$('#ems-sn');const r=d.getBoundingClientRect();if(r.bottom>innerHeight)d.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'})}};g.onclick=f;g.onkeydown=k=>{if(k.key==='Enter'||k.key===' '){k.preventDefault();f()}}});
+  emsInfo();
+}
+drawEms();
 
 /* ---------- EV power flow ---------- */
 const evPaths={ac:['M150 44 H190','M265 68 V140'],dc:['M150 124 H170 V188 H190'],bat:['M340 188 H390'],inv:['M520 188 H560'],mot:['M680 188 H720'],whl:['M770 218 V290'],dcdc:['M455 218 V290'],lv:['M520 316 H560']};
