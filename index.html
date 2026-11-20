@@ -393,7 +393,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
     <a href="#adas"><span class="n">CHAPTER 12</span><span class="tt">ADAS &amp; automated driving</span><span class="d">SAE levels, the sense-to-actuate pipeline, sensor coverage, FMCW radar, fusion, AEB time to collision, SOTIF and the 2026 rules.</span><span class="tags"><span>AEB simulator</span><span>Radar chirp</span><span>Sensor coverage</span></span></a>
-    <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">155 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">171 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
     <a href="#about" style="--c:#0ca678"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span><span class="n">ABOUT</span><span class="tt">About me</span><span class="d">Vaishak Rajeev: student intern at BGSW, Bengaluru, with 3.5 years in automotive electronics validation and test automation.</span><span class="tags"><span>Experience</span><span>Projects</span></span></a>
   </div>
   <h2>How to use this guide</h2>
@@ -456,6 +456,229 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <h3>Lambda in one line</h3>
   <p><code>λ = actual AFR ÷ stoichiometric AFR</code>. Stoichiometric AFR is 14.7:1 for petrol, about 14.5:1 for diesel and 17.2:1 for CNG. λ &lt; 1 is rich (excess fuel), λ &gt; 1 is lean (excess air). Use the calculator in Chapter 11 to convert.</p>
 
+
+  <h2 id="twc">Three-way catalytic converter</h2>
+  <p>Every petrol car since the 1990s carries a three-way catalytic converter (TWC) in the exhaust. "Three-way" means it removes three pollutants at once: it oxidises carbon monoxide (CO) and unburnt hydrocarbons (HC), and reduces nitrogen oxides (NOx). It has no moving parts. The work is done by a thin washcoat loaded with platinum, palladium and rhodium, spread over a ceramic honeycomb so the exhaust touches a very large surface area on its way through.</p>
+
+  <style>
+  #cat-fig svg{width:100%;height:auto;display:block;min-width:680px}
+  #cat-fig text{font:500 12.5px var(--f-mono);fill:var(--ink)}
+  #cat-fig text.t{font:600 13px var(--f-mono)}
+  #cat-fig text.s{font-size:11px;fill:var(--ink-2)}
+  #cat-fig .co circle{fill:var(--ch,#e8590c)}
+  #cat-fig .co text{fill:#fff;font:700 12px var(--f-mono);text-anchor:middle}
+  #cat-fig .co line{stroke:var(--ink-2);stroke-width:1.2}
+  #cat-fig [data-part]{transition:opacity .2s;cursor:pointer}
+  #cat-fig svg.sel [data-part]{opacity:.18}
+  #cat-fig svg.sel [data-part].hl{opacity:1}
+  #cat-fig .co.hl circle{fill:var(--ink)}
+  #cat-fig .flow{fill:none;stroke-width:3;stroke-dasharray:10 8;animation:catflow 1.1s linear infinite}
+  #cat-fig.paused .flow{animation-play-state:paused}
+  @keyframes catflow{to{stroke-dashoffset:-36}}
+  @media (prefers-reduced-motion:reduce){#cat-fig .flow{animation:none}}
+  .cat-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px;margin-top:14px}
+  .cat-legend button{display:flex;gap:8px;align-items:center;text-align:left;font:500 12.5px/1.25 var(--f-mono);border:1px solid var(--rule);background:var(--paper);color:var(--ink);padding:7px 9px;border-radius:6px;cursor:pointer}
+  .cat-legend button:hover{border-color:var(--ch,var(--accent))}
+  .cat-legend button[aria-pressed="true"]{border-color:var(--ch,var(--accent));background:var(--sheet);box-shadow:inset 3px 0 0 var(--ch,var(--accent))}
+  .cat-legend .n{flex:none;width:20px;height:20px;border-radius:50%;background:var(--ch,#e8590c);color:#fff;font:700 11px/20px var(--f-mono);text-align:center}
+  .cat-info{margin-top:12px;padding:10px 14px;border:1px solid var(--rule);border-left:3px solid var(--ch,var(--accent));border-radius:8px;background:var(--paper);font-size:14px;min-height:46px}
+  .cat-info b{font-family:var(--f-mono);font-size:13.5px}
+  .rx{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin:14px 0 22px}
+  .rx div{border:1px solid var(--rule);border-radius:8px;background:var(--sheet);padding:10px 14px}
+  .rx h4{margin:0 0 6px;font:600 12px var(--f-mono);color:var(--ink-2)}
+  .rx code{display:block;font:500 13.5px/1.7 var(--f-mono);background:none;padding:0}
+  .cat-gloss{border:1px solid var(--rule);border-radius:10px;background:var(--sheet);margin:16px 0 24px;overflow:hidden}
+  .cat-gloss .gh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--rule)}
+  .cat-gloss .gh b{font:600 13px var(--f-mono)}
+  .cat-gloss .gh a{font:500 12px var(--f-mono);color:var(--ch,var(--accent))}
+  .cat-gloss dl{margin:0;display:grid;grid-template-columns:minmax(150px,210px) 1fr}
+  .cat-gloss dt,.cat-gloss dd{margin:0;padding:9px 16px;border-top:1px solid var(--rule)}
+  .cat-gloss dl > :nth-child(-n+2){border-top:0}
+  .cat-gloss dt{font:600 13px/1.35 var(--f-mono);color:var(--ink)}
+  .cat-gloss dt small{display:block;font:400 11.5px var(--f-mono);color:var(--ink-2);margin-top:2px}
+  .cat-gloss dd{font-size:14px;color:var(--ink)}
+  @media (max-width:620px){.cat-gloss dl{grid-template-columns:1fr}.cat-gloss dd{border-top:0;padding-top:0}}
+  </style>
+
+  <figure class="fig" id="cat-fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 1.3</b> · Parts of a three-way catalytic converter (section view)</span>
+      <div class="ctrls"><button class="btn" id="cat-all">Show all parts</button><button class="btn" id="cat-flow">Pause gas flow</button></div></div>
+    <div class="fig-b scroll">
+      <svg id="cat-svg" viewBox="0 0 900 470" role="img" aria-labelledby="cat-svg-t">
+        <title id="cat-svg-t">Section view of a three-way catalytic converter: upstream lambda sensor, inlet cone, heat shield, steel shell, support mat, two honeycomb substrate bricks, outlet cone and downstream lambda sensor, with a magnified view of the channels showing the washcoat and precious-metal particles.</title>
+        <defs>
+          <pattern id="cat-mat" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#ffd8a8"/><path d="M0 0v6" stroke="#f08c00" stroke-width="2"/></pattern>
+          <linearGradient id="cat-gas" gradientUnits="userSpaceOnUse" x1="14" y1="0" x2="886" y2="0"><stop offset="0" stop-color="#868e96"/><stop offset=".3" stop-color="#e03131"/><stop offset=".72" stop-color="#2f9e44"/><stop offset="1" stop-color="#2f9e44"/></linearGradient>
+          <clipPath id="cat-clipA"><rect x="246" y="88" width="182" height="124" rx="3"/></clipPath>
+          <clipPath id="cat-clipB"><rect x="452" y="88" width="182" height="124" rx="3"/></clipPath>
+        </defs>
+
+        <!-- 3 heat shield -->
+        <g data-part="3"><rect x="220" y="56" width="440" height="188" rx="16" fill="none" stroke="#868e96" stroke-width="2.5" stroke-dasharray="7 5"/></g>
+        <!-- pipes and cones (2, 9) -->
+        <rect x="10" y="130" width="142" height="40" fill="#ced4da" stroke="#495057" stroke-width="2"/>
+        <g data-part="2"><path d="M150 130L230 72V228L150 170Z" fill="#adb5bd" stroke="#495057" stroke-width="2"/></g>
+        <g data-part="9"><path d="M650 72L730 130V170L650 228Z" fill="#adb5bd" stroke="#495057" stroke-width="2"/></g>
+        <rect x="728" y="130" width="162" height="40" fill="#ced4da" stroke="#495057" stroke-width="2"/>
+        <!-- 4 shell -->
+        <g data-part="4"><rect x="228" y="70" width="424" height="160" rx="6" fill="#868e96" stroke="#343a40" stroke-width="2"/></g>
+        <!-- 5 support mat -->
+        <g data-part="5"><rect x="236" y="78" width="408" height="144" rx="4" fill="url(#cat-mat)"/></g>
+        <!-- 6 substrate bricks -->
+        <g data-part="6">
+          <rect x="246" y="88" width="182" height="124" rx="3" fill="#f1f3f5" stroke="#495057" stroke-width="1.5"/>
+          <rect x="452" y="88" width="182" height="124" rx="3" fill="#f1f3f5" stroke="#495057" stroke-width="1.5"/>
+          <g clip-path="url(#cat-clipA)" stroke="#adb5bd" stroke-width="1.6">
+            <path d="M246 96h182M246 104h182M246 112h182M246 120h182M246 128h182M246 136h182M246 144h182M246 152h182M246 160h182M246 168h182M246 176h182M246 184h182M246 192h182M246 200h182M246 208h182"/></g>
+          <g clip-path="url(#cat-clipB)" stroke="#adb5bd" stroke-width="1.6">
+            <path d="M452 96h182M452 104h182M452 112h182M452 120h182M452 128h182M452 136h182M452 144h182M452 152h182M452 160h182M452 168h182M452 176h182M452 184h182M452 192h182M452 200h182M452 208h182"/></g>
+        </g>
+        <!-- gas flow -->
+        <path class="flow" d="M14 150H886" stroke="url(#cat-gas)"/>
+        <text class="s" x="14" y="190">from engine</text>
+        <text x="14" y="206" style="fill:#e03131">CO · HC · NOx</text>
+        <text class="s" x="886" y="190" text-anchor="end">to tailpipe</text>
+        <text x="886" y="206" text-anchor="end" style="fill:#2f9e44">CO₂ · H₂O · N₂</text>
+        <!-- 1 upstream sensor -->
+        <g data-part="1"><path d="M95 62v38" stroke="#495057" stroke-width="2.5" fill="none"/><rect x="85" y="98" width="20" height="24" rx="3" fill="#1c7ed6"/><rect x="89" y="122" width="12" height="14" fill="#495057"/></g>
+        <!-- 10 downstream sensor -->
+        <g data-part="10"><path d="M790 62v38" stroke="#495057" stroke-width="2.5" fill="none"/><rect x="780" y="98" width="20" height="24" rx="3" fill="#0c8599"/><rect x="784" y="122" width="12" height="14" fill="#495057"/></g>
+        <!-- magnifier ring on substrate -->
+        <g data-part="6"><circle cx="560" cy="150" r="20" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="4 3"/><path d="M548 168L470 290M574 166L640 290" stroke="var(--ink-2)" stroke-width="1.2" stroke-dasharray="4 3"/></g>
+
+        <!-- callouts -->
+        <g data-part="1" class="co"><line x1="105" y1="104" x2="132" y2="58"/><circle cx="140" cy="48" r="12"/><text x="140" y="52">1</text></g>
+        <g data-part="2" class="co"><line x1="188" y1="200" x2="176" y2="240"/><circle cx="172" cy="250" r="12"/><text x="172" y="254">2</text></g>
+        <g data-part="3" class="co"><line x1="262" y1="56" x2="262" y2="38"/><circle cx="262" cy="26" r="12"/><text x="262" y="30">3</text></g>
+        <g data-part="4" class="co"><line x1="322" y1="72" x2="322" y2="38"/><circle cx="322" cy="26" r="12"/><text x="322" y="30">4</text></g>
+        <g data-part="5" class="co"><line x1="382" y1="82" x2="382" y2="38"/><circle cx="382" cy="26" r="12"/><text x="382" y="30">5</text></g>
+        <g data-part="6" class="co"><line x1="500" y1="96" x2="500" y2="38"/><circle cx="500" cy="26" r="12"/><text x="500" y="30">6</text></g>
+        <g data-part="9" class="co"><line x1="694" y1="200" x2="708" y2="240"/><circle cx="712" cy="250" r="12"/><text x="712" y="254">9</text></g>
+        <g data-part="10" class="co"><line x1="800" y1="104" x2="826" y2="58"/><circle cx="834" cy="48" r="12"/><text x="834" y="52">10</text></g>
+
+        <!-- inset: magnified channels -->
+        <rect x="400" y="290" width="490" height="170" rx="10" fill="var(--paper)" stroke="var(--rule-2)"/>
+        <text class="s" x="412" y="309">magnified: channels seen end-on (each ≈ 1 mm wide)</text>
+        <g transform="translate(420 322)">
+          <g data-part="6"><rect width="196" height="128" fill="#adb5bd"/></g>
+          <g data-part="7">
+            <rect x="8" y="8" width="56" height="52" rx="10" fill="#e9c46a"/><rect x="72" y="8" width="56" height="52" rx="10" fill="#e9c46a"/><rect x="136" y="8" width="52" height="52" rx="10" fill="#e9c46a"/>
+            <rect x="8" y="68" width="56" height="52" rx="10" fill="#e9c46a"/><rect x="72" y="68" width="56" height="52" rx="10" fill="#e9c46a"/><rect x="136" y="68" width="52" height="52" rx="10" fill="#e9c46a"/>
+          </g>
+          <g fill="var(--sheet)">
+            <rect x="15" y="15" width="42" height="38" rx="6"/><rect x="79" y="15" width="42" height="38" rx="6"/><rect x="143" y="15" width="38" height="38" rx="6"/>
+            <rect x="15" y="75" width="42" height="38" rx="6"/><rect x="79" y="75" width="42" height="38" rx="6"/><rect x="143" y="75" width="38" height="38" rx="6"/>
+          </g>
+          <g data-part="8">
+            <g fill="#495057"><circle cx="20" cy="13" r="2.4"/><circle cx="40" cy="12" r="2.4"/><circle cx="11" cy="34" r="2.4"/><circle cx="60" cy="40" r="2.4"/><circle cx="90" cy="12" r="2.4"/><circle cx="124" cy="30" r="2.4"/><circle cx="76" cy="46" r="2.4"/><circle cx="150" cy="56" r="2.4"/><circle cx="184" cy="22" r="2.4"/><circle cx="30" cy="117" r="2.4"/><circle cx="62" cy="88" r="2.4"/><circle cx="104" cy="117" r="2.4"/><circle cx="139" cy="96" r="2.4"/><circle cx="170" cy="72" r="2.4"/></g>
+            <g fill="#e64980"><circle cx="30" cy="56" r="2.4"/><circle cx="11" cy="20" r="2.4"/><circle cx="108" cy="56" r="2.4"/><circle cx="160" cy="12" r="2.4"/><circle cx="11" cy="92" r="2.4"/><circle cx="46" cy="72" r="2.4"/><circle cx="124" cy="84" r="2.4"/><circle cx="170" cy="117" r="2.4"/><circle cx="184" cy="88" r="2.4"/></g>
+          </g>
+        </g>
+        <g data-part="6" class="co"><line x1="618" y1="355" x2="640" y2="342"/><circle cx="652" cy="336" r="11"/><text x="652" y="340">6</text></g>
+        <text x="670" y="340">channel wall</text>
+        <g data-part="7" class="co"><line x1="602" y1="378" x2="640" y2="372"/><circle cx="652" cy="372" r="11"/><text x="652" y="376">7</text></g>
+        <text x="670" y="376">washcoat</text>
+        <g data-part="8" class="co"><line x1="606" y1="408" x2="640" y2="408"/><circle cx="652" cy="408" r="11"/><text x="652" y="412">8</text></g>
+        <text x="670" y="404">precious metals</text>
+        <circle cx="674" cy="421" r="3.5" fill="#495057"/><text class="s" x="682" y="425">Pt / Pd</text><circle cx="744" cy="421" r="3.5" fill="#e64980"/><text class="s" x="752" y="425">Rh</text>
+        <text class="s" x="670" y="442">open channel: gas flows</text><text class="s" x="670" y="455">into the page</text>
+
+        <!-- sensor signals panel -->
+        <rect x="10" y="290" width="374" height="170" rx="10" fill="var(--paper)" stroke="var(--rule-2)"/>
+        <text class="s" x="22" y="309">lambda sensor signals, healthy catalyst</text>
+        <g data-part="1"><text x="22" y="340" style="fill:#1c7ed6">1 upstream</text>
+          <path d="M130 336l14-16 14 32 14-32 14 32 14-32 14 32 14-32 14 32 14-32 14 32 14-32 14 32 14-32 14 32 14-16" fill="none" stroke="#1c7ed6" stroke-width="2"/></g>
+        <g data-part="10"><text x="22" y="398" style="fill:#0c8599">10 downstream</text>
+          <path d="M130 394c20-2 40 2 60 0s40 2 60 0 40-2 60 0 40 1 60 0" fill="none" stroke="#0c8599" stroke-width="2"/></g>
+        <text class="s" x="22" y="424">ceria in the washcoat absorbs the swings,</text>
+        <text class="s" x="22" y="438">so the rear signal stays flat. A worn</text>
+        <text class="s" x="22" y="452">catalyst lets it copy the front one.</text>
+      </svg>
+      <div class="cat-legend" id="cat-legend" role="group" aria-label="Catalytic converter parts">
+        <button data-part="1" aria-pressed="false"><span class="n">1</span>Upstream lambda sensor</button>
+        <button data-part="2" aria-pressed="false"><span class="n">2</span>Inlet cone</button>
+        <button data-part="3" aria-pressed="false"><span class="n">3</span>Heat shield</button>
+        <button data-part="4" aria-pressed="false"><span class="n">4</span>Steel shell</button>
+        <button data-part="5" aria-pressed="false"><span class="n">5</span>Support mat</button>
+        <button data-part="6" aria-pressed="false"><span class="n">6</span>Honeycomb substrate</button>
+        <button data-part="7" aria-pressed="false"><span class="n">7</span>Washcoat</button>
+        <button data-part="8" aria-pressed="false"><span class="n">8</span>Precious metals</button>
+        <button data-part="9" aria-pressed="false"><span class="n">9</span>Outlet cone</button>
+        <button data-part="10" aria-pressed="false"><span class="n">10</span>Downstream lambda sensor</button>
+      </div>
+      <div class="cat-info" id="cat-info" aria-live="polite">Click a part, in the drawing or in the list, to highlight it and read what it does.</div>
+    </div>
+    <div class="fig-f">Section view, not to scale. Gas colour changes from red (raw exhaust) to green (cleaned) as it passes through the two substrate bricks. Many cars have the front brick close-coupled to the exhaust manifold and the second brick under the floor.</div>
+  </figure>
+
+  <h3>The three reactions</h3>
+  <div class="rx">
+    <div><h4>Oxidation · mostly Pt and Pd</h4><code>2 CO + O₂ → 2 CO₂</code><code>CₓHᵧ + (x + y/4) O₂ → x CO₂ + (y/2) H₂O</code></div>
+    <div><h4>Reduction · mostly Rh</h4><code>2 NO + 2 CO → N₂ + 2 CO₂</code><code>2 NO + 2 H₂ → N₂ + 2 H₂O</code></div>
+  </div>
+  <p>Oxidation needs spare oxygen and reduction needs a shortage of it, so the two only work together in a narrow band around λ = 1. A little rich and NOx is converted but CO and HC slip through. A little lean and it is the other way round. That is why a petrol ECM fights so hard to hold λ = 1, and why the oxygen-storing ceria in the washcoat matters: it smooths out the short swings the closed loop cannot avoid.</p>
+
+  <div class="cols">
+    <div><h3>Cold start and light-off</h3><p>A cold catalyst does almost nothing. Most of a modern car's test-cycle emissions come out in the first minute, before the substrate reaches light-off. The ECM speeds this up with retarded ignition and a raised idle speed, which push heat into the exhaust. Some engines also use secondary air injection or an electrically heated catalyst.</p></div>
+    <div><h3>Protecting the catalyst</h3><p>Unburnt fuel from a misfiring cylinder burns inside the substrate and can overheat or even melt it. This is one reason OBD misfire detection exists: the ECM can cut injection to the misfiring cylinder. Lead, and phosphorus or zinc from burnt engine oil, coat the active sites and poison the catalyst permanently.</p></div>
+    <div><h3>OBD monitoring</h3><p>The downstream lambda sensor checks the catalyst's oxygen storage. When the catalyst is healthy the rear signal stays steady. When the storage is used up, the rear signal starts to follow the front one, and the ECM sets P0420 (catalyst efficiency below threshold, bank 1).</p></div>
+  </div>
+
+  <div class="cat-gloss" id="cat-gloss">
+    <div class="gh"><b>Catalytic converter glossary</b><a href="#glossary" data-q="catalyst">Search all catalyst terms in Chapter 13 →</a></div>
+    <dl>
+      <dt>TWC<small>Three-way catalyst</small></dt><dd>Exhaust catalyst that oxidises CO and HC and reduces NOx at the same time. It needs the mixture held at λ ≈ 1.</dd>
+      <dt>Stoichiometric</dt><dd>The air–fuel ratio at which there is exactly enough oxygen to burn all the fuel: 14.7 : 1 by mass for petrol, which is λ = 1.</dd>
+      <dt>Lambda window</dt><dd>The narrow band around λ = 1, roughly ±1 %, in which a TWC converts all three pollutants at high efficiency.</dd>
+      <dt>Substrate<small>Monolith, brick</small></dt><dd>Honeycomb carrier with thousands of thin parallel channels. It is usually cordierite ceramic, sometimes metal foil. It gives a large surface area with low back-pressure.</dd>
+      <dt>Cell density<small>cpsi</small></dt><dd>Channels per square inch of substrate face, typically 400–900. Higher density gives more surface and faster light-off, but more back-pressure.</dd>
+      <dt>Washcoat</dt><dd>Porous coating of alumina and ceria–zirconia on the channel walls. It multiplies the surface area and holds the precious metals.</dd>
+      <dt>PGM<small>Platinum group metals</small></dt><dd>Platinum, palladium and rhodium, dispersed as tiny particles in the washcoat. Pt and Pd mainly oxidise CO and HC. Rh mainly reduces NOx.</dd>
+      <dt>OSC<small>Oxygen storage capacity</small></dt><dd>The ability of ceria in the washcoat to store oxygen when the exhaust is lean and release it when rich. It buffers short λ swings, and its loss with age is what OBD measures.</dd>
+      <dt>Light-off temperature<small>T50</small></dt><dd>Temperature at which the catalyst reaches 50 % conversion, typically about 250–300 °C.</dd>
+      <dt>Support mat<small>Intumescent mat</small></dt><dd>Fibre mat wrapped around the substrate. It holds the brittle ceramic in the shell, absorbs vibration and insulates. Intumescent types expand when first heated to grip tighter.</dd>
+      <dt>Canning</dt><dd>The process of wrapping the substrate in its mat and sealing it inside the steel shell.</dd>
+      <dt>Close-coupled catalyst</dt><dd>Catalyst mounted right at the exhaust manifold or turbo outlet so it heats up and lights off quickly. An underfloor catalyst sits further back.</dd>
+      <dt>Catalyst monitor</dt><dd>OBD diagnostic that compares the upstream and downstream lambda signals to judge oxygen storage. Fault code P0420 / P0430 (bank 1 / bank 2).</dd>
+      <dt>Catalyst poisoning</dt><dd>Permanent loss of activity when lead, sulphur, phosphorus or silicon compounds coat the active sites.</dd>
+      <dt>Thermal ageing</dt><dd>Loss of activity when the precious-metal particles sinter into larger ones at very high temperature, for example after misfires.</dd>
+      <dt>GPF<small>Gasoline particulate filter</small></dt><dd>Wall-flow filter that traps soot from direct-injection petrol engines. It is often coated with TWC washcoat, which is then called a four-way catalyst.</dd>
+    </dl>
+  </div>
+
+  <script>
+  (()=>{
+  const fig=document.getElementById('cat-fig');if(!fig)return;
+  const svg=document.getElementById('cat-svg'),info=document.getElementById('cat-info'),leg=document.getElementById('cat-legend');
+  const D={
+   1:['Upstream lambda sensor','Wideband (or older two-step) oxygen sensor before the catalyst. Its signal is the feedback for the closed-loop fuel control that holds λ = 1.'],
+   2:['Inlet cone','Diffuser that widens the exhaust flow from the pipe to the full face of the substrate, so every channel gets an even share of gas.'],
+   3:['Heat shield','Outer sheet-metal cover that keeps the 400–900 °C converter from heating the floor pan, fuel lines and anything it is parked over.'],
+   4:['Steel shell','Stainless-steel housing (the "can") that contains the mat and bricks and is welded into the exhaust line.'],
+   5:['Support mat','Fibre mat that grips the brittle ceramic bricks inside the shell, absorbs vibration and thermal expansion, seals against gas bypass and insulates.'],
+   6:['Honeycomb substrate','Cordierite ceramic (or metal foil) monolith with 400–900 channels per square inch. Thin walls give a huge surface area with little back-pressure. Shown here as two bricks.'],
+   7:['Washcoat','Porous alumina and ceria–zirconia layer on the channel walls. It multiplies the surface area and stores oxygen (OSC) to buffer lambda swings.'],
+   8:['Precious metals','Platinum, palladium and rhodium particles in the washcoat. Pt and Pd oxidise CO and HC; Rh reduces NOx to N₂.'],
+   9:['Outlet cone','Collects the cleaned gas from the substrate and narrows it back into the exhaust pipe.'],
+   10:['Downstream lambda sensor','Monitor sensor after the catalyst. It checks oxygen storage for OBD and gives a slow trim to the upstream loop.']};
+  let cur=null;
+  function sel(p){
+    cur=(p&&cur!==p)?p:null;
+    svg.classList.toggle('sel',!!cur);
+    svg.querySelectorAll('[data-part]').forEach(g=>g.classList.toggle('hl',g.dataset.part===cur));
+    leg.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.part===cur));
+    info.innerHTML=cur?`<b>${cur} · ${D[cur][0]}</b> — ${D[cur][1]}`:'Click a part, in the drawing or in the list, to highlight it and read what it does.';
+  }
+  svg.addEventListener('click',e=>{const g=e.target.closest('[data-part]');sel(g?g.dataset.part:null)});
+  leg.addEventListener('click',e=>{const b=e.target.closest('button');if(b)sel(b.dataset.part)});
+  document.getElementById('cat-all').onclick=()=>{cur=null;sel(null)};
+  const fb=document.getElementById('cat-flow');
+  fb.onclick=()=>{const p=fig.classList.toggle('paused');fb.textContent=p?'Play gas flow':'Pause gas flow'};
+  const ga=document.querySelector('#cat-gloss a[data-q]');
+  ga.addEventListener('click',()=>{setTimeout(()=>{const q=document.getElementById('gl-q');if(q){q.value=ga.dataset.q;q.dispatchEvent(new Event('input'))}},0)});
+  })();
+  </script>
+
   <h2>Petrol vs diesel electronics</h2>
   <div class="tbl"><table>
     <thead><tr><th>Aspect</th><th>Petrol (SI)</th><th>Diesel (CI)</th></tr></thead>
@@ -473,6 +696,8 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <li>Fuel mass = air mass ÷ target AFR, then corrected by lambda feedback.</li>
     <li>Spark advance comes from an rpm × load map; knock control retards it.</li>
     <li>TWC needs λ ≈ 1. Diesel runs lean and needs DPF + SCR instead.</li>
+    <li>TWC build: steel shell → support mat → honeycomb substrate → washcoat (alumina + ceria) → Pt/Pd oxidise CO and HC, Rh reduces NOx.</li>
+    <li>Downstream lambda sensor = catalyst monitor: a flat rear signal means good oxygen storage; a rear signal copying the front one sets P0420.</li>
     <li>Electronic throttle: pedal → torque request → throttle position, with redundant sensors (safety relevant).</li>
   </ol></div>
 </section>
@@ -3058,6 +3283,22 @@ if(!$('#gl-list'))return;
 const CH={ice:'01 IC engines',ev:'02 Electric vehicles',ecus:'03 ECUs',sensors:'04 Sensors & actuators',power:'05 Electrical system',chassis:'06 Chassis & safety',networks:'07 Networks & diagnostics',sdv:'08 Software-defined vehicle',process:'09 Development process',security:'10 Cybersecurity',tools:'11 Calculators',adas:'12 ADAS & automated driving'};
 // [term, expansion, category, chapter, definition]
 const G=[
+['TWC / Three-way catalyst','Three-way catalytic converter','Powertrain','ice','Exhaust catalyst that oxidises CO and HC and reduces NOx at the same time; needs the mixture held at λ ≈ 1.'],
+['Stoichiometric','','Powertrain','ice','Air–fuel ratio with exactly enough oxygen to burn all the fuel: 14.7 : 1 by mass for petrol, which is λ = 1 and the target for a three-way catalyst.'],
+['Lambda window','','Powertrain','ice','Narrow band around λ = 1, roughly ±1 %, in which a three-way catalyst converts CO, HC and NOx at high efficiency.'],
+['Substrate / Monolith','Catalyst brick','Powertrain','ice','Honeycomb carrier, usually cordierite ceramic or metal foil, with thousands of parallel channels that give a large surface area at low back-pressure.'],
+['Cell density (cpsi)','Cells per square inch','Powertrain','ice','Number of channels per square inch of a catalyst substrate face, typically 400–900; more cells give more surface and faster light-off but more back-pressure.'],
+['Washcoat','','Powertrain','ice','Porous alumina and ceria–zirconia coating on the catalyst substrate channel walls that multiplies the surface area and holds the precious metals.'],
+['PGM','Platinum group metals','Powertrain','ice','Platinum, palladium and rhodium in the catalyst washcoat; Pt and Pd mainly oxidise CO and HC, Rh mainly reduces NOx.'],
+['OSC','Oxygen storage capacity','Powertrain','ice','Ability of ceria in the catalyst washcoat to store oxygen when lean and release it when rich, buffering λ swings; its loss with age is what OBD measures.'],
+['Light-off','Light-off temperature (T50)','Powertrain','ice','Temperature at which a catalyst reaches 50 % conversion, typically about 250–300 °C; most cold-start emissions happen before it.'],
+['Support mat','Intumescent mat','Powertrain','ice','Fibre mat that holds the catalyst substrate inside the steel shell, absorbs vibration and insulates; intumescent types expand when first heated.'],
+['Canning','','Powertrain','ice','Wrapping the catalyst substrate in its support mat and sealing it inside the steel shell.'],
+['Close-coupled catalyst','','Powertrain','ice','Catalyst mounted at the exhaust manifold or turbo outlet so it heats up and lights off quickly.'],
+['Catalyst monitor','','Powertrain','ice','OBD diagnostic that compares upstream and downstream lambda signals to judge oxygen storage; fault codes P0420 / P0430.'],
+['Catalyst poisoning','','Powertrain','ice','Permanent loss of catalyst activity when lead, sulphur, phosphorus or silicon compounds coat the active sites.'],
+['Thermal ageing','','Powertrain','ice','Loss of catalyst activity when precious-metal particles sinter into larger ones at very high temperature, for example after misfires.'],
+['GPF','Gasoline particulate filter','Powertrain','ice','Wall-flow filter that traps soot from direct-injection petrol engines; with a TWC washcoat it is called a four-way catalyst.'],
 ['ODD','Operational design domain','ADAS','adas','The conditions an automated driving function is designed and approved for: road types, speed range, weather, lighting and geography. Outside its ODD the system must not operate.'],
 ['SOTIF','Safety of the intended functionality (ISO 21448)','ADAS','adas','Safety standard for hazards that arise without any fault, from performance limits of sensors and algorithms or from foreseeable misuse.'],
 ['TTC','Time to collision','ADAS','adas','Gap divided by closing speed. AEB and forward-collision warnings trigger on TTC thresholds, typically warning at about 2–3 s and full braking below about 1 s.'],
@@ -3266,7 +3507,7 @@ const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const uniq=[...new Set(alts.map(a=>a.toLowerCase()))].sort((x,y)=>y.length-x.length);
 const re=new RegExp('(?<![\\w-])('+uniq.map(esc).join('|')+')(?![\\w-])','gi');
 const resolve=m=>{const c=map.get(m.toLowerCase());if(!c)return null;const exact=c.find(e=>e.a===m);if(exact)return exact.i;const ci=c.find(e=>!e.cs);return ci?ci.i:null};
-const BAN='svg,script,style,code,pre,input,select,textarea,button,a,h1,.eyebrow,.ref,.nav,.side,.idx,.gl-list,.gl-bar,.gl-az,.gt,.gtip,.cap,.lbl,.badge,.chip,.chips,.frame,.bits,.pdu,.log,.status,.readout,.me-skills,.me-tag,.me-card';
+const BAN='.cat-gloss,.rx,.cat-info,svg,script,style,code,pre,input,select,textarea,button,a,h1,.eyebrow,.ref,.nav,.side,.idx,.gl-list,.gl-bar,.gl-az,.gt,.gtip,.cap,.lbl,.badge,.chip,.chips,.frame,.bits,.pdu,.log,.status,.readout,.me-skills,.me-tag,.me-card';
 document.querySelectorAll('section.view').forEach(sec=>{
   if(sec.id==='home'||sec.id==='glossary')return;
   const seen=new Set();
