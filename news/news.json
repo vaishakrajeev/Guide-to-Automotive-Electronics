@@ -20,7 +20,8 @@
             "Chassis",
             "Engineering centre",
             "Pune"
-          ]
+          ],
+          "audio": "news/audio/af8c5a95653b.mp3"
         },
         {
           "date": "2026-11-20",
@@ -34,7 +35,8 @@
             "Virtual validation",
             "AI",
             "India"
-          ]
+          ],
+          "audio": "news/audio/b1b71b11303a.mp3"
         },
         {
           "date": "2026-11-20",
@@ -48,7 +50,8 @@
             "Batteries",
             "Trade show",
             "Bengaluru"
-          ]
+          ],
+          "audio": "news/audio/80f8491183d5.mp3"
         },
         {
           "date": "2026-11-21",
@@ -62,7 +65,8 @@
             "AI",
             "CII",
             "India"
-          ]
+          ],
+          "audio": "news/audio/7e4345eb2fb3.mp3"
         }
       ]
     },
@@ -83,7 +87,8 @@
             "E/E architecture",
             "Low-voltage network",
             "Power electronics"
-          ]
+          ],
+          "audio": "news/audio/ad20af9d0d76.mp3"
         },
         {
           "date": "2026-11-20",
@@ -96,7 +101,8 @@
             "GEN4",
             "Electrification",
             "Valeo"
-          ]
+          ],
+          "audio": "news/audio/4a8d0b6ad2d2.mp3"
         },
         {
           "date": "2026-11-20",
@@ -108,7 +114,8 @@
             "Hybrid powertrain",
             "Multi-pathway platform",
             "Toyota"
-          ]
+          ],
+          "audio": "news/audio/f8897d5c71a7.mp3"
         },
         {
           "date": "2026-11-21",
@@ -120,7 +127,8 @@
             "Power electronics",
             "EVs",
             "Market report"
-          ]
+          ],
+          "audio": "news/audio/c1513e0274db.mp3"
         }
       ]
     },
@@ -142,7 +150,8 @@
             "Acquisition",
             "Foxconn",
             "Sony"
-          ]
+          ],
+          "audio": "news/audio/ef3e0bad3e33.mp3"
         },
         {
           "date": "2026-11-21",
@@ -155,7 +164,8 @@
             "ECU",
             "Engine management",
             "BorgWarner"
-          ]
+          ],
+          "audio": "news/audio/872801349b25.mp3"
         },
         {
           "date": "2026-11-20",
@@ -167,7 +177,8 @@
             "Automotive electronics business",
             "Divestment",
             "Pricol"
-          ]
+          ],
+          "audio": "news/audio/afc64b642cd2.mp3"
         },
         {
           "date": "2026-11-21",
@@ -179,7 +190,8 @@
             "Displays",
             "Vehicle connectivity",
             "PACE Awards"
-          ]
+          ],
+          "audio": "news/audio/24f7954357a5.mp3"
         },
         {
           "date": "2026-11-20",
@@ -191,7 +203,8 @@
             "Lighting",
             "Automotive electronics",
             "PACE Awards"
-          ]
+          ],
+          "audio": "news/audio/74f5335624c3.mp3"
         },
         {
           "date": "2026-11-21",
@@ -204,7 +217,8 @@
             "Electronics manufacturing",
             "Supply chain",
             "Sri Lanka"
-          ]
+          ],
+          "audio": "news/audio/66a22be688f4.mp3"
         }
       ]
     },
@@ -224,7 +238,8 @@
             "Parts standardisation",
             "JAMA",
             "Cost reduction"
-          ]
+          ],
+          "audio": "news/audio/49fa6ce7a3d0.mp3"
         },
         {
           "date": "2026-11-20",
@@ -238,7 +253,8 @@
             "Tata",
             "Honda",
             "Hyundai"
-          ]
+          ],
+          "audio": "news/audio/1223f0d9f08c.mp3"
         },
         {
           "date": "2026-11-20",
@@ -251,7 +267,8 @@
             "Driver assistance",
             "Hybrid",
             "Hyundai"
-          ]
+          ],
+          "audio": "news/audio/20001851b205.mp3"
         }
       ]
     }
