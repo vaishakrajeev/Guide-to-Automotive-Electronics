@@ -21,4 +21,4 @@ Gmail, from `googlealerts-noreply@google.com`. There are two daily alerts: **aut
 7. Set `updated` to today's date (Asia/Kolkata). Make sure the file is valid JSON, then commit with the message `news: update YYYY-MM-DD`.
 
 ## Audio overviews
-Each item's `audio` field points to an MP3 in `news/audio/`. The GitHub Action `.github/workflows/news-audio.yml` generates these with Piper TTS (voice `en_GB-alan-medium`, pitch lowered 6%) after every change to `news.json`. Never add, edit or remove `audio` fields or MP3 files by hand: keep the existing fields as they are, and leave them out of new items. The Action fills them in.
+Each item's `audio` field points to an MP3 in `news/audio/`. The GitHub Action `.github/workflows/news-audio.yml` generates these with Piper TTS (voice `en_GB-northern_english_male-medium`, natural pitch) after every change to `news.json`. Never add, edit or remove `audio` fields or MP3 files by hand: keep the existing fields as they are, and leave them out of new items. The Action fills them in.

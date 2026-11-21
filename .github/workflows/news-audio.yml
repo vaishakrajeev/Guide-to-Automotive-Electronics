@@ -15,7 +15,7 @@ concurrency:
 
 env:
   PIPER_URL: https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz
-  VOICE_BASE: https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_GB/alan/medium/en_GB-alan-medium
+  VOICE_BASE: https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_GB/northern_english_male/medium/en_GB-northern_english_male-medium
 
 jobs:
   audio:
@@ -30,7 +30,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/piper-cache
-          key: piper-2023.11.14-2-en_GB-alan-medium
+          key: piper-2023.11.14-2-en_GB-northern_english_male-medium
 
       - name: Download Piper and voice
         run: |
@@ -38,10 +38,10 @@ jobs:
           [ -x piper/piper ] || curl -sSL "$PIPER_URL" | tar -xz
           [ -f voice.onnx ] || curl -sSL -o voice.onnx "$VOICE_BASE.onnx"
           [ -f voice.onnx.json ] || curl -sSL -o voice.onnx.json "$VOICE_BASE.onnx.json"
-          cp voice.onnx en_GB-alan-medium.onnx; cp voice.onnx.json en_GB-alan-medium.onnx.json
+          cp voice.onnx en_GB-northern_english_male-medium.onnx; cp voice.onnx.json en_GB-northern_english_male-medium.onnx.json
 
       - name: Generate audio
-        run: python3 news/make_audio.py ~/piper-cache/piper/piper ~/piper-cache/en_GB-alan-medium.onnx
+        run: python3 news/make_audio.py ~/piper-cache/piper/piper ~/piper-cache/en_GB-northern_english_male-medium.onnx
 
       - name: Commit audio
         run: |

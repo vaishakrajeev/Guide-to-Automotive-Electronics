@@ -9,7 +9,7 @@ sets item["audio"], and deletes MP3s that no item references any more.
 import hashlib, json, os, subprocess, sys, tempfile
 
 # Pitch factor below 1.0 makes the voice deeper; tempo is compensated so speed stays the same.
-PITCH = 0.94
+PITCH = 1.0
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 JSON = os.path.join(ROOT, "news.json")
@@ -37,7 +37,7 @@ def main(piper, model):
                                     "--length_scale", "1.05", "--sentence_silence", "0.35"],
                                    input=text.encode(), check=True)
                     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", wav,
-                                    "-af", f"asetrate={rate}*{PITCH},aresample={rate},atempo={1/PITCH:.4f},loudnorm=I=-16:TP=-1.5", "-ac", "1",
+                                    "-af", (f"asetrate={rate}*{PITCH},aresample={rate},atempo={1/PITCH:.4f}," if PITCH != 1.0 else "") + "loudnorm=I=-16:TP=-1.5", "-ac", "1",
                                     "-b:a", "64k", path], check=True)
                 made += 1
             item["audio"] = f"news/audio/{name}"
