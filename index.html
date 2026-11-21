@@ -363,6 +363,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <a href="#adas"><span class="n">12</span>ADAS &amp; automated driving</a>
       <a href="#glossary"><span class="n">13</span>Glossary</a>
       <a href="#about"><span class="n">14</span>About me</a>
+      <a href="#news"><span class="n">15</span>Latest news</a>
     </nav>
     <div class="foot">For students and working engineers.<br>Revised Nov 2026.</div>
   </aside>
@@ -394,6 +395,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
     <a href="#adas"><span class="n">CHAPTER 12</span><span class="tt">ADAS &amp; automated driving</span><span class="d">SAE levels, the sense-to-actuate pipeline, sensor coverage, FMCW radar, fusion, AEB time to collision, SOTIF and the 2026 rules.</span><span class="tags"><span>AEB simulator</span><span>Radar chirp</span><span>Sensor coverage</span></span></a>
     <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">171 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#news" style="--c:#e67700"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2h-1"/><path d="M7.5 8.5h6M7.5 12h6M7.5 15.5h4"/></svg></span><span class="n">LATEST NEWS</span><span class="tt">Latest trends</span><span class="d">A daily summary of what is moving in automotive electronics, grouped by trend, with a link to every source.</span><span class="tags"><span>updated daily</span><span>source links</span></span></a>
     <a href="#about" style="--c:#0ca678"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span><span class="n">ABOUT</span><span class="tt">About me</span><span class="d">Vaishak Rajeev: student intern at BGSW, Bengaluru, with 3.5 years in automotive electronics validation and test automation.</span><span class="tags"><span>Experience</span><span>Projects</span></span></a>
   </div>
   <h2>How to use this guide</h2>
@@ -2119,6 +2121,15 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <p class="small muted" id="gl-count"></p>
   <div id="gl-az" class="gl-az" aria-label="Jump to letter"></div>
   <dl id="gl-list" class="gl-list"></dl>
+</section>
+<section class="view" id="news" hidden>
+  <p class="eyebrow"><span class="ch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2h-1"/><path d="M7.5 8.5h6M7.5 12h6M7.5 15.5h4"/></svg></span>Latest news</p>
+  <h1>Latest trends in automotive electronics</h1>
+  <p class="lede">A short summary of recent industry news, grouped into the trends that matter for engineers and students. It is refreshed every day from news alerts. Each story links to the original source, so you can read the full article there.</p>
+  <p class="small muted" id="nw-meta">Loading the latest news…</p>
+  <div class="chips" id="nw-cat" role="group" aria-label="Filter by trend"></div>
+  <div id="nw-list" class="nw-list"></div>
+  <p class="ref" id="nw-note"></p>
 </section>
 <section class="view" id="about" hidden>
   <p class="eyebrow"><span class="ch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span>About the author</p>
@@ -4410,4 +4421,39 @@ drawTp();
 })();
 </script>
 
+<style>
+#news{--ch:#e67700}.nav a[href="#news"] .n{color:#e67700}
+.nw-trend{background:var(--sheet);border:1px solid var(--rule);border-top:4px solid var(--ch);border-radius:10px;padding:18px 20px 6px;margin:18px 0}
+.nw-trend h2{margin:0 0 6px}
+.nw-trend > p{color:var(--ink-2);margin:0 0 10px;max-width:72ch}
+.nw-items{list-style:none;margin:0;padding:0}
+.nw-items li{border-top:1px solid var(--rule);padding:12px 0}
+.nw-items a{font-weight:600;color:var(--ch-ink);text-decoration:none}
+.nw-items a:hover{text-decoration:underline}
+.nw-src{font:12px/1.4 var(--f-mono);color:var(--ink-2);margin:3px 0 4px}
+.nw-items p{margin:0}
+</style>
+<script>
+(function(){
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const url=u=>/^https?:\/\//i.test(u)?u:'#';
+const fmt=d=>{const t=new Date(d+'T00:00:00');return isNaN(t)?d:t.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})};
+let loaded=false;
+function load(){
+  if(loaded||location.hash!=='#news')return;loaded=true;
+  const meta=document.getElementById('nw-meta');
+  fetch('news/news.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(d=>{
+    const n=d.trends.reduce((a,t)=>a+t.items.length,0);
+    meta.textContent='Last updated '+fmt(d.updated)+' · '+n+' stories · '+d.trends.length+' trends';
+    document.getElementById('nw-note').textContent=d.source_note||'';
+    const list=document.getElementById('nw-list');
+    list.innerHTML=d.trends.map(t=>`<div class="nw-trend" data-id="${esc(t.id)}"><h2>${esc(t.title)}</h2><p>${esc(t.summary)}</p><ul class="nw-items">${t.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>`<li><a href="${esc(url(i.url))}" target="_blank" rel="noopener noreferrer">${esc(i.title)}</a><div class="nw-src">${esc(i.source)} · ${fmt(i.date)}</div><p>${esc(i.summary)}</p></li>`).join('')}</ul></div>`).join('');
+    const cat=document.getElementById('nw-cat');
+    cat.innerHTML=[{id:'*',chip:'All'}].concat(d.trends).map((t,k)=>`<button class="ld" data-id="${esc(t.id)}" aria-pressed="${k===0}">${esc(t.chip||t.title)}</button>`).join('');
+    cat.onclick=e=>{const b=e.target.closest('button');if(!b)return;cat.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));list.querySelectorAll('.nw-trend').forEach(x=>x.hidden=b.dataset.id!=='*'&&x.dataset.id!==b.dataset.id)};
+  }).catch(e=>{loaded=false;meta.textContent=location.protocol==='file:'?'The news feed loads when the site is served over the web (GitHub Pages or a local server), not when the file is opened directly.':'Could not load the news feed ('+e.message+'). Please try again later.'});
+}
+addEventListener('hashchange',load);load();
+})();
+</script>
 </body></html>

@@ -1,0 +1,157 @@
+{
+  "updated": "2026-11-22",
+  "source_note": "Curated from Google Alerts for 'automotive electronics' and 'automotive technology'. Summaries are written in our own words; follow the links for the full stories.",
+  "trends": [
+    {
+      "id": "sdv-india",
+      "chip": "SDV & India engineering",
+      "title": "Software-defined vehicles are pulling engineering work into India",
+      "summary": "Global suppliers keep adding Indian engineering capacity for software-defined mobility, cybersecurity and virtual validation. Bengaluru and Pune are where most of it is happening.",
+      "items": [
+        {
+          "date": "2026-11-21",
+          "title": "thyssenkrupp Automotive Technology opens Pune engineering centre, plans 300-plus workforce",
+          "source": "ET Auto",
+          "url": "https://auto.economictimes.indiatimes.com/news/auto-technology/thyssenkrupp-automotive-technology-opens-pune-engineering-centre-plans-300-plus-workforce/134849258",
+          "summary": "The new capability centre already has more than 120 engineers on software-defined mobility, cybersecurity and advanced chassis work, and plans to pass 300."
+        },
+        {
+          "date": "2026-11-20",
+          "title": "SDVs, AI and virtual engineering emerge as key drivers of India's automotive engineering shift",
+          "source": "ET Auto",
+          "url": "https://auto.economictimes.indiatimes.com/news/industry/sdvs-ai-and-virtual-engineering-emerge-as-key-drivers-of-indias-automotive-engineering-shift/135993621",
+          "summary": "Industry speakers describe vehicles that are updated over the air and validated virtually, and what that changes in engineering teams."
+        },
+        {
+          "date": "2026-11-20",
+          "title": "AutoEV Bharat 2026, Bengaluru: A Must-Visit Show for Automotive OEMs",
+          "source": "ELE Times",
+          "url": "https://www.eletimes.ai/autoev-bharat-2026-bengaluru-a-must-visit-show-for-automotive-oems",
+          "summary": "A Bengaluru exhibition covering automotive semiconductors, sensors, batteries and smart manufacturing for OEMs."
+        },
+        {
+          "date": "2026-11-21",
+          "title": "Auto manufacturing needs greater R&D investment to tap next growth phase: CII chairman",
+          "source": "ET Manufacturing",
+          "url": "https://manufacturing.economictimes.indiatimes.com/news/automotive/auto-manufacturing-needs-greater-rd-investment-to-tap-next-growth-phase-cii-chairman/136030212",
+          "summary": "CII argues that electronics, software and AI are converging with mechanical engineering, so Indian suppliers need to spend more on R&D."
+        }
+      ]
+    },
+    {
+      "id": "power-electronics",
+      "chip": "Power electronics",
+      "title": "Power electronics and electrified powertrains",
+      "summary": "Better high-voltage DC/DC conversion, hybrids built for several powertrain options, and Formula E as a test bed for inverter and motor technology.",
+      "items": [
+        {
+          "date": "2026-11-21",
+          "title": "Flex Wins 2026 Automotive News PACE Award for Fully Symmetric HV DC/DC Architecture",
+          "source": "Flex (press release)",
+          "url": "https://investors.flex.com/news/news-details/2026/Flex-Wins-2026-Automotive-News-PACE-Award-for-Fully-Symmetric-HV-DCDC-Architecture/default.aspx",
+          "summary": "The award-winning DC/DC design aims to simplify the vehicle's electrical architecture and reduce dependence on the auxiliary low-voltage network."
+        },
+        {
+          "date": "2026-11-20",
+          "title": "Mahindra Racing strengthens GEN4 technical programme with Valeo as Official Performance and Engineering Partner",
+          "source": "Mahindra (press release)",
+          "url": "https://www.mahindra.com/news-room/press-release/en/mahindra-racing-strengthens-gen4-technical-programme-with-valeo-as-official-performance-and-engineering-partner",
+          "summary": "Valeo brings its electrification know-how to Mahindra's Formula E GEN4 programme."
+        },
+        {
+          "date": "2026-11-20",
+          "title": "Toyota Develops New Hybrid for Future Multi-Pathway Vehicle Platforms",
+          "source": "Electronic Design",
+          "url": "https://www.electronicdesign.com/markets/automotive/article/55420296/electronic-design-toyota-develops-new-hybrid-for-future-multi-pathway-vehicle-platforms",
+          "summary": "Toyota's next hybrid system is designed for platforms that keep several powertrain options open at once."
+        },
+        {
+          "date": "2026-11-21",
+          "title": "Growth of the Automotive Power Electronics Market Driven by EVs",
+          "source": "openPR (market report)",
+          "url": "https://www.openpr.com/news/4695494/growth-of-the-automotive-power-electronics-market-driven",
+          "summary": "A market report linking growth in automotive power electronics to EV adoption. It is promotional, so read the figures with caution."
+        }
+      ]
+    },
+    {
+      "id": "ecu-sensing-supply-chain",
+      "chip": "ECUs & sensing",
+      "title": "ECUs, cameras and the electronics supply chain",
+      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands. Capital needs are pushing smaller players out.",
+      "items": [
+        {
+          "date": "2026-11-20",
+          "title": "Foxconn acquires automotive camera module business from Sony Semiconductor Solutions",
+          "source": "Photonics Spectra",
+          "url": "https://www.photonics.com/Articles/Foxconn-Acquires-Sony-Semiconductor-Solutions/p5/a72783",
+          "summary": "Foxconn (Hon Hai) is buying Sony's automotive camera module business to grow in ADAS sensing. The initial deal is valued at about ¥7.2 billion (~$45 million)."
+        },
+        {
+          "date": "2026-11-21",
+          "title": "BorgWarner Secures Engine Control Module Business With Major Global OEM",
+          "source": "Motorindia",
+          "url": "https://www.motorindiaonline.in/borgwarner-secures-engine-control-module-business-with-major-global-oem/",
+          "summary": "BorgWarner PowerDrive Systems has won an engine control module programme with a large global OEM. Combustion and hybrid ECUs are still a live business."
+        },
+        {
+          "date": "2026-11-20",
+          "title": "Large capital needs, technology shift behind Pricol Autotech exit, says Vikram Mohan",
+          "source": "TradingView",
+          "url": "https://www.tradingview.com/news/moodys:7fa9e71e8c225:0-large-capital-needs-technology-shift-behind-pricol-autotech-exit-says-vikram-mohan/",
+          "summary": "Pricol's promoter family is selling its entire stake, saying the automotive electronics business now needs more capital to stay competitive."
+        },
+        {
+          "date": "2026-11-21",
+          "title": "Marelli secures two honours at 2026 PACE Awards",
+          "source": "Manufacturing Today India",
+          "url": "https://www.manufacturingtodayindia.com/marelli-secures-two-honours-at-2026-pace-awards",
+          "summary": "Marelli won recognition for next-generation display technology and vehicle connectivity."
+        },
+        {
+          "date": "2026-11-20",
+          "title": "FORVIA receives three 2026 Automotive News PACE pilot recognitions",
+          "source": "FORVIA (press release)",
+          "url": "https://www.forvia.com/en/press/forvia-receives-three-2026-automotive-news-pace-pilot-recognitions",
+          "summary": "FORVIA was recognised for work on high-performance lighting and automotive electronics."
+        },
+        {
+          "date": "2026-11-21",
+          "title": "Japan Eyes Sri Lanka For Automotive Electronics Manufacturing",
+          "source": "Electronics For You Business",
+          "url": "https://www.electronicsforyou.biz/industry-buzz/japan-eyes-sri-lanka-for-automotive-electronics-manufacturing/",
+          "summary": "Japanese firms are looking at Sri Lanka as a production base, citing Lanka Harness's export record and spare capacity."
+        }
+      ]
+    },
+    {
+      "id": "platforms-standards",
+      "chip": "Platforms & standards",
+      "title": "Shared platforms and standardisation",
+      "summary": "To cut cost and development time, carmakers are sharing platforms and agreeing on common parts.",
+      "items": [
+        {
+          "date": "2026-11-20",
+          "title": "Toyota, Nissan, Honda back Japan plan to standardize parts, lower costs",
+          "source": "Automotive News",
+          "url": "https://www.autonews.com/toyota/an-japan-industrywide-auto-parts-standardization-1119/",
+          "summary": "Japan's carmakers association (JAMA) proposes industry-wide parts standards. No timeline has been given yet."
+        },
+        {
+          "date": "2026-11-20",
+          "title": "Tata Group draws Honda and Hyundai interest in vehicle and tech sharing",
+          "source": "Team-BHP",
+          "url": "https://www.team-bhp.com/news/tata-group-draws-honda-and-hyundai-interest-vehicle-and-tech-sharing",
+          "summary": "Honda and Hyundai are reported to be exploring platform and technology sharing with Tata."
+        },
+        {
+          "date": "2026-11-20",
+          "title": "2027 Hyundai ELANTRA and 2028 ELANTRA Hybrid Revealed at Los Angeles Auto Show",
+          "source": "PR Newswire",
+          "url": "https://www.prnewswire.com/news-releases/2027-hyundai-elantra-and-2028-elantra-hybrid-revealed-at-los-angeles-auto-show-302945048.html",
+          "summary": "The eighth-generation Elantra adds more connectivity and driver-assistance features."
+        }
+      ]
+    }
+  ]
+}

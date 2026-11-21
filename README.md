@@ -10,6 +10,8 @@ A static, single-page website: no build step, no server code, no database. All d
 | `favicon.svg` | Browser-tab icon |
 | `robots.txt` | Allows search engines to index the site |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
+| `news/news.json` | Data for the Latest News chapter (refreshed daily from Google Alerts) |
+| `news/UPDATING.md` | Rules the daily news update follows |
 
 The only external resource is Google Fonts. Without internet access the page falls back to system fonts and still works.
 
