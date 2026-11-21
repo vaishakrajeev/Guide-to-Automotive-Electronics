@@ -4432,6 +4432,8 @@ drawTp();
 .nw-items a:hover{text-decoration:underline}
 .nw-src{font:12px/1.4 var(--f-mono);color:var(--ink-2);margin:3px 0 4px}
 .nw-items p{margin:0}
+.nw-kw{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.nw-kw span{font:500 11.5px/1 var(--f-mono);padding:4px 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--ch) 45%,transparent);color:var(--ch-ink);background:color-mix(in srgb,var(--ch) 8%,var(--sheet))}
 </style>
 <script>
 (function(){
@@ -4447,7 +4449,7 @@ function load(){
     meta.textContent='Last updated '+fmt(d.updated)+' · '+n+' stories · '+d.trends.length+' trends';
     document.getElementById('nw-note').textContent=d.source_note||'';
     const list=document.getElementById('nw-list');
-    list.innerHTML=d.trends.map(t=>`<div class="nw-trend" data-id="${esc(t.id)}"><h2>${esc(t.title)}</h2><p>${esc(t.summary)}</p><ul class="nw-items">${t.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>`<li><a href="${esc(url(i.url))}" target="_blank" rel="noopener noreferrer">${esc(i.title)}</a><div class="nw-src">${esc(i.source)} · ${fmt(i.date)}</div><p>${esc(i.summary)}</p></li>`).join('')}</ul></div>`).join('');
+    list.innerHTML=d.trends.map(t=>`<div class="nw-trend" data-id="${esc(t.id)}"><h2>${esc(t.title)}</h2><p>${esc(t.summary)}</p><ul class="nw-items">${t.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>`<li><a href="${esc(url(i.url))}" target="_blank" rel="noopener noreferrer">${esc(i.title)}</a><div class="nw-src">${esc(i.source)} · ${fmt(i.date)}</div><p>${esc(i.summary)}</p>${(i.keywords||[]).length?`<div class="nw-kw" aria-label="Keywords">${i.keywords.map(k=>`<span>${esc(k)}</span>`).join('')}</div>`:''}</li>`).join('')}</ul></div>`).join('');
     const cat=document.getElementById('nw-cat');
     cat.innerHTML=[{id:'*',chip:'All'}].concat(d.trends).map((t,k)=>`<button class="ld" data-id="${esc(t.id)}" aria-pressed="${k===0}">${esc(t.chip||t.title)}</button>`).join('');
     cat.onclick=e=>{const b=e.target.closest('button');if(!b)return;cat.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));list.querySelectorAll('.nw-trend').forEach(x=>x.hidden=b.dataset.id!=='*'&&x.dataset.id!==b.dataset.id)};
