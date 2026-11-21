@@ -4434,6 +4434,7 @@ drawTp();
 .nw-items p{margin:0}
 .nw-play{display:inline-flex;align-items:center;gap:5px;margin-left:10px;padding:3px 9px 3px 6px;border:1px solid var(--ch);border-radius:999px;background:transparent;color:var(--ch-ink);font:600 11.5px/1 var(--f-mono);cursor:pointer;vertical-align:middle}
 .nw-play:hover,.nw-play.on{background:var(--ch);color:#fff}
+.nw-play em{font-style:normal;opacity:.75;margin-left:2px}
 .nw-play svg{width:13px;height:13px;fill:currentColor}.nw-play .st,.nw-play.on .pl{display:none}.nw-play.on .st{display:inline}
 .nw-kw{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .nw-kw span{font:500 11.5px/1 var(--f-mono);padding:4px 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--ch) 45%,transparent);color:var(--ch-ink);background:color-mix(in srgb,var(--ch) 8%,var(--sheet))}
@@ -4457,7 +4458,7 @@ function load(){
     meta.textContent='Last updated '+fmt(d.updated)+' · '+n+' stories · '+d.trends.length+' trends';
     document.getElementById('nw-note').textContent=d.source_note||'';
     const list=document.getElementById('nw-list');
-    list.innerHTML=d.trends.map(t=>`<div class="nw-trend" data-id="${esc(t.id)}"><h2>${esc(t.title)}</h2><p>${esc(t.summary)}</p><ul class="nw-items">${t.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>`<li><a href="${esc(url(i.url))}" target="_blank" rel="noopener noreferrer">${esc(i.title)}</a><div class="nw-src">${esc(i.source)} · ${fmt(i.date)}${i.audio?`<button class="nw-play" type="button" aria-label="Play audio overview" data-src="${esc(i.audio)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pl" d="M8 5.5v13l10.5-6.5z"/><path class="st" d="M7 7h10v10H7z"/></svg><span>Listen</span></button>`:''}</div><p>${esc(i.summary)}</p>${(i.keywords||[]).length?`<div class="nw-kw" aria-label="Keywords">${i.keywords.map(k=>`<span>${esc(k)}</span>`).join('')}</div>`:''}</li>`).join('')}</ul></div>`).join('');
+    list.innerHTML=d.trends.map(t=>`<div class="nw-trend" data-id="${esc(t.id)}"><h2>${esc(t.title)}</h2><p>${esc(t.summary)}</p><ul class="nw-items">${t.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>`<li><a href="${esc(url(i.url))}" target="_blank" rel="noopener noreferrer">${esc(i.title)}</a><div class="nw-src">${esc(i.source)} · ${fmt(i.date)}${i.audio?`<button class="nw-play" type="button" aria-label="Play audio overview" data-src="${esc(i.audio)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pl" d="M8 5.5v13l10.5-6.5z"/><path class="st" d="M7 7h10v10H7z"/></svg><span>Listen</span>${i.audio_sec?`<em>${Math.max(1,Math.round(i.audio_sec/60))} min</em>`:''}</button>`:''}</div><p>${esc(i.summary)}</p>${(i.keywords||[]).length?`<div class="nw-kw" aria-label="Keywords">${i.keywords.map(k=>`<span>${esc(k)}</span>`).join('')}</div>`:''}</li>`).join('')}</ul></div>`).join('');
     list.onclick=e=>{const b=e.target.closest('.nw-play');if(b)play(b)};
     const cat=document.getElementById('nw-cat');
     cat.innerHTML=[{id:'*',chip:'All'}].concat(d.trends).map((t,k)=>`<button class="ld" data-id="${esc(t.id)}" aria-pressed="${k===0}">${esc(t.chip||t.title)}</button>`).join('');
