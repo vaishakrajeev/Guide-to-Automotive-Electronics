@@ -9,7 +9,7 @@ sets item["audio"], and deletes MP3s that no item references any more.
 import hashlib, json, os, subprocess, sys, tempfile
 
 # Pitch factor below 1.0 makes the voice deeper; tempo is compensated so speed stays the same.
-PITCH = 0.90
+PITCH = 0.94
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 JSON = os.path.join(ROOT, "news.json")
