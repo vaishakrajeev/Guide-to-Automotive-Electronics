@@ -1,0 +1,19 @@
+name: Voice samples
+on:
+  push:
+    branches: [voice-samples]
+    paths: ["voice-samples/make_samples.py", "voice-samples/text.txt", ".github/workflows/voice-samples.yml"]
+permissions:
+  contents: write
+jobs:
+  samples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: curl -sSL https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz | tar -xz -C ~
+      - run: python3 voice-samples/make_samples.py ~/piper/piper voice-samples/text.txt
+      - run: |
+          git add voice-samples/out
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "voice samples"
+          git push origin HEAD:voice-samples
