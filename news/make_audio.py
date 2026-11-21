@@ -16,7 +16,7 @@ JSON = os.path.join(ROOT, "news.json")
 AUDIO = os.path.join(ROOT, "audio")
 
 def main(piper, model):
-    voice = f"{os.path.basename(model)}|pitch={PITCH}|ls=1.1"
+    voice = f"{os.path.basename(model)}|pitch={PITCH}|ls=1.2|ss=0.55"
     with open(model + ".json", encoding="utf-8") as f:
         rate = json.load(f)["audio"]["sample_rate"]
     with open(JSON, encoding="utf-8") as f:
@@ -34,7 +34,7 @@ def main(piper, model):
                 with tempfile.TemporaryDirectory() as tmp:
                     wav = os.path.join(tmp, "a.wav")
                     subprocess.run([piper, "--model", model, "--output_file", wav,
-                                    "--length_scale", "1.1", "--sentence_silence", "0.35"],
+                                    "--length_scale", "1.2", "--sentence_silence", "0.55"],
                                    input=text.encode(), check=True)
                     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", wav,
                                     "-af", (f"asetrate={rate}*{PITCH},aresample={rate},atempo={1/PITCH:.4f}," if PITCH != 1.0 else "") + "loudnorm=I=-16:TP=-1.5", "-ac", "1",

@@ -21,7 +21,7 @@ Gmail, from `googlealerts-noreply@google.com`. There are two daily alerts: **aut
 7. Set `updated` to today's date (Asia/Kolkata). Make sure the file is valid JSON, then commit with the message `news: update YYYY-MM-DD`.
 
 ## Audio scripts (about 3 minutes each)
-Each item also needs a `script` field: a spoken overview of 380–430 words (about 3 minutes). Structure it like this:
+Each item also needs a `script` field: a spoken overview of 400–450 words (about 3 minutes). Structure it like this:
 1. About 80–100 words on what happened. Use only facts from the source article: fetch it, and if it can't be fetched, use only the alert snippet. Never invent figures, names or dates.
 2. About 250–300 words of technical background, explaining the technology behind the story (how it works and the standards involved) for engineers and students.
 3. One or two sentences on why it matters or what to study next. End with "The full report from <source> is linked on this page."
