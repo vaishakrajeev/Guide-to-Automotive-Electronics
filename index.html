@@ -242,6 +242,15 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 .bits td.lost{background:var(--bad-soft);color:var(--bad)}
 .bits td.gone{color:var(--rule-2)}
 .bits td.cur{outline:2px solid var(--signal);outline-offset:-2px}
+.bits th.race{background:var(--good-soft);color:var(--good);font-weight:700;box-shadow:inset 0 -3px 0 var(--good)}
+.bits td.race{outline:2px solid var(--good);outline-offset:-2px;animation:racein .35s ease-out}
+.bits td.r.race{background:var(--good-soft);color:var(--good);font-weight:700}
+.bits td.d.race{background:var(--good);color:var(--paper)}
+.bits td.lost.cur{outline-color:var(--bad)}
+.bits td.nm.in{box-shadow:inset 4px 0 0 var(--good)}
+.bits td.nm.out{opacity:.55}
+@keyframes racein{from{box-shadow:0 0 0 4px var(--good-soft)}to{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){.bits td.race{animation:none}}
 .bits tr.busrow td{font-weight:700}
 .status{margin-top:12px;font-size:14px;min-height:1.6em}
 
@@ -1280,7 +1289,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <div class="scroll"><table class="bits" id="can-tbl"></table></div>
       <div class="status" id="can-status"></div>
     </div>
-    <div class="fig-f">Dark cells are dominant (0). A red cell marks the bit where a node lost. Try two IDs that differ only in the last bit, or give two nodes the same ID (in a real network that causes a bit error later in the frame).</div>
+    <div class="fig-f">Dark cells are dominant (0). The green column is the bit being compared right now; green-edged rows are the nodes still in the race. A red cell marks the bit where a node lost. Try two IDs that differ only in the last bit, or give two nodes the same ID (in a real network that causes a bit error later in the frame).</div>
   </figure>
 
   <h2>CAN FD frame and its extra error detection</h2>
@@ -2441,12 +2450,12 @@ function canStep(){if(cs.bit>=11)return false;cs.bit++;const b=cs.bit;const sent
   sent.forEach((x,i)=>{if(cs.alive[i]&&x===1&&bus===0){cs.alive[i]=0;cs.lost[i]=b}});canRender();return cs.bit<11}
 function canRender(){
   const hdr=['SOF',...Array.from({length:11},(_,i)=>'ID'+(10-i))];
-  let h='<tr><th>Node</th>'+hdr.map(x=>`<th>${x}</th>`).join('')+'</tr>';
+  let h='<tr><th>Node</th>'+hdr.map((x,b)=>`<th${b===cs.bit&&cs.bit>=0?' class="race"':''}>${x}</th>`).join('')+'</tr>';
   const names=['A','B','C'];const busBits=[];
   for(let b=0;b<=cs.bit;b++){const act=cs.ids.map((id,i)=>(cs.lost[i]===-1||cs.lost[i]>=b)?bitsOf(id)[b]:1);busBits.push(Math.min(...act))}
-  cs.ids.forEach((id,i)=>{h+=`<tr><td class="nm">${names[i]} <span class="muted">0x${id.toString(16).toUpperCase().padStart(3,'0')}</span></td>`;
-    bitsOf(id).forEach((v,b)=>{if(b>cs.bit){h+='<td></td>';return}let c=v?'r':'d';if(cs.lost[i]===b)c='lost';else if(cs.lost[i]!==-1&&b>cs.lost[i])c='gone';h+=`<td class="${c}${b===cs.bit?' cur':''}">${c==='gone'?'·':v}</td>`});h+='</tr>'});
-  h+='<tr class="busrow"><td class="nm">Bus</td>'+hdr.map((x,b)=>b>cs.bit?'<td></td>':`<td class="${busBits[b]?'r':'d'}${b===cs.bit?' cur':''}">${busBits[b]}</td>`).join('')+'</tr>';
+  cs.ids.forEach((id,i)=>{const inRace=cs.bit>=0&&cs.lost[i]===-1;h+=`<tr><td class="nm${cs.bit<0?'':inRace?' in':' out'}">${names[i]} <span class="muted">0x${id.toString(16).toUpperCase().padStart(3,'0')}</span></td>`;
+    bitsOf(id).forEach((v,b)=>{if(b>cs.bit){h+='<td></td>';return}let c=v?'r':'d';if(cs.lost[i]===b)c='lost';else if(cs.lost[i]!==-1&&b>cs.lost[i])c='gone';h+=`<td class="${c}${b===cs.bit?(c==='lost'?' cur':c==='gone'?'':' race'):''}">${c==='gone'?'·':v}</td>`});h+='</tr>'});
+  h+='<tr class="busrow"><td class="nm">Bus</td>'+hdr.map((x,b)=>b>cs.bit?'<td></td>':`<td class="${busBits[b]?'r':'d'}${b===cs.bit?' race':''}">${busBits[b]}</td>`).join('')+'</tr>';
   $('#can-tbl').innerHTML=h;
   let st;
   if(cs.bit<0)st='Bus idle (recessive). Press <b>Step one bit</b> to start: all three nodes send SOF together.';
