@@ -19,3 +19,6 @@ Gmail, from `googlealerts-noreply@google.com`. There are two daily alerts: **aut
 5. **Group into trends.** Add each item to an existing trend when it fits. Create a new trend (`id`, `chip`, `title`, `summary`) when at least two items share a new theme. Refresh a trend's `summary` when the new items change what it says.
 6. **Trim.** Keep about the last 30 days. Drop items older than that, and drop any trend left with no items. Aim for 4–6 trends and at most 8 items per trend.
 7. Set `updated` to today's date (Asia/Kolkata). Make sure the file is valid JSON, then commit with the message `news: update YYYY-MM-DD`.
+
+## Audio overviews
+Each item's `audio` field points to an MP3 in `news/audio/`. The GitHub Action `.github/workflows/news-audio.yml` generates these with Piper TTS (voice `en_US-ryan-high`) after every change to `news.json`. Never add, edit or remove `audio` fields or MP3 files by hand: keep the existing fields as they are, and leave them out of new items. The Action fills them in.

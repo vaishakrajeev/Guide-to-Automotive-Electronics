@@ -1,0 +1,53 @@
+name: News audio overviews
+
+on:
+  push:
+    branches: [main]
+    paths: ["news/news.json", "news/make_audio.py", ".github/workflows/news-audio.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: news-audio
+  cancel-in-progress: false
+
+env:
+  PIPER_URL: https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz
+  VOICE_BASE: https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/ryan/high/en_US-ryan-high
+
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Cache Piper and voice
+        uses: actions/cache@v4
+        with:
+          path: ~/piper-cache
+          key: piper-2023.11.14-2-en_US-ryan-high
+
+      - name: Download Piper and voice
+        run: |
+          mkdir -p ~/piper-cache && cd ~/piper-cache
+          [ -x piper/piper ] || curl -sSL "$PIPER_URL" | tar -xz
+          [ -f voice.onnx ] || curl -sSL -o voice.onnx "$VOICE_BASE.onnx"
+          [ -f voice.onnx.json ] || curl -sSL -o voice.onnx.json "$VOICE_BASE.onnx.json"
+          cp voice.onnx en_US-ryan-high.onnx; cp voice.onnx.json en_US-ryan-high.onnx.json
+
+      - name: Generate audio
+        run: python3 news/make_audio.py ~/piper-cache/piper/piper ~/piper-cache/en_US-ryan-high.onnx
+
+      - name: Commit audio
+        run: |
+          git add news/news.json news/audio
+          if git diff --cached --quiet; then echo "No audio changes"; exit 0; fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "news: generate audio overviews"
+          git pull --rebase origin main
+          git push origin HEAD:main
