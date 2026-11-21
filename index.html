@@ -308,6 +308,16 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
 .log .pos .bytes{color:var(--good)}
 .log .empty{display:block;color:var(--ink-2);font-family:var(--f-body)}
 .state{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+.xcp-opt{display:flex;align-items:center;gap:8px;font-size:13.5px;margin-bottom:4px}
+.xcp-pk,.xcp-daq{margin:10px 0}
+.xcp-pk .lbl,.xcp-daq .lbl{display:block;font-size:11.5px;color:var(--ink-2);margin:6px 0 4px}
+.xb-row{display:flex;flex-wrap:wrap;gap:4px}
+.xb{display:inline-flex;flex-direction:column;align-items:center;border:1px solid var(--rule-2);border-radius:5px;padding:4px 8px;background:var(--paper);min-width:44px}
+.xb b{font:600 12.5px var(--f-mono)}
+.xb small{font-size:10.5px;color:var(--ink-2);white-space:nowrap}
+.xb:first-child{background:var(--accent-soft);border-color:var(--accent)}
+.xb-row.neg .xb:first-child,.xb-row.neg .xb:nth-child(2){background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.pdu .ar{border:0;padding:6px 2px;color:var(--ink-2)}
 .pdu{display:flex;flex-wrap:wrap;gap:4px;font:500 12.5px var(--f-mono);margin:10px 0}
 .pdu span{padding:6px 9px;border-radius:5px;border:1px solid var(--rule-2)}
 .pdu .id{background:var(--paper)} .pdu .pl{background:var(--signal-soft);border-color:var(--signal)} .pdu .fv{background:var(--accent-soft);border-color:var(--accent)} .pdu .mac{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -397,13 +407,13 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#sensors"><span class="n">CHAPTER 04</span><span class="tt">Sensors &amp; actuators</span><span class="d">Integration levels, wheel-speed and lambda sensors, MEMS, ADAS sensors, power stages and by-wire actuators.</span><span class="tags"><span>wheel-speed sim</span><span>lambda curves</span></span></a>
     <a href="#power"><span class="n">CHAPTER 05</span><span class="tt">Vehicle electrical system</span><span class="d">Battery, alternator, starter, energy management, terminal designations, 48 V and zonal power.</span><span class="tags"><span>charge-balance sim</span><span>starter circuit</span></span></a>
     <a href="#chassis"><span class="n">CHAPTER 06</span><span class="tt">Chassis &amp; safety systems</span><span class="d">ABS, TCS, ESC, ACC and ADAS levels, airbags and occupant protection, x-by-wire.</span><span class="tags"><span>μ-slip &amp; stopping sim</span><span>ESC wheel logic</span></span></a>
-    <a href="#networks"><span class="n">CHAPTER 07</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, J1939, LIN, FlexRay, Ethernet, error confinement, bit timing, EMC, UDS and DoIP.</span><span class="tags"><span>CAN arbitration sim</span></span></a>
+    <a href="#networks"><span class="n">CHAPTER 07</span><span class="tt">Networks &amp; diagnostics</span><span class="d">CAN, CAN FD, J1939, LIN, FlexRay, Ethernet, error confinement, bit timing, EMC, UDS, DoIP and XCP.</span><span class="tags"><span>CAN arbitration sim</span><span>XCP session sim</span></span></a>
     <a href="#sdv"><span class="n">CHAPTER 08</span><span class="tt">Software-defined vehicle</span><span class="d">Zonal E/E architecture, signals vs services, SOME/IP and service discovery, DDS, vehicle APIs, Adaptive AUTOSAR stack, ara::com, execution and state management, UCM.</span><span class="tags"><span>SOME/IP header builder</span><span>SD sequence</span><span>Adaptive stack</span><span>ara::com steps</span></span></a>
     <a href="#process"><span class="n">CHAPTER 09</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
     <a href="#adas"><span class="n">CHAPTER 12</span><span class="tt">ADAS &amp; automated driving</span><span class="d">SAE levels, the sense-to-actuate pipeline, sensor coverage, FMCW radar, fusion, AEB time to collision, SOTIF and the 2026 rules.</span><span class="tags"><span>AEB simulator</span><span>Radar chirp</span><span>Sensor coverage</span></span></a>
-    <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">171 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
+    <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">176 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
     <a href="#news" style="--c:#e67700"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2h-1"/><path d="M7.5 8.5h6M7.5 12h6M7.5 15.5h4"/></svg></span><span class="n">LATEST NEWS</span><span class="tt">Latest trends</span><span class="d">A daily summary of what is moving in automotive electronics, grouped by trend, with a link to every source.</span><span class="tags"><span>updated daily</span><span>source links</span></span></a>
     <a href="#about" style="--c:#0ca678"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></span><span class="n">ABOUT</span><span class="tt">About me</span><span class="d">Vaishak Rajeev: student intern at BGSW, Bengaluru, with 3.5 years in automotive electronics validation and test automation.</span><span class="tags"><span>Experience</span><span>Projects</span></span></a>
   </div>
@@ -449,7 +459,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   </figure>
 
   <h2>Engine management system</h2>
-  <p>The Engine Control Module (ECM) runs a sense–compute–actuate loop every few milliseconds, synchronised to crank angle. It reads air mass, speed and temperatures, looks up calibration maps, applies closed-loop corrections and drives power stages.</p>
+  <p>The Engine Control Module (ECM) runs a sense–compute–actuate loop every few milliseconds, synchronised to crank angle. It reads air mass, speed and temperatures, looks up calibration maps, applies closed-loop corrections and drives power stages. Those maps are tuned during development over XCP (<a href="#xcp">Chapter 7</a>).</p>
   <figure class="fig">
     <div class="fig-h"><span class="cap"><b>Fig. 1.2</b> · ECM block diagram: sensors → processing → actuators</span></div>
     <div class="fig-b scroll"><div id="dg-ems"></div></div>
@@ -1461,6 +1471,49 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <div class="fig-f">On CAN the tester sends <code>02 01 0C</code> to the functional address 0x7DF; the engine ECU answers from 0x7E8 with <code>04 41 0C A B</code> (positive response = service + 0x40). Code structure per SAE J2012 / ISO 15031-6.</div>
   </figure>
 
+  <h2 id="xcp">Measurement and calibration: XCP</h2>
+  <p>An engine ECU holds thousands of tunable values: maps, curves and constants that set injection timing, idle speed or boost pressure. Calibration engineers adjust them in the running ECU on a test bench or in a test vehicle, while watching internal variables change. The protocol for this is <b>XCP</b>, the Universal Measurement and Calibration Protocol (ASAM MCD-1 XCP). The calibration tool (for example ETAS INCA or Vector CANape) is the <b>master</b> and the ECU is the <b>slave</b>. The "X" stands for the exchangeable transport layer: CAN and CAN FD, Ethernet (UDP or TCP), FlexRay, SPI/SCI or USB. XCP replaced the CAN-only <b>CCP</b> (CAN Calibration Protocol). Version 1.0 came out in 2003 and the current 1.5 in 2017; every release has stayed backward compatible.</p>
+  <p>XCP itself only knows memory addresses. The names live in the <b>A2L file</b> (ASAM MCD-2 MC), generated from the same build as the ECU software. It lists every measurement and characteristic with its address, data type and conversion formula from raw value to physical units, plus the connection settings: CAN IDs, event channels and which resources are protected. An A2L that does not match the flashed software makes the tool read and write the wrong addresses, so the two are always released as a pair.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Packet</th><th>Direction</th><th class="num">First byte (PID)</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>CTO</b> · CMD</td><td>Master → slave</td><td class="num">0xC0–0xFF</td><td>One command at a time, e.g. CONNECT 0xFF, SHORT_UPLOAD 0xF4, DOWNLOAD 0xF0</td></tr>
+      <tr><td><b>CTO</b> · RES</td><td>Slave → master</td><td class="num">0xFF</td><td>Positive response to the command</td></tr>
+      <tr><td><b>CTO</b> · ERR</td><td>Slave → master</td><td class="num">0xFE</td><td>Negative response plus error code, e.g. 0x25 ERR_ACCESS_LOCKED</td></tr>
+      <tr><td><b>CTO</b> · EV / SERV</td><td>Slave → master</td><td class="num">0xFD / 0xFC</td><td>Asynchronous event or service request</td></tr>
+      <tr><td><b>DTO</b> · DAQ</td><td>Slave → master</td><td class="num">0x00–0xFB</td><td>Measurement data sent on an ECU event; the PID is the ODT number</td></tr>
+      <tr><td><b>DTO</b> · STIM</td><td>Master → slave</td><td class="num">ODT number</td><td>Stimulation data written into the ECU, used for function bypassing</td></tr>
+    </tbody></table></div>
+  <p><b>Polling or DAQ.</b> The simplest way to measure is polling: the tool sends SHORT_UPLOAD for every sample. Each value costs a request and a response, and two variables are never sampled in the same task cycle. With <b>DAQ</b> (data acquisition) the tool configures the ECU once. A <b>DAQ list</b> holds one or more <b>ODTs</b> (Object Descriptor Tables); each ODT is a list of entries, address plus size, that fits into one DTO. The DAQ list is tied to an <b>event channel</b>, usually an ECU task such as the 10 ms task or a crank-angle event. Each time the event fires, the ECU copies all entries and sends one DTO per ODT, so every value in a DAQ list comes from the same cycle. On classical CAN a DTO is 8 bytes: the PID plus up to 7 data bytes.</p>
+  <p><b>Calibration pages.</b> Characteristics live in flash, which cannot be rewritten byte by byte while the engine runs. An ECU that supports calibration copies the calibration area into RAM, the <b>working page</b>, and redirects accesses to it, often with the microcontroller's overlay RAM. Flash keeps the <b>reference page</b>. SET_CAL_PAGE switches between the two so the engineer can compare against the original instantly. When the tuning is done, the tool saves the working page as a hex file that goes into the next software release.</p>
+
+  <figure class="fig">
+    <div class="fig-h"><span class="cap"><b>Fig. 7.9</b> · XCP on CAN session: connect, unlock, calibrate, measure</span>
+      <div class="ctrls"><button class="btn pri" id="xcp-step">Next step</button><button class="btn" id="xcp-run">Run</button><button class="btn" id="xcp-reset">Reset</button></div></div>
+    <div class="fig-b">
+      <label class="xcp-opt"><input type="checkbox" id="xcp-skip"> Skip seed &amp; key (see what a locked ECU answers)</label>
+      <div class="state" id="xcp-state"></div>
+      <div class="status" id="xcp-status"></div>
+      <div id="xcp-pkt"></div>
+      <div class="xcp-daq" id="xcp-daq"></div>
+      <div class="log" id="xcp-log" aria-live="polite"></div>
+    </div>
+    <div class="fig-f">Tool sends on CAN ID 0x551, ECU answers on 0x552 (both come from the A2L). Intel byte order, so multi-byte values and addresses are sent least significant byte first. Variables from a sample A2L: <code>nEng</code> engine speed, UWORD at 0x70001000, 1 rpm/bit; <code>tCoolant</code>, UBYTE at 0x70001004, raw − 40 = °C; <code>idleSpeedTarget</code> characteristic, UWORD at 0x80010000. Seed and key values are illustrative.</div>
+  </figure>
+
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>XCP</th><th>UDS</th></tr></thead>
+    <tbody>
+      <tr><td><b>Purpose</b></td><td>Development: measure internal variables, tune parameters live</td><td>Workshop and production: faults, data identifiers, routines, flashing</td></tr>
+      <tr><td><b>Addressing</b></td><td>Raw memory addresses from the A2L</td><td>Services and data identifiers (DIDs) defined by the OEM</td></tr>
+      <tr><td><b>Data flow</b></td><td>Event-driven DAQ streaming of many signals at task rate</td><td>Request–response; periodic reading (0x2A) is limited</td></tr>
+      <tr><td><b>Description file</b></td><td>A2L (ASAM MCD-2 MC)</td><td>ODX (ASAM MCD-2 D) or CDD</td></tr>
+      <tr><td><b>Access control</b></td><td>Seed &amp; key per resource (GET_SEED / UNLOCK)</td><td>SecurityAccess 0x27, Authentication 0x29</td></tr>
+      <tr><td><b>In series vehicles</b></td><td>Removed or permanently locked</td><td>Always present</td></tr>
+    </tbody></table></div>
+  <p>Because XCP reads and writes ECU memory by address, it is a powerful development tool and a serious attack surface if it is left reachable in a production car. See <a href="#xcp-security">XCP in production, Chapter 10</a>.</p>
+  <p class="ref">Sources: ASAM MCD-1 XCP V1.5.0 (2017) and MCD-2 MC (A2L) standard pages; command codes, PIDs and error codes cross-checked against open-source XCP stacks (OpenBLT, pyxcp).</p>
+
   <div class="revise"><h2>Revise in 60 seconds</h2><ol>
     <li>LIN cheap and slow; CAN robust multi-master; CAN FD 64 B; Ethernet for bandwidth.</li>
     <li>Dominant 0 beats recessive 1; lowest ID wins arbitration without destroying the frame.</li>
@@ -1471,6 +1524,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <li>CAN FD: RRS always dominant, FDF marks FD, BRS switches bit rate; stuff count = dynamic stuff bits mod 8, Gray-coded + parity.</li>
     <li>Fault confinement: TEC/REC &gt; 127 → error-passive; TEC &gt; 255 → bus-off; recover after 128 × 11 recessive bits.</li>
     <li>Emissions: CISPR 25 (component), CISPR 12/36 (vehicle). Immunity: ISO 11452 (component), ISO 11451 (vehicle).</li>
+      <li>XCP: tool = master, ECU = slave; the A2L maps names to addresses; CMD answered by RES 0xFF or ERR 0xFE; DAQ list → ODTs → entries, sent as DTOs on an ECU event (e.g. the 10 ms task).</li>
       <li>J1939: 29-bit ID = priority (3) + EDP + DP + PF + PS + SA; PF &lt; 240 → PS is destination (PDU1), PF ≥ 240 → PS is part of the PGN (PDU2, broadcast). Signals are SPNs; DM1 (PGN 65226) broadcasts active DTCs as SPN + FMI + OC; BAM or RTS/CTS carry up to 1785 bytes.</li>
 </ol></div>
 </section>
@@ -1714,6 +1768,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <div><b>HIL</b>Hardware-in-the-loop. Real ECU wired to a real-time plant simulator.</div>
     <div><b>Vehicle</b>Test bench, test track and fleet validation.</div>
   </div>
+  <p>On HIL rigs, test benches and test vehicles the ECU runs a development build with XCP enabled. Calibration engineers tune maps live and test engineers record internal signals. The calibration data set is then frozen and released together with the software it belongs to (<a href="#xcp">XCP, Chapter 7</a>).</p>
 
   <h2>ISO 26262 and ASIL</h2>
   <p>ISO 26262 covers functional safety of E/E systems. In the concept phase a <b>hazard analysis and risk assessment</b> (HARA) rates each hazardous event for Severity, Exposure and Controllability. Together they give the Automotive Safety Integrity Level, from QM (normal quality management) to ASIL D (most stringent).</p>
@@ -1778,6 +1833,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <tr><td>Exposed CAN wiring (headlamp, bumper)</td><td>Injecting forged frames to unlock or start the car</td><td>SecOC on critical messages, gateway separation, IDS</td></tr>
       <tr><td>Bluetooth, Wi-Fi, USB, apps</td><td>Exploiting the infotainment stack to pivot inward</td><td>Sandboxing, least privilege, firewall between infotainment and vehicle domains</td></tr>
       <tr><td>Charging (ISO 15118)</td><td>Spoofed charger or contract certificates</td><td>Plug &amp; Charge PKI, TLS</td></tr>
+      <tr><td>XCP left in production software</td><td>Reading or rewriting ECU memory and calibration (e.g. torque or speed limits)</td><td>Remove XCP from series builds or lock every resource; gateway blocks XCP CAN IDs and ports</td></tr>
       <tr><td>Debug ports (JTAG/DAP), flash memory</td><td>Reading keys or firmware from a physical ECU</td><td>Debug lock with authentication, HSM key storage, encrypted memory</td></tr>
     </tbody></table></div>
 
@@ -1829,6 +1885,14 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     </div>
     <div class="fig-f">The key function here is a toy for illustration. Production ECUs keep the secret in an HSM. Because the same algorithm usually protects a whole fleet, newer ECUs use 0x29 Authentication instead (next section).</div>
   </figure>
+
+  <h2 id="xcp-security">Calibration access: XCP in production</h2>
+  <p>XCP (<a href="#xcp">Chapter 7</a>) lets a tool read and write ECU memory by address. In development that is the point; in a car on the road it is a backdoor. XCP protects four resources separately, calibration and paging (CAL/PAG), DAQ, STIM and programming (PGM), and GET_STATUS reports which ones are locked. Each is unlocked with GET_SEED and UNLOCK. This is the same seed–key idea as 0x27, with the same weakness: one algorithm and secret usually cover a whole ECU type. Memory reads such as SHORT_UPLOAD are often left open even when calibration is locked, so a reachable XCP slave can leak calibration data or RAM contents.</p>
+  <ul>
+    <li><b>Series builds:</b> remove the XCP slave, or compile it in permanently locked. A leftover development XCP is a common penetration-test finding.</li>
+    <li><b>Network:</b> the gateway must not route XCP CAN IDs from the OBD port, and XCP-on-Ethernet ports must be closed.</li>
+    <li><b>Development vehicles:</b> keep the seed &amp; key DLL controlled, and treat A2L files as confidential, because they are a map of the ECU's memory.</li>
+  </ul>
 
   <h2>Authentication (0x29): certificates instead of shared secrets</h2>
   <p>SecurityAccess has a structural weakness: every vehicle of a model usually shares the same seed–key algorithm and secret. Whoever extracts it from one ECU or one tester can unlock them all, and the ECU never learns <i>who</i> is connected. ISO 14229-1:2020 therefore added service <b>0x29 Authentication</b> (positive response 0x69). The tester proves its identity cryptographically, the ECU checks it against a trusted root, and the rights granted depend on the <b>role</b> written in the tester's certificate (for example production line, workshop, engineering).</p>
@@ -2559,6 +2623,88 @@ $('#sa-good').onclick=()=>saKey(true);$('#sa-bad').onclick=()=>saKey(false);
 $('#sa-reset').onclick=()=>{sa.sess='default';sa.unl=false;sa.seed=null;saLog('11 01','ECUReset → hardReset','51 01','ECU restarts in the default session, locked. The delay timer keeps running so a reset cannot bypass it.',true)};
 saRender();
 
+/* ---------- XCP session ---------- */
+const XS=[
+ {t:'CONNECT',s:'The tool opens the session. The ECU replies with what it supports and the packet sizes.',
+  ex:[[[['FF','CONNECT'],['00','mode normal']],'CONNECT in normal mode',
+       [['FF','RES'],['05','resources'],['00','comm mode'],['08','MAX_CTO'],['08 00','MAX_DTO'],['01','protocol ver.'],['01','transport ver.']],'Resources 0x05 = CAL/PAG (bit 0) + DAQ (bit 2). Intel byte order, byte granularity. 8-byte CTOs and DTOs, as on classical CAN.',true]],
+  go:x=>{x.con=1}},
+ {t:'GET_STATUS',s:'Which resources need seed & key? Protection 0x01: calibration is locked, measurement is open.',
+  ex:[[[['FD','GET_STATUS']],'Ask for session and protection status',
+       [['FF','RES'],['00','session'],['01','protection'],['00','reserved'],['00 00','config ID']],'Protection status 0x01: CAL/PAG locked. DAQ is not protected on this ECU.',true]]},
+ {t:'SHORT_UPLOAD',s:'Polling: read one variable by address. Reads work even though calibration is still locked.',
+  ex:[[[['F4','SHORT_UPLOAD'],['02','2 bytes'],['00','reserved'],['00','addr ext'],['00 10 00 70','0x70001000']],'Read nEng (2 bytes at 0x70001000)',
+       [['FF','RES'],['C4 09','0x09C4']],'0x09C4 = 2500 rpm. One request per sample: this is polling.',true]]},
+ {t:'GET_SEED',k:1,s:'Unlock calibration: the ECU sends a random seed for resource CAL/PAG.',
+  ex:[[[['F8','GET_SEED'],['00','mode: first part'],['01','resource CAL/PAG']],'Request a seed for CAL/PAG',
+       [['FF','RES'],['04','seed length'],['A3 5C 19 E7','seed']],'4-byte seed. The tool computes the key, normally in a seed & key DLL named in the A2L.',true]]},
+ {t:'UNLOCK',k:1,s:'The tool returns the key. The ECU answers with the protection still in force: none.',
+  ex:[[[['F7','UNLOCK'],['04','key length'],['3E 91 C4 07','key']],'Send the computed key',
+       [['FF','RES'],['00','protection']],'Remaining protection 0x00: CAL/PAG is now unlocked.',true]],
+  go:x=>{x.unl=1}},
+ {t:'SET_MTA',s:'Point the Memory Transfer Address at the characteristic idleSpeedTarget.',
+  ex:[[[['F6','SET_MTA'],['00 00','reserved'],['00','addr ext'],['00 00 01 80','0x80010000']],'MTA = 0x80010000 (idleSpeedTarget)',
+       [['FF','RES']],'The address is in the flash calibration area; the ECU redirects it to the RAM working page.',true]],
+  go:x=>{x.mta='0x80010000'}},
+ {t:'UPLOAD',s:'Read the current value at the MTA. UPLOAD moves the MTA forward by the bytes read.',
+  ex:[[[['F5','UPLOAD'],['02','2 bytes']],'Read 2 bytes from the MTA',
+       [['FF','RES'],['20 03','0x0320']],'0x0320 = 800 rpm. The MTA is now 0x80010002.',true]],
+  go:x=>{x.mta='0x80010002'}},
+ {t:'SET_MTA',s:'Set the MTA back, because the UPLOAD advanced it.',
+  ex:[[[['F6','SET_MTA'],['00 00','reserved'],['00','addr ext'],['00 00 01 80','0x80010000']],'MTA = 0x80010000 again',
+       [['FF','RES']],'Ready to write.',true]],
+  go:x=>{x.mta='0x80010000'}},
+ {t:'DOWNLOAD',s:'Write the new idle target speed, 850 rpm, into the working page.',
+  ex:[[[['F0','DOWNLOAD'],['02','2 bytes'],['52 03','0x0352']],'Write 850 rpm to idleSpeedTarget',null,null,null]],
+  go:x=>{if(x.unl){x.idle=850;x.mta='0x80010002'}}},
+ {t:'DAQ memory',s:'Measuring by DAQ: free old lists, then allocate one DAQ list with one ODT of two entries.',
+  ex:[[[['D6','FREE_DAQ']],'Clear any previous DAQ configuration',[['FF','RES']],'',true],
+      [[['D5','ALLOC_DAQ'],['00','reserved'],['01 00','1 list']],'Allocate one DAQ list',[['FF','RES']],'',true],
+      [[['D4','ALLOC_ODT'],['00','reserved'],['00 00','list 0'],['01','1 ODT']],'One ODT in DAQ list 0',[['FF','RES']],'',true],
+      [[['D3','ALLOC_ODT_ENTRY'],['00','reserved'],['00 00','list 0'],['00','ODT 0'],['02','2 entries']],'Two entries in ODT 0',[['FF','RES']],'Memory for list 0 → ODT 0 → 2 entries is reserved.',true]],
+  go:x=>{x.daq=1}},
+ {t:'Fill the ODT',s:'Each ODT entry gets an address and a size: nEng (2 bytes) and tCoolant (1 byte).',
+  ex:[[[['E2','SET_DAQ_PTR'],['00','reserved'],['00 00','list 0'],['00','ODT 0'],['00','entry 0']],'Point at list 0, ODT 0, entry 0',[['FF','RES']],'',true],
+      [[['E1','WRITE_DAQ'],['FF','bit offset: none'],['02','size 2'],['00','addr ext'],['00 10 00 70','0x70001000']],'Entry 0 = nEng',[['FF','RES']],'The DAQ pointer moves to the next entry by itself.',true],
+      [[['E2','SET_DAQ_PTR'],['00','reserved'],['00 00','list 0'],['00','ODT 0'],['01','entry 1']],'Point at entry 1 (shown explicitly)',[['FF','RES']],'',true],
+      [[['E1','WRITE_DAQ'],['FF','bit offset: none'],['01','size 1'],['00','addr ext'],['04 10 00 70','0x70001004']],'Entry 1 = tCoolant',[['FF','RES']],'ODT 0 now describes 3 data bytes.',true]],
+  go:x=>{x.daq=2}},
+ {t:'Start DAQ',s:'Tie the list to event channel 1 (the 10 ms task), select it and start.',
+  ex:[[[['E0','SET_DAQ_LIST_MODE'],['00','mode'],['00 00','list 0'],['01 00','event 1'],['01','prescaler'],['00','priority']],'List 0 on event channel 1 = 10 ms task',[['FF','RES']],'Prescaler 1: send on every event. No timestamp in this mode byte.',true],
+      [[['DE','START_STOP_DAQ_LIST'],['02','select'],['00 00','list 0']],'Select list 0 for a synchronised start',[['FF','RES'],['00','first PID']],'ODT 0 of this list will be sent with PID 0x00.',true],
+      [[['DD','START_STOP_SYNCH'],['01','start selected']],'Start all selected lists together',[['FF','RES']],'',true]],
+  go:x=>{x.daq=3}},
+ {t:'DAQ running',s:'Now the ECU sends a DTO every 10 ms without being asked. Both values in each DTO come from the same task cycle.',
+  dto:[[0,2500,130],[10,2530,130],[20,2570,131],[30,2610,131],[40,2640,131]]},
+ {t:'Stop and disconnect',s:'Stop all DAQ lists and close the session.',
+  ex:[[[['DD','START_STOP_SYNCH'],['00','stop all']],'Stop every running DAQ list',[['FF','RES']],'',true],
+      [[['FE','DISCONNECT']],'Close the XCP session',[['FF','RES']],'The ECU drops back to the disconnected state. Calibration changes stay in the RAM working page until power-off unless the tool saves them.',true]],
+  go:x=>{x.daq=0;x.con=0}}];
+const xs={i:-1,log:[],timer:null,st:null};
+const xsBase=()=>({con:0,unl:0,mta:'—',idle:800,daq:0});
+const xsSteps=()=>XS.filter(s=>!(s.k&&$('#xcp-skip').checked));
+const b2s=a=>a.map(x=>x[0]).join(' ');
+function xcpReset(){clearInterval(xs.timer);xs.timer=null;$('#xcp-run').textContent='Run';xs.i=-1;xs.log=[];xs.st=xsBase();xs.last=null;xcpRender()}
+function xcpStep(){const S=xsSteps();if(xs.i>=S.length-1)return false;xs.i++;const s=S[xs.i];const x=xs.st;
+  if(s.dto){s.dto.forEach(([t,n,c])=>{const b=[['00','PID = ODT 0'],[hx(n,2).split(' ').reverse().join(' '),'nEng'],[c.toString(16).toUpperCase().padStart(2,'0'),'tCoolant']];
+      xs.log.unshift(['dto',b2s(b),`t = ${t} ms · nEng ${n} rpm · tCoolant ${c-40} °C`,true]);xs.last=[b,null]})}
+  else s.ex.forEach(([q,qw,r,rw,ok])=>{
+    if(s.t==='DOWNLOAD'){if(x.unl){r=[['FF','RES']];rw='idleSpeedTarget is now 850 rpm in the working page. The engine responds immediately; flash still holds 800.';ok=true}
+      else{r=[['FE','ERR'],['25','ERR_ACCESS_LOCKED']];rw='CAL/PAG is still protected. Nothing was written; run GET_SEED and UNLOCK first.';ok=false}}
+    xs.log.unshift(['req',b2s(q),qw,null],['res',b2s(r),rw,ok]);xs.last=[q,r]});
+  if(s.go)s.go(x);xcpRender();return xs.i<S.length-1}
+const xsChips=(a,neg)=>a?`<div class="xb-row${neg?' neg':''}">${a.map(([b,l])=>`<span class="xb"><b>${b}</b><small>${l}</small></span>`).join('')}</div>`:'';
+function xcpRender(){const S=xsSteps(),x=xs.st,s=S[xs.i];
+  $('#xcp-state').innerHTML=`<span class="chip ${x.con?'good':''}">${x.con?'Connected':'Not connected'}</span><span class="chip ${x.unl?'good':'bad'}">CAL/PAG ${x.unl?'unlocked':'locked'}</span><span class="chip">MTA ${x.mta}</span><span class="chip ${x.idle!==800?'warn':''}">idleSpeedTarget ${x.idle} rpm</span><span class="chip ${x.daq===3?'good':''}">DAQ ${['off','allocated','configured','running'][x.daq]}</span>`;
+  $('#xcp-status').innerHTML=s?`<b>Step ${xs.i+1} of ${S.length} · ${s.t}.</b> ${s.s}`:'Press <b>Next step</b>. The tool starts with CONNECT; nothing else is accepted before it.';
+  $('#xcp-pkt').innerHTML=xs.last?`<div class="xcp-pk"><span class="lbl">${xs.last[1]?'Tool → ECU (0x551)':'ECU → tool (0x552), DTO'}</span>${xsChips(xs.last[0])}${xs.last[1]?`<span class="lbl">ECU → tool (0x552)</span>${xsChips(xs.last[1],xs.last[1][0][0]==='FE')}`:''}</div>`:'';
+  $('#xcp-daq').innerHTML=x.daq?`<span class="lbl">DAQ structure</span><div class="pdu"><span class="id">DAQ list 0${x.daq===3?' · event 1 (10 ms)':''}</span><span class="ar">→</span><span class="fv">ODT 0 → PID 0x00</span><span class="ar">→</span><span class="pl">entry 0: ${x.daq>1?'nEng · 2 B':'empty'}</span><span class="pl">entry 1: ${x.daq>1?'tCoolant · 1 B':'empty'}</span></div>`:'';
+  $('#xcp-log').innerHTML=xs.log.length?xs.log.map(([d,b,w,ok])=>`<div class="${d==='dto'?'res':d} ${ok===true?'pos':ok===false?'neg':''}"><span class="who">${d==='req'?'Tool →':d==='dto'?'← DAQ':'← ECU'}</span><span><span class="bytes">${b}</span>${w?`<br><span class="why">${w}</span>`:''}</span></div>`).join(''):'<div class="empty">The CAN trace appears here, newest at the top.</div>'}
+$('#xcp-step').onclick=()=>{if(xs.i>=xsSteps().length-1)xcpReset();xcpStep()};
+$('#xcp-run').onclick=()=>{if(xs.timer){clearInterval(xs.timer);xs.timer=null;$('#xcp-run').textContent='Run';return}if(xs.i>=xsSteps().length-1)xcpReset();$('#xcp-run').textContent='Pause';xs.timer=setInterval(()=>{if(!xcpStep()){clearInterval(xs.timer);xs.timer=null;$('#xcp-run').textContent='Run'}},reduce?300:1400)};
+$('#xcp-reset').onclick=xcpReset;$('#xcp-skip').onchange=xcpReset;
+xcpReset();
+
 /* ---------- SecOC ---------- */
 const toyMac=str=>{let h=0x811c9dc5;for(let r=0;r<2;r++)for(const ch of 'K3y!'+str){h^=ch.charCodeAt(0);h=Math.imul(h,0x01000193)>>>0}return (h>>>8)&0xFFFFFF};
 const so={tx:0,rx:0,last:null,log:[]};
@@ -2714,12 +2860,12 @@ $('#pm-d').oninput=()=>{if(!pm.on||reduce)pmDraw()};$('#pm-f').oninput=()=>{if(r
 /* ---------- Router ---------- */
 const views=$$('section.view');
 function route(){
-  const h=(location.hash||'#home').slice(1);const v=views.find(x=>x.id===h)||views[0];
+  const h=(location.hash||'#home').slice(1);const sub=views.some(x=>x.id===h)?null:document.getElementById(h);const v=views.find(x=>x.id===h)||(sub&&views.find(x=>x.contains(sub)))||views[0];
   views.forEach(x=>x.hidden=x!==v);
   $$('.nav a').forEach(a=>a.getAttribute('href')==='#'+v.id?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   eng.on=v.id==='ice';cancelAnimationFrame(eng.raf);if(eng.on){engDraw();if(!reduce)engLoop()}
   pm.on=v.id==='ev';cancelAnimationFrame(pm.raf);if(pm.on){pmDraw();if(!reduce)pmLoop()}
-  window.scrollTo(0,0);
+  if(sub&&v.contains(sub))requestAnimationFrame(()=>sub.scrollIntoView());else window.scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
 })();
@@ -3385,6 +3531,11 @@ const G=[
 ['DDS','Data Distribution Service','SDV','sdv','Data-centric publish/subscribe middleware with rich quality-of-service settings; used by ROS 2 and as an AUTOSAR Adaptive binding.'],
 ['DID','Data identifier','Diagnostics','networks','Two-byte number that names a data item read or written with UDS services 0x22/0x2E, such as 0xF190 for the VIN.'],
 ['DLC','Data length code','Networks','networks','Four-bit field in a CAN frame that gives the number of data bytes.'],
+['XCP','Universal Measurement and Calibration Protocol','Diagnostics','networks','ASAM MCD-1 XCP: master–slave protocol a calibration tool uses to read and write ECU memory by address, over CAN, CAN FD, Ethernet, FlexRay and other transports. Used in development; removed or locked in series vehicles.'],
+['CCP','CAN Calibration Protocol','Diagnostics','networks','CAN-only predecessor of XCP for measuring and calibrating ECUs. Still found in older ECUs; ASAM recommends XCP for new designs.'],
+['A2L','ASAM MCD-2 MC description file','Diagnostics','networks','Text file generated with the ECU software that gives the name, address, data type and conversion formula of every measurement and characteristic, plus the XCP connection settings.'],
+['DAQ','Data acquisition (XCP)','Diagnostics','networks','XCP mode in which the ECU sends configured variables on its own each time an event such as a 10 ms task fires, instead of being polled for every sample.'],
+['ODT','Object Descriptor Table','Diagnostics','networks','Part of an XCP DAQ list: a list of address-and-size entries whose values the ECU packs into one DTO when the event fires.'],
 ['DoIP','Diagnostics over IP','Diagnostics','networks','ISO 13400 transport for UDS over Ethernet, using TCP and UDP port 13400 with vehicle discovery and routing activation.'],
 ['Domain controller','','SDV','sdv','Powerful ECU that runs the software of one functional domain such as chassis, body or ADAS.'],
 ['DPF','Diesel particulate filter','Powertrain','ice','Filter in the diesel exhaust that traps soot and is periodically regenerated by burning it off.'],
