@@ -82,8 +82,22 @@
       "id": "power-electronics",
       "chip": "Power electronics",
       "title": "Power electronics and electrified powertrains",
-      "summary": "Better high-voltage DC/DC conversion, hybrids built for several powertrain options, and Formula E as a test bed for inverter and motor technology.",
+      "summary": "Better high-voltage DC/DC conversion, hybrids built for several powertrain options, isolated drivers for solid-state relays, and Formula E as a test bed for inverter and motor technology.",
       "items": [
+        {
+          "date": "2026-11-20",
+          "title": "Toshiba launches photovoltaic-output photocoupler for automotive relays",
+          "source": "PV Magazine",
+          "url": "https://www.pv-magazine.com/2026/11/20/toshiba-launches-photovoltaic-output-photocoupler-for-automotive-relays/",
+          "summary": "Toshiba has introduced the TLX9909, an optically isolated device that generates its own gate voltage to switch MOSFET-based solid-state relays in vehicle equipment.",
+          "keywords": [
+            "Photocoupler",
+            "Solid-State Relay",
+            "Galvanic Isolation",
+            "MOSFET Gate Drive"
+          ],
+          "script": "Toshiba has launched a new part for automotive equipment called the T L X ninety nine oh nine. It is a photovoltaic-output photocoupler. Its job is to drive solid-state relays, often shortened to S S Rs, which replace mechanical relays in a vehicle. The announcement was reported by P V Magazine. The short alert we received did not list electrical ratings or a shipping date, so we will not guess at those. Instead, let's look at how this kind of device works and why carmakers want it.\n\nStart with the problem. A relay lets a small control signal switch a much larger load, while keeping the two circuits apart. A classic electromechanical relay uses a coil and moving contacts. It is cheap and robust, but contacts wear, they bounce, they can arc, and they click. A solid-state relay does the same job with semiconductors, usually two power MOSFETs connected back to back so they can block current in both directions.\n\nThe tricky part is driving those MOSFETs. Their gates must be lifted several volts above their sources, and in a high-voltage system the sources may float hundreds of volts away from the low-voltage control electronics. That is where a photovoltaic-output photocoupler comes in. On the input side there is an infrared L E D. On the output side there is a stack of tiny photodiodes connected in series, acting like a miniature solar cell. When the L E D lights up, the photodiode stack generates a small voltage on its own, with no isolated power supply needed. That voltage charges the MOSFET gates and turns the relay on. When the L E D switches off, an internal discharge circuit pulls the gates down and the relay opens.\n\nThe light path is the isolation barrier. There is no electrical connection between the microcontroller side and the switched side, which is what designers call galvanic isolation. Package design matters a lot here, because creepage and clearance distances decide how much voltage the barrier can safely withstand over the life of the car.\n\nIn electric vehicles, isolated switches like these are commonly used around the battery, for example in insulation-resistance monitoring and in battery management circuits. For automotive use, optoelectronic parts are normally qualified to A E C Q one oh two stress tests.\n\nTo go further, study MOSFET gate charge, turn-on time and isolation coordination. The full report from P V Magazine is linked on this page."
+        },
         {
           "date": "2026-11-21",
           "title": "Flex Wins 2026 Automotive News PACE Award for Fully Symmetric HV DC/DC Architecture",
@@ -152,8 +166,36 @@
       "id": "ecu-sensing-supply-chain",
       "chip": "ECUs & sensing",
       "title": "ECUs, cameras and the electronics supply chain",
-      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands. Capital needs are pushing smaller players out.",
+      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands, and new electronics manufacturing ventures are forming. AI servers now compete with cars for circuit-board capacity, and capital needs are pushing smaller players out.",
       "items": [
+        {
+          "date": "2026-11-22",
+          "title": "Sahasra promoters form 55:45 Asetronics manufacturing venture",
+          "source": "Multibagg AI",
+          "url": "https://www.multibagg.ai/market-pulse/articles/sahasra-asetronics-joint-venture-announcement-cmwqz7r3m003b2mmthdvb11a1",
+          "summary": "The promoters of Sahasra are setting up a 55:45 joint venture with Asetronics to manufacture electronics for automotive, medical, industrial and railway customers in Europe and India.",
+          "keywords": [
+            "Electronics Manufacturing Services",
+            "Joint Venture",
+            "PCB Assembly",
+            "India"
+          ],
+          "script": "The promoters of Sahasra, an Indian semiconductor company, have formed a manufacturing joint venture with Asetronics. The split is fifty-five to forty-five. The new company, Sahasra Asetronics, will target electronics manufacturing for automotive, medical, industrial and railway customers, in both Europe and India. Our information comes from a brief market alert, and the source page could not be retrieved, so details such as investment, location and timing are not confirmed here. The story still says a lot about how vehicle electronics actually get built.\n\nMost car electronics are not assembled by the carmaker, or even by the brand on the E C U label. They are often built by electronics manufacturing services companies, known as E M S providers. An E M S plant takes a bare printed circuit board and turns it into a working module.\n\nThe heart of that process is surface mount technology. A stencil prints solder paste onto the pads. High-speed pick-and-place machines set thousands of components per hour. The board then passes through a reflow oven, where a carefully controlled temperature profile melts the solder. After that come inspections: automated optical inspection to check placement, X-ray for hidden joints under ball grid array packages, and in-circuit or functional testing to prove the module works. Many automotive boards also receive a conformal coating to protect against moisture and contamination.\n\nAutomotive work adds strict rules. Plants are certified to I A T F sixteen nine four nine, and workmanship is judged against I P C A six ten, usually at the highest reliability class. Every board must be traceable, so a failure in the field can be linked back to the component lot, the machine and even the oven profile used on that day. Medical work follows I S O thirteen four eight five, and railway electronics have their own standard, E N fifty one fifty five, for vibration, temperature and supply variation.\n\nServing these four sectors together makes sense, because they share the same need for high reliability and long product lifetimes.\n\nThere is a strategic angle too. Governments in Europe and India both want more electronics production closer to home after the supply shocks of recent years. A venture that links an Indian semiconductor business with an electronics manufacturer could shorten the path from packaged chip to finished, tested module.\n\nFor students, this is a good prompt to learn design for manufacturing and test. The full report from Multibagg AI is linked on this page."
+        },
+        {
+          "date": "2026-11-22",
+          "title": "Global Electronics Association warns AI server boards are crowding out auto, medical and other sectors",
+          "source": "AI News",
+          "url": "https://aiweekly.co/alerts/global-electronics-association-warns-ai-server-boards-are-crowding-out-auto",
+          "summary": "The industry body has issued an alert that demand for AI server boards is squeezing printed circuit board supply for cars and medical devices. It warns the crunch could rival the 2021 chip shortage.",
+          "keywords": [
+            "Printed Circuit Boards",
+            "Supply Chain",
+            "AI Servers",
+            "Component Shortage"
+          ],
+          "script": "The Global Electronics Association has issued an industry alert about printed circuit boards. Its warning is that boards for artificial intelligence servers are taking up so much manufacturing capacity that other sectors, including automotive and medical, are being crowded out. The association says this supply crunch could rival the chip shortage of twenty twenty-one. The report came to us through a short news alert, and the original article could not be retrieved, so we do not have lead times or price figures. Let's focus on why boards matter and why cars are exposed.\n\nA printed circuit board, or P C B, is the layered structure that carries and connects every chip in an E C U. It is built from copper foil laminated onto glass-fibre fabric impregnated with resin. Simple boards have two or four layers. A modern A D A S domain controller or central computer may use many more, with very fine lines and microvias, a style called high density interconnect.\n\nA I server boards are at the extreme end. They are large, have very high layer counts, and need premium low-loss laminates to carry high-speed signals. Each one consumes a lot of press time, drilling capacity and specialised material. When fabricators can sell that capacity at a high margin, lower-margin work waits in the queue.\n\nAutomotive buyers cannot simply switch to another board shop. Every automotive P C B is qualified for a specific design. The supplier must work under I A T F sixteen nine four nine quality management, and changes go through a production part approval process, or P P A P. Boards must survive thermal cycling, vibration and humidity for fifteen years or more, so materials and processes are locked once approved. Requalifying a new source can take months.\n\nThat is exactly what made twenty twenty-one so painful. A missing part worth a few cents stopped entire vehicle lines, because nothing else was approved to replace it.\n\nThere is also a design angle. As cars move towards zonal architectures and central computers, automotive boards start to look more like server boards. Higher layer counts, fast serial links for cameras and multi-gigabit Ethernet all call for the same premium laminates. So the competition for capacity is likely to grow, not shrink.\n\nFor engineers, the lesson is design for resilience: second-source qualification, standard stack-ups, and close monitoring of materials such as laminate and glass fabric. The full report from AI News is linked on this page."
+        },
         {
           "date": "2026-11-20",
           "title": "Foxconn acquires automotive camera module business from Sony Semiconductor Solutions",
@@ -254,8 +296,23 @@
       "id": "platforms-standards",
       "chip": "Platforms & standards",
       "title": "Shared platforms and standardisation",
-      "summary": "To cut cost and development time, carmakers are sharing platforms and agreeing on common parts.",
+      "summary": "To cut cost and development time, carmakers are sharing platforms and agreeing on common parts. In China, a shared standard is being written for drive-by-wire chassis.",
       "items": [
+        {
+          "date": "2026-11-22",
+          "title": "From Flagship to Standard: Drive-by-Wire Chassis on a \"Long Run\"",
+          "source": "Gasgoo",
+          "url": "https://autonews.gasgoo.com/articles/news/from-flagship-to-standard-drive-by-wire-chassis-on-a-long-run-2124146351474200576",
+          "summary": "China is writing a standard for drive-by-wire chassis, led by SAIC Motor with NIO, CATARC, Li Auto and XPENG among the co-drafters. By-wire steering and braking are moving from flagship models towards wider use.",
+          "keywords": [
+            "Drive-By-Wire",
+            "Steer-By-Wire",
+            "Brake-By-Wire",
+            "Chassis Standard",
+            "Functional Safety"
+          ],
+          "script": "Gasgoo, the Chinese automotive news service, reports that drive-by-wire chassis technology is moving from flagship cars towards becoming standard equipment, and that a standard for it is being written. SAIC Motor led the drafting. The joint drafters include NIO, Li Auto, XPENG and the China Automotive Technology and Research Center, known as C A T A R C. The alert we received did not give the standard's number or its dates, so we will stick to what is confirmed. What we can do is explain what drive-by-wire means and why it needs a common rulebook.\n\nIn a conventional car, your hands and feet are mechanically or hydraulically connected to the wheels. The steering column turns a rack. The brake pedal pushes fluid through a master cylinder. Electronics only assist. In a by-wire chassis, that physical link is replaced by sensors, wires and actuators. Turning the wheel produces an electrical signal. A control unit reads it and commands an electric motor at the steering rack. Pressing the pedal sends a signal that tells an electro-hydraulic or fully electro-mechanical brake how hard to clamp.\n\nThe benefits are real. Software can change the steering ratio with speed. Brakes can blend smoothly with regenerative braking in an electric car. Automated driving functions can steer and stop the car directly. Packaging becomes easier because there is no column or vacuum booster in the way.\n\nThe challenge is safety. If the mechanical backup is gone, the electronics must keep working even after a fault. Engineers call this fail-operational design. It usually means redundant sensors, two independent power supplies, two communication paths, and actuators with duplicated windings or a second channel. The development process follows I S O twenty six two six two, and steering and braking functions are typically rated at the highest integrity level, A S I L D. Timing on the in-vehicle network matters too, because a delayed message is as dangerous as a lost one. Fault detection has to happen within milliseconds, so the backup channel can take over before the driver notices anything. That is why these systems favour deterministic communication with tightly scheduled messages.\n\nA shared national standard helps carmakers and suppliers agree on test methods, redundancy requirements and performance limits. It also gives regulators a basis for type approval, which is the gate any by-wire system must pass before it reaches mass production.\n\nIf this interests you, study redundancy architectures and fault-tolerant control. The full report from Gasgoo is linked on this page."
+        },
         {
           "date": "2026-11-20",
           "title": "Toyota, Nissan, Honda back Japan plan to standardize parts, lower costs",
