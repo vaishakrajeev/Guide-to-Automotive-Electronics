@@ -1,7 +1,45 @@
 {
-  "updated": "2026-11-22",
+  "updated": "2026-11-23",
   "source_note": "Aggregated from different Internet sources. Summaries are written in our own words; follow the links for the full stories.",
   "trends": [
+    {
+      "id": "cockpit-connectivity",
+      "chip": "Cockpit & connectivity",
+      "title": "Connected cockpits: telematics and new displays",
+      "summary": "Berg Insight's latest ranking puts LG Electronics at the top of the telematics control unit market, as 4G and 5G modules, eCall and over-the-air updates become standard. At the same time, suppliers are exploring the windshield as the next large cockpit display.",
+      "items": [
+        {
+          "date": "2026-11-22",
+          "title": "Berg Insight ranks leading automotive connectivity SoC, NAD and TCU suppliers",
+          "source": "TyN Magazine",
+          "url": "https://tynmagazine.com/ranks-leading-automotive-connectivity-soc-nad-and-tcu-suppliers/",
+          "summary": "Analyst firm Berg Insight has ranked the suppliers of connectivity chips, network access devices and telematics control units, putting LG Electronics first among TCU makers with a 27 percent share.",
+          "keywords": [
+            "Telematics Control Unit",
+            "Network Access Device",
+            "Connectivity SoC",
+            "eCall",
+            "5G"
+          ],
+          "script": "The analyst firm Berg Insight has published a ranking of the companies that supply connectivity hardware for cars. The ranking covers three layers of the same product chain: the connectivity chips, the network access devices built around them, and the telematics control units that carmakers fit into their vehicles. According to Berg Insight, LG Electronics is the leading supplier of telematics control units, with a market share of twenty seven percent. The figure was given by Martin Cederqvist, a senior analyst at the firm. TyN Magazine carried the announcement.\n\nIt helps to see how a connected car talks to the outside world. The box that does the job is the telematics control unit, or T C U. Inside it sits the network access device, or N A D. This is the cellular modem module, a small shielded board that handles the radio link to the mobile network. And at the heart of the N A D is the connectivity S o C, the chip that runs the modem protocol stack for four G L T E or five G.\n\nEach layer adds work. The chip vendor delivers the baseband processor and the radio front end. The module maker qualifies that chip for automotive use, which means temperature cycling, vibration testing and A E C Q one hundred qualified components. The T C U supplier then adds the parts that make it a car product: a satellite positioning receiver, a backup battery, an interface to the vehicle network over C A N or automotive Ethernet, and a hardware security module for keys and certificates.\n\nThe T C U carries some of the most important functions in a modern car. In Europe it delivers e Call, the automatic emergency call that has been required on new car types since twenty eighteen. It is also the path for over the air software updates, remote diagnostics and connected services. That makes it a prime target for attackers, so its design falls under U N regulation one fifty five on cybersecurity and one fifty six on software updates.\n\nThe technology is also moving. Mobile operators are switching off two G and three G networks, which pushes carmakers towards four G and five G modules and towards next generation e Call over L T E.\n\nFor students, the T C U is a good case study in how one E C U ties together radio engineering, security and embedded software. The full report from TyN Magazine is linked on this page."
+        },
+        {
+          "date": "2026-11-22",
+          "title": "LG Electronics wins PACE Pilot award for UltraView Windshield Display",
+          "source": "TradingView",
+          "url": "https://www.tradingview.com/news/tradingview:88d2dc92621c4:0-lg-electronics-wins-automotive-innovation-award-for-windshield-display/",
+          "summary": "LG Electronics received a 2026 Automotive News PACE Pilot award for its UltraView Windshield Display, a windshield-based display that is still at an early stage and not yet in production.",
+          "keywords": [
+            "Windshield Display",
+            "Head-Up Display",
+            "Cockpit HMI",
+            "AR HUD",
+            "PACE Awards"
+          ],
+          "script": "LG Electronics has won a twenty twenty six Automotive News PACE Pilot award for a product called the UltraView Windshield Display. The PACE awards recognise supplier innovation in the car industry, and the Pilot category is meant for technology that is promising but not yet in series production. That matches how LG's display was described: an early stage technology that has not yet reached the market. The award places the display among the new ideas that carmakers are weighing for future cabins. TradingView carried the news.\n\nSo what does it take to turn a windshield into a display? The most common approach today is the head up display, or H U D. A small unit buried in the dashboard contains a picture generation unit. This can be a backlit T F T L C D panel, a D L P micromirror chip, or a laser scanner. The image is folded by one or two mirrors and thrown onto the windshield, which acts as a partial mirror and reflects it towards the driver's eyes. The driver sees a virtual image that seems to float some distance ahead of the car, so the eyes do not need to refocus between the road and the display.\n\nThere are hard engineering problems hidden in that simple picture. A windshield has two glass surfaces, and each one reflects, so a plain windshield produces a double image. Carmakers fix this with a wedge shaped plastic interlayer inside the laminated glass, which brings the two reflections back together. Brightness is another challenge. The image has to stay readable against bright sky and snow, so the picture source must be extremely bright, and the optics must survive sunlight being focused back into them.\n\nAugmented reality H U Ds push this further. They place the virtual image further down the road, so that navigation arrows and lane markings can be laid over the real scene. That needs larger optics, a wider field of view and a tight link to the A D A S sensors and to the vehicle's position.\n\nThe next step, which awards like this one point towards, is to use much more of the glass. Ideas include projecting onto large areas of the windshield, transparent display layers and special reflective films. Each brings new questions about driver distraction, optical quality, and how the glass is repaired or replaced after damage.\n\nIf you want to go deeper, study H U D optics, virtual image distance, and how the display controller connects to the cockpit domain computer. The full report from TradingView is linked on this page."
+        }
+      ]
+    },
     {
       "id": "sdv-india",
       "chip": "SDV & India engineering",
