@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-23",
+  "updated": "2026-11-24",
   "source_note": "Aggregated from different Internet sources. Summaries are written in our own words; follow the links for the full stories.",
   "trends": [
     {
@@ -48,8 +48,23 @@
       "id": "sdv-india",
       "chip": "SDV & India engineering",
       "title": "Software-defined vehicles are pulling engineering work into India",
-      "summary": "Global suppliers keep adding Indian engineering capacity for software-defined mobility, cybersecurity and virtual validation. Bengaluru and Pune are where most of it is happening.",
+      "summary": "Global suppliers keep adding Indian engineering capacity for software-defined mobility, cybersecurity and virtual validation, mostly in Bengaluru and Pune. Indian engineering firms are also building AI toolchains, such as L&T Technology Services' SDVault.ai, to speed up SDV development and validation.",
       "items": [
+        {
+          "date": "2026-11-23",
+          "title": "L&T Technology Services launches AI platform for software-defined vehicle engineering",
+          "source": "ET Auto",
+          "url": "https://auto.economictimes.indiatimes.com/news/auto-technology/lt-technology-services-launches-ai-platform-for-software-defined-vehicle-engineering/136092774",
+          "summary": "L&T Technology Services has launched SDVault.ai, an AI-based engineering toolchain meant to help carmakers and Tier-1 suppliers develop, integrate and validate software for software-defined vehicles across the V-cycle.",
+          "keywords": [
+            "Software-Defined Vehicle",
+            "V-Model",
+            "AI Toolchain",
+            "Virtual Validation",
+            "ASPICE"
+          ],
+          "script": "The Indian engineering services company L and T Technology Services has launched a new platform called S D Vault dot A I. According to E T Auto and other trade outlets, it is an A I powered engineering toolchain. It is designed to help carmakers and tier one suppliers develop, integrate and validate software for software defined vehicles. The company presents it as a way to bring engineering intelligence to the whole V cycle. This story reached us as a short alert, so the platform's modules and claims are described in the linked report.\n\nTo understand the pitch, start with the V model. It is the classic way automotive software is built. On the left side of the V, engineers move downwards from vehicle requirements to system architecture, then software design, then code. On the right side, they climb back up, testing units, integrating them, and finally validating the complete vehicle against the original requirements. Every test on the right must trace back to a requirement on the left.\n\nThat traceability is demanded by the process standards. Automotive S P I C E assesses how mature a supplier's development process is. I S O twenty six two six two covers functional safety, and I S O twenty one four three four covers cybersecurity. Each one produces large volumes of documents, reviews and evidence.\n\nIn a software defined vehicle, the problem grows. Functions move from many small E C U s into a few powerful central computers. Software is updated over the air for years after the sale. So the V cycle is no longer run once per car program. It runs again and again.\n\nThis is where A I tools are being applied across the industry. Language models can check requirements for ambiguity, suggest test cases, and keep trace links up to date. Virtual E C U s and software in the loop testing let teams validate code on servers long before hardware exists, with hardware in the loop rigs reserved for final checks. This shortens the loop between writing a change and knowing whether it breaks something.\n\nThe open question for any such platform is trust. Safety standards require that tools used in development are qualified, and A I outputs must still be reviewed by engineers.\n\nFor students, learning the V model, traceability and virtual validation is the best preparation for this kind of work. The full report from E T Auto is linked on this page."
+        },
         {
           "date": "2026-11-21",
           "title": "thyssenkrupp Automotive Technology opens Pune engineering centre, plans 300-plus workforce",
@@ -124,8 +139,38 @@
       "id": "power-electronics",
       "chip": "Power electronics",
       "title": "Power electronics and electrified powertrains",
-      "summary": "Better high-voltage DC/DC conversion, hybrids built for several powertrain options, isolated drivers for solid-state relays, and Formula E as a test bed for inverter and motor technology.",
+      "summary": "Better high-voltage DC/DC conversion, hybrids built for several powertrain options, isolated drivers for solid-state relays and higher-power LIN motor drivers for smart actuators. Toyota is also expanding hybrid production in India under the PLI scheme, and Formula E remains a test bed for inverter and motor technology.",
       "items": [
+        {
+          "date": "2026-11-23",
+          "title": "Melexis launches fourth-generation automotive LIN motor drivers",
+          "source": "Electronics Weekly",
+          "url": "https://www.electronicsweekly.com/news/business/melexis-launches-2026-11/",
+          "summary": "Melexis has added the MLX81352 and MLX81354 to its range of LIN motor driver chips. The fourth-generation parts target small smart actuators that need more power than earlier devices could deliver.",
+          "keywords": [
+            "LIN Bus",
+            "Motor Driver",
+            "Smart Actuator",
+            "BLDC Motor",
+            "Mechatronics"
+          ],
+          "script": "Melexis, the Belgian chip maker, has introduced two new automotive motor driver chips, the M L X eight one three five two and the M L X eight one three five four. They are the fourth generation of the company's L I N motor drivers. According to Electronics Weekly, the new parts are aimed at mechatronic applications that need more power than earlier generations could handle. The story came through as a short alert, so the detailed figures for the two chips are in the linked report.\n\nTo see why such chips matter, think about how many small motors a modern car contains. There are flaps in the climate control system, coolant and oil pumps, cooling fans, active grille shutters, seat adjusters and headlamp levellers. Each one needs a little bit of intelligence, but none of them justifies a full electronic control unit of its own.\n\nThe answer is the smart actuator. The electronics are built straight into the motor housing, and a single chip does almost everything. It contains a small microcontroller, a voltage regulator that runs from the twelve volt supply, a driver stage for the motor, and a L I N transceiver for talking to the rest of the car.\n\nL I N stands for Local Interconnect Network. It is standardised as I S O seventeen nine eight seven. It uses a single wire, runs at up to about twenty kilobits per second, and follows a simple commander and responder scheme. A body or zone controller sends a command, and the actuator replies with its status. It is far cheaper than C A N, which makes it ideal for slow, low cost functions.\n\nMany of these actuators now use brushless D C motors. They last longer and run more quietly than brushed motors, but they need electronic commutation. The chip must switch the motor phases in the right order, often without a position sensor, by measuring the back E M F the spinning motor produces. Better parts use field oriented control for smooth, quiet torque.\n\nHigher power brings new problems. More current means more heat in a small, sealed housing, and stronger protection against short circuits, over voltage and load dumps. The chips must also pass A E C Q one hundred qualification, and many functions now need a safety analysis under I S O twenty six two six two.\n\nFor students, a L I N smart actuator is a compact lesson in embedded control, motor drives and vehicle networking in one package. The full report from Electronics Weekly is linked on this page."
+        },
+        {
+          "date": "2026-11-23",
+          "title": "Toyota India bets big on hybrids, to add 2 lakh units of capacity",
+          "source": "Team-BHP",
+          "url": "https://www.team-bhp.com/news/toyota-india-bets-big-hybrids-add-2-lakh-unit-capacity",
+          "summary": "Toyota's Indian arm plans to add capacity for about two lakh more vehicles a year with a strong focus on hybrids. The project is tied to the Advanced Automotive Technology category of India's production-linked incentive scheme.",
+          "keywords": [
+            "Strong Hybrid",
+            "Power Split Device",
+            "Inverter",
+            "PLI Scheme",
+            "Toyota"
+          ],
+          "script": "Toyota's Indian business is placing a large bet on hybrid cars. According to Team B H P, the company plans to add production capacity of two lakh units, which is two hundred thousand vehicles. The report links the project to the Advanced Automotive Technology category of the Indian government's production linked incentive scheme for automobiles and auto components. This story reached us as a short alert, so the investment figures and timelines are in the linked article.\n\nLet us look at what makes a strong hybrid work, because that is where most of the electronics sit. Toyota's system is a power split hybrid. A planetary gear set connects three things: the petrol engine, a smaller motor generator, and a larger traction motor that drives the wheels. By controlling the speed of the small motor generator, the system acts like a continuously variable transmission. The engine can run at its most efficient speed, while the electric side fills the gaps.\n\nThe heart of the electronics is the power control unit. It contains a boost converter that raises the battery voltage to several hundred volts, and two inverters, one for each motor. The inverters use power transistors, switching thousands of times a second, to turn direct current into three phase alternating current. When the car slows down, the process runs in reverse, and braking energy flows back into the battery.\n\nThe battery itself is small compared with a full electric car, usually around one kilowatt hour. It is built for high power and many shallow cycles rather than long range. A battery management system watches every cell's voltage and temperature, balances the cells, and keeps the state of charge inside a narrow window so the pack lasts for the life of the car.\n\nAbove all of this sits the hybrid control software. It decides, many times a second, how to split the driver's torque request between engine and motors, and when to start or stop the engine smoothly. It also has to manage heat in the motors and inverters, because the power transistors lose efficiency and age faster when they run hot.\n\nThe incentive scheme matters too. It rewards products classed as advanced automotive technology, and it expects a high share of value to be added in India. That pushes motors, inverters and battery packs towards local manufacture, which creates work for Indian power electronics engineers.\n\nFor students, the power split hybrid is a classic case study in mechanical and electrical co design. The full report from Team B H P is linked on this page."
+        },
         {
           "date": "2026-11-20",
           "title": "Toshiba launches photovoltaic-output photocoupler for automotive relays",
@@ -210,8 +255,23 @@
       "id": "ecu-sensing-supply-chain",
       "chip": "ECUs & sensing",
       "title": "ECUs, cameras and the electronics supply chain",
-      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands, and new electronics manufacturing ventures are forming. AI servers now compete with cars for circuit-board capacity, and capital needs are pushing smaller players out.",
+      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands, and new electronics manufacturing ventures are forming. AI servers now compete with cars for circuit-board capacity, capital needs are pushing smaller players out, and CT scanning with AI is being used to catch hidden connector defects.",
       "items": [
+        {
+          "date": "2026-11-23",
+          "title": "Industrial CT and AI expose hidden defects in automotive electrical connectors",
+          "source": "Electronics For You Business",
+          "url": "https://www.electronicsforyou.biz/industry-buzz/industrial-ct-and-ai-expose-hidden-defects-in-automotive-electrical-connectors/",
+          "summary": "A report on how industrial X-ray computed tomography, paired with AI analysis, can find faults inside automotive connectors that visual and electrical checks miss.",
+          "keywords": [
+            "Computed Tomography",
+            "Connectors",
+            "Non-Destructive Testing",
+            "AI Inspection",
+            "Quality"
+          ],
+          "script": "Electronics For You Business has reported on the use of industrial computed tomography, combined with artificial intelligence, to find hidden defects inside automotive electrical connectors. The story came through as a short alert, so the companies involved and the specific findings are described in the linked article. Here we focus on why connectors matter and how this inspection method works.\n\nA modern car contains hundreds of connectors and several thousand contact points. Every sensor, actuator and control unit depends on them. Field studies have long shown that a large share of electrical faults in vehicles come not from the chips, but from wiring and connections. The trouble is that many connector faults cannot be seen from outside. A terminal may look fully seated while it is slightly crooked inside its housing. A crimp may pass a pull test but contain voids. A locking latch may be cracked under the plastic.\n\nComputed tomography, or C T, is the same principle used in hospital scanners. The part is placed on a rotating stage between an X ray source and a detector. Hundreds or thousands of images are taken from different angles. Software then reconstructs a full three dimensional model, showing the inside of the part, slice by slice, without cutting it open.\n\nThe challenge is the amount of data. One scan can produce gigabytes of volume information. That is where A I comes in. Machine learning models can segment the image, separating metal terminals from plastic housing, and then flag anomalies such as gaps, misalignments, porosity or foreign particles. This makes the analysis faster and more consistent than a human inspector scrolling through slices.\n\nConnector quality is tightly specified. Standards such as U S C A R two in North America and L V two one four in Germany define tests for vibration, temperature cycling, humidity and mating forces. In electric vehicles, high voltage connectors add more risk, because a poor contact can overheat at hundreds of amps. They also include interlock pins that tell the battery system when a plug is opened.\n\nSmall faults lead to intermittent problems, such as fretting corrosion that comes and goes with vibration. These are the hardest faults to diagnose in a workshop, because the car often behaves perfectly by the time a technician connects a tester.\n\nFor students, connectors are a reminder that reliability depends on mechanics as much as electronics. The full report from Electronics For You Business is linked on this page."
+        },
         {
           "date": "2026-11-22",
           "title": "Sahasra promoters form 55:45 Asetronics manufacturing venture",
@@ -321,22 +381,6 @@
           "audio": "news/audio/0b75fa6bc42f.mp3",
           "script": "FORVIA has received three pilot recognitions at the 2026 Automotive News PACE Awards. The recognitions relate to the company's work on high-performance lighting and automotive electronics technologies. FORVIA is one of the world's largest automotive suppliers, and it includes the lighting and electronics specialist formerly known as Hella.\n\nLighting is a surprisingly good example of how far electronics has spread into the car. A headlamp used to be a bulb and a reflector. Today, L E D headlamps are controlled by dedicated driver electronics, and many vehicles use adaptive driving beam systems. These use a camera to detect oncoming cars and vehicles ahead, then switch off or dim only the segments of the light beam that would dazzle other drivers, while keeping the rest of the road brightly lit. High-definition systems go further, with thousands or even more than a million individually controllable pixels, able to project guidance lines or warnings onto the road.\n\nAll of this requires fast communication between the camera, a control unit and the lamp, precise current control for the L E Ds, and careful thermal management, because L E D efficiency and lifetime fall as temperatures rise. Lighting functions are also safety relevant. If a headlamp controller fails, the system must fall back to a safe state, so functional safety principles apply.\n\nLighting is also becoming a communication channel. Exterior light signatures, welcome animations and signals for automated driving modes are all being explored, and interior ambient lighting can warn the driver or show charging status.\n\nThe Automotive News PACE pilot recognitions are given to innovations that are being tested or piloted with customers, before full commercial launch. That makes them a useful early indicator of what may appear in production vehicles in the next few years.\n\nFor engineers, the lesson is that every part of the vehicle, even the lamps, now involves sensors, embedded software and networking. Courses in power electronics for L E D drivers, image processing for camera-based lighting, and functional safety are all relevant here.\n\nThe press release from FORVIA is linked on this page.",
           "audio_sec": 133
-        },
-        {
-          "date": "2026-11-21",
-          "title": "Japan Eyes Sri Lanka For Automotive Electronics Manufacturing",
-          "source": "Electronics For You Business",
-          "url": "https://www.electronicsforyou.biz/industry-buzz/japan-eyes-sri-lanka-for-automotive-electronics-manufacturing/",
-          "summary": "Japanese firms are looking at Sri Lanka as a production base, citing Lanka Harness's export record and spare capacity.",
-          "keywords": [
-            "Wiring harness",
-            "Electronics manufacturing",
-            "Supply chain",
-            "Sri Lanka"
-          ],
-          "audio": "news/audio/fbcaa4b0cb08.mp3",
-          "script": "Japan is considering Sri Lanka as a manufacturing base for automotive electronics, as part of a proposed Japan, India and Sri Lanka economic corridor, supported by Japan's Ministry of Economy, Trade and Industry and the trade agency JETRO. Japan's ambassador to Sri Lanka, Akio Isomata, recently visited the company Lanka Harness and praised its precision manufacturing and quality.\n\nLanka Harness makes automotive wire harnesses and safety components, including impact sensors used for airbags and seatbelts. It supplies major global carmakers and exports to seventeen countries, including Japan, India, China and Romania. It reports annual revenue of more than eighty million U S dollars and supports about a thousand direct and indirect jobs. The company started in 2002 with an initial Japanese investment of eight million dollars, and it reports a defect rate of one part per million. It has completed a new factory with spare capacity for Japanese customers, including those looking at operations in India. Under the India Sri Lanka free trade agreement, products with at least thirty five percent local value addition get preferential access to the Indian market.\n\nThe wire harness deserves more attention than it usually gets. It is the vehicle's nervous system: thousands of wires, connectors and terminals that carry power and signals between every sensor, actuator and control unit. A modern car's harness can weigh tens of kilograms and run to several kilometres of cable. It is still largely assembled by hand, which is why harness production tends to locate in countries with skilled, cost-competitive labour.\n\nHarness design is changing fast. Zonal electrical architectures aim to shorten and simplify harnesses by placing zone controllers around the car, each serving nearby devices. Automotive Ethernet is replacing some point-to-point wiring for high-bandwidth data. And forty eight volt systems allow thinner cables for the same power.\n\nAirbag impact sensors show the safety side. These sensors detect a crash within milliseconds and send the signal that fires the airbags and pretensions the seatbelts. Reliability is non-negotiable, which explains the emphasis on parts-per-million quality.\n\nFor engineers, this story highlights that the supply chain for automotive electronics is regional and strategic. Countries are competing to host it, and quality and trade rules shape where it goes.\n\nThe full article from Electronics For You is linked on this page.",
-          "audio_sec": 158
         }
       ]
     },
@@ -344,8 +388,23 @@
       "id": "platforms-standards",
       "chip": "Platforms & standards",
       "title": "Shared platforms and standardisation",
-      "summary": "To cut cost and development time, carmakers are sharing platforms and agreeing on common parts. In China, a shared standard is being written for drive-by-wire chassis.",
+      "summary": "To cut cost and development time, carmakers are sharing platforms and agreeing on common parts. In China, a shared standard is being written for drive-by-wire chassis, and suppliers such as FORVIA HELLA are shipping second-generation brake-by-wire pedals to Chinese customers.",
       "items": [
+        {
+          "date": "2026-11-23",
+          "title": "FORVIA HELLA introduces second-generation brake-by-wire pedal",
+          "source": "The BRAKE Report",
+          "url": "https://thebrakereport.com/forvia-hella-second-generation-brake-by-wire-pedal/",
+          "summary": "FORVIA HELLA has shown a second-generation pedal for brake-by-wire systems, developed by its engineering team in Germany. It is aimed at several Chinese automotive technology companies.",
+          "keywords": [
+            "Brake-by-Wire",
+            "Pedal Feel Simulator",
+            "Redundant Sensors",
+            "ASIL D",
+            "Chassis"
+          ],
+          "script": "The German supplier FORVIA HELLA has introduced the second generation of its brake by wire pedal. According to The Brake Report, the pedal was developed by the supplier's headquarters team in Germany. It will serve several Chinese automotive technology companies and other customers in China. This story came through as a short alert, so the detailed specifications are in the linked article.\n\nIn a conventional car, the brake pedal pushes a rod into a vacuum booster and a master cylinder. Hydraulic pressure then flows through pipes to the brake callipers. The driver's foot is physically connected to the brakes.\n\nBrake by wire breaks that link. The pedal becomes an electronic sensor. It measures how far and how hard the driver presses and sends that request as a signal to a brake controller. The controller then builds braking force using an electric pump, an electro hydraulic unit, or in future, fully electro mechanical callipers at each wheel.\n\nTaking away the physical link creates two engineering challenges. The first is feel. Drivers expect the pedal to push back in a familiar way. So a by wire pedal includes a pedal feel simulator, usually a set of springs and dampers, sometimes with active elements, that recreates the progressive resistance of a hydraulic system.\n\nThe second challenge is safety. If the signal is lost, the car must still stop. So the pedal uses redundant sensors, often two independent position sensors based on different principles, such as inductive and Hall effect sensing. Their signals travel over separate channels with separate power supplies. The design is developed under I S O twenty six two six two, typically to the highest level, A S I L D, and braking systems must also meet the U N regulations for brakes.\n\nWhy go to this trouble? By wire braking makes regenerative braking much smoother in electric cars, because software can blend motor braking and friction braking without the driver feeling the switch. It also frees up space in the front bulkhead, simplifies assembly across left and right hand drive, and lets automated driving functions command the brakes directly. Without hydraulic lines running to the pedal, carmakers can also reuse the same braking module across many vehicle models.\n\nThat explains the interest from Chinese companies, who are pushing hard on drive by wire chassis platforms. For students, study redundancy concepts and fault tolerant sensor design next. The full report from The Brake Report is linked on this page."
+        },
         {
           "date": "2026-11-22",
           "title": "From Flagship to Standard: Drive-by-Wire Chassis on a \"Long Run\"",
