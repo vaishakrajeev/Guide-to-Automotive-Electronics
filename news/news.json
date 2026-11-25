@@ -1,13 +1,27 @@
 {
-  "updated": "2026-11-24",
+  "updated": "2026-11-25",
   "source_note": "Aggregated from different Internet sources. Summaries are written in our own words; follow the links for the full stories.",
   "trends": [
     {
       "id": "cockpit-connectivity",
       "chip": "Cockpit & connectivity",
-      "title": "Connected cockpits: telematics and new displays",
-      "summary": "Berg Insight's latest ranking puts LG Electronics at the top of the telematics control unit market, as 4G and 5G modules, eCall and over-the-air updates become standard. At the same time, suppliers are exploring the windshield as the next large cockpit display.",
+      "title": "Connected cockpits: telematics, local modules and new displays",
+      "summary": "Berg Insight's latest ranking puts LG Electronics at the top of the telematics control unit market, as 4G and 5G modules, eCall and over-the-air updates become standard. Visteon now builds cellular modules in Chennai to supply Indian carmakers locally, and suppliers are exploring the windshield as the next large cockpit display.",
       "items": [
+        {
+          "date": "2026-11-24",
+          "title": "Visteon opens automotive cellular module production line in Chennai",
+          "source": "PR Newswire",
+          "url": "https://www.prnewswire.com/in/news-releases/visteon-expands-local-manufacturing-in-india-with-new-automotive-cellular-module-production-line-302948314.html",
+          "summary": "Visteon has started building automotive cellular modules at its Chennai factory, so carmakers in India can source a key telematics part locally. The company says the move fits its plan to supply both the connectivity and the cockpit electronics from one vertically integrated operation.",
+          "keywords": [
+            "Cellular Module",
+            "Telematics",
+            "Cockpit Electronics",
+            "Localization"
+          ],
+          "script": "Visteon, the cockpit electronics supplier, has launched a new production line for automotive cellular modules at its factory in Chennai, in the Indian state of Tamil Nadu. The expansion was announced on November twenty four. According to the company, local production gives carmakers access to critical vehicle electronics closer to their markets, and it supports the growth of automotive telematics in India. Visteon also says the step strengthens its vertically integrated approach, in which it supplies connectivity hardware and cockpit electronics together rather than as separate parts from separate vendors.\n\nSo what is an automotive cellular module, and why does it matter where it is made? The cellular module is the small shielded board that gives a car its link to the mobile network. It contains a modem chip, radio front end circuits, power management and memory, and it runs the protocol stack for four G L T E or five G. Engineers often call it the network access device, or N A D. On its own it does not do much. It is mounted inside a telematics control unit, or T C U, which adds satellite positioning, a backup battery, a connection to the vehicle network over C A N or automotive Ethernet, and security hardware for keys and certificates.\n\nBuilding these modules is demanding. The parts must meet A E C Q one hundred qualification for automotive temperature and stress. The finished module must pass vibration, thermal cycling and humidity tests, and its radio performance has to be checked on every unit, usually with automated test stations that measure transmit power and receiver sensitivity. The module also has to be certified by mobile network operators and regulators before it can go on sale. Quality systems follow I A T F sixteen nine forty nine, the automotive standard for production.\n\nThe module is also the gateway for some of the car's most sensitive functions. Emergency calling, remote diagnostics and over the air software updates all pass through it. That puts the T C U inside the scope of U N regulation one fifty five on cybersecurity and one fifty six on software updates, which carmakers must satisfy for type approval in many markets.\n\nPairing the modem with the cockpit domain controller in one supplier's hands can simplify integration, because the infotainment software and the connectivity stack are tested together.\n\nFor students, this is a good example of how radio engineering, production testing and security meet in one small part. The full report from PR Newswire is linked on this page."
+        },
         {
           "date": "2026-11-22",
           "title": "Berg Insight ranks leading automotive connectivity SoC, NAD and TCU suppliers",
@@ -48,8 +62,36 @@
       "id": "sdv-india",
       "chip": "SDV & India engineering",
       "title": "Software-defined vehicles are pulling engineering work into India",
-      "summary": "Global suppliers keep adding Indian engineering capacity for software-defined mobility, cybersecurity and virtual validation, mostly in Bengaluru and Pune. Indian engineering firms are also building AI toolchains, such as L&T Technology Services' SDVault.ai, to speed up SDV development and validation.",
+      "summary": "Global suppliers keep adding Indian engineering capacity for software-defined mobility, cybersecurity and virtual validation, mostly in Bengaluru and Pune. Indian firms are building AI toolchains such as L&T Technology Services' SDVault.ai, vendors are pitching AI-led virtual twins to shorten development, and truck maker VECV has named a leader for its embedded, connectivity and SDV work.",
       "items": [
+        {
+          "date": "2026-11-24",
+          "title": "Manoj Kumar Panda to lead VECV's embedded technology, connectivity and SDV work",
+          "source": "Autocar Professional",
+          "url": "https://www.autocarpro.in/news/manoj-kumar-panda-to-lead-vecvs-embedded-technology-connectivity-and-sdv-initiatives-136102",
+          "summary": "VE Commercial Vehicles has put Manoj Kumar Panda in charge of its embedded technology, connectivity and software-defined vehicle programmes. He previously worked at CEER, FEV and Tata Motors and has more than 26 years in automotive electronics and vehicle architecture.",
+          "keywords": [
+            "Software-Defined Vehicle",
+            "Commercial Vehicles",
+            "Embedded Systems",
+            "Connectivity"
+          ],
+          "script": "VE Commercial Vehicles, the Indian truck and bus maker known as V E C V, has appointed Manoj Kumar Panda to lead its embedded technology, connectivity and software defined vehicle initiatives. Autocar Professional reported the move. Panda has previously worked at CEER, at the engineering firm F E V and at Tata Motors, and he brings more than twenty six years of experience in automotive electronics and vehicle architecture. The source article could not be opened for this overview, so the facts are taken from its published summary. The rest explains why such a role matters.\n\nCommercial vehicles are going through the same electronic shift as passenger cars, but with different priorities. A truck operator cares about uptime, fuel cost and fleet management. That makes connectivity especially valuable. A telematics unit on a truck can report location, fuel use, driver behaviour and fault codes to a fleet portal in real time. Engineers can read diagnostic trouble codes remotely, plan maintenance before a breakdown and, increasingly, push software updates over the air.\n\nEmbedded technology is the base of all this. Every function, from engine and transmission control to brakes and body electronics, runs on E C Us with real time software. In heavy vehicles, these E C Us often talk over C A N using the S A E J nineteen thirty nine protocol, which defines standard messages for engines, transmissions and brakes. Newer designs add automotive Ethernet for cameras and higher bandwidth data.\n\nA software defined vehicle takes this further. Instead of dozens of separate boxes, each with fixed software, the architecture moves towards a few powerful central or zonal computers. Functions become software applications that can be updated, added or improved during the vehicle's life. That requires a clear separation between hardware and software, middleware such as AUTOSAR, and a secure update chain. Regulations such as U N regulation one fifty five on cybersecurity and one fifty six on software updates apply to trucks and buses as well as cars.\n\nFor a commercial vehicle maker, the business case is strong. Software features can improve fuel efficiency, safety and service revenue across a fleet that runs for many years. Predictive maintenance, remote fault analysis and features that can be switched on after sale all depend on a well designed electronic architecture underneath.\n\nLeadership roles like this show where the industry is hiring: people who understand both vehicle architecture and software. The full report from Autocar Professional is linked on this page."
+        },
+        {
+          "date": "2026-11-24",
+          "title": "Tech firm claims AI-led virtual twins can deliver 10x engineering gains for OEMs",
+          "source": "ET Auto",
+          "url": "https://auto.economictimes.indiatimes.com/news/auto-technology/this-tech-co-claims-ai-led-virtual-twins-can-deliver-10x-engineering-gains-help-oems-match-china-speed/136134992",
+          "summary": "A technology company tells ET Auto that AI-driven virtual twins can make vehicle engineering ten times faster and help established carmakers keep up with Chinese development speed. The 10x figure is the company's own claim, framed against the pressure of SDVs and fast electrification.",
+          "keywords": [
+            "Virtual Twin",
+            "AI",
+            "Virtual Validation",
+            "Software-Defined Vehicle"
+          ],
+          "script": "ET Auto has published an interview with a technology company that says A I led virtual twins can deliver ten times gains in engineering productivity. The company argues that this could help established carmakers match what the industry calls China speed, the much shorter development cycles of Chinese manufacturers. The pitch is set against the pressure created by software defined vehicles and rapid electrification. The source article could not be opened for this overview, so the details come from its published summary. Keep in mind that the ten times figure is the company's own claim.\n\nWhat is a virtual twin? It is a digital model of a product that behaves like the real one closely enough to be used for engineering decisions. In vehicle development it can describe the mechanical structure, the thermal behaviour of a battery, the dynamics of the chassis, or the electronics and software that control them. Engineers test the model instead of waiting for physical prototypes, which are expensive and arrive late.\n\nFor electronics and software, the key methods have names worth knowing. Model in the loop tests control algorithms as simulation models. Software in the loop runs the real compiled code on a computer against a simulated vehicle. Hardware in the loop connects a real E C U to a real time simulator that pretends to be the rest of the car, feeding it sensor signals and reading its outputs. A virtual E C U goes one step further and runs the production software on a simulated processor, so testing can start before the hardware exists.\n\nWhere does A I come in? Simulation produces huge amounts of data. Machine learning can build fast surrogate models that approximate slow physics simulations, suggest test cases that are most likely to find faults, and help engineers sort through results. For driver assistance, A I is also used to generate realistic traffic scenarios.\n\nThere are limits. A twin is only as good as its validation against real measurements, and safety standards such as I S O twenty six two six two expect clear evidence that simulation tools are trustworthy. Physical testing does not disappear. It becomes more targeted. Prototype vehicles are then used mainly to confirm what the models predicted and to calibrate them for the next round of work.\n\nVirtual validation is one of the fastest growing skills in automotive engineering. The full report from ET Auto is linked on this page."
+        },
         {
           "date": "2026-11-23",
           "title": "L&T Technology Services launches AI platform for software-defined vehicle engineering",
@@ -261,8 +303,23 @@
       "id": "ecu-sensing-supply-chain",
       "chip": "ECUs & sensing",
       "title": "ECUs, cameras and the electronics supply chain",
-      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands, and new electronics manufacturing ventures are forming. AI servers now compete with cars for circuit-board capacity, capital needs are pushing smaller players out, and CT scanning with AI is being used to catch hidden connector defects.",
+      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands, and new electronics manufacturing ventures are forming. AI servers now compete with cars for circuit-board capacity, capital needs are pushing smaller players out, CT scanning with AI is catching hidden connector defects, and Infineon's self-calibrating angle sensors aim to cut end-of-line calibration.",
       "items": [
+        {
+          "date": "2026-11-24",
+          "title": "Infineon introduces digital angle sensors with automatic calibration",
+          "source": "Military & Aerospace Electronics",
+          "url": "https://www.militaryaerospace.com/sensors/product/55421070/infineon-introduces-digital-angle-sensors-with-automatic-calibration",
+          "summary": "Infineon has released a family of digital angle sensors that calibrate themselves, with automotive-qualified versions sold as the TLE49012. The aim is to cut the end-of-line calibration work that position sensors normally need in motors and actuators.",
+          "keywords": [
+            "Angle Sensor",
+            "Magnetic Sensing",
+            "Auto Calibration",
+            "Infineon",
+            "Functional Safety"
+          ],
+          "script": "Infineon has introduced a new family of digital angle sensors that can calibrate themselves automatically. The automotive qualified versions carry the part number T L E four nine zero one two, and according to the report they are designed to comply with I S O requirements for automotive use. The news was carried by Military and Aerospace Electronics. The source page could not be opened for this overview, so the details here are limited to the published summary, and the rest of this overview explains the technology behind it.\n\nAn angle sensor tells a controller exactly where a rotating shaft is pointing. In a car, that information is needed everywhere. The electric power steering system needs the angle of the steering column and of its motor. A brushless motor in a pump, fan or electric drive needs the rotor position so the inverter can switch the phases at the right moment. Throttle bodies, pedal modules and gear selectors also use angle sensing.\n\nMost of these sensors are magnetic. A small magnet is fixed to the end of the shaft, and a sensor chip sits just beneath it. As the shaft turns, the direction of the magnetic field turns with it. The chip measures two field components at right angles, roughly a sine and a cosine, and computes the angle from them using an arctangent calculation, often done with the CORDIC algorithm. The sensing element can be a Hall plate, or a magnetoresistive element such as anisotropic, giant or tunnel magnetoresistance, each with its own trade offs in sensitivity, noise and temperature drift.\n\nThe weak spot is calibration. In a real assembly the magnet is never perfectly centred, the two channels have slightly different gains and offsets, and the signals are not exactly ninety degrees apart. Traditionally each unit is calibrated at the end of the production line, which costs time and test equipment. Automatic calibration moves that job into the chip, which learns and corrects these errors while it runs.\n\nDigital output matters too. Interfaces such as S E N T or S P C send the angle as a robust digital message instead of an analog voltage, which reduces noise problems on long wires. For safety related uses such as steering, the sensor must also support I S O twenty six two six two, usually with diagnostics and sometimes with two independent sensing dies in one package.\n\nIf you study motor control, angle sensing is worth learning in depth. The full report from Military and Aerospace Electronics is linked on this page."
+        },
         {
           "date": "2026-11-23",
           "title": "Industrial CT and AI expose hidden defects in automotive electrical connectors",
@@ -374,21 +431,6 @@
           "audio": "news/audio/9c501bec6c18.mp3",
           "script": "Marelli has received two honours at the 2026 Automotive News PACE Awards, both in automotive electronics, covering next-generation display technology and vehicle connectivity. The PACE Awards recognise supplier innovations judged to have real technical and business impact.\n\nLet's look at why displays and connectivity are such active areas. Not long ago, a car's dashboard had analogue dials, and the radio had a small segment display. Today, many vehicles have a digital instrument cluster, a large central touchscreen, sometimes a passenger display, and a head-up display projected onto the windscreen. These screens are becoming larger, curved, and in some cases stretch across the whole dashboard.\n\nThat creates engineering challenges well beyond the screen itself. Automotive displays must stay readable in direct sunlight and at night, survive temperatures from well below freezing to the heat of a parked car in summer, and meet strict reliability targets for many years. They must avoid distracting reflections in the windscreen. Technologies such as local dimming, mini L E D backlights and O L E D panels are used to improve contrast and reduce power. Behind the screen, a cockpit domain controller often runs several displays at once from a single high-performance chip, using a hypervisor to keep safety-relevant content, such as warning lamps, separate from infotainment apps.\n\nConnectivity is the other half. A connected car has a telematics control unit with a cellular modem, and increasingly support for five G and vehicle-to-everything communication. Connectivity enables navigation and streaming, but more importantly, it enables over-the-air software updates, remote diagnostics, emergency calls and fleet services. It is also a major attack surface, which is why connectivity units must meet cybersecurity requirements such as U N regulation R one five five.\n\nDisplays and connectivity also meet in the software-defined vehicle. When features can be added through software, the screen is where the driver sees them and the connectivity unit is how they arrive.\n\nMarelli is a major global supplier of lighting, electronics and powertrain components. Recognition in these categories reflects how central cockpit electronics and connectivity have become to the value of a vehicle.\n\nFor students, cockpit electronics is a field that blends graphics, embedded software, networking and human factors. It is a great area to explore if you enjoy both hardware and user experience.\n\nThe full report from Manufacturing Today India is linked on this page.",
           "audio_sec": 164
-        },
-        {
-          "date": "2026-11-20",
-          "title": "FORVIA receives three 2026 Automotive News PACE pilot recognitions",
-          "source": "FORVIA (press release)",
-          "url": "https://www.forvia.com/en/press/forvia-receives-three-2026-automotive-news-pace-pilot-recognitions",
-          "summary": "FORVIA was recognised for work on high-performance lighting and automotive electronics.",
-          "keywords": [
-            "Lighting",
-            "Automotive electronics",
-            "PACE Awards"
-          ],
-          "audio": "news/audio/0b75fa6bc42f.mp3",
-          "script": "FORVIA has received three pilot recognitions at the 2026 Automotive News PACE Awards. The recognitions relate to the company's work on high-performance lighting and automotive electronics technologies. FORVIA is one of the world's largest automotive suppliers, and it includes the lighting and electronics specialist formerly known as Hella.\n\nLighting is a surprisingly good example of how far electronics has spread into the car. A headlamp used to be a bulb and a reflector. Today, L E D headlamps are controlled by dedicated driver electronics, and many vehicles use adaptive driving beam systems. These use a camera to detect oncoming cars and vehicles ahead, then switch off or dim only the segments of the light beam that would dazzle other drivers, while keeping the rest of the road brightly lit. High-definition systems go further, with thousands or even more than a million individually controllable pixels, able to project guidance lines or warnings onto the road.\n\nAll of this requires fast communication between the camera, a control unit and the lamp, precise current control for the L E Ds, and careful thermal management, because L E D efficiency and lifetime fall as temperatures rise. Lighting functions are also safety relevant. If a headlamp controller fails, the system must fall back to a safe state, so functional safety principles apply.\n\nLighting is also becoming a communication channel. Exterior light signatures, welcome animations and signals for automated driving modes are all being explored, and interior ambient lighting can warn the driver or show charging status.\n\nThe Automotive News PACE pilot recognitions are given to innovations that are being tested or piloted with customers, before full commercial launch. That makes them a useful early indicator of what may appear in production vehicles in the next few years.\n\nFor engineers, the lesson is that every part of the vehicle, even the lamps, now involves sensors, embedded software and networking. Courses in power electronics for L E D drivers, image processing for camera-based lighting, and functional safety are all relevant here.\n\nThe press release from FORVIA is linked on this page.",
-          "audio_sec": 133
         }
       ]
     },
