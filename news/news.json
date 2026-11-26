@@ -1,13 +1,27 @@
 {
-  "updated": "2026-11-25",
+  "updated": "2026-11-26",
   "source_note": "Aggregated from different Internet sources. Summaries are written in our own words; follow the links for the full stories.",
   "trends": [
     {
       "id": "cockpit-connectivity",
       "chip": "Cockpit & connectivity",
       "title": "Connected cockpits: telematics, local modules and new displays",
-      "summary": "Berg Insight's latest ranking puts LG Electronics at the top of the telematics control unit market, as 4G and 5G modules, eCall and over-the-air updates become standard. Visteon now builds cellular modules in Chennai to supply Indian carmakers locally, and suppliers are exploring the windshield as the next large cockpit display.",
+      "summary": "Berg Insight's latest ranking puts LG Electronics at the top of the telematics control unit market, and LG now says its vehicle electronics unit has become a steady earner as earlier orders reach production. Visteon builds cellular modules in Chennai to supply Indian carmakers locally, and suppliers are exploring the windshield as the next large cockpit display.",
       "items": [
+        {
+          "date": "2026-11-25",
+          "title": "LG's vehicle electronics business steadies while LG Magna struggles with profitability",
+          "source": "Chosunbiz",
+          "url": "https://biz.chosun.com/en/en-it/2026/11/25/VE77ZCTQENBCFKLKZG4SBAXHY4/",
+          "summary": "LG Electronics says its automotive electronics business has become a stable earner as orders won earlier turn into revenue. Its electric powertrain joint venture, LG Magna, is still finding profits hard to reach, Chosunbiz reports.",
+          "keywords": [
+            "Infotainment",
+            "Telematics",
+            "E-Powertrain",
+            "Order Backlog"
+          ],
+          "script": "Korean business outlet Chosunbiz reports a split picture inside LG's automotive activities. LG Electronics said its automotive electronics business has become a stable source of income, as existing orders are steadily turning into revenue. At the same time, LG Magna, the group's electric powertrain venture, is struggling with profitability. The contrast is useful for anyone following the industry, because it shows that two parts of the same supplier, both working on vehicle electronics, can face very different economics.\n\nStart with how automotive supply contracts work. A supplier usually wins a programme years before the car reaches showrooms. Engineers then spend a long time on development, validation and approval, often called P P A P, before start of production. Revenue only arrives once vehicles are built and sold, and it continues for the life of the model. The total expected value of these awarded contracts is called the order backlog. When a supplier says orders are turning into revenue, it means programmes won in earlier years have finally reached production.\n\nLG's vehicle electronics unit is known for infotainment systems and telematics control units. A telematics control unit contains a cellular modem, a positioning receiver and a secure processor. It handles emergency calls, remote services and over the air updates. Infotainment units run the screens, audio and smartphone integration. These products reuse a lot of consumer electronics know how, from display drivers to wireless design, and their software platforms can be shared across many car brands and models, which spreads development cost.\n\nThe electric powertrain business is different. It makes traction motors, inverters and on board chargers. An inverter uses power transistors, made from silicon or silicon carbide, to turn battery direct current into three phase alternating current for the motor. These parts need heavy investment in production lines, are exposed to the ups and downs of electric vehicle demand, and face intense price pressure, especially from Chinese competitors. When electric vehicle volumes grow more slowly than planned, factories run below capacity and margins suffer.\n\nThere is a lesson here about business models. Electronics with high software content and broad reuse can earn steady returns. Hardware that is capital intensive and tied to one fast moving market carries more risk, even when the underlying technology is excellent.\n\nFor students, it is worth studying how inverters and telematics units are built, and how supplier sourcing cycles work. The full report from Chosunbiz is linked on this page."
+        },
         {
           "date": "2026-11-24",
           "title": "Visteon opens automotive cellular module production line in Chennai",
@@ -61,11 +75,76 @@
       ]
     },
     {
+      "id": "adas-radar",
+      "chip": "ADAS & radar",
+      "title": "Driver assistance: centralised radar and low-cost self-driving",
+      "summary": "Radar chips are being redesigned for centralised architectures, where a central computer processes data from lean sensor front ends, as in Infineon's new four-transmit, four-receive RASIC. At the same time, China is pushing advanced driver assistance into affordable cars, shown by a roughly 18,000-dollar Volkswagen sedan developed in China for Chinese buyers.",
+      "items": [
+        {
+          "date": "2026-11-25",
+          "title": "Infineon introduces 4Tx/4Rx RASIC radar MMIC for centralised automotive radar",
+          "source": "TimesTech",
+          "url": "https://timestech.in/infineon-advances-automotive-radar-technology-with-4tx-4rx-rasic/",
+          "summary": "Infineon's new RASIC CTRX8144FS is a 76 to 81 GHz radar chip with four transmit and four receive channels, aimed at radar systems whose processing sits in a central computer. On-chip diagnostics keep watch on RF performance and die temperature to support functional safety.",
+          "keywords": [
+            "Radar MMIC",
+            "77 GHz Radar",
+            "MIMO",
+            "Central Compute",
+            "Functional Safety"
+          ],
+          "script": "Infineon has added a new RASIC automotive radar chip. The part is called the C T R X eight one four four F S. It is a radar M M I C, which stands for monolithic microwave integrated circuit, and it works in the seventy six to eighty one gigahertz band. It packs four transmit channels and four receive channels onto one chip. Infineon positions it for centralised radar architectures. Reports say its low thermal resistance lets it run across the full automotive temperature range, and built in diagnostics continuously monitor radio frequency performance and internal temperatures.\n\nSo what does a chip like this actually do? A radar M M I C is the analogue heart of a radar sensor. It generates a rising frequency ramp, called a chirp, and sends it out through the transmit antennas. Echoes from cars, pedestrians and guard rails return to the receive antennas. The chip mixes each echo with the signal it is sending at that moment. The small difference in frequency, called the beat frequency, is proportional to distance. Phase shifts between chirps reveal speed through the Doppler effect. This scheme is called F M C W, or frequency modulated continuous wave radar.\n\nFour transmitters and four receivers can form sixteen virtual channels, as long as the transmit signals are coded so the receiver can tell them apart. This is known as M I M O radar, short for multiple input, multiple output. More virtual channels give a larger virtual antenna and finer angular resolution. That helps separate a motorbike riding beside a truck.\n\nThe word centralised matters too. In a classic design, every radar module carries its own processor and sends out a finished list of objects. In a centralised design, the sensor behind the bumper becomes a leaner front end. It digitises the echoes and streams lower level data over a fast link to a central A D A S computer. That computer can fuse several radars with cameras and improve through software updates.\n\nSafety is a big part of the story. Radar feeds functions such as automatic emergency braking and adaptive cruise control, so the hardware is developed under I S O twenty six two six two. Continuous self checks let the system notice a degraded sensor and react safely.\n\nFor students, this is a good moment to study F M C W signal processing, range and Doppler F F T s, and M I M O array design. The full report from TimesTech is linked on this page."
+        },
+        {
+          "date": "2026-11-25",
+          "title": "VW's $18,000 self-driving sedan shows how China leads on car technology",
+          "source": "Bloomberg",
+          "url": "https://www.bloomberg.com/news/articles/2026-11-25/vw-s-18-000-self-driving-sedan-shows-how-china-leads-on-car-tech",
+          "summary": "Bloomberg looks at a low-cost Volkswagen sedan with self-driving features whose technology, including its plug-in hybrid drivetrain, was developed in China for Chinese buyers. Volkswagen is reported to be weighing wider use of the same technology.",
+          "keywords": [
+            "Self-Driving",
+            "Plug-In Hybrid",
+            "ADAS Domain Controller",
+            "China Speed"
+          ],
+          "script": "Bloomberg has published an analysis built around a new Volkswagen sedan for China. The car is priced at around eighteen thousand dollars, yet it is marketed with self driving features. According to the report, the car's technology, including its plug in hybrid drivetrain, was developed in China, for China. Volkswagen is said to be considering deploying that technology beyond the car itself. Bloomberg presents the model as evidence of how far China now leads on car technology, especially in packing advanced features into affordable vehicles.\n\nWhy is this technically interesting? A few years ago, driver assistance at this level was reserved for premium cars. The cost has fallen because of how the electronics are now organised. Instead of many small control units, each with its own sensor, a modern system uses one A D A S domain controller. This is a powerful computer built around an automotive system on chip with dedicated neural network accelerators. Cameras, radar and sometimes lidar all feed into it. One software stack handles lane keeping, adaptive cruise, automated parking and navigation on highways and city roads.\n\nIt helps to know the vocabulary. The S A E J thirty sixteen standard defines driving automation from level zero to level five. Most so called self driving features sold to consumers today are level two. The car steers, brakes and accelerates, but the driver must supervise at all times. Calling a feature self driving does not change that legal responsibility.\n\nThe plug in hybrid side is just as relevant. A plug in hybrid pairs a petrol engine with a battery large enough for everyday electric driving, plus an on board charger. Chinese designs often use dedicated hybrid transmissions, where one or two electric motors do most of the work and the engine acts mainly as a generator. Power electronics, the inverter and the battery management system, carry much of the engineering.\n\nThe bigger theme is development speed. Volkswagen has in recent years partnered with Chinese technology companies and set up local engineering teams. The aim is to shorten development cycles from many years to a much shorter time, a pace often described as China speed. Software defined architectures, local chip suppliers and aggressive cost targets all play a part.\n\nFor engineers, this is a reminder that cost engineering of sensors, compute and power electronics is now as important as raw performance. Studying centralised E and E architectures is a good next step. The full report from Bloomberg is linked on this page."
+        }
+      ]
+    },
+    {
       "id": "sdv-india",
       "chip": "SDV & India engineering",
       "title": "Software-defined vehicles are pulling engineering work into India",
-      "summary": "Global suppliers keep adding Indian engineering capacity for software-defined mobility, cybersecurity and virtual validation, mostly in Bengaluru and Pune. Indian firms are building AI toolchains such as L&T Technology Services' SDVault.ai, vendors are pitching AI-led virtual twins to shorten development, and truck maker VECV has named a leader for its embedded, connectivity and SDV work.",
+      "summary": "Global suppliers keep adding Indian engineering capacity for software-defined mobility, cybersecurity and virtual validation, mostly in Bengaluru and Pune. Indian firms are building AI toolchains such as L&T Technology Services' SDVault.ai, Synopsys warns that carmakers must keep control of their software, and the government's PLI Auto scheme continues to back local production of advanced automotive technology.",
       "items": [
+        {
+          "date": "2026-11-25",
+          "title": "Synopsys: carmakers risk losing their products' soul without software control",
+          "source": "Autocar Professional",
+          "url": "https://www.autocarpro.in/news/carmakers-risk-losing-their-products-soul-without-software-control-synopsys-136131",
+          "summary": "Speaking to Autocar Professional, Synopsys executive Subramanian warns that carmakers who give up control of vehicle software risk losing what makes their products distinct. He adds that OEMs are themselves pushing technology firms to collaborate and deliver integrated engineering.",
+          "keywords": [
+            "Software-Defined Vehicle",
+            "Virtual ECU",
+            "Shift-Left Testing",
+            "Synopsys"
+          ],
+          "script": "Autocar Professional has carried comments from Synopsys, the chip design and simulation software company, on who should control software in tomorrow's cars. The headline message is blunt. Carmakers risk losing their products' soul if they do not keep control of their software. According to the report, Subramanian of Synopsys also said that automotive manufacturers themselves are encouraging technology companies to collaborate and deliver integrated engineering, rather than isolated tools and parts.\n\nWhy would software be the soul of a car? In a software defined vehicle, many things that drivers feel are decided in code. Steering feel, throttle response, regenerative braking, the look of the screens and the behaviour of driver assistance are all tuned by software. If a carmaker buys a complete black box from a supplier, every car using that box can start to feel the same. Keeping the software in house, or at least owning its architecture and key functions, protects brand identity and lets the company keep improving the car through over the air updates.\n\nControlling software is hard, though. A modern car runs code from many sources on a mix of microcontrollers and high performance computers. Standards help keep this manageable. Classic and Adaptive AUTOSAR define how software components talk to each other and to the hardware. A S P I C E describes mature development processes. I S O twenty six two six two covers functional safety, and I S O twenty one four three four covers cybersecurity.\n\nThis is where companies like Synopsys come in. Their tools let engineers build a virtual E C U, a software model of the real control unit, including its processor. Real production code can run on this model on an ordinary computer or in the cloud, long before physical hardware exists. Testing early in this way is called shift left. Thousands of test scenarios can run automatically every night as part of continuous integration. Virtual models of chips also let carmakers and chip makers agree on requirements earlier, which matters as more carmakers design or specify their own silicon.\n\nThe call for integrated engineering reflects a real pain point. Hardware, software and system teams often work with separate tools and timelines, and problems often show up late, during integration on real vehicles, when fixes are most expensive.\n\nFor students, learning AUTOSAR, virtual prototyping and continuous integration for embedded code is valuable. The full report from Autocar Professional is linked on this page."
+        },
+        {
+          "date": "2026-11-25",
+          "title": "Government outlines PLI scheme for automobiles and auto components",
+          "source": "Press Information Bureau",
+          "url": "https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2341207",
+          "summary": "A Government of India press release sets out the production-linked incentive scheme for vehicles and auto components. The scheme aims to strengthen domestic manufacturing, promote advanced automotive technologies and position India as a global hub for the sector.",
+          "keywords": [
+            "PLI Scheme",
+            "Advanced Automotive Technology",
+            "Localisation",
+            "Manufacturing Policy"
+          ],
+          "script": "The Press Information Bureau, the Government of India's official news service, has issued a release on the production linked incentive scheme for the automobile and auto component industry, usually called P L I Auto. According to the release, the scheme aims to enhance domestic manufacturing capabilities, promote advanced automotive technologies and position India as a global hub for the sector. The release adds to recent news on this page, such as Toyota's hybrid expansion in India under the same programme.\n\nHow does a production linked incentive work? Instead of paying money up front, the government pays companies a percentage of their additional sales of qualifying products, once those products are actually made in India. To qualify, companies must commit to investment, meet sales thresholds and show that a large share of the value is added locally. The idea is to reward real production and sales rather than promises, so public money follows actual output.\n\nThe auto version of the scheme focuses on what it calls advanced automotive technology products. In practice, this means the parts that are hardest to source locally today. Electric drive components are one group, including traction motors, inverters, battery packs and battery management systems. Electronics for safety and driver assistance are another, including sensors, radar, cameras and electronic control units. Many of these depend on semiconductors, printed circuit boards and specialised assembly lines that India has historically imported.\n\nFor an engineer, localisation is not only about building a factory. A locally made E C U still needs automotive grade chips qualified to A E C Q one hundred, boards made to tight reliability rules, and a quality system certified to I A T F sixteen nine four nine. Each new supplier must pass the carmaker's production part approval process before parts reach a vehicle. Building this ecosystem takes years, and incentives help bridge the gap while volumes grow.\n\nThe policy also links to India's wider electronics and semiconductor programmes. As cars carry more electronics, the value of the electronic content rises sharply, and a country that only assembles mechanical parts captures less of that value. That is why incentives increasingly target electronics, software and electrified powertrains rather than traditional components.\n\nFor students, it is worth understanding how automotive quality systems and component qualification work, since these skills are central to any localisation effort. The full report from the Press Information Bureau is linked on this page."
+        },
         {
           "date": "2026-11-24",
           "title": "Manoj Kumar Panda to lead VECV's embedded technology, connectivity and SDV work",
@@ -133,40 +212,6 @@
           "audio_sec": 168
         },
         {
-          "date": "2026-11-20",
-          "title": "SDVs, AI and virtual engineering emerge as key drivers of India's automotive engineering shift",
-          "source": "ET Auto",
-          "url": "https://auto.economictimes.indiatimes.com/news/industry/sdvs-ai-and-virtual-engineering-emerge-as-key-drivers-of-indias-automotive-engineering-shift/135993621",
-          "summary": "Industry speakers describe vehicles that are updated over the air and validated virtually, and what that changes in engineering teams.",
-          "keywords": [
-            "SDV",
-            "OTA updates",
-            "Virtual validation",
-            "AI",
-            "India"
-          ],
-          "audio": "news/audio/ff65e3098277.mp3",
-          "script": "Software-defined vehicles, artificial intelligence and virtual engineering are emerging as the main forces reshaping automotive engineering in India. Industry leaders described how carmakers and technology companies are preparing for vehicles that are updated continuously, validated virtually and adapted over their lifetime.\n\nLet's start with the software-defined vehicle, or S D V. In a traditional car, each function lives in its own electronic control unit with its own fixed software. Adding a feature often means adding another box. In a software-defined vehicle, the electrical and electronic architecture is reorganised around a few powerful central computers and zone controllers. Functions become software applications that can be added or improved through over-the-air updates, long after the car leaves the factory. Middleware such as adaptive AUTOSAR and service-oriented communication like SOME over I P make this possible.\n\nThis has a big consequence for testing. If software keeps changing, you cannot rely only on physical prototypes and test drives to validate each release. That is where virtual engineering comes in. Engineers build digital models of the vehicle, its sensors and its environment, and run software against them. You may have heard the terms model in the loop, software in the loop and hardware in the loop. Together they let teams test thousands of scenarios automatically, including dangerous ones that would be impossible to try on a real road. Digital twins extend this idea by keeping a virtual copy of a real vehicle or system that is updated with field data.\n\nArtificial intelligence plays several roles. It powers perception in driver assistance systems, it helps generate and prioritise test cases, it can assist engineers in writing and reviewing code, and it can analyse data coming back from vehicles in the field.\n\nWhy does this matter for India in particular? Indian engineering centres already carry out a large share of the world's automotive software development and validation. As the industry moves toward continuous software delivery and virtual testing, the skills in demand shift toward cloud tooling, continuous integration pipelines, simulation, and of course the safety and cybersecurity processes that keep updates trustworthy.\n\nFor students, a practical takeaway: learn how the V-model maps onto continuous integration, get comfortable with simulation tools, and understand how over-the-air updates are secured. Those are the building blocks of the software-defined vehicle.\n\nYou can read the full feature on E T Auto through the link on this page.",
-          "audio_sec": 163
-        },
-        {
-          "date": "2026-11-20",
-          "title": "AutoEV Bharat 2026, Bengaluru: A Must-Visit Show for Automotive OEMs",
-          "source": "ELE Times",
-          "url": "https://www.eletimes.ai/autoev-bharat-2026-bengaluru-a-must-visit-show-for-automotive-oems",
-          "summary": "A Bengaluru exhibition covering automotive semiconductors, sensors, batteries and smart manufacturing for OEMs.",
-          "keywords": [
-            "Automotive semiconductors",
-            "Sensors",
-            "Batteries",
-            "Trade show",
-            "Bengaluru"
-          ],
-          "audio": "news/audio/d431d8f8ee4d.mp3",
-          "script": "AutoEV Bharat 2026, the fifth edition of the show, will take place from the ninth to the eleventh of December at the K T P O exhibition centre in Whitefield, Bengaluru. Alongside it, the AutoEV Tech Vision Summit will run on the tenth and eleventh of December at the same venue. The event is aimed at carmakers, E V manufacturers, tier suppliers, engineers and technology leaders.\n\nThe list of themes reads like a map of where vehicle technology is heading. On the vehicle side, the show covers advanced driver assistance systems, automotive A I, software-defined vehicles, automotive semiconductors, embedded systems and connected vehicles. On electrification, it covers battery technology and battery management systems, charging infrastructure, electric motors, power electronics and energy storage. And it also includes testing and validation, simulation, digital twins, cybersecurity, robotics and smart manufacturing. The summit sessions focus on software-defined vehicles, functional safety, cybersecurity, A I in automotive engineering, advanced batteries, charging and digital manufacturing.\n\nNotice how much of this is electronics and software. A battery pack, for example, is not just cells. It needs a battery management system that measures every cell's voltage and temperature, estimates the state of charge and the state of health, balances the cells and protects them from over-charge, over-discharge and thermal runaway. The traction inverter uses power semiconductors, increasingly silicon carbide, switching hundreds of amps thousands of times a second, controlled by field-oriented control algorithms. Each of these subsystems is a topic in its own right.\n\nFunctional safety and cybersecurity appearing together on the summit agenda is also telling. As more functions move into software and vehicles become connected, both I S O twenty six two six two for safety and I S O twenty one four three four for security have become everyday engineering requirements, not specialist topics.\n\nWhy go to a show like this? For students, exhibitions are one of the best ways to see real hardware up close: battery modules, inverters, E C U boards, test benches and hardware-in-the-loop rigs. You can talk to the engineers who built them, ask how they are tested, and learn which skills companies are hiring for. For working engineers, it is a quick way to scan suppliers and tools in one place.\n\nBengaluru is a fitting location, as the city hosts many of the engineering centres working on these technologies.\n\nThe full preview from E L E Times is linked on this page.",
-          "audio_sec": 169
-        },
-        {
           "date": "2026-11-21",
           "title": "Auto manufacturing needs greater R&D investment to tap next growth phase: CII chairman",
           "source": "ET Manufacturing",
@@ -182,6 +227,23 @@
           "audio": "news/audio/d7787b6a4272.mp3",
           "script": "The chairman of the Confederation of Indian Industry has called for much greater investment in research and development by India's automotive manufacturers. The argument is that the next phase of growth will depend on technology, as electronics, software, artificial intelligence, advanced materials and mechanical engineering converge and change both the products and the way they are made.\n\nWhy is this convergence such a big deal? For most of the last century, a car's value was mainly mechanical: the engine, the transmission, the body and the suspension. Indian manufacturing grew strong by building these parts at scale and at low cost. Today, a growing share of a vehicle's cost and value sits in electronics and software. A modern car can carry dozens of electronic control units, several kilometres of wiring, cameras, radar sensors and a central computer running millions of lines of code. In an electric vehicle, the battery, the motor controller and the power electronics can make up a large part of the bill of materials.\n\nThis shift changes what it means to be a competitive supplier. Building a part to a drawing is no longer enough. Carmakers increasingly want suppliers who can design the system, write the software, validate it and keep updating it. That requires engineering teams, test labs, simulation tools and long development cycles, all of which need sustained research spending.\n\nThe manufacturing side is changing too. Factories use more sensors, data and A I to predict machine failures, check quality with cameras and plan production. So the same digital skills are needed on the shop floor as in the vehicle.\n\nIndia has an advantage in software talent, and global companies already run large engineering centres here. A point often made by industry observers is that much of that work is done for foreign companies, and that many Indian component makers invest less of their revenue in their own research than their global peers. Building intellectual property, rather than only providing engineering services, is seen as the way to capture more value.\n\nGovernment programmes such as the production linked incentive scheme for automobiles and auto components, and the semiconductor mission, are meant to support this. But the message from industry bodies is that private investment must rise as well.\n\nFor students and young engineers, this is encouraging. It suggests that demand will keep growing for people who understand electronics, embedded software, power electronics and data, and who can connect them with mechanical design.\n\nThe full article from E T Manufacturing is linked on this page.",
           "audio_sec": 165
+        },
+        {
+          "date": "2026-11-20",
+          "title": "SDVs, AI and virtual engineering emerge as key drivers of India's automotive engineering shift",
+          "source": "ET Auto",
+          "url": "https://auto.economictimes.indiatimes.com/news/industry/sdvs-ai-and-virtual-engineering-emerge-as-key-drivers-of-indias-automotive-engineering-shift/135993621",
+          "summary": "Industry speakers describe vehicles that are updated over the air and validated virtually, and what that changes in engineering teams.",
+          "keywords": [
+            "SDV",
+            "OTA updates",
+            "Virtual validation",
+            "AI",
+            "India"
+          ],
+          "audio": "news/audio/ff65e3098277.mp3",
+          "script": "Software-defined vehicles, artificial intelligence and virtual engineering are emerging as the main forces reshaping automotive engineering in India. Industry leaders described how carmakers and technology companies are preparing for vehicles that are updated continuously, validated virtually and adapted over their lifetime.\n\nLet's start with the software-defined vehicle, or S D V. In a traditional car, each function lives in its own electronic control unit with its own fixed software. Adding a feature often means adding another box. In a software-defined vehicle, the electrical and electronic architecture is reorganised around a few powerful central computers and zone controllers. Functions become software applications that can be added or improved through over-the-air updates, long after the car leaves the factory. Middleware such as adaptive AUTOSAR and service-oriented communication like SOME over I P make this possible.\n\nThis has a big consequence for testing. If software keeps changing, you cannot rely only on physical prototypes and test drives to validate each release. That is where virtual engineering comes in. Engineers build digital models of the vehicle, its sensors and its environment, and run software against them. You may have heard the terms model in the loop, software in the loop and hardware in the loop. Together they let teams test thousands of scenarios automatically, including dangerous ones that would be impossible to try on a real road. Digital twins extend this idea by keeping a virtual copy of a real vehicle or system that is updated with field data.\n\nArtificial intelligence plays several roles. It powers perception in driver assistance systems, it helps generate and prioritise test cases, it can assist engineers in writing and reviewing code, and it can analyse data coming back from vehicles in the field.\n\nWhy does this matter for India in particular? Indian engineering centres already carry out a large share of the world's automotive software development and validation. As the industry moves toward continuous software delivery and virtual testing, the skills in demand shift toward cloud tooling, continuous integration pipelines, simulation, and of course the safety and cybersecurity processes that keep updates trustworthy.\n\nFor students, a practical takeaway: learn how the V-model maps onto continuous integration, get comfortable with simulation tools, and understand how over-the-air updates are secured. Those are the building blocks of the software-defined vehicle.\n\nYou can read the full feature on E T Auto through the link on this page.",
+          "audio_sec": 163
         }
       ]
     },
@@ -226,22 +288,6 @@
           "audio_sec": 163
         },
         {
-          "date": "2026-11-20",
-          "title": "Toshiba launches photovoltaic-output photocoupler for automotive relays",
-          "source": "PV Magazine",
-          "url": "https://www.pv-magazine.com/2026/11/20/toshiba-launches-photovoltaic-output-photocoupler-for-automotive-relays/",
-          "summary": "Toshiba has introduced the TLX9909, an optically isolated device that generates its own gate voltage to switch MOSFET-based solid-state relays in vehicle equipment.",
-          "keywords": [
-            "Photocoupler",
-            "Solid-State Relay",
-            "Galvanic Isolation",
-            "MOSFET Gate Drive"
-          ],
-          "script": "Toshiba has launched a new part for automotive equipment called the T L X ninety nine oh nine. It is a photovoltaic-output photocoupler. Its job is to drive solid-state relays, often shortened to S S Rs, which replace mechanical relays in a vehicle. The announcement was reported by P V Magazine. The short alert we received did not list electrical ratings or a shipping date, so we will not guess at those. Instead, let's look at how this kind of device works and why carmakers want it.\n\nStart with the problem. A relay lets a small control signal switch a much larger load, while keeping the two circuits apart. A classic electromechanical relay uses a coil and moving contacts. It is cheap and robust, but contacts wear, they bounce, they can arc, and they click. A solid-state relay does the same job with semiconductors, usually two power MOSFETs connected back to back so they can block current in both directions.\n\nThe tricky part is driving those MOSFETs. Their gates must be lifted several volts above their sources, and in a high-voltage system the sources may float hundreds of volts away from the low-voltage control electronics. That is where a photovoltaic-output photocoupler comes in. On the input side there is an infrared L E D. On the output side there is a stack of tiny photodiodes connected in series, acting like a miniature solar cell. When the L E D lights up, the photodiode stack generates a small voltage on its own, with no isolated power supply needed. That voltage charges the MOSFET gates and turns the relay on. When the L E D switches off, an internal discharge circuit pulls the gates down and the relay opens.\n\nThe light path is the isolation barrier. There is no electrical connection between the microcontroller side and the switched side, which is what designers call galvanic isolation. Package design matters a lot here, because creepage and clearance distances decide how much voltage the barrier can safely withstand over the life of the car.\n\nIn electric vehicles, isolated switches like these are commonly used around the battery, for example in insulation-resistance monitoring and in battery management circuits. For automotive use, optoelectronic parts are normally qualified to A E C Q one oh two stress tests.\n\nTo go further, study MOSFET gate charge, turn-on time and isolation coordination. The full report from P V Magazine is linked on this page.",
-          "audio": "news/audio/818603930e8f.mp3",
-          "audio_sec": 157
-        },
-        {
           "date": "2026-11-21",
           "title": "Flex Wins 2026 Automotive News PACE Award for Fully Symmetric HV DC/DC Architecture",
           "source": "Flex (press release)",
@@ -256,6 +302,37 @@
           "audio": "news/audio/1b6db08212c3.mp3",
           "script": "Flex has won a 2026 Automotive News PACE Award for its high voltage D C to D C converter for electric and plug-in hybrid vehicles. The PACE Awards are judged by an independent panel and recognise supplier innovations with real technical and business impact. Flex says this is its third PACE Award in two years. An earlier one recognised a backup D C to D C converter that keeps essential drive-by-wire systems powered.\n\nFirst, what does a D C to D C converter do in an electric car? The traction battery runs at around four hundred or eight hundred volts. But lights, infotainment, control units, pumps and fans still run from a low voltage network, usually twelve volts. The D C to D C converter steps the high voltage down to supply that network, and it replaces the alternator you would find in a petrol car.\n\nFlex describes its design as fully symmetric, based on a dual active bridge topology. Here is the idea. You have two full bridges of power transistors, one on each side of a high-frequency transformer. Each bridge switches at high frequency, and the power flow is controlled by the phase shift between them. Because the two sides are built the same way, power can flow in either direction. The transformer also provides galvanic isolation, which is essential for safety, so the high voltage side is electrically separated from the low voltage side the occupants can touch.\n\nFlex says the converter accepts a wide input voltage range, works with both four hundred and eight hundred volt batteries, supports bidirectional energy flow and responds quickly to changing loads. It can also be integrated with onboard chargers, inverters and software-based power management.\n\nWhy does bidirectional flow matter? It means the low voltage side can be supported directly from the high voltage battery, and in some cases energy can flow back the other way. Flex claims this reduces reliance on the auxiliary twelve volt battery, simplifies the electrical architecture, saves weight and cost and improves reliability. As vehicles adopt by-wire steering and braking, keeping the low voltage supply stable becomes a safety issue, not just a convenience.\n\nFor students of power electronics, the dual active bridge is a great example of how topology choice drives system benefits. Look up soft switching, phase-shift control and isolation requirements to go deeper.\n\nThe full press release from Flex is linked on this page.",
           "audio_sec": 158
+        },
+        {
+          "date": "2026-11-21",
+          "title": "Growth of the Automotive Power Electronics Market Driven by EVs",
+          "source": "openPR (market report)",
+          "url": "https://www.openpr.com/news/4695494/growth-of-the-automotive-power-electronics-market-driven",
+          "summary": "A market report linking growth in automotive power electronics to EV adoption. It is promotional, so read the figures with caution.",
+          "keywords": [
+            "Power electronics",
+            "EVs",
+            "Market report"
+          ],
+          "audio": "news/audio/ad4af28847e4.mp3",
+          "script": "A new market report says the automotive power electronics sector is growing quickly as it adapts to the rapid rise of electric vehicles and advanced vehicle systems. Reports like this are published by market research firms to promote their full studies, so their forecasts should be read with some caution. But the underlying trend is real, and worth understanding.\n\nSo what counts as power electronics in a vehicle? It is the hardware that converts and controls electrical energy. In an electric car, the main pieces are the traction inverter, which turns the battery's direct current into alternating current to drive the motor; the onboard charger, which converts alternating current from the grid into direct current for the battery; and the D C to D C converter, which steps the high voltage down to supply the twelve volt network. Even in petrol cars, power electronics drive electric power steering, fuel pumps, cooling fans and L E D lighting.\n\nAt the heart of all of these are power semiconductor switches. For decades, the workhorses were silicon M O S F E Ts and I G B Ts. Now, wide bandgap materials are taking over in high-voltage applications. Silicon carbide transistors can block higher voltages, switch faster and run hotter with lower losses. That is why many eight hundred volt electric cars use silicon carbide in their inverters. Gallium nitride is gaining ground in lower-power converters and onboard chargers, where very fast switching allows smaller magnetic components.\n\nWhy do these choices matter? Every percent of efficiency in the inverter becomes extra driving range, or a smaller battery for the same range. Lower losses also mean less heat, so cooling systems can be smaller and lighter. Faster switching shrinks inductors and capacitors, reducing the size and cost of the whole unit.\n\nThe challenges are also real. Fast switching creates electromagnetic interference that must be filtered. High temperatures stress solder joints and packages, so reliability engineering is a big part of the job. And control software, from pulse width modulation to protection logic, has to be fast and functionally safe.\n\nFor students, power electronics is one of the most valuable skill sets in the E V era. Start with buck and boost converters, then study inverters, gate drivers and thermal design.\n\nThe market report is linked on this page; treat its numbers as indicative.",
+          "audio_sec": 155
+        },
+        {
+          "date": "2026-11-20",
+          "title": "Toshiba launches photovoltaic-output photocoupler for automotive relays",
+          "source": "PV Magazine",
+          "url": "https://www.pv-magazine.com/2026/11/20/toshiba-launches-photovoltaic-output-photocoupler-for-automotive-relays/",
+          "summary": "Toshiba has introduced the TLX9909, an optically isolated device that generates its own gate voltage to switch MOSFET-based solid-state relays in vehicle equipment.",
+          "keywords": [
+            "Photocoupler",
+            "Solid-State Relay",
+            "Galvanic Isolation",
+            "MOSFET Gate Drive"
+          ],
+          "script": "Toshiba has launched a new part for automotive equipment called the T L X ninety nine oh nine. It is a photovoltaic-output photocoupler. Its job is to drive solid-state relays, often shortened to S S Rs, which replace mechanical relays in a vehicle. The announcement was reported by P V Magazine. The short alert we received did not list electrical ratings or a shipping date, so we will not guess at those. Instead, let's look at how this kind of device works and why carmakers want it.\n\nStart with the problem. A relay lets a small control signal switch a much larger load, while keeping the two circuits apart. A classic electromechanical relay uses a coil and moving contacts. It is cheap and robust, but contacts wear, they bounce, they can arc, and they click. A solid-state relay does the same job with semiconductors, usually two power MOSFETs connected back to back so they can block current in both directions.\n\nThe tricky part is driving those MOSFETs. Their gates must be lifted several volts above their sources, and in a high-voltage system the sources may float hundreds of volts away from the low-voltage control electronics. That is where a photovoltaic-output photocoupler comes in. On the input side there is an infrared L E D. On the output side there is a stack of tiny photodiodes connected in series, acting like a miniature solar cell. When the L E D lights up, the photodiode stack generates a small voltage on its own, with no isolated power supply needed. That voltage charges the MOSFET gates and turns the relay on. When the L E D switches off, an internal discharge circuit pulls the gates down and the relay opens.\n\nThe light path is the isolation barrier. There is no electrical connection between the microcontroller side and the switched side, which is what designers call galvanic isolation. Package design matters a lot here, because creepage and clearance distances decide how much voltage the barrier can safely withstand over the life of the car.\n\nIn electric vehicles, isolated switches like these are commonly used around the battery, for example in insulation-resistance monitoring and in battery management circuits. For automotive use, optoelectronic parts are normally qualified to A E C Q one oh two stress tests.\n\nTo go further, study MOSFET gate charge, turn-on time and isolation coordination. The full report from P V Magazine is linked on this page.",
+          "audio": "news/audio/818603930e8f.mp3",
+          "audio_sec": 157
         },
         {
           "date": "2026-11-20",
@@ -287,21 +364,6 @@
           "audio": "news/audio/851b210529de.mp3",
           "script": "Toyota has described a new hybrid system for its future multi-pathway vehicle platforms. It is built around a new family of one point five litre, four-cylinder engines, in naturally aspirated and turbocharged versions. The engine, electric motors, power control units and inverters are developed together as a single compact package, designed to reduce both electrical and mechanical losses. Toyota is targeting more than fifteen percent better fuel economy, through lower friction, better thermal management, lower electrical losses and less aerodynamic drag.\n\nThe phrase multi-pathway is central to Toyota's strategy. Instead of betting only on battery electric vehicles, Toyota is designing a common architecture that can carry battery electric, plug-in hybrid and conventional hybrid powertrains. Because the new engine and hybrid unit are compact, they allow lower bonnet lines, so the same body can accept different powertrains. That lets factories change the production mix as demand shifts and spreads development costs across larger volumes.\n\nWhy does integrating the motor, inverter and engine matter? In a hybrid, energy is constantly converted: chemical energy in fuel becomes mechanical work, which can become electrical energy in the generator, which is stored in the battery and then converted back to motion by the motor. Every conversion loses a little energy, in the inverter's switching transistors, in the motor windings and in the wiring between components. Placing them close together shortens cables, reduces losses and saves weight. Shared cooling circuits also help with thermal management, which is critical for both power electronics and the engine.\n\nToyota's hybrids typically use a power split device, a planetary gearset that blends engine and motor power without a conventional gearbox. The power control unit, with its inverter and boost converter, decides moment by moment how power flows. Much of the efficiency gain in a new generation comes from improving these electronics and the control strategy, not just the engine.\n\nToyota also says the system is being developed to run on renewable and carbon-neutral fuels, and that it plans to sell the new engine and hybrid technology to other companies. It reports more than thirty five million electrified vehicles sold to date.\n\nFor students, this is a good case study in system-level optimisation, where the biggest gains come from how components work together.\n\nThe full article from Electronic Design is linked on this page.",
           "audio_sec": 161
-        },
-        {
-          "date": "2026-11-21",
-          "title": "Growth of the Automotive Power Electronics Market Driven by EVs",
-          "source": "openPR (market report)",
-          "url": "https://www.openpr.com/news/4695494/growth-of-the-automotive-power-electronics-market-driven",
-          "summary": "A market report linking growth in automotive power electronics to EV adoption. It is promotional, so read the figures with caution.",
-          "keywords": [
-            "Power electronics",
-            "EVs",
-            "Market report"
-          ],
-          "audio": "news/audio/ad4af28847e4.mp3",
-          "script": "A new market report says the automotive power electronics sector is growing quickly as it adapts to the rapid rise of electric vehicles and advanced vehicle systems. Reports like this are published by market research firms to promote their full studies, so their forecasts should be read with some caution. But the underlying trend is real, and worth understanding.\n\nSo what counts as power electronics in a vehicle? It is the hardware that converts and controls electrical energy. In an electric car, the main pieces are the traction inverter, which turns the battery's direct current into alternating current to drive the motor; the onboard charger, which converts alternating current from the grid into direct current for the battery; and the D C to D C converter, which steps the high voltage down to supply the twelve volt network. Even in petrol cars, power electronics drive electric power steering, fuel pumps, cooling fans and L E D lighting.\n\nAt the heart of all of these are power semiconductor switches. For decades, the workhorses were silicon M O S F E Ts and I G B Ts. Now, wide bandgap materials are taking over in high-voltage applications. Silicon carbide transistors can block higher voltages, switch faster and run hotter with lower losses. That is why many eight hundred volt electric cars use silicon carbide in their inverters. Gallium nitride is gaining ground in lower-power converters and onboard chargers, where very fast switching allows smaller magnetic components.\n\nWhy do these choices matter? Every percent of efficiency in the inverter becomes extra driving range, or a smaller battery for the same range. Lower losses also mean less heat, so cooling systems can be smaller and lighter. Faster switching shrinks inductors and capacitors, reducing the size and cost of the whole unit.\n\nThe challenges are also real. Fast switching creates electromagnetic interference that must be filtered. High temperatures stress solder joints and packages, so reliability engineering is a big part of the job. And control software, from pulse width modulation to protection logic, has to be fast and functionally safe.\n\nFor students, power electronics is one of the most valuable skill sets in the E V era. Start with buck and boost converters, then study inverters, gate drivers and thermal design.\n\nThe market report is linked on this page; treat its numbers as indicative.",
-          "audio_sec": 155
         }
       ]
     },
@@ -309,8 +371,22 @@
       "id": "ecu-sensing-supply-chain",
       "chip": "ECUs & sensing",
       "title": "ECUs, cameras and the electronics supply chain",
-      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands, and new electronics manufacturing ventures are forming. AI servers now compete with cars for circuit-board capacity, capital needs are pushing smaller players out, CT scanning with AI is catching hidden connector defects, and Infineon's self-calibrating angle sensors aim to cut end-of-line calibration.",
+      "summary": "Camera modules, engine control modules and cockpit electronics are changing hands, and new electronics manufacturing ventures are forming, from Sahasra's Asetronics deal in India to a Hongfa and VinFast components plant in Vietnam. AI servers now compete with cars for circuit-board capacity, capital needs are pushing smaller players out, and CT scanning and self-calibrating sensors aim to cut defects and end-of-line work.",
       "items": [
+        {
+          "date": "2026-11-25",
+          "title": "Hongfa and VinFast joint venture opens automotive electronics plant in northern Vietnam",
+          "source": "The Investor",
+          "url": "https://theinvestor.vn/chinas-hongfa-opens-automotive-electronics-plant-in-northern-vietnam-d20520.html",
+          "summary": "HFVF, a joint venture between China's Hongfa Group and Vietnamese carmaker VinFast, has opened a factory for automotive electronic components in northern Vietnam. The move puts part of the electronics supply chain next to VinFast's own vehicle production.",
+          "keywords": [
+            "Automotive Relays",
+            "EV Components",
+            "Joint Venture",
+            "Supply Chain"
+          ],
+          "script": "A new automotive electronics factory has opened in northern Vietnam. According to The Investor, the plant belongs to H F V F, a joint venture between China's Hongfa Group and the Vietnamese carmaker VinFast. The factory makes automotive electronic components. The story is a small but clear sign of how carmakers are building local electronics supply chains around their vehicle plants. VinFast builds electric cars in Vietnam, and this partnership gives it a component source close to home, run with an experienced Chinese supplier.\n\nHongfa is best known worldwide as a maker of relays, so it is worth asking why relays still matter in a modern car. A relay is an electrically controlled switch. A small current through a coil moves a contact that switches a much larger current. Cars use dozens of them for loads such as cooling fans, fuel pumps, seat heaters, horns and lamps, usually grouped in a fuse and relay box under the bonnet. Many of these jobs are moving to semiconductor switches, but relays remain cheap, robust and give true galvanic isolation.\n\nIn an electric vehicle, the most important relatives of the relay are high voltage contactors. These connect and disconnect the traction battery from the rest of the car. A typical battery pack has a main positive contactor, a main negative contactor and a pre charge circuit. The pre charge path closes first through a resistor, so the large capacitors in the inverter charge slowly. Only then do the main contactors close. Without this step, the inrush current could weld the contacts together. Contactors must also break high direct current safely during a crash or fault, which is harder than switching alternating current, because there is no natural zero crossing to quench the arc.\n\nAny factory supplying parts like these must meet strict quality rules. The I A T F sixteen nine four nine standard covers the quality system of automotive suppliers. Passive and electromechanical parts are usually qualified to A E C Q two hundred, which defines stress tests such as temperature cycling, humidity and vibration.\n\nLocal production also cuts logistics risk and shipping time, and helps carmakers meet local content targets, which many countries now link to tax breaks and other incentives. For a young carmaker, a nearby partner can also speed up design changes.\n\nFor students, battery disconnect units, pre charge design and contactor diagnostics are excellent topics to explore next. The full report from The Investor is linked on this page."
+        },
         {
           "date": "2026-11-24",
           "title": "Infineon introduces digital angle sensors with automatic calibration",
@@ -378,23 +454,6 @@
           "audio_sec": 168
         },
         {
-          "date": "2026-11-20",
-          "title": "Foxconn acquires automotive camera module business from Sony Semiconductor Solutions",
-          "source": "Photonics Spectra",
-          "url": "https://www.photonics.com/Articles/Foxconn-Acquires-Sony-Semiconductor-Solutions/p5/a72783",
-          "summary": "Foxconn (Hon Hai) is buying Sony's automotive camera module business to grow in ADAS sensing. The initial deal is valued at about ¥7.2 billion (~$45 million).",
-          "keywords": [
-            "Camera modules",
-            "ADAS",
-            "Acquisition",
-            "Foxconn",
-            "Sony"
-          ],
-          "audio": "news/audio/eaddbfa56f1d.mp3",
-          "script": "Foxconn, the Taiwanese electronics manufacturer also known as Hon Hai, has agreed to acquire the automotive camera module business of Sony Semiconductor Solutions. The deal includes the business's technology, its customer base, and its experience of supplying carmakers directly. Closing is expected by the end of April 2027, subject to regulatory approval. Reports put the initial transaction at about seven point two billion yen, roughly forty five million U S dollars. Sony's relevant overseas entities will provide transitional support after closing, with the focus on keeping customer service and operations stable.\n\nWhy would Foxconn want this? Foxconn already builds huge numbers of camera modules for smartphones and other consumer electronics. Cars are a growing market for cameras. A modern vehicle may carry several of them: a forward camera behind the windscreen for lane keeping and automatic emergency braking, surround-view cameras for parking, rear cameras, and increasingly an interior camera that monitors whether the driver is paying attention. Advanced driver assistance systems depend on these sensors, and demand grows with every new safety regulation.\n\nAn automotive camera module is more than a lens and an image sensor. It includes the sensor chip, optics, a circuit board with a serialiser that sends high-speed video over a coaxial cable, and a sealed housing that must survive heat, cold, vibration and water for many years. Automotive image sensors also need high dynamic range, so they can see clearly when driving out of a dark tunnel into bright sunlight, and they must handle flickering L E D traffic lights. Quality requirements are strict, with automotive qualification standards and functional safety considerations.\n\nIt is worth noting what Sony is not selling. Sony remains a leading maker of automotive image sensors, the chips inside the camera. This deal concerns the module business, which assembles those sensors into complete camera units. Foxconn's strength in high-volume precision assembly fits that layer of the supply chain.\n\nThe deal also fits Foxconn's broader push into vehicles, including its electric vehicle platform efforts. Owning more of the electronics supply chain lets it offer carmakers more complete systems.\n\nFor engineers, this is a reminder that sensing hardware is a strategic part of the vehicle, and that consolidation among suppliers is changing who builds what.\n\nThe full report is linked on this page.",
-          "audio_sec": 161
-        },
-        {
           "date": "2026-11-21",
           "title": "BorgWarner Secures Engine Control Module Business With Major Global OEM",
           "source": "Motorindia",
@@ -412,6 +471,23 @@
         },
         {
           "date": "2026-11-20",
+          "title": "Foxconn acquires automotive camera module business from Sony Semiconductor Solutions",
+          "source": "Photonics Spectra",
+          "url": "https://www.photonics.com/Articles/Foxconn-Acquires-Sony-Semiconductor-Solutions/p5/a72783",
+          "summary": "Foxconn (Hon Hai) is buying Sony's automotive camera module business to grow in ADAS sensing. The initial deal is valued at about ¥7.2 billion (~$45 million).",
+          "keywords": [
+            "Camera modules",
+            "ADAS",
+            "Acquisition",
+            "Foxconn",
+            "Sony"
+          ],
+          "audio": "news/audio/eaddbfa56f1d.mp3",
+          "script": "Foxconn, the Taiwanese electronics manufacturer also known as Hon Hai, has agreed to acquire the automotive camera module business of Sony Semiconductor Solutions. The deal includes the business's technology, its customer base, and its experience of supplying carmakers directly. Closing is expected by the end of April 2027, subject to regulatory approval. Reports put the initial transaction at about seven point two billion yen, roughly forty five million U S dollars. Sony's relevant overseas entities will provide transitional support after closing, with the focus on keeping customer service and operations stable.\n\nWhy would Foxconn want this? Foxconn already builds huge numbers of camera modules for smartphones and other consumer electronics. Cars are a growing market for cameras. A modern vehicle may carry several of them: a forward camera behind the windscreen for lane keeping and automatic emergency braking, surround-view cameras for parking, rear cameras, and increasingly an interior camera that monitors whether the driver is paying attention. Advanced driver assistance systems depend on these sensors, and demand grows with every new safety regulation.\n\nAn automotive camera module is more than a lens and an image sensor. It includes the sensor chip, optics, a circuit board with a serialiser that sends high-speed video over a coaxial cable, and a sealed housing that must survive heat, cold, vibration and water for many years. Automotive image sensors also need high dynamic range, so they can see clearly when driving out of a dark tunnel into bright sunlight, and they must handle flickering L E D traffic lights. Quality requirements are strict, with automotive qualification standards and functional safety considerations.\n\nIt is worth noting what Sony is not selling. Sony remains a leading maker of automotive image sensors, the chips inside the camera. This deal concerns the module business, which assembles those sensors into complete camera units. Foxconn's strength in high-volume precision assembly fits that layer of the supply chain.\n\nThe deal also fits Foxconn's broader push into vehicles, including its electric vehicle platform efforts. Owning more of the electronics supply chain lets it offer carmakers more complete systems.\n\nFor engineers, this is a reminder that sensing hardware is a strategic part of the vehicle, and that consolidation among suppliers is changing who builds what.\n\nThe full report is linked on this page.",
+          "audio_sec": 161
+        },
+        {
+          "date": "2026-11-20",
           "title": "Large capital needs, technology shift behind Pricol Autotech exit, says Vikram Mohan",
           "source": "TradingView",
           "url": "https://www.tradingview.com/news/moodys:7fa9e71e8c225:0-large-capital-needs-technology-shift-behind-pricol-autotech-exit-says-vikram-mohan/",
@@ -424,21 +500,6 @@
           "audio": "news/audio/9b215d8c2c56.mp3",
           "script": "The promoter family of Pricol, an Indian automotive component maker, is selling its entire holding in Pricol Autotech, the company's automotive electronics business, which is being demerged into a separate listed company. The buyer is the private equity firm Warburg Pincus. According to the report, Warburg would acquire about thirty eight and a half percent of the demerged company's equity, in a deal worth up to one thousand six hundred and sixty three crore rupees. Chairman Vikram Mohan said the family could not fund the heavy, continuing investment the business needs in technology, manufacturing and talent while keeping majority ownership. He will step down as chairman and managing director of Autotech once the transfer completes, and the current senior team will stay.\n\nThis is a useful lens on the economics of automotive electronics. Pricol is known for instrument clusters and other electronic products. Twenty years ago, an instrument cluster was a set of analogue gauges with a few warning lamps. Today it is often a high-resolution digital display, driven by a graphics processor, running a real-time operating system, connected to the vehicle network, and sometimes merged with the infotainment screen into a single cockpit domain controller.\n\nEach step of that evolution raises the cost of staying competitive. You need software teams, displays and graphics expertise, cybersecurity processes, functional safety certification, and the ability to deliver over-the-air updates. Product cycles are shorter, and customers expect suppliers to co-develop features. All of that requires sustained investment, often ahead of revenue.\n\nMohan said a buyer with deeper finances, stronger management expertise and global reach was better placed to take the business forward. That pattern is visible across the industry. Electronics businesses tend to consolidate, because scale spreads the large fixed costs of software and validation.\n\nMeanwhile, Pricol's remaining businesses are expanding with internal funds and borrowing. These include new plants in Sanand and Chhatrapati Sambhajinagar, recently commissioned plants in Mysuru and Narsapura, a large plant in Hosur, and a polymer engineering centre in Coimbatore.\n\nFor students and engineers, the takeaway is that automotive electronics is a capital-intensive, fast-moving field. The value increasingly lies in software and system integration, and that is where investment, and hiring, are concentrating.\n\nThe full report is linked on this page.",
           "audio_sec": 156
-        },
-        {
-          "date": "2026-11-21",
-          "title": "Marelli secures two honours at 2026 PACE Awards",
-          "source": "Manufacturing Today India",
-          "url": "https://www.manufacturingtodayindia.com/marelli-secures-two-honours-at-2026-pace-awards",
-          "summary": "Marelli won recognition for next-generation display technology and vehicle connectivity.",
-          "keywords": [
-            "Displays",
-            "Vehicle connectivity",
-            "PACE Awards"
-          ],
-          "audio": "news/audio/9c501bec6c18.mp3",
-          "script": "Marelli has received two honours at the 2026 Automotive News PACE Awards, both in automotive electronics, covering next-generation display technology and vehicle connectivity. The PACE Awards recognise supplier innovations judged to have real technical and business impact.\n\nLet's look at why displays and connectivity are such active areas. Not long ago, a car's dashboard had analogue dials, and the radio had a small segment display. Today, many vehicles have a digital instrument cluster, a large central touchscreen, sometimes a passenger display, and a head-up display projected onto the windscreen. These screens are becoming larger, curved, and in some cases stretch across the whole dashboard.\n\nThat creates engineering challenges well beyond the screen itself. Automotive displays must stay readable in direct sunlight and at night, survive temperatures from well below freezing to the heat of a parked car in summer, and meet strict reliability targets for many years. They must avoid distracting reflections in the windscreen. Technologies such as local dimming, mini L E D backlights and O L E D panels are used to improve contrast and reduce power. Behind the screen, a cockpit domain controller often runs several displays at once from a single high-performance chip, using a hypervisor to keep safety-relevant content, such as warning lamps, separate from infotainment apps.\n\nConnectivity is the other half. A connected car has a telematics control unit with a cellular modem, and increasingly support for five G and vehicle-to-everything communication. Connectivity enables navigation and streaming, but more importantly, it enables over-the-air software updates, remote diagnostics, emergency calls and fleet services. It is also a major attack surface, which is why connectivity units must meet cybersecurity requirements such as U N regulation R one five five.\n\nDisplays and connectivity also meet in the software-defined vehicle. When features can be added through software, the screen is where the driver sees them and the connectivity unit is how they arrive.\n\nMarelli is a major global supplier of lighting, electronics and powertrain components. Recognition in these categories reflects how central cockpit electronics and connectivity have become to the value of a vehicle.\n\nFor students, cockpit electronics is a field that blends graphics, embedded software, networking and human factors. It is a great area to explore if you enjoy both hardware and user experience.\n\nThe full report from Manufacturing Today India is linked on this page.",
-          "audio_sec": 164
         }
       ]
     },
