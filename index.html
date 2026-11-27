@@ -384,7 +384,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <a href="#about"><span class="n">14</span>About me</a>
       <a href="#news"><span class="n">15</span>Latest news</a>
     </nav>
-    <div class="foot">For students and working engineers.<br>Revised Nov 2026.</div>
+    <div class="foot">For students and working engineers.<br>Revised Nov 2026.<br>Companion: <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/" target="_blank" rel="noopener" style="color:inherit">Guide to Cryptography &amp; Network Security</a></div>
   </aside>
 
   <main>
@@ -411,6 +411,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
     <a href="#sdv"><span class="n">CHAPTER 08</span><span class="tt">Software-defined vehicle</span><span class="d">Zonal E/E architecture, signals vs services, SOME/IP and service discovery, DDS, vehicle APIs, Adaptive AUTOSAR stack, ara::com, execution and state management, UCM.</span><span class="tags"><span>SOME/IP header builder</span><span>SD sequence</span><span>Adaptive stack</span><span>ara::com steps</span></span></a>
     <a href="#process"><span class="n">CHAPTER 09</span><span class="tt">Development process</span><span class="d">V-model for system and software, Automotive SPICE, ISO 26262 and XiL testing.</span><span class="tags"><span>interactive V-model</span><span>ASIL tool</span></span></a>
     <a href="#security"><span class="n">CHAPTER 10</span><span class="tt">Cybersecurity</span><span class="d">ISO/SAE 21434, UN R155, attack surface, TARA, UDS 0x27 and 0x29, SecOC, secure boot, IDS.</span><span class="tags"><span>0x27 sim</span><span>0x29 sim</span><span>SecOC sim</span><span>TARA tool</span></span></a>
+    <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/" target="_blank" rel="noopener" style="--c:#4263eb"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1.4"/></svg></span><span class="n">COMPANION GUIDE ↗</span><span class="tt">Cryptography &amp; network security</span><span class="d">The algorithms behind Chapter 10: AES, CMAC, SHA-256, RSA, ECC, signatures, TLS 1.3 and post-quantum, each with a step-by-step simulator.</span><span class="tags"><span>AES stepper</span><span>RSA lab</span><span>SecOC MAC builder</span></span></a>
     <a href="#tools"><span class="n">CHAPTER 11</span><span class="tt">Engineering calculators</span><span class="d">Battery packs, range, charging, motors and gearing, engine geometry, fuel and precharge, plus a cruise-control simulation.</span><span class="tags"><span>9 calculators</span></span></a>
     <a href="#adas"><span class="n">CHAPTER 12</span><span class="tt">ADAS &amp; automated driving</span><span class="d">SAE levels, the sense-to-actuate pipeline, sensor coverage, FMCW radar, fusion, AEB time to collision, SOTIF and the 2026 rules.</span><span class="tags"><span>AEB simulator</span><span>Radar chirp</span><span>Sensor coverage</span></span></a>
     <a href="#glossary"><span class="n">CHAPTER 13</span><span class="tt">Glossary</span><span class="d">176 industry terms and acronyms, each with a plain definition and a link to the chapter that explains it.</span><span class="tags"><span>searchable</span><span>A–Z</span></span></a>
@@ -1813,6 +1814,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
   <h1>Cybersecurity</h1>
   <p class="lede">A connected car exposes cellular, Wi-Fi, Bluetooth, charging and diagnostic interfaces. Safety asks "what if it fails?"; security asks "what if someone makes it fail on purpose?" Both now apply to every new vehicle.</p>
   <p class="ref">Not covered in the 2007 Bosch reference. Based on ISO/SAE 21434:2021 and UN Regulations 155 and 156.</p>
+  <p class="ref" style="border-left-color:#4263eb"><b>Go deeper into the cryptography:</b> the companion <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/" target="_blank" rel="noopener">Guide to Cryptography &amp; Network Security</a> explains every algorithm this chapter relies on, with simulators: <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/#aes" target="_blank" rel="noopener">AES round by round</a>, <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/#hash" target="_blank" rel="noopener">hashes and CMAC</a>, <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/#pubkey" target="_blank" rel="noopener">RSA and elliptic curves</a>, <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/#sign" target="_blank" rel="noopener">signatures and certificates</a>, <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/#protocols" target="_blank" rel="noopener">TLS 1.3</a> and <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/#future" target="_blank" rel="noopener">post-quantum cryptography</a>.</p>
 
   <div class="tbl"><table>
     <thead><tr><th>Standard / regulation</th><th>Scope</th></tr></thead>
@@ -1885,7 +1887,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <div class="state" id="sa-state"></div>
       <div class="log" id="sa-log" aria-live="polite"></div>
     </div>
-    <div class="fig-f">The key function here is a toy for illustration. Production ECUs keep the secret in an HSM. Because the same algorithm usually protects a whole fleet, newer ECUs use 0x29 Authentication instead (next section).</div>
+    <div class="fig-f">The key function here is a toy for illustration. Production ECUs keep the secret in an HSM. Because the same algorithm usually protects a whole fleet, newer ECUs use 0x29 Authentication instead (next section). Why secret algorithms fail: <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/#classical" target="_blank" rel="noopener">Kerckhoffs' principle and known-plaintext attacks</a>.</div>
   </figure>
 
   <h2 id="xcp-security">Calibration access: XCP in production</h2>
@@ -1976,7 +1978,7 @@ td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-s
       <div class="state" id="so-state"></div>
       <div class="log" id="so-log" aria-live="polite"></div>
     </div>
-    <div class="fig-f">For illustration the MAC is a 24-bit toy hash and only the low byte of the 32-bit freshness counter is transmitted, as in many real SecOC profiles. The receiver rebuilds the full counter from its own state.</div>
+    <div class="fig-f">For illustration the MAC is a 24-bit toy hash and only the low byte of the 32-bit freshness counter is transmitted, as in many real SecOC profiles. The receiver rebuilds the full counter from its own state. For the same flow with a real AES-128-CMAC, see the <a href="https://vaishakrajeev.github.io/Guide-to-Cryptography-and-Network-Security/#secoc" target="_blank" rel="noopener">SecOC MAC builder</a> in the cryptography guide.</div>
   </figure>
 
     <h2>Secure boot and secure flashing</h2>
