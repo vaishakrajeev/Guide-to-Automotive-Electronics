@@ -4601,6 +4601,11 @@ drawTp();
 .nw-play em{font-style:normal;opacity:.75;margin-left:2px}
 .nw-play svg{width:13px;height:13px;fill:currentColor}.nw-play .st,.nw-play.on .pl{display:none}.nw-play.on .st{display:inline}
 .nw-kw{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.nw-items li.nw-it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start}
+.nw-th{width:84px;height:84px;border-radius:10px;border:1px solid color-mix(in srgb,var(--ch) 30%,transparent);background:linear-gradient(140deg,color-mix(in srgb,var(--ch) 16%,var(--sheet)),color-mix(in srgb,var(--ch) 4%,var(--sheet)));color:var(--ch-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-top:4px}
+.nw-th svg{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.nw-th small{font:600 9.5px/1 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;opacity:.8}
+@media (max-width:600px){.nw-th{width:56px;height:56px;gap:0}.nw-th svg{width:30px;height:30px}.nw-th small{display:none}.nw-items li.nw-it{gap:12px}}
 .nw-kw span{font:500 11.5px/1 var(--f-mono);padding:4px 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--ch) 45%,transparent);color:var(--ch-ink);background:color-mix(in srgb,var(--ch) 8%,var(--sheet))}
 </style>
 <script>
@@ -4608,6 +4613,23 @@ drawTp();
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const url=u=>/^https?:\/\//i.test(u)?u:'#';
 const fmt=d=>{const t=new Date(d+'T00:00:00');return isNaN(t)?d:t.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})};
+const TH=[
+['Audio',/audio|infotainment|speaker/,'<path d="M8 19h7l9-7v24l-9-7H8z"/><path d="M30 18a8 8 0 0 1 0 12M35 13a15 15 0 0 1 0 22"/>'],
+['Radar',/radar|mmic|lidar/,'<rect x="5" y="17" width="9" height="14" rx="2"/><path d="M20 18a8 8 0 0 1 0 12M26 13a15 15 0 0 1 0 22M32 8a22 22 0 0 1 0 32"/>'],
+['ADAS',/adas|camera|driver assist|self-driving|autonomous|road safety/,'<rect x="5" y="14" width="27" height="20" rx="3"/><path d="M32 21l11-5v16l-11-5z"/><circle cx="18.5" cy="24" r="5"/>'],
+['Chassis',/brake|by-wire|chassis|steering/,'<circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="5"/><path d="M32 10.5a16 16 0 0 1 6 7.5l-7 3a9 9 0 0 0-3.5-4.5z"/>'],
+['Battery',/battery|bms|supercap/,'<rect x="5" y="14" width="33" height="20" rx="3"/><path d="M38 20h4v8h-4M22 17l-5 7h8l-5 7"/>'],
+['Display',/display|cockpit|windshield|hmi|screen/,'<rect x="5" y="9" width="38" height="24" rx="3"/><path d="M18 39h12M24 33v6M10 27l6-6 5 4 7-8 7 6"/>'],
+['Connect',/connectivity|cellular|telematics|tcu|nad\b|5g|v2x/,'<circle cx="24" cy="19" r="3"/><path d="M24 22l-6 20M24 22l6 20M19 34h10M16 11a11 11 0 0 0 0 16M32 11a11 11 0 0 1 0 16M11 6a18 18 0 0 0 0 26M37 6a18 18 0 0 1 0 26"/>'],
+['Power',/dc\/dc|inverter|power electronics|hybrid|powertrain|flex-fuel|relay/,'<circle cx="24" cy="24" r="17"/><path d="M27 10l-10 16h8l-3 12 10-17h-8z"/>'],
+['Chips',/semiconductor|\bsoc\b|chip|mcu|mlcc|capacitor|passive|photocoupler|\blin\b|motor driver/,'<rect x="14" y="14" width="20" height="20" rx="2"/><rect x="20" y="20" width="8" height="8"/><path d="M19 8v6M24 8v6M29 8v6M19 34v6M24 34v6M29 34v6M8 19h6M8 24h6M8 29h6M34 19h6M34 24h6M34 29h6"/>'],
+['ECU',/\becu\b|control module|circuit board|pcb|pcba/,'<rect x="6" y="10" width="36" height="28" rx="3"/><rect x="13" y="17" width="10" height="10"/><path d="M28 17h8M28 22h8M28 27h5M13 32h23"/>'],
+['Sensors',/sensor|connector|\bct\b|inspection/,'<circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="14"/><path d="M24 4v8M24 36v8M4 24h8M36 24h8"/>'],
+['Software',/software|sdv|\bai\b|virtual|digital|r&d|engineering|technology ownership/,'<rect x="5" y="9" width="38" height="30" rx="3"/><path d="M5 16h38M17 23l-5 5 5 5M31 23l5 5-5 5M26.5 22l-5 12"/>'],
+['Platform',/standard|platform|shar|elantra|parts/,'<path d="M5 32v-6l6-9h26l6 9v6z"/><circle cx="14" cy="33" r="4"/><circle cx="34" cy="33" r="4"/><path d="M14 17l-1 9h22l-1-9"/>'],
+['Industry',/manufactur|plant|production|joint venture|venture|pli|capacity|supply|acqui|exit|business|plant/,'<path d="M5 40V22l10 6v-6l10 6v-6l10 6V10h7v30z"/><path d="M12 34h4M21 34h4M30 34h4"/>'],
+['ECU',/./,'<rect x="6" y="10" width="36" height="28" rx="3"/><rect x="13" y="17" width="10" height="10"/><path d="M28 17h8M28 22h8M28 27h5M13 32h23"/>']];
+const thumb=i=>{const k=(i.keywords||[]).map(x=>String(x).toLowerCase()),seg=k.slice(0,1).concat([String(i.title).toLowerCase()],k.slice(1));let t=TH.find(x=>x[0].toLowerCase()===String(i.thumb||'').toLowerCase());for(const h of seg){if(t)break;t=TH.slice(0,-1).find(x=>x[1].test(h))}t=t||TH[TH.length-1];return `<div class="nw-th" title="${t[0]}" aria-hidden="true"><svg viewBox="0 0 48 48">${t[2]}</svg><small>${t[0]}</small></div>`};
 let loaded=false;
 const au=new Audio();au.preload='none';let cur=null;
 function reset(){if(cur){cur.classList.remove('on');cur.setAttribute('aria-label','Play audio overview');cur.querySelector('span').textContent='Listen';cur=null}}
@@ -4622,7 +4644,7 @@ function load(){
     meta.textContent='Last updated '+fmt(d.updated)+' · '+n+' stories · '+d.trends.length+' trends';
     document.getElementById('nw-note').textContent=d.source_note||'';
     const list=document.getElementById('nw-list');
-    list.innerHTML=d.trends.map(t=>`<div class="nw-trend" data-id="${esc(t.id)}"><h2>${esc(t.title)}</h2><p>${esc(t.summary)}</p><ul class="nw-items">${t.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>`<li><a href="${esc(url(i.url))}" target="_blank" rel="noopener noreferrer">${esc(i.title)}</a><div class="nw-src">${esc(i.source)} · ${fmt(i.date)}${i.audio?`<button class="nw-play" type="button" aria-label="Play audio overview" data-src="${esc(i.audio)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pl" d="M8 5.5v13l10.5-6.5z"/><path class="st" d="M7 7h10v10H7z"/></svg><span>Listen</span>${i.audio_sec?`<em>${Math.max(1,Math.round(i.audio_sec/60))} min</em>`:''}</button>`:''}</div><p>${esc(i.summary)}</p>${(i.keywords||[]).length?`<div class="nw-kw" aria-label="Keywords">${i.keywords.map(k=>`<span>${esc(k)}</span>`).join('')}</div>`:''}</li>`).join('')}</ul></div>`).join('');
+    list.innerHTML=d.trends.map(t=>`<div class="nw-trend" data-id="${esc(t.id)}"><h2>${esc(t.title)}</h2><p>${esc(t.summary)}</p><ul class="nw-items">${t.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>`<li class="nw-it"><div><a href="${esc(url(i.url))}" target="_blank" rel="noopener noreferrer">${esc(i.title)}</a><div class="nw-src">${esc(i.source)} · ${fmt(i.date)}${i.audio?`<button class="nw-play" type="button" aria-label="Play audio overview" data-src="${esc(i.audio)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pl" d="M8 5.5v13l10.5-6.5z"/><path class="st" d="M7 7h10v10H7z"/></svg><span>Listen</span>${i.audio_sec?`<em>${Math.max(1,Math.round(i.audio_sec/60))} min</em>`:''}</button>`:''}</div><p>${esc(i.summary)}</p>${(i.keywords||[]).length?`<div class="nw-kw" aria-label="Keywords">${i.keywords.map(k=>`<span>${esc(k)}</span>`).join('')}</div>`:''}</div>${thumb(i)}</li>`).join('')}</ul></div>`).join('');
     list.onclick=e=>{const b=e.target.closest('.nw-play');if(b)play(b)};
     const cat=document.getElementById('nw-cat');
     cat.innerHTML=[{id:'*',chip:'All'}].concat(d.trends).map((t,k)=>`<button class="ld" data-id="${esc(t.id)}" aria-pressed="${k===0}">${esc(t.chip||t.title)}</button>`).join('');
